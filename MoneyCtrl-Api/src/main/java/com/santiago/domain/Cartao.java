@@ -1,10 +1,14 @@
 package com.santiago.domain;
 
+import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @ToString(callSuper = true)
+@Entity
 public class Cartao extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 	

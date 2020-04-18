@@ -2,6 +2,7 @@ package com.santiago.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ import lombok.ToString;
 
 //Não vai mapear como tabela no banco
 @MappedSuperclass
-@ToString
+@ToString(callSuper = true)
 public class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,13 +35,13 @@ public class AbstractEntity implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreationTimestamp
 	@Getter @Setter
-    protected LocalDate createdAt;
+    protected Date createdAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@UpdateTimestamp
 	@Getter @Setter
-	protected LocalDate updatedAt;
+	protected Date updatedAt;
 	
 	@Getter @Setter
 	protected boolean ativo = true;
