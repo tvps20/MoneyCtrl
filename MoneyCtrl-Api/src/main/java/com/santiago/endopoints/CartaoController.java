@@ -17,6 +17,7 @@ public class CartaoController {
 	@GetMapping
 	public ResponseEntity<List<Cartao>> listar(){
 		Cartao cartao = new Cartao(1L, "mastercard");
+		System.out.println(cartao);
 		return ResponseEntity.ok().body(Arrays.asList(cartao));
 	}
 }
