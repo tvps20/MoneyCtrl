@@ -1,7 +1,9 @@
 package com.santiago.services;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import com.santiago.dtos.BaseDTO;
 import com.santiago.services.exceptions.DataIntegrityException;
 import com.santiago.services.exceptions.ObjectNotFoundException;
 import com.santiago.services.interfaces.IServiceCrud;
+import com.santiago.util.Mensagem;
 
 public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> implements IServiceCrud<T, K> {
 
@@ -60,8 +63,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	@Override
 	public T findById(Long id) throws ObjectNotFoundException {
 		Optional<T> obj = this.repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + this.getTClass().getName()));
+		return obj.orElseThrow(() -> new ObjectNotFoundException(Mensagem.erroNotFount(id.toString(), this.getTClass().getName())));		
 	}
 
 	/**
@@ -100,9 +102,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 		try {
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException ex) {
-			throw new DataIntegrityException(
-					"Não é possível excluir um objeto que possui entidades relacionadas. Tipo: "
-							+ this.getTClass().getName());
+			throw new DataIntegrityException(Mensagem.erroDelete(this.getTClass().getName()));
 		}
 	}
 
