@@ -4,10 +4,10 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class Mensagem {
+public final class Mensagem {
 
-	private static ResourceBundle resourceBundle;
-	private static Locale ptBR;
+	private static final  ResourceBundle resourceBundle;
+	private static final  Locale ptBR;
 
 	// Bloco de inicializacao
 	static {
@@ -22,10 +22,18 @@ public class Mensagem {
 
 	// Metodos
 	public static String erroNotFount(String id, String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem-erro-notfound"), id, claseNome);
+		return MessageFormat.format(resourceBundle.getString("mensagem-erro-notFound"), id, claseNome);
 	}
 
 	public static String erroDelete(String claseNome) {
 		return MessageFormat.format(resourceBundle.getString("mensagem-erro-excluir"), claseNome);
+	}
+
+	public static String validationCampoLength(Integer min, Integer max) {
+		return MessageFormat.format(resourceBundle.getString("validation-erro-campo-length"), min, max);
+	}
+	
+	public static String validationCampoNotEmpty() {
+		return resourceBundle.getString("validation-erro-campo-notEmpty");
 	}
 }
