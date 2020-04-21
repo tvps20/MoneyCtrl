@@ -1,9 +1,7 @@
 package com.santiago.services;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -17,6 +15,9 @@ import com.santiago.services.exceptions.ObjectNotFoundException;
 import com.santiago.services.interfaces.IServiceCrud;
 import com.santiago.util.Mensagem;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> implements IServiceCrud<T, K> {
 
 	/**
@@ -35,6 +36,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 */
 	@Override
 	public List<T> findAll() {
+		log.info("Find All entity: " + this.getTClass().getName());
 		return this.repository.findAll();
 	}
 
@@ -50,6 +52,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 */
 	// TODO: Corrigir problema de busca pela direção
 	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		log.info("Find page entity: " + this.getTClass().getName());
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);
 		return repository.findAll(pageRequest);
 	}
@@ -62,6 +65,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 */
 	@Override
 	public T findById(Long id) throws ObjectNotFoundException {
+		log.info("Find by id entity: " + id + ": " + this.getTClass().getName());
 		Optional<T> obj = this.repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(Mensagem.erroNotFount(id.toString(), this.getTClass().getName())));		
 	}
@@ -74,6 +78,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 */
 	@Override
 	public T insert(T entity) {
+		log.info("Insert entity: " + this.getTClass().getName());
 		entity.setId(null);
 		return this.repository.save(entity);
 	}
@@ -86,6 +91,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 */
 	@Override
 	public T update(T entity) {
+		log.info("Update entity: " + this.getTClass().getName());
 		T newObj = this.findById(entity.getId());
 		this.updateData(newObj, entity);
 		return this.repository.save(newObj);
@@ -100,8 +106,10 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	public void delete(Long id) {
 		this.findById(id);
 		try {
+			log.info("Delete entity: " + this.getTClass().getName());
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException ex) {
+			log.error(Mensagem.erroDelete(this.getTClass().getName()), ex);
 			throw new DataIntegrityException(Mensagem.erroDelete(this.getTClass().getName()));
 		}
 	}

@@ -6,7 +6,10 @@ import com.santiago.domain.Cartao;
 import com.santiago.dtos.CartaoDTO;
 import com.santiago.repositories.CartaoRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CartaoService extends BaseService<Cartao, CartaoDTO> {
 
 	public CartaoService(CartaoRepository repository) {
@@ -15,11 +18,13 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> {
 
 	@Override
 	public Cartao fromDTO(CartaoDTO dto) {
+		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
 		return new Cartao(dto.getId(), dto.getNome());
 	}
 
 	@Override
 	public void updateData(Cartao newObj, Cartao obj) {
+		log.info("Parse obj from newObj: " + this.getTClass().getName());
 		newObj.setNome(obj.getNome());
 	}
 

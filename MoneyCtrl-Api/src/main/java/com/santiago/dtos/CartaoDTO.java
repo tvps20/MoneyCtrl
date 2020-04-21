@@ -9,8 +9,10 @@ import com.santiago.domain.Cartao;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @ToString(callSuper = true)
+@Slf4j
 public class CartaoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +34,7 @@ public class CartaoDTO extends BaseDTO {
 
 	public CartaoDTO(Cartao obj) {
 		super(obj.getId());
+		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
 		this.nome = obj.getNome();
 	}
 }
