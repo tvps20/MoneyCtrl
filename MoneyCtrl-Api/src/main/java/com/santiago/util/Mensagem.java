@@ -22,18 +22,10 @@ public final class Mensagem {
 
 	// Metodos
 	public static String erroNotFount(String id, String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem-erro-notFound"), id, claseNome);
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound"), id, claseNome);
 	}
 
 	public static String erroDelete(String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem-erro-excluir"), claseNome);
-	}
-
-	public static String validationCampoLength(Integer min, Integer max) {
-		return MessageFormat.format(resourceBundle.getString("validation-erro-campo-length"), min, max);
-	}
-	
-	public static String validationCampoNotEmpty() {
-		return resourceBundle.getString("validation-erro-campo-notEmpty");
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.excluir"), claseNome);
 	}
 }

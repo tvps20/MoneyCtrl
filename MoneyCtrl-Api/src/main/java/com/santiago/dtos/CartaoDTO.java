@@ -21,8 +21,8 @@ public class CartaoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message = "${validation-erro-campo-notEmpty}")
-	@Length(min = 4, max = 80, message = "O tamanho deve ser entre 4 e 80 caracteres")
+	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@Length(min = 4, max = 80, message = "validation.erro.model.length")
 	@Getter
 	@Setter
 	private String nome;
