@@ -68,7 +68,13 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	public T findById(Long id) throws ObjectNotFoundException {
 		log.info("Find by id entity: " + id + ": " + this.getTClass().getName());
 		Optional<T> obj = this.repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException(Mensagem.erroNotFount(id.toString(), this.getTClass().getName())));		
+
+		if (!obj.isPresent()) {
+			log.error(Mensagem.erroObjNotFount(id, this.getTClass().getName()));
+			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(id, this.getTClass().getName()));
+		}
+
+		return obj.get();
 	}
 
 	/**
@@ -110,8 +116,8 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			log.info("Delete entity: " + this.getTClass().getName());
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroDelete(this.getTClass().getName()));
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjDelete(this.getTClass().getName()));
 		}
 	}
 
