@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-public class Cartao extends AbstractEntity {
+public class Cartao extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 

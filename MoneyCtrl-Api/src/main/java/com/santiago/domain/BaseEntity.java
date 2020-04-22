@@ -22,7 +22,7 @@ import lombok.ToString;
 //Não vai mapear como tabela no banco
 @MappedSuperclass
 @ToString
-public class AbstractEntity implements Serializable {
+public class BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -51,10 +51,10 @@ public class AbstractEntity implements Serializable {
 	protected boolean ativo = true;
 
 	// Construtores
-	public AbstractEntity() {
+	public BaseEntity() {
 	}
 
-	public AbstractEntity(Long id) {
+	public BaseEntity(Long id) {
 		this.id = id;
 	}
 
@@ -75,7 +75,7 @@ public class AbstractEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEntity other = (AbstractEntity) obj;
+		BaseEntity other = (BaseEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -2,10 +2,12 @@ package com.santiago.services.interfaces;
 
 import java.util.List;
 
-import com.santiago.domain.AbstractEntity;
+import org.springframework.data.domain.Page;
+
+import com.santiago.domain.BaseEntity;
 import com.santiago.dtos.BaseDTO;
 
-public interface IServiceCrud<T extends AbstractEntity, K extends BaseDTO> extends IMapperToEntity<K, T> {
+public interface IServiceCrud<T extends BaseEntity, K extends BaseDTO> extends IMapperToEntity<K, T> {
 
 	/**
 	 * Recupera todas as entidade da base de dados
@@ -21,6 +23,17 @@ public interface IServiceCrud<T extends AbstractEntity, K extends BaseDTO> exten
 	 * @return Container que encapsula a entidade
 	 */
 	public T findById(Long id);
+	
+	/**
+	 * Recupera todas as entidades da pase de dados paginado.
+	 * 
+	 * @param page pagina atual
+	 * @param linesPerPage quantidade de itens por pagina
+	 * @param orderBy ordena pela compo especfico.
+	 * @param direção da pagina de itens (ASC, DESC)
+	 * @return
+	 */
+	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction);
 
 	/**
 	 * Cria ou atualiza uma entidade

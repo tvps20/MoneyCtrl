@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.santiago.domain.AbstractEntity;
+import com.santiago.domain.BaseEntity;
 import com.santiago.dtos.BaseDTO;
 import com.santiago.services.exceptions.DataIntegrityException;
 import com.santiago.services.exceptions.ObjectNotFoundException;
@@ -18,7 +18,7 @@ import com.santiago.util.Mensagem;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> implements IServiceCrud<T, K> {
+public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> implements IServiceCrud<T, K> {
 
 	/**
 	 * Repositorio interno
@@ -51,6 +51,7 @@ public abstract class BaseService<T extends AbstractEntity, K extends BaseDTO> i
 	 * @return
 	 */
 	// TODO: Corrigir problema de busca pela direção
+	@Override
 	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		log.info("Find page entity: " + this.getTClass().getName());
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);

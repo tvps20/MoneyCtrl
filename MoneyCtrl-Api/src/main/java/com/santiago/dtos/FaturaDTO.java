@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.enuns.TipoStatus;
 
@@ -21,6 +22,7 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date vencimento;
 
 	@Getter
