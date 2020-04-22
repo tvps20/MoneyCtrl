@@ -1,5 +1,9 @@
 package com.santiago.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -23,6 +27,10 @@ public class CartaoDTO extends BaseDTO {
 	@Setter
 	private String nome;
 
+	@Getter
+	@Setter
+	private List<FaturaDTO> faturas = new ArrayList<>();
+
 	// Construtores
 	public CartaoDTO() {
 	}
@@ -38,5 +46,6 @@ public class CartaoDTO extends BaseDTO {
 		this.nome = cartao.getNome();
 		this.createdAt = cartao.getCreatedAt();
 		this.updatedAt = cartao.getUpdatedAt();
+		this.faturas = cartao.getFaturas().stream().map(obj -> new FaturaDTO(obj)).collect(Collectors.toList());
 	}
 }

@@ -47,9 +47,10 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<T> findById(@PathVariable Long id) {
+	public ResponseEntity<K> findById(@PathVariable Long id) {
 		T obj = this.service.findById(id);
-		return ResponseEntity.ok().body(obj);
+		K objDTO = this.newClassDTO(obj);
+		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping

@@ -40,7 +40,7 @@ public class Fatura extends BaseEntity {
 	@Getter
 	@Setter
 	private String mesReferente;
-	
+
 	@Getter
 	@Setter
 	@ManyToOne
@@ -63,5 +63,5 @@ public class Fatura extends BaseEntity {
 			Cartao cartao) {
 		this(id, vencimento, valorTotal, observacao, mesReferente);
 		this.cartao = cartao;
-	}	
+	}
 }
