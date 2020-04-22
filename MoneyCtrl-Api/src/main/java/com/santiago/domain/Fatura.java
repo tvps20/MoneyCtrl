@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.enuns.TipoStatus;
 
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date vencimento;
 
 	@Getter
