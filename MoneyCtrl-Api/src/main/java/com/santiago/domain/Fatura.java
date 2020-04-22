@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-public class Fatura extends AbstractEntity {
+public class Fatura extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
