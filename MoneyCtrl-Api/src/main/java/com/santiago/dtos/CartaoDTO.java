@@ -28,15 +28,16 @@ public class CartaoDTO extends BaseDTO {
 	public CartaoDTO() {
 	}
 
-	public CartaoDTO(String nome) {
-		super();
-		Mensagem.validationCampoLength(4, 80);
+	public CartaoDTO(Long id, String nome) {
+		super(id);
 		this.nome = nome;
 	}
 
-	public CartaoDTO(Cartao obj) {
-		super(obj.getId());
+	public CartaoDTO(Cartao cartao) {
+		super(cartao.getId());
 		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
-		this.nome = obj.getNome();
+		this.nome = cartao.getNome();
+		this.createdAt = cartao.getCreatedAt();
+		this.updatedAt = cartao.getUpdatedAt();
 	}
 }
