@@ -74,5 +74,5 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		return ResponseEntity.noContent().build();
 	}
 
-	public abstract K newClassDTO(T obj);
+	protected abstract K newClassDTO(T obj);
 }
