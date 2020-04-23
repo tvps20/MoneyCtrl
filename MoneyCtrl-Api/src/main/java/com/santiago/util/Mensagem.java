@@ -28,4 +28,8 @@ public final class Mensagem {
 	public static String erroObjDelete(String claseNome) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.excluir"), claseNome);
 	}
+	
+	public static String erroObjInserir(String claseNome) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.inserir"), claseNome);
+	}
 }

@@ -22,7 +22,7 @@ public class CartaoDTO extends BaseDTO {
 	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 4, max = 80, message = "validation.erro.model.length")
+	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
 	@Getter
 	@Setter
 	private String nome;

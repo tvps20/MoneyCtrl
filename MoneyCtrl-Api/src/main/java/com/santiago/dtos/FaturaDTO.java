@@ -43,7 +43,7 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "Deve ser passando o id de um obj existente")
+	@NotNull(message = "{validation.erro.model.notNull.id}")
 	private Long cartaoId;
 
 	// Construtores

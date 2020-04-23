@@ -87,7 +87,12 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	public T insert(T entity) {
 		log.info("Insert entity: " + this.getTClass().getName());
 		entity.setId(null);
-		return this.repository.save(entity);
+		try {
+			return this.repository.save(entity);
+		} catch (DataIntegrityViolationException ex) {
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+		}
 	}
 
 	/**
