@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.santiago.domain.Cartao;
+import com.santiago.services.CartaoService;
+import com.santiago.services.validation.CustomUnique;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +23,11 @@ public class CartaoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
 	@Getter
 	@Setter
+	@CustomUnique(classType = CartaoService.class)
+	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
 	private String nome;
 
 	@Getter

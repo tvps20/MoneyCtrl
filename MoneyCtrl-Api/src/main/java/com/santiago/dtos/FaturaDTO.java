@@ -8,14 +8,16 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.enuns.TipoStatus;
+import com.santiago.services.FaturaService;
+import com.santiago.services.validation.CustomUnique;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-@ToString(callSuper = true)
 @Slf4j
+@ToString(callSuper = true)
 public class FaturaDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +41,7 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@CustomUnique(classType = FaturaService.class)
 	private String mesReferente;
 
 	@Getter
