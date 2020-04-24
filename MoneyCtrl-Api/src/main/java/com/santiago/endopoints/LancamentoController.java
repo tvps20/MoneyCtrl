@@ -8,6 +8,9 @@ import com.santiago.domain.Lancamento;
 import com.santiago.dtos.LancamentoDTO;
 import com.santiago.services.LancamentoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/lancamento")
 public class LancamentoController extends BaseController<Lancamento, LancamentoDTO> {
@@ -19,6 +22,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 
 	@Override
 	public LancamentoDTO newClassDTO(Lancamento obj) {
+		log.info("Mapping 'Lancamento' to 'LancamentoDTO': " + this.getClass().getName());
 		return new LancamentoDTO(obj);
 	}
 }

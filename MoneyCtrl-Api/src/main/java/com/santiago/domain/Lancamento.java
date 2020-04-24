@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +16,8 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-public class Lancamento extends BaseEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Lancamento extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,6 +38,10 @@ public class Lancamento extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate dataCompra;
+	
+	@Getter
+	@Setter
+	protected boolean parcelado;
 
 	@Getter
 	@Setter

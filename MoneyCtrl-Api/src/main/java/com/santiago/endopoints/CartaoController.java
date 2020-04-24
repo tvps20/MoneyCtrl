@@ -8,6 +8,9 @@ import com.santiago.domain.Cartao;
 import com.santiago.dtos.CartaoDTO;
 import com.santiago.services.CartaoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/cartao")
 public class CartaoController extends BaseController<Cartao, CartaoDTO> {
@@ -19,6 +22,7 @@ public class CartaoController extends BaseController<Cartao, CartaoDTO> {
 
 	@Override
 	public CartaoDTO newClassDTO(Cartao obj) {
+		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
 		return new CartaoDTO(obj);
 	}
 }

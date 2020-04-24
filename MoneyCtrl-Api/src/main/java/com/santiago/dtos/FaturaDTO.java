@@ -16,9 +16,7 @@ import com.santiago.domain.enuns.TipoStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ToString(callSuper = true)
 public class FaturaDTO extends BaseDTO {
 
@@ -47,7 +45,7 @@ public class FaturaDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notNull.id}")
 	private Long cartaoId;
-	
+
 	@Getter
 	@Setter
 	private List<LancamentoDTO> lancamentos = new ArrayList<>();
@@ -67,7 +65,6 @@ public class FaturaDTO extends BaseDTO {
 
 	public FaturaDTO(Fatura fatura) {
 		super(fatura.getId());
-		log.info("Mapping 'Fatura' to 'FaturaDTO': " + this.getClass().getName());
 		this.vencimento = fatura.getVencimento();
 		this.valorTotal = fatura.getValorTotal();
 		this.observacao = fatura.getObservacao();
@@ -75,7 +72,8 @@ public class FaturaDTO extends BaseDTO {
 		this.cartaoId = fatura.getCartao().getId();
 		this.createdAt = fatura.getCreatedAt();
 		this.updatedAt = fatura.getUpdatedAt();
-		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj)).collect(Collectors.toList());
+		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj))
+				.collect(Collectors.toList());
 	}
 
 	// Getters and Setters

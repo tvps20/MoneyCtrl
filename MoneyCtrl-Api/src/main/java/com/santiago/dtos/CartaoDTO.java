@@ -15,9 +15,7 @@ import com.santiago.services.validation.CustomUnique;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ToString(callSuper = true)
 public class CartaoDTO extends BaseDTO {
 
@@ -45,7 +43,6 @@ public class CartaoDTO extends BaseDTO {
 
 	public CartaoDTO(Cartao cartao) {
 		super(cartao.getId());
-		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
 		this.nome = cartao.getNome();
 		this.createdAt = cartao.getCreatedAt();
 		this.updatedAt = cartao.getUpdatedAt();

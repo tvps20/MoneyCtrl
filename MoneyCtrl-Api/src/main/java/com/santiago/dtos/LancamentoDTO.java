@@ -7,13 +7,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.santiago.domain.Lancamento;
+import com.santiago.domain.LancamentoAVista;
+import com.santiago.domain.LancamentoParcelado;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ToString(callSuper = true)
 public class LancamentoDTO extends BaseDTO {
 
@@ -34,7 +34,24 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private LocalDate dataCompra;
+
+	@Getter
+	@Setter
+	private boolean parcelado = false;
+
+	@Getter
+	@Setter
+	private BigDecimal desconto;
+
+	@Getter
+	@Setter
+	private Integer qtdParcela = 1;
+
+	@Getter
+	@Setter
+	private Integer parcelaAtual = 1;
 
 	@Getter
 	@Setter
@@ -54,10 +71,9 @@ public class LancamentoDTO extends BaseDTO {
 		this.dataCompra = dataCompra;
 		this.faturaId = faturaId;
 	}
-	
+
 	public LancamentoDTO(Lancamento lancamento) {
 		super(lancamento.getId());
-		log.info("Mapping 'Lancamento' to 'LancamentoDTO': " + this.getClass().getName());
 		this.valor = lancamento.getValor();
 		this.descricao = lancamento.getDescricao();
 		this.obsrvacao = lancamento.getObsrvacao();
@@ -65,5 +81,12 @@ public class LancamentoDTO extends BaseDTO {
 		this.faturaId = lancamento.getFatura().getId();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
+
+		if (lancamento.isParcelado()) {
+			this.qtdParcela = ((LancamentoParcelado) lancamento).getQtdParcela();
+			this.parcelaAtual = ((LancamentoParcelado) lancamento).getParcelaAtual();
+		} else {
+			this.desconto = ((LancamentoAVista) lancamento).getDesconto();
+		}
 	}
 }
