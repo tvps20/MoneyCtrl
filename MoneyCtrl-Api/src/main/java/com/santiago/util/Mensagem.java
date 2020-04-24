@@ -32,4 +32,12 @@ public final class Mensagem {
 	public static String erroObjInserir(String claseNome) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.inserir"), claseNome);
 	}
+	
+	public static String erroEnumMes(String tipo) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.mes"), tipo);
+	}
+	
+	public static String erroEnumStatus(String tipo) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.status"), tipo);
+	}
 }

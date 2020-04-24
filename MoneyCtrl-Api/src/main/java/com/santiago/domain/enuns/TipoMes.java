@@ -1,6 +1,7 @@
 package com.santiago.domain.enuns;
 
 import com.santiago.domain.exceptions.IllegalEnumException;
+import com.santiago.util.Mensagem;
 
 public enum TipoMes {
 	JANEIRO(1, "Janeiro"), FEVEREIRO(2, "Fevereiro"), MARCO(3, "Março"), ABRIL(4, "Abril"), MAIO(5, "Maio"),
@@ -50,7 +51,6 @@ public enum TipoMes {
 			}
 		}
 
-		throw new IllegalEnumException(
-				"Tipo [" + descricao + "] inválido. Não atende aos tipos [JANEIRO, FEREVEIRO ... DEZEMBRO]");
+		throw new IllegalEnumException(Mensagem.erroEnumMes(descricao));
 	}
 }

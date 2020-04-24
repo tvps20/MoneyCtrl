@@ -1,6 +1,7 @@
 package com.santiago.domain.enuns;
 
 import com.santiago.domain.exceptions.IllegalEnumException;
+import com.santiago.util.Mensagem;
 
 public enum TipoStatus {
 
@@ -14,7 +15,7 @@ public enum TipoStatus {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
-	
+
 	// Metodos
 	public int getCod() {
 		return this.cod;
@@ -49,7 +50,6 @@ public enum TipoStatus {
 			}
 		}
 
-		throw new IllegalEnumException(
-				"Tipo [" + descricao + "] inválido. Não atende aos tipos [PROXIMA, ABERTA, FECHADA, PAGA]");
+		throw new IllegalEnumException(Mensagem.erroEnumStatus(descricao)	);
 	}
 }
