@@ -1,14 +1,12 @@
 package com.santiago.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,40 +17,42 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//Não vai mapear como tabela no banco
-@MappedSuperclass
+
 @ToString
-public class AbstractEntity implements Serializable {
+@MappedSuperclass //Não vai mapear como tabela no banco
+public class BaseEntity implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Getter
+	@Setter
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter @Setter
 	protected Long id;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@Getter
+	@Setter
 	@CreationTimestamp
-	@Getter @Setter
-    protected LocalDate createdAt;
-	
-	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	protected LocalDateTime createdAt;
+
+	@Getter
+	@Setter
 	@UpdateTimestamp
-	@Getter @Setter
-	protected LocalDate updatedAt;
-	
-	@Getter @Setter
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	protected LocalDateTime updatedAt;
+
+	@Getter
+	@Setter
 	protected boolean ativo = true;
 
-	
 	// Construtores
-	public AbstractEntity() {}
-	
-	public AbstractEntity(Long id) {
-		this.id = id;
+	public BaseEntity() {
 	}
 
+	public BaseEntity(Long id) {
+		this.id = id;
+	}
 
 	// Metodos de Comparacao por valor
 	@Override
@@ -71,7 +71,7 @@ public class AbstractEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEntity other = (AbstractEntity) obj;
+		BaseEntity other = (BaseEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
