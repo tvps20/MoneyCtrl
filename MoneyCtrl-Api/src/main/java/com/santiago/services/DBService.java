@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Fatura;
+import com.santiago.domain.enuns.TipoMes;
 import com.santiago.repositories.CartaoRepository;
 import com.santiago.repositories.FaturaRepository;
 
@@ -26,7 +27,7 @@ public class DBService {
 		Cartao cartao2 = new Cartao(null, "nubank");
 		Cartao cartao3 = new Cartao(null, "visa");
 		
-		Fatura fatura1 = new Fatura(null, new Date(), new BigDecimal(100), "fatura de janeiro", "janeiro", cartao1);
+		Fatura fatura1 = new Fatura(null, new Date(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 		
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);

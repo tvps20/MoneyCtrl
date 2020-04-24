@@ -19,31 +19,31 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//Não vai mapear como tabela no banco
-@MappedSuperclass
+
 @ToString
+@MappedSuperclass //Não vai mapear como tabela no banco
 public class BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	@Setter
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@CreationTimestamp
 	@Getter
 	@Setter
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected Date createdAt;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@UpdateTimestamp
 	@Getter
 	@Setter
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected Date updatedAt;
 
 	@Getter

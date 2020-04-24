@@ -17,8 +17,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-@ToString(callSuper = true)
 @Slf4j
+@ToString(callSuper = true)
 public class CartaoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;

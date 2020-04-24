@@ -6,13 +6,12 @@ import com.santiago.domain.Cartao;
 import com.santiago.domain.Fatura;
 import com.santiago.dtos.FaturaDTO;
 import com.santiago.repositories.FaturaRepository;
-import com.santiago.services.interfaces.IServiceValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class FaturaService extends BaseService<Fatura, FaturaDTO> implements IServiceValidator {
+public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	public FaturaService(FaturaRepository repository) {
 		super(repository);
@@ -39,11 +38,5 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> implements ISe
 	@Override
 	public Class<Fatura> getTClass() {
 		return Fatura.class;
-	}
-
-	@Override
-	public boolean verificarCampoUnico(String campo) {
-		log.info("Find by unique value: " + campo);
-		return ((FaturaRepository) this.repository).verificarCampoUnico(campo);
 	}
 }

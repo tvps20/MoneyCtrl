@@ -1,15 +1,16 @@
 package com.santiago.dtos;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.Fatura;
+import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoStatus;
-import com.santiago.services.FaturaService;
-import com.santiago.services.validation.CustomUnique;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,8 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Date vencimento;
 
 	@Getter
@@ -36,13 +38,9 @@ public class FaturaDTO extends BaseDTO {
 	private String observacao;
 
 	@Getter
-	@Setter
 	private TipoStatus status = TipoStatus.ABERTA;
 
-	@Getter
-	@Setter
-	@CustomUnique(classType = FaturaService.class)
-	private String mesReferente;
+	private TipoMes mesReferente;
 
 	@Getter
 	@Setter
@@ -53,14 +51,13 @@ public class FaturaDTO extends BaseDTO {
 	public FaturaDTO() {
 	}
 
-	public FaturaDTO(Long id, Date vencimento, BigDecimal valorTotal, String observacao, String mesReferente,
-			Long cartaoId) {
+	public FaturaDTO(Long id, Date vencimento, BigDecimal valorTotal, String observacao, Long cartaoId) {
 		super(id);
 		this.vencimento = vencimento;
 		this.valorTotal = valorTotal;
 		this.observacao = observacao;
-		this.mesReferente = mesReferente;
 		this.cartaoId = cartaoId;
+		this.gerarMesReferente();
 	}
 
 	public FaturaDTO(Fatura fatura) {
@@ -73,5 +70,26 @@ public class FaturaDTO extends BaseDTO {
 		this.cartaoId = fatura.getCartao().getId();
 		this.createdAt = fatura.getCreatedAt();
 		this.updatedAt = fatura.getUpdatedAt();
+	}
+
+	// Getters and Setters
+	public void setStatus(String status) {
+		this.status = TipoStatus.toEnum(status);
+	}
+	
+	public TipoMes getMesReferente() {
+		this.gerarMesReferente();
+		return this.mesReferente;
+	}
+
+	public void setMesReferente(String mesReferente) {
+		this.mesReferente = TipoMes.toEnum(mesReferente);
+	}
+	
+	// Metodos
+	private void gerarMesReferente() {
+		LocalDate vencimento = this.vencimento.toInstant().atZone(ZoneId.systemDefault())
+			      .toLocalDate();
+		this.mesReferente = TipoMes.toEnum(vencimento.getMonth().getValue());
 	}
 }

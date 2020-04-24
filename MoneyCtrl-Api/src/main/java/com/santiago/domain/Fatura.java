@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoStatus;
 
 import lombok.Getter;
@@ -22,7 +22,6 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date vencimento;
 
 	@Getter
@@ -39,7 +38,7 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
-	private String mesReferente;
+	private TipoMes mesReferente;
 
 	@Getter
 	@Setter
@@ -51,7 +50,7 @@ public class Fatura extends BaseEntity {
 	public Fatura() {
 	}
 
-	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, String mesReferente) {
+	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente) {
 		super(id);
 		this.vencimento = vencimento;
 		this.valorTotal = valorTotal;
@@ -59,7 +58,7 @@ public class Fatura extends BaseEntity {
 		this.mesReferente = mesReferente;
 	}
 
-	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, String mesReferente,
+	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente,
 			Cartao cartao) {
 		this(id, vencimento, valorTotal, observacao, mesReferente);
 		this.cartao = cartao;

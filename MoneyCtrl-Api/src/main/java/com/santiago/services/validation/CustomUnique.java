@@ -15,7 +15,7 @@ import com.santiago.services.interfaces.IServiceValidator;
 @Target({ ElementType.FIELD })
 public @interface CustomUnique {
 	
-	String message() default "Valor já cadastrado no banco de dados";
+	String message() default "{validation.erro.model.unique}";
 	Class<? extends IServiceValidator> classType();
 	
 	Class<?>[] groups() default {};
