@@ -2,6 +2,9 @@ package com.santiago.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +47,10 @@ public class FaturaDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notNull.id}")
 	private Long cartaoId;
+	
+	@Getter
+	@Setter
+	private List<LancamentoDTO> lancamentos = new ArrayList<>();
 
 	// Construtores
 	public FaturaDTO() {
@@ -68,6 +75,7 @@ public class FaturaDTO extends BaseDTO {
 		this.cartaoId = fatura.getCartao().getId();
 		this.createdAt = fatura.getCreatedAt();
 		this.updatedAt = fatura.getUpdatedAt();
+		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj)).collect(Collectors.toList());
 	}
 
 	// Getters and Setters

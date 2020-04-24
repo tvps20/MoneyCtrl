@@ -2,11 +2,14 @@ package com.santiago.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoStatus;
@@ -47,6 +50,11 @@ public class Fatura extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "cartao_id", nullable = false)
 	private Cartao cartao;
+
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "fatura")
+	private List<Lancamento> lancamentos = new ArrayList<>();
 
 	// Construtores
 	public Fatura() {

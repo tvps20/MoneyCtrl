@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Fatura;
+import com.santiago.domain.Lancamento;
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.repositories.CartaoRepository;
 import com.santiago.repositories.FaturaRepository;
+import com.santiago.repositories.LancamentoRepository;
 
 @Service
 public class DBService {
@@ -22,6 +24,9 @@ public class DBService {
 	@Autowired
 	private FaturaRepository faturaRepository;
 	
+	@Autowired
+	private LancamentoRepository lancamentoRepository;
+	
 	public void instantiateTestDatabase() {
 		Cartao cartao1 = new Cartao(null, "mastercard");
 		Cartao cartao2 = new Cartao(null, "nubank");
@@ -29,7 +34,11 @@ public class DBService {
 		
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 		
+		Lancamento lancamento1 = new Lancamento(null, new BigDecimal(23.53), "Itens para o chachorro", "Comprei tambem uma resistencia", LocalDate.now(), fatura1);
+		Lancamento lancamento2 = new Lancamento(null, new BigDecimal(47.27), "CardsofParadise", "cartas de magic", LocalDate.now(), fatura1);
+		
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
+		this.lancamentoRepository.saveAll(Arrays.asList(lancamento1, lancamento2));
 	}
 }

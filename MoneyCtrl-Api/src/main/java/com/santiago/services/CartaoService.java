@@ -25,7 +25,7 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	@Override
 	public void updateData(Cartao newObj, Cartao obj) {
-		log.info("Parse obj from newObj: " + this.getTClass().getName());
+		log.info("Parse cartao from newCartao: " + this.getTClass().getName());
 		newObj.setNome(obj.getNome());
 	}
 
