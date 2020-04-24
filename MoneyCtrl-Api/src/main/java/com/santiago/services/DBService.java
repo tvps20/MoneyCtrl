@@ -1,8 +1,8 @@
 package com.santiago.services;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class DBService {
 		Cartao cartao2 = new Cartao(null, "nubank");
 		Cartao cartao3 = new Cartao(null, "visa");
 		
-		Fatura fatura1 = new Fatura(null, new Date(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
+		Fatura fatura1 = new Fatura(null, LocalDate.now(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 		
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);

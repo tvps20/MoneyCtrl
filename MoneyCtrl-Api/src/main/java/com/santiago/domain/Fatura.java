@@ -1,8 +1,9 @@
 package com.santiago.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +23,8 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
-	private Date vencimento;
+	@Column(nullable = false)
+	private LocalDate vencimento;
 
 	@Getter
 	@Setter
@@ -43,14 +45,14 @@ public class Fatura extends BaseEntity {
 	@Getter
 	@Setter
 	@ManyToOne
-	@JoinColumn(name = "cartao_id")
+	@JoinColumn(name = "cartao_id", nullable = false)
 	private Cartao cartao;
 
 	// Construtores
 	public Fatura() {
 	}
 
-	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente) {
+	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente) {
 		super(id);
 		this.vencimento = vencimento;
 		this.valorTotal = valorTotal;
@@ -58,7 +60,7 @@ public class Fatura extends BaseEntity {
 		this.mesReferente = mesReferente;
 	}
 
-	public Fatura(Long id, Date vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente,
+	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente,
 			Cartao cartao) {
 		this(id, vencimento, valorTotal, observacao, mesReferente);
 		this.cartao = cartao;

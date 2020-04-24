@@ -2,8 +2,6 @@ package com.santiago.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,7 +25,7 @@ public class FaturaDTO extends BaseDTO {
 	@Setter
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private Date vencimento;
+	private LocalDate vencimento;
 
 	@Getter
 	@Setter
@@ -51,7 +49,7 @@ public class FaturaDTO extends BaseDTO {
 	public FaturaDTO() {
 	}
 
-	public FaturaDTO(Long id, Date vencimento, BigDecimal valorTotal, String observacao, Long cartaoId) {
+	public FaturaDTO(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, Long cartaoId) {
 		super(id);
 		this.vencimento = vencimento;
 		this.valorTotal = valorTotal;
@@ -92,7 +90,6 @@ public class FaturaDTO extends BaseDTO {
 
 	// Metodos
 	private void gerarMesReferente() {
-		LocalDate vencimento = this.vencimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		this.mesReferente = TipoMes.toEnum(vencimento.getMonth().getValue());
+		this.mesReferente = TipoMes.toEnum(this.vencimento.getMonth().getValue());
 	}
 }

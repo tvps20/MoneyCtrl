@@ -1,14 +1,12 @@
 package com.santiago.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,16 +33,14 @@ public class BaseEntity implements Serializable {
 	@Getter
 	@Setter
 	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected Date createdAt;
+	protected LocalDateTime createdAt;
 
 	@Getter
 	@Setter
 	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected Date updatedAt;
+	protected LocalDateTime updatedAt;
 
 	@Getter
 	@Setter

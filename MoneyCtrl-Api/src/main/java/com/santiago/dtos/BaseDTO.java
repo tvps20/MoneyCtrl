@@ -1,10 +1,7 @@
 package com.santiago.dtos;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,15 +20,13 @@ public class BaseDTO implements Serializable {
 
 	@Getter
 	@Setter
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected Date createdAt;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	protected LocalDateTime createdAt;
 
 	@Getter
 	@Setter
-	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected Date updatedAt;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	protected LocalDateTime updatedAt;
 
 	// Construtores
 	public BaseDTO() {

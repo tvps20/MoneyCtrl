@@ -19,7 +19,7 @@ public class Cartao extends BaseEntity {
 
 	@Getter
 	@Setter
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String nome;
 
 	@Getter
