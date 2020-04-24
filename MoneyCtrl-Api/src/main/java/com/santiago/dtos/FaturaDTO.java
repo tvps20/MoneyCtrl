@@ -76,20 +76,23 @@ public class FaturaDTO extends BaseDTO {
 	public void setStatus(String status) {
 		this.status = TipoStatus.toEnum(status);
 	}
-	
+
 	public TipoMes getMesReferente() {
-		this.gerarMesReferente();
+
+		if (this.mesReferente == null) {
+			this.gerarMesReferente();
+		}
+
 		return this.mesReferente;
 	}
 
 	public void setMesReferente(String mesReferente) {
 		this.mesReferente = TipoMes.toEnum(mesReferente);
 	}
-	
+
 	// Metodos
 	private void gerarMesReferente() {
-		LocalDate vencimento = this.vencimento.toInstant().atZone(ZoneId.systemDefault())
-			      .toLocalDate();
+		LocalDate vencimento = this.vencimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		this.mesReferente = TipoMes.toEnum(vencimento.getMonth().getValue());
 	}
 }
