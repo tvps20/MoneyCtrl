@@ -6,9 +6,8 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.Lancamento;
-import com.santiago.domain.LancamentoAVista;
-import com.santiago.domain.LancamentoParcelado;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,29 +33,18 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private LocalDate dataCompra;
 
 	@Getter
 	@Setter
-	private boolean parcelado = false;
-
-	@Getter
-	@Setter
-	private BigDecimal desconto;
-
-	@Getter
-	@Setter
-	private Integer qtdParcela = 1;
-
-	@Getter
-	@Setter
-	private Integer parcelaAtual = 1;
+	protected boolean parcelado = false;
 
 	@Getter
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private Long faturaId;
+	protected Long faturaId;
 
 	// Construtores
 	public LancamentoDTO() {
@@ -69,6 +57,7 @@ public class LancamentoDTO extends BaseDTO {
 		this.descricao = descricao;
 		this.obsrvacao = obsrvacao;
 		this.dataCompra = dataCompra;
+		this.parcelado = false;
 		this.faturaId = faturaId;
 	}
 
@@ -78,15 +67,8 @@ public class LancamentoDTO extends BaseDTO {
 		this.descricao = lancamento.getDescricao();
 		this.obsrvacao = lancamento.getObsrvacao();
 		this.dataCompra = lancamento.getDataCompra();
-		this.faturaId = lancamento.getFatura().getId();
+		this.parcelado = lancamento.isParcelado();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
-
-		if (lancamento.isParcelado()) {
-			this.qtdParcela = ((LancamentoParcelado) lancamento).getQtdParcela();
-			this.parcelaAtual = ((LancamentoParcelado) lancamento).getParcelaAtual();
-		} else {
-			this.desconto = ((LancamentoAVista) lancamento).getDesconto();
-		}
 	}
 }

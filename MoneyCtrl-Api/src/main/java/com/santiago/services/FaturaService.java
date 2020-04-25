@@ -21,8 +21,8 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 	public Fatura fromDTO(FaturaDTO dto) {
 		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
 		Fatura fatura = new Fatura(dto.getId(), dto.getVencimento(), dto.getValorTotal(), dto.getObservacao(),
-				dto.getMesReferente());
-		fatura.setCartao(new Cartao(dto.getCartaoId(), null));
+				dto.getMesReferente(), new Cartao(dto.getCartaoId()));
+		
 		return fatura;
 	}
 

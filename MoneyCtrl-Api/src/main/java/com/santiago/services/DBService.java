@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
-import com.santiago.domain.LancamentoAVista;
-import com.santiago.domain.LancamentoParcelado;
+import com.santiago.domain.LancamentoComParcela;
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.repositories.CartaoRepository;
 import com.santiago.repositories.FaturaRepository;
@@ -36,9 +35,9 @@ public class DBService {
 		
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 		
-		Lancamento lancamento1 = new LancamentoAVista(null, new BigDecimal(23.53), "Itens para o chachorro", "Comprei tambem uma resistencia", LocalDate.now(), fatura1);
-		Lancamento lancamento2 = new LancamentoAVista(null, new BigDecimal(47.27), "CardsofParadise", "cartas de magic", LocalDate.now(), fatura1);
-		Lancamento lancamento3 = new LancamentoParcelado(null, new BigDecimal(47.27), "Aliexpress", "itens de magic", LocalDate.now(), fatura1, 6, 1);
+		Lancamento lancamento1 = new Lancamento(null, new BigDecimal(23.53), "Itens para o chachorro", "Comprei tambem uma resistencia", LocalDate.now(), false, fatura1);
+		Lancamento lancamento2 = new Lancamento(null, new BigDecimal(47.27), "CardsofParadise", "cartas de magic", LocalDate.now(), false, fatura1);
+		Lancamento lancamento3 = new LancamentoComParcela(null, new BigDecimal(47.27), "Aliexpress", "itens de magic", LocalDate.now(), true, fatura1, 6, 1);
 		
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);

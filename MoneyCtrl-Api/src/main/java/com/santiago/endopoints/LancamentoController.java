@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.domain.Lancamento;
 import com.santiago.dtos.LancamentoDTO;
+import com.santiago.dtos.LancamentoDTOComParcela;
 import com.santiago.services.LancamentoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,10 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	@Override
 	public LancamentoDTO newClassDTO(Lancamento obj) {
 		log.info("Mapping 'Lancamento' to 'LancamentoDTO': " + this.getClass().getName());
-		return new LancamentoDTO(obj);
+		if(obj.isParcelado()) {
+			return new LancamentoDTOComParcela(obj);			
+		} else {
+			return new LancamentoDTO(obj);
+		}
 	}
 }

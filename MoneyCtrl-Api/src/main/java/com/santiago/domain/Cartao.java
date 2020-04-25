@@ -30,6 +30,10 @@ public class Cartao extends BaseEntity {
 	// Construtores
 	public Cartao() {
 	}
+	
+	public Cartao(Long id) {
+		super(id);
+	}
 
 	public Cartao(Long id, String nome) {
 		super(id);

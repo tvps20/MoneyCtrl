@@ -59,18 +59,17 @@ public class Fatura extends BaseEntity {
 	// Construtores
 	public Fatura() {
 	}
+	
+	public Fatura(Long id) {
+		super(id);
+	}
 
-	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente) {
+	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente, Cartao cartao) {
 		super(id);
 		this.vencimento = vencimento;
 		this.valorTotal = valorTotal;
 		this.observacao = observacao;
 		this.mesReferente = mesReferente;
-	}
-
-	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente,
-			Cartao cartao) {
-		this(id, vencimento, valorTotal, observacao, mesReferente);
 		this.cartao = cartao;
 	}
 }

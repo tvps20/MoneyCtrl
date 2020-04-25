@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-public class LancamentoParcelado extends Lancamento {
+public class LancamentoComParcela extends Lancamento {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class LancamentoParcelado extends Lancamento {
 
 	@Getter
 	@Setter
-	private Integer parcelaAtual = 1;
+	private Integer parcelaAtual = 2;
 	
 	// Bloco de inicializacao
 	{
@@ -29,13 +29,13 @@ public class LancamentoParcelado extends Lancamento {
 	}
 
 	// Construtores
-	public LancamentoParcelado() {
+	public LancamentoComParcela() {
 		super();
 	}
-
-	public LancamentoParcelado(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Fatura fatura, Integer qtdParcela, Integer parcelaAtual) {
-		super(id, valor, descricao, obsrvacao, dataCompra, fatura);
+	
+	public LancamentoComParcela(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
+			boolean parcelado, Fatura fatura, Integer qtdParcela, Integer parcelaAtual) {
+		super(id, valor, descricao, obsrvacao, dataCompra, parcelado, fatura);
 
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;

@@ -17,7 +17,7 @@ import lombok.ToString;
 @Entity
 @ToString(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Lancamento extends BaseEntity {
+public class Lancamento extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,14 @@ public abstract class Lancamento extends BaseEntity {
 	public Lancamento() {
 	}
 
-	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
+	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra, boolean parcelado,
 			Fatura fatura) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
 		this.obsrvacao = obsrvacao;
 		this.dataCompra = dataCompra;
+		this.parcelado = parcelado;
 		this.fatura = fatura;
-	}
+	}	
 }

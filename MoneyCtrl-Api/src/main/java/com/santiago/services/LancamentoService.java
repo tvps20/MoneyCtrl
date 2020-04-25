@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
-import com.santiago.domain.LancamentoAVista;
-import com.santiago.domain.LancamentoParcelado;
+import com.santiago.domain.LancamentoComParcela;
 import com.santiago.dtos.LancamentoDTO;
+import com.santiago.dtos.LancamentoDTOComParcela;
 import com.santiago.repositories.LancamentoRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +22,17 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	@Override
 	public Lancamento fromDTO(LancamentoDTO dto) {
 		log.info("Mapping 'LancamentoDTO' to 'Lancamento': " + this.getTClass().getName());
-		Fatura fatura = new Fatura();
-		fatura.setId(dto.getFaturaId());
+		Fatura fatura = new Fatura(dto.getFaturaId());
 		Lancamento lancamento;
 
 		if (dto.isParcelado()) {
-			lancamento = new LancamentoParcelado(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura, dto.getQtdParcela(), dto.getParcelaAtual());
+			LancamentoDTOComParcela dtoParcelado = (LancamentoDTOComParcela) dto;
+			lancamento = new LancamentoComParcela(dtoParcelado.getId(), dtoParcelado.getValor(),
+					dtoParcelado.getDescricao(), dtoParcelado.getObsrvacao(), dtoParcelado.getDataCompra(),
+					dtoParcelado.isParcelado(), fatura, dtoParcelado.getQtdParcela(), dtoParcelado.getParcelaAtual());
 		} else {
-			lancamento = new LancamentoAVista(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura);
+			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
+					dto.getDataCompra(), dto.isParcelado(), fatura);
 		}
 
 		return lancamento;
@@ -45,9 +46,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		newObj.setObsrvacao(obj.getObsrvacao());
 
 		if (obj.isParcelado()) {
-			((LancamentoParcelado) newObj).setParcelaAtual(((LancamentoParcelado) obj).getParcelaAtual());
-		} else {
-			((LancamentoAVista) newObj).setDesconto(((LancamentoAVista) obj).getDesconto());
+			((LancamentoComParcela) newObj).setParcelaAtual(((LancamentoComParcela) obj).getParcelaAtual());
 		}
 	}
 
@@ -55,5 +54,4 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	public Class<Lancamento> getTClass() {
 		return Lancamento.class;
 	}
-
 }
