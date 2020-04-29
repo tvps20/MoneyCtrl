@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.santiago.domain.Lancamento;
-import com.santiago.domain.LancamentoComParcela;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,7 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 
 	@Getter
 	@Setter
-	private Integer qtdParcela = 1;
+	private Integer qtdParcela = 2;
 
 	@Getter
 	@Setter
@@ -36,9 +35,9 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 	public LancamentoDTOComParcela(Lancamento lancamento) {
 		super(lancamento.getId(), lancamento.getValor(), lancamento.getDescricao(), lancamento.getObsrvacao(),
 				lancamento.getDataCompra(), lancamento.getFatura().getId());
-		this.qtdParcela = ((LancamentoComParcela) lancamento).getQtdParcela();
-		this.parcelaAtual = ((LancamentoComParcela) lancamento).getParcelaAtual();
 		this.parcelado = true;
+		this.qtdParcela = lancamento.getQtdParcela();
+		this.parcelaAtual = lancamento.getParcelaAtual();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
 	}

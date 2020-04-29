@@ -5,8 +5,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -16,7 +14,6 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Lancamento extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -38,7 +35,7 @@ public class Lancamento extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate dataCompra;
-	
+
 	@Getter
 	@Setter
 	protected boolean parcelado;
@@ -49,12 +46,20 @@ public class Lancamento extends BaseEntity {
 	@JoinColumn(name = "fatura_id", nullable = false)
 	private Fatura fatura;
 
+	@Getter
+	@Setter
+	private Integer qtdParcela = 2;
+
+	@Getter
+	@Setter
+	private Integer parcelaAtual = 1;
+
 	// Construtores
 	public Lancamento() {
 	}
 
-	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra, boolean parcelado,
-			Fatura fatura) {
+	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
+			boolean parcelado, Fatura fatura, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
@@ -62,5 +67,7 @@ public class Lancamento extends BaseEntity {
 		this.dataCompra = dataCompra;
 		this.parcelado = parcelado;
 		this.fatura = fatura;
-	}	
+		this.qtdParcela = qtdParcela;
+		this.parcelaAtual = parcelaAtual;
+	}
 }
