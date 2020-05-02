@@ -27,6 +27,7 @@ public class CustomUniqueValidator implements ConstraintValidator<CustomUnique, 
 		boolean aux = this.service.verificarCampoUnico(value);
 		
 		if (aux) {
+			// Valor já cadastrado no banco.
 			return false;
 		}
 

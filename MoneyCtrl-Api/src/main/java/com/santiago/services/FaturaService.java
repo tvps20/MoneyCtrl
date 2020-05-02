@@ -28,7 +28,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	@Override
 	public void updateData(Fatura newObj, Fatura obj) {
-		log.info("Parse fatura from newFatura: " + this.getTClass().getName());
+		log.info("Parse 'fatura' from 'newFatura': " + this.getTClass().getName());
 		newObj.setVencimento(obj.getVencimento());
 		newObj.setValorTotal(obj.getValorTotal());
 		newObj.setObservacao(obj.getObservacao());

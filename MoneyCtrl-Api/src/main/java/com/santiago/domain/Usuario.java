@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,7 @@ public class Usuario extends BaseEntity {
 
 	@Getter
 	@Setter
+	@Column(unique = true, nullable = false)
 	private String email;
 
 	@Getter

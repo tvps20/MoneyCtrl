@@ -33,8 +33,7 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 	}
 
 	public LancamentoDTOComParcela(Lancamento lancamento) {
-		super(lancamento.getId(), lancamento.getValor(), lancamento.getDescricao(), lancamento.getObsrvacao(),
-				lancamento.getDataCompra(), lancamento.getFatura().getId(), lancamento.getComprador().getId());
+		super(lancamento);
 		this.parcelado = true;
 		this.qtdParcela = lancamento.getQtdParcela();
 		this.parcelaAtual = lancamento.getParcelaAtual();
