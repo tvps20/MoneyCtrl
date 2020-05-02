@@ -8,12 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.santiago.domain.Cartao;
+import com.santiago.domain.Comprador;
+import com.santiago.domain.Divida;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
+import com.santiago.domain.Usuario;
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.repositories.CartaoRepository;
+import com.santiago.repositories.DividaRepository;
 import com.santiago.repositories.FaturaRepository;
 import com.santiago.repositories.LancamentoRepository;
+import com.santiago.repositories.UsuarioRepository;
 
 @Service
 public class DBService {
@@ -26,6 +31,12 @@ public class DBService {
 
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private DividaRepository dividaRepository;
 
 	public void instantiateTestDatabase() {
 		Cartao cartao1 = new Cartao(null, "mastercard");
@@ -42,8 +53,17 @@ public class DBService {
 		Lancamento lancamento3 = new Lancamento(null, new BigDecimal(47.27), "Aliexpress", "itens de magic",
 				LocalDate.now(), true, fatura1, 6, 1);
 
+		Usuario user1 = new Usuario(null, "thiago@email.com", "thiago", "123");
+		Usuario user2 = new Comprador(null, "filipe@email.com", "filipe", "123");
+		Comprador user3 = new Comprador(null, "gilson@email.com", "gilson", "123");
+
+		Divida divida1 = new Divida(null, fatura1, new BigDecimal(333.38), true, false, null, null, user3);
+		Divida divida2 = new Divida(null, null, new BigDecimal(25), false, true, 3, 2, user3);
+
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
 		this.lancamentoRepository.saveAll(Arrays.asList(lancamento1, lancamento2, lancamento3));
+		this.usuarioRepository.saveAll(Arrays.asList(user1, user2, user3));
+		this.dividaRepository.saveAll(Arrays.asList(divida1, divida2));
 	}
 }

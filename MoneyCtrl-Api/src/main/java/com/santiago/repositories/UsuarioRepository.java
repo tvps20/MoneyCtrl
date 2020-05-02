@@ -3,9 +3,9 @@ package com.santiago.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.santiago.domain.Lancamento;
+import com.santiago.domain.Usuario;
 
 @Repository
-public interface LancamentoRepository extends JpaRepository<Lancamento, Long>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 }
