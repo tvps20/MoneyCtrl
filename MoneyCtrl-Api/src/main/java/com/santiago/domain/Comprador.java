@@ -26,6 +26,10 @@ public class Comprador extends Usuario {
 	// Construtores
 	public Comprador() {
 	}
+	
+	public Comprador(Long id) {
+		super(id);
+	}
 
 	public Comprador(Long id, String email, String nome, String password) {
 		super(id, email, nome, password);

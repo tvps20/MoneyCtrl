@@ -45,13 +45,18 @@ public class LancamentoDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	protected Long faturaId;
+	
+	@Getter
+	@Setter
+	@NotNull(message = "{validation.erro.model.notEmpty}")
+	protected Long CompradorId;
 
 	// Construtores
 	public LancamentoDTO() {
 	}
 
 	public LancamentoDTO(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Long faturaId) {
+			Long faturaId, Long compradorId) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
@@ -59,6 +64,7 @@ public class LancamentoDTO extends BaseDTO {
 		this.dataCompra = dataCompra;
 		this.parcelado = false;
 		this.faturaId = faturaId;
+		this.CompradorId = compradorId;
 	}
 
 	public LancamentoDTO(Lancamento lancamento) {
@@ -69,6 +75,7 @@ public class LancamentoDTO extends BaseDTO {
 		this.dataCompra = lancamento.getDataCompra();
 		this.parcelado = false;
 		this.faturaId = lancamento.getFatura().getId();
+		this.CompradorId = lancamento.getComprador().getId();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
 	}

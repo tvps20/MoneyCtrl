@@ -2,6 +2,7 @@ package com.santiago.services;
 
 import org.springframework.stereotype.Service;
 
+import com.santiago.domain.Comprador;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
 import com.santiago.dtos.LancamentoDTO;
@@ -22,16 +23,17 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	public Lancamento fromDTO(LancamentoDTO dto) {
 		log.info("Mapping 'LancamentoDTO' to 'Lancamento': " + this.getTClass().getName());
 		Fatura fatura = new Fatura(dto.getFaturaId());
+		Comprador comprador = new Comprador(dto.getCompradorId());
 		Lancamento lancamento;
 
 		if (dto.isParcelado()) {
 			LancamentoDTOComParcela dtoComParcela = (LancamentoDTOComParcela) dto;
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
 					dto.getDataCompra(), dto.isParcelado(), fatura, dtoComParcela.getQtdParcela(),
-					dtoComParcela.getParcelaAtual());
+					dtoComParcela.getParcelaAtual(), comprador);
 		} else {
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), dto.isParcelado(), fatura, null, null);
+					dto.getDataCompra(), dto.isParcelado(), fatura, null, null, comprador);
 		}
 
 		return lancamento;

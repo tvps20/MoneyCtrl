@@ -40,6 +40,10 @@ public class Usuario extends BaseEntity {
 	public Usuario() {
 		this.perfis.add(TipoPerfil.USUARIO);
 	}
+	
+	public Usuario(Long id) {
+		super(id);
+	}
 
 	public Usuario(Long id, String email, String nome, String password) {
 		super(id);
@@ -47,5 +51,13 @@ public class Usuario extends BaseEntity {
 		this.nome = nome;
 		this.password = password;
 		this.perfis.add(TipoPerfil.USUARIO);
+	}
+	
+	public Usuario(Long id, String email, String nome, String password, TipoPerfil perfil) {
+		super(id);
+		this.email = email;
+		this.nome = nome;
+		this.password = password;
+		this.perfis.add(perfil);
 	}
 }

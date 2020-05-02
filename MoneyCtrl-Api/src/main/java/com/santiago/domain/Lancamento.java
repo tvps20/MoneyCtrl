@@ -53,13 +53,19 @@ public class Lancamento extends BaseEntity {
 	@Getter
 	@Setter
 	private Integer parcelaAtual = 1;
+	
+	@Getter
+	@Setter
+	@ManyToOne
+	@JoinColumn(name = "comprador_id", nullable = false)
+	private Comprador comprador;
 
 	// Construtores
 	public Lancamento() {
 	}
 
 	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			boolean parcelado, Fatura fatura, Integer qtdParcela, Integer parcelaAtual) {
+			boolean parcelado, Fatura fatura, Integer qtdParcela, Integer parcelaAtual, Comprador comprador) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
@@ -69,5 +75,6 @@ public class Lancamento extends BaseEntity {
 		this.fatura = fatura;
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;
+		this.comprador = comprador;
 	}
 }

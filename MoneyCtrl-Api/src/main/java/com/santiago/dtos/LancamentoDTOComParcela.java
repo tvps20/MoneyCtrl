@@ -25,8 +25,8 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 	}
 
 	public LancamentoDTOComParcela(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Long faturaId, Integer qtdParcela, Integer parcelaAtual) {
-		super(id, valor, descricao, obsrvacao, dataCompra, faturaId);
+			Long faturaId, Integer qtdParcela, Integer parcelaAtual, Long compradorId) {
+		super(id, valor, descricao, obsrvacao, dataCompra, faturaId, compradorId);
 		this.parcelado = true;
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;
@@ -34,7 +34,7 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 
 	public LancamentoDTOComParcela(Lancamento lancamento) {
 		super(lancamento.getId(), lancamento.getValor(), lancamento.getDescricao(), lancamento.getObsrvacao(),
-				lancamento.getDataCompra(), lancamento.getFatura().getId());
+				lancamento.getDataCompra(), lancamento.getFatura().getId(), lancamento.getComprador().getId());
 		this.parcelado = true;
 		this.qtdParcela = lancamento.getQtdParcela();
 		this.parcelaAtual = lancamento.getParcelaAtual();
