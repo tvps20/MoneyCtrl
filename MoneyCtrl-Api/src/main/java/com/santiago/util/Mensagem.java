@@ -24,6 +24,10 @@ public final class Mensagem {
 	public static String erroObjNotFount(Long id, String claseNome) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound"), id, claseNome);
 	}
+	
+	public static String erroObjNotFount(Long id, String campo, String claseNome) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound.campo"), id, campo, claseNome);
+	}
 
 	public static String erroObjDelete(String claseNome) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.excluir"), claseNome);

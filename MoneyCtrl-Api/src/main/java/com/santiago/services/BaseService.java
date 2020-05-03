@@ -71,7 +71,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 
 		if (!obj.isPresent()) {
 			log.error(Mensagem.erroObjNotFount(id, this.getTClass().getName()));
-			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(id, this.getTClass().getName()));
+			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(id, this.getTClass().getName()), this.getClass());
 		}
 
 		return obj.get();
