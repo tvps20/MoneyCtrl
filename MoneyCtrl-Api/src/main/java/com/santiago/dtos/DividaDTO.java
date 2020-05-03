@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.domain.Divida;
 
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private LocalDate dataDivida = LocalDate.now();
 
@@ -64,7 +66,11 @@ public class DividaDTO extends BaseDTO {
 
 	public DividaDTO(Divida divida) {
 		super(divida.getId());
-		this.faturaId = divida.getFatura().getId();
+
+		if (divida.getFatura() != null) {
+			this.faturaId = divida.getFatura().getId();
+		}
+
 		this.valorTotal = divida.getValorTotal();
 		this.observacao = divida.getObservacao();
 		this.dataDivida = divida.getDataDivida();

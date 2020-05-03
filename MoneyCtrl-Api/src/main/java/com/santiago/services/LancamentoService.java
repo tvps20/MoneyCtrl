@@ -22,9 +22,9 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	@Override
 	public Lancamento fromDTO(LancamentoDTO dto) {
 		log.info("Mapping 'LancamentoDTO' to 'Lancamento': " + this.getTClass().getName());
+		Lancamento lancamento;
 		Fatura fatura = new Fatura(dto.getFaturaId());
 		Comprador comprador = new Comprador(dto.getCompradorId());
-		Lancamento lancamento;
 
 		if (dto.isParcelado()) {
 			LancamentoDTOComParcela dtoComParcela = (LancamentoDTOComParcela) dto;
@@ -40,7 +40,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	}
 
 	public void updateData(Lancamento newObj, Lancamento obj) {
-		log.info("Parse lancamento from newLancamento: " + this.getTClass().getName());
+		log.info("Parse 'lancamento' from 'newLancamento': " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setObservacao(obj.getObservacao());
