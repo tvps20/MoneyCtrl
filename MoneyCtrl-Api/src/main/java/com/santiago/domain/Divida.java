@@ -10,8 +10,10 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@ToString(callSuper = true)
 public class Divida extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

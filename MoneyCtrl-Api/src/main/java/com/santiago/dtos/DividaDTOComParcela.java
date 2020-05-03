@@ -7,7 +7,9 @@ import com.santiago.domain.Divida;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class DividaDTOComParcela extends DividaDTO {
 
 	private static final long serialVersionUID = 1L;

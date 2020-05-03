@@ -14,8 +14,10 @@ import com.santiago.domain.enuns.TipoPerfil;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@ToString(callSuper = true)
 public class Usuario extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

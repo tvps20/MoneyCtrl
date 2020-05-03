@@ -7,7 +7,9 @@ import com.santiago.domain.Lancamento;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class LancamentoDTOComParcela extends LancamentoDTO {
 
 	private static final long serialVersionUID = 1L;

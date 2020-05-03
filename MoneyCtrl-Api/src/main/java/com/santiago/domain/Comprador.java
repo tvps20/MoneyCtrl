@@ -8,8 +8,10 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@ToString(callSuper = true)
 public class Comprador extends Usuario {
 
 	private static final long serialVersionUID = 1L;
