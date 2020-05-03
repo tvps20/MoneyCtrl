@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.santiago.domain.Usuario;
 import com.santiago.services.UsuarioService;
 import com.santiago.services.validation.CustomUnique;
@@ -31,6 +32,7 @@ public class UsuarioDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	@JsonIgnore
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
 	private String password;
 
