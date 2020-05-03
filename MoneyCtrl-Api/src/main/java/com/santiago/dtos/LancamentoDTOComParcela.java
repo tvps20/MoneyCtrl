@@ -37,7 +37,5 @@ public class LancamentoDTOComParcela extends LancamentoDTO {
 		this.parcelado = true;
 		this.qtdParcela = lancamento.getQtdParcela();
 		this.parcelaAtual = lancamento.getParcelaAtual();
-		this.createdAt = lancamento.getCreatedAt();
-		this.updatedAt = lancamento.getUpdatedAt();
 	}
 }

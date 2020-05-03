@@ -71,7 +71,7 @@ public class LancamentoDTO extends BaseDTO {
 		super(lancamento.getId());
 		this.valor = lancamento.getValor();
 		this.descricao = lancamento.getDescricao();
-		this.obsrvacao = lancamento.getObsrvacao();
+		this.obsrvacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
 		this.parcelado = false;
 		this.faturaId = lancamento.getFatura().getId();

@@ -1,7 +1,9 @@
 package com.santiago.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +25,15 @@ public class Divida extends BaseEntity {
 	@Getter
 	@Setter
 	private BigDecimal valorTotal;
+
+	@Getter
+	@Setter
+	private String observacao;
+
+	@Getter
+	@Setter
+	@Column(nullable = false)
+	private LocalDate dataDivida;
 
 	@Getter
 	@Setter
@@ -50,11 +61,13 @@ public class Divida extends BaseEntity {
 	public Divida() {
 	}
 
-	public Divida(Long id, Fatura fatura, BigDecimal valorTotal, boolean paga, boolean parcelada, Integer qtdParcela,
-			Integer parcelaAtual, Comprador comprador) {
+	public Divida(Long id, Fatura fatura, BigDecimal valorTotal, String observacao, LocalDate dataDivida, boolean paga,
+			boolean parcelada, Integer qtdParcela, Integer parcelaAtual, Comprador comprador) {
 		super(id);
 		this.fatura = fatura;
 		this.valorTotal = valorTotal;
+		this.observacao = observacao;
+		this.dataDivida = dataDivida;
 		this.paga = paga;
 		this.parcelada = parcelada;
 		this.qtdParcela = qtdParcela;

@@ -43,7 +43,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		log.info("Parse lancamento from newLancamento: " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
 		newObj.setDescricao(obj.getDescricao());
-		newObj.setObsrvacao(obj.getObsrvacao());
+		newObj.setObservacao(obj.getObservacao());
 		newObj.setParcelado(obj.isParcelado());
 
 		if (obj.isParcelado()) {

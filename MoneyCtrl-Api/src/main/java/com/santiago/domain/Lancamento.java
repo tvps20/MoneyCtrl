@@ -29,7 +29,7 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	private String obsrvacao;
+	private String observacao;
 
 	@Getter
 	@Setter
@@ -69,7 +69,7 @@ public class Lancamento extends BaseEntity {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
-		this.obsrvacao = obsrvacao;
+		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.parcelado = parcelado;
 		this.fatura = fatura;
