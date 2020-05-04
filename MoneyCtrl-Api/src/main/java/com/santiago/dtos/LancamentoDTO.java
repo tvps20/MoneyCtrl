@@ -45,7 +45,7 @@ public class LancamentoDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	protected Long faturaId;
-	
+
 	@Getter
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
