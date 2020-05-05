@@ -8,7 +8,6 @@ import com.santiago.domain.Comprador;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
 import com.santiago.dtos.LancamentoDTO;
-import com.santiago.dtos.LancamentoDTOComParcela;
 import com.santiago.repositories.LancamentoRepository;
 import com.santiago.services.exceptions.DataIntegrityException;
 import com.santiago.services.exceptions.ObjectNotFoundException;
@@ -44,7 +43,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			if(ex.getClassTipo().equals(this.faturaService.getClass())) {
+			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), this.faturaService.getClass());
 			} else {
@@ -62,10 +61,9 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		Comprador comprador = new Comprador(dto.getCompradorId());
 
 		if (dto.isParcelado()) {
-			LancamentoDTOComParcela dtoComParcela = (LancamentoDTOComParcela) dto;
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), dto.isParcelado(), fatura, dtoComParcela.getQtdParcela(),
-					dtoComParcela.getParcelaAtual(), comprador);
+					dto.getDataCompra(), dto.isParcelado(), fatura, dto.getQtdParcela(), dto.getParcelaAtual(),
+					comprador);
 		} else {
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
 					dto.getDataCompra(), dto.isParcelado(), fatura, null, null, comprador);
@@ -79,10 +77,8 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		newObj.setValor(obj.getValor());
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setObservacao(obj.getObservacao());
-		newObj.setParcelado(obj.isParcelado());
 
 		if (obj.isParcelado()) {
-			newObj.setQtdParcela(obj.getQtdParcela());
 			newObj.setParcelaAtual(obj.getParcelaAtual());
 		}
 	}

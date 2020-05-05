@@ -7,6 +7,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.domain.Lancamento;
 
 import lombok.Getter;
@@ -39,10 +41,6 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	protected boolean parcelado = false;
-
-	@Getter
-	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	protected Long faturaId;
 
@@ -51,20 +49,37 @@ public class LancamentoDTO extends BaseDTO {
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	protected Long CompradorId;
 
+	@Getter
+	@Setter
+	protected boolean parcelado = false;
+
+	@Setter
+	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
+	private Integer qtdParcela;
+
+	@Setter
+	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
+	private Integer parcelaAtual;
+
 	// Construtores
 	public LancamentoDTO() {
 	}
 
 	public LancamentoDTO(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Long faturaId, Long compradorId) {
+			Long faturaId, Long compradorId, boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
 		this.obsrvacao = obsrvacao;
 		this.dataCompra = dataCompra;
-		this.parcelado = false;
 		this.faturaId = faturaId;
 		this.CompradorId = compradorId;
+		this.parcelado = parcelado;
+
+		if (parcelado) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
+			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
+		}
 	}
 
 	public LancamentoDTO(Lancamento lancamento) {
@@ -73,10 +88,40 @@ public class LancamentoDTO extends BaseDTO {
 		this.descricao = lancamento.getDescricao();
 		this.obsrvacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
-		this.parcelado = false;
 		this.faturaId = lancamento.getFatura().getId();
 		this.CompradorId = lancamento.getComprador().getId();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
+		this.parcelado = lancamento.isParcelado();
+
+		if (lancamento.isParcelado()) {
+			this.qtdParcela = lancamento.getQtdParcela();
+			this.parcelaAtual = lancamento.getParcelaAtual();
+		}
+	}
+
+	// Getters and Setters
+	public Integer getQtdParcela() {
+		
+		if(this.parcelado) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;			
+		}
+		
+		return qtdParcela;
+	}
+
+	public Integer getParcelaAtual() {
+		
+		if(this.parcelado) {
+			if(this.parcelaAtual != null) {
+				if(this.parcelaAtual > this.qtdParcela) {
+					this.parcelaAtual = this.qtdParcela;
+				} 
+			} else {
+				this.parcelaAtual = 1;
+			}			
+		}
+		
+		return parcelaAtual;
 	}
 }

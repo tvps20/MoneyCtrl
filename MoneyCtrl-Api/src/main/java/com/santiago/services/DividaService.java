@@ -8,7 +8,6 @@ import com.santiago.domain.Comprador;
 import com.santiago.domain.Divida;
 import com.santiago.domain.Fatura;
 import com.santiago.dtos.DividaDTO;
-import com.santiago.dtos.DividaDTOComParcela;
 import com.santiago.repositories.DividaRepository;
 import com.santiago.services.exceptions.DataIntegrityException;
 import com.santiago.services.exceptions.ObjectNotFoundException;
@@ -64,9 +63,8 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		Comprador comprador = new Comprador(dto.getCompradorId());
 
 		if (dto.isParcelada()) {
-			DividaDTOComParcela dtoComParcela = (DividaDTOComParcela) dto;
 			divida = new Divida(dto.getId(), fatura, dto.getValorTotal(), dto.getObservacao(), dto.getDataDivida(),
-					dto.isPaga(), dto.isParcelada(), dtoComParcela.getQtdParcela(), dtoComParcela.getParcelaAtual(),
+					dto.isPaga(), dto.isParcelada(), dto.getQtdParcela(), dto.getParcelaAtual(),
 					comprador);
 		} else {
 			divida = new Divida(dto.getId(), fatura, dto.getValorTotal(), dto.getObservacao(), dto.getDataDivida(),
@@ -81,10 +79,8 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		log.info("Parse 'divida' from 'newDivida': " + this.getTClass().getName());
 		newObj.setValorTotal(obj.getValorTotal());
 		newObj.setObservacao(obj.getObservacao());
-		newObj.setParcelada(obj.isParcelada());
 
 		if (obj.isParcelada()) {
-			newObj.setQtdParcela(obj.getQtdParcela());
 			newObj.setParcelaAtual(obj.getParcelaAtual());
 		}
 	}

@@ -44,27 +44,40 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	protected boolean parcelada = false;
-
-	@Getter
-	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long compradorId;
+	
+	@Getter
+	@Setter
+	protected boolean parcelada = false;
+	
+	@Setter
+	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
+	private Integer qtdParcela;
+
+	@Setter
+	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
+	private Integer parcelaAtual;
 
 	// Construtores
 	public DividaDTO() {
 	}
 
 	public DividaDTO(Long id, Long faturaId, BigDecimal valorTotal, String observacao, LocalDate dataDivida,
-			boolean paga, boolean parcelada, Long compradorId) {
+			boolean paga, Long compradorId, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.faturaId = faturaId;
 		this.valorTotal = valorTotal;
 		this.observacao = observacao;
 		this.dataDivida = dataDivida;
 		this.paga = paga;
-		this.parcelada = parcelada;
 		this.compradorId = compradorId;
+		this.parcelada = parcelada;
+		
+		if (parcelada) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
+			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
+		}
 	}
 
 	public DividaDTO(Divida divida) {
@@ -82,5 +95,36 @@ public class DividaDTO extends BaseDTO {
 		this.compradorId = divida.getComprador().getId();
 		this.createdAt = divida.getCreatedAt();
 		this.updatedAt = divida.getUpdatedAt();
+		this.parcelada = divida.isParcelada();
+
+		if (divida.isParcelada()) {
+			this.qtdParcela = divida.getQtdParcela();
+			this.parcelaAtual = divida.getParcelaAtual();
+		}
+	}
+
+	// Getters and Setters
+	public Integer getQtdParcela() {
+		
+		if(this.parcelada) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;			
+		}
+		
+		return qtdParcela;
+	}
+
+	public Integer getParcelaAtual() {
+		
+		if(this.parcelada) {
+			if(this.parcelaAtual != null) {
+				if(this.parcelaAtual > this.qtdParcela) {
+					this.parcelaAtual = this.qtdParcela;
+				} 
+			} else {
+				this.parcelaAtual = 1;
+			}			
+		}
+		
+		return parcelaAtual;
 	}
 }

@@ -72,13 +72,8 @@ public class FaturaDTO extends BaseDTO {
 		this.cartaoId = fatura.getCartao().getId();
 		this.createdAt = fatura.getCreatedAt();
 		this.updatedAt = fatura.getUpdatedAt();
-		this.lancamentos = fatura.getLancamentos().stream().map(obj -> {
-			if (obj.isParcelado()) {
-				return new LancamentoDTOComParcela(obj);
-			} else {
-				return new LancamentoDTO(obj);
-			}		
-		}).collect(Collectors.toList());
+		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj))
+				.collect(Collectors.toList());
 	}
 
 	// Getters and Setters
