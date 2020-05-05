@@ -20,12 +20,6 @@ public class Divida extends BaseEntity {
 
 	@Getter
 	@Setter
-	@ManyToOne
-	@JoinColumn(name = "fatura_id")
-	private Fatura fatura;
-
-	@Getter
-	@Setter
 	private BigDecimal valorTotal;
 
 	@Getter
@@ -36,6 +30,18 @@ public class Divida extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate dataDivida;
+
+	@Getter
+	@Setter
+	@ManyToOne
+	@JoinColumn(name = "fatura_id")
+	private Fatura fatura;
+
+	@Getter
+	@Setter
+	@ManyToOne
+	@JoinColumn(name = "comprador_id", nullable = false)
+	private Comprador comprador;
 
 	@Getter
 	@Setter
@@ -53,27 +59,21 @@ public class Divida extends BaseEntity {
 	@Setter
 	private Integer parcelaAtual = 1;
 
-	@Getter
-	@Setter
-	@ManyToOne
-	@JoinColumn(name = "comprador_id", nullable = false)
-	private Comprador comprador;
-
 	// Construtores
 	public Divida() {
 	}
 
-	public Divida(Long id, Fatura fatura, BigDecimal valorTotal, String observacao, LocalDate dataDivida, boolean paga,
-			boolean parcelada, Integer qtdParcela, Integer parcelaAtual, Comprador comprador) {
+	public Divida(Long id, BigDecimal valorTotal, String observacao, LocalDate dataDivida, Fatura fatura,
+			Comprador comprador, boolean paga, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
-		this.fatura = fatura;
 		this.valorTotal = valorTotal;
 		this.observacao = observacao;
 		this.dataDivida = dataDivida;
+		this.fatura = fatura;
+		this.comprador = comprador;
 		this.paga = paga;
 		this.parcelada = parcelada;
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;
-		this.comprador = comprador;
 	}
 }

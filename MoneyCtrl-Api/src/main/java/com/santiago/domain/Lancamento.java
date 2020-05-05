@@ -38,13 +38,19 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	protected boolean parcelado;
+	@ManyToOne
+	@JoinColumn(name = "fatura_id", nullable = false)
+	private Fatura fatura;
 
 	@Getter
 	@Setter
 	@ManyToOne
-	@JoinColumn(name = "fatura_id", nullable = false)
-	private Fatura fatura;
+	@JoinColumn(name = "comprador_id", nullable = false)
+	private Comprador comprador;
+
+	@Getter
+	@Setter
+	protected boolean parcelado;
 
 	@Getter
 	@Setter
@@ -53,28 +59,22 @@ public class Lancamento extends BaseEntity {
 	@Getter
 	@Setter
 	private Integer parcelaAtual = 1;
-	
-	@Getter
-	@Setter
-	@ManyToOne
-	@JoinColumn(name = "comprador_id", nullable = false)
-	private Comprador comprador;
 
 	// Construtores
 	public Lancamento() {
 	}
 
 	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			boolean parcelado, Fatura fatura, Integer qtdParcela, Integer parcelaAtual, Comprador comprador) {
+			Fatura fatura, Comprador comprador, boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.valor = valor;
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
-		this.parcelado = parcelado;
 		this.fatura = fatura;
+		this.comprador = comprador;
+		this.parcelado = parcelado;
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;
-		this.comprador = comprador;
 	}
 }

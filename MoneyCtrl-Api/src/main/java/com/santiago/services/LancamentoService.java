@@ -62,11 +62,11 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 		if (dto.isParcelado()) {
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), dto.isParcelado(), fatura, dto.getQtdParcela(), dto.getParcelaAtual(),
-					comprador);
+					dto.getDataCompra(), fatura, comprador, dto.isParcelado(), dto.getQtdParcela(),
+					dto.getParcelaAtual());
 		} else {
 			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), dto.isParcelado(), fatura, null, null, comprador);
+					dto.getDataCompra(), fatura, comprador, dto.isParcelado(), null, null);
 		}
 
 		return lancamento;

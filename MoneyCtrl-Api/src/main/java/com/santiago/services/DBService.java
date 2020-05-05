@@ -52,15 +52,15 @@ public class DBService {
 		Comprador user3 = new Comprador(null, "gilson@email.com", "gilson", "123");
 
 		Lancamento lancamento1 = new Lancamento(null, new BigDecimal(23.53), "Itens para o chachorro",
-				"Comprei tambem uma resistencia", LocalDate.now(), false, fatura1, null, null, user2);
+				"Comprei tambem uma resistencia", LocalDate.now(), fatura1, user2, false, null, null);
 		Lancamento lancamento2 = new Lancamento(null, new BigDecimal(47.27), "CardsofParadise", "cartas de magic",
-				LocalDate.now(), false, fatura1, null, null, user3);
+				LocalDate.now(), fatura1, user3, false, null, null);
 		Lancamento lancamento3 = new Lancamento(null, new BigDecimal(47.27), "Aliexpress", "itens de magic",
-				LocalDate.now(), true, fatura1, 6, 1, user3);
+				LocalDate.now(), fatura1, user3, true, 6, 1);
 
-		Divida divida1 = new Divida(null, fatura1, new BigDecimal(333.38), "", LocalDate.now(), true, false, null, null,
-				user3);
-		Divida divida2 = new Divida(null, null, new BigDecimal(25), "", LocalDate.now(), false, true, 3, 2, user3);
+		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, user3, true, false,
+				null, null);
+		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, user3, false, true, 3, 2);
 
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
