@@ -14,6 +14,7 @@ import com.santiago.domain.Credito;
 import com.santiago.domain.Divida;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
+import com.santiago.domain.Pagamento;
 import com.santiago.domain.Usuario;
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoPerfil;
@@ -23,11 +24,12 @@ import com.santiago.repositories.CreditoRepository;
 import com.santiago.repositories.DividaRepository;
 import com.santiago.repositories.FaturaRepository;
 import com.santiago.repositories.LancamentoRepository;
+import com.santiago.repositories.PagamentoRepository;
 import com.santiago.repositories.UsuarioRepository;
 
 @Service
 public class DBService {
-	
+
 	@Autowired
 	private BandeiraRepository BandeiraRepository;
 
@@ -45,14 +47,17 @@ public class DBService {
 
 	@Autowired
 	private DividaRepository dividaRepository;
-	
+
 	@Autowired
 	private CreditoRepository creditoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public void instantiateTestDatabase() {
 		Bandeira bandeira1 = new Bandeira(null, "mastercard");
 		Bandeira bandeira2 = new Bandeira(null, "visa");
-		
+
 		Cartao cartao1 = new Cartao(null, "master", bandeira1);
 		Cartao cartao2 = new Cartao(null, "nubank", bandeira1);
 		Cartao cartao3 = new Cartao(null, "digio", bandeira2);
@@ -76,7 +81,9 @@ public class DBService {
 		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, false, true, 3, 2);
 
 		Credito credito = new Credito(null, new BigDecimal(20), LocalDate.now(), comprador2);
-		
+		Pagamento pagamento1 = new Pagamento(null, new BigDecimal(10), LocalDate.now(), divida1);
+		Pagamento pagamento2 = new Pagamento(null, new BigDecimal(60), LocalDate.now(), divida1);
+
 		this.BandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
@@ -84,5 +91,6 @@ public class DBService {
 		this.lancamentoRepository.saveAll(Arrays.asList(lancamento1, lancamento2, lancamento3));
 		this.dividaRepository.saveAll(Arrays.asList(divida1, divida2));
 		this.creditoRepository.save(credito);
+		this.pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
 	}
 }

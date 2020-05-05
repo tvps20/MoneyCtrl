@@ -2,6 +2,9 @@ package com.santiago.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -46,11 +49,11 @@ public class DividaDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long compradorId;
-	
+
 	@Getter
 	@Setter
 	protected boolean parcelada = false;
-	
+
 	@Setter
 	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Integer qtdParcela;
@@ -58,6 +61,10 @@ public class DividaDTO extends BaseDTO {
 	@Setter
 	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Integer parcelaAtual;
+
+	@Getter
+	@Setter
+	private List<PagamentoDTO> pagamentos = new ArrayList<>();
 
 	// Construtores
 	public DividaDTO() {
@@ -73,7 +80,7 @@ public class DividaDTO extends BaseDTO {
 		this.paga = paga;
 		this.compradorId = compradorId;
 		this.parcelada = parcelada;
-		
+
 		if (parcelada) {
 			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
 			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
@@ -101,30 +108,32 @@ public class DividaDTO extends BaseDTO {
 			this.qtdParcela = divida.getQtdParcela();
 			this.parcelaAtual = divida.getParcelaAtual();
 		}
+		
+		this.pagamentos = divida.getPagamentos().stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
 	}
 
 	// Getters and Setters
 	public Integer getQtdParcela() {
-		
-		if(this.parcelada) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;			
+
+		if (this.parcelada) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
 		}
-		
+
 		return qtdParcela;
 	}
 
 	public Integer getParcelaAtual() {
-		
-		if(this.parcelada) {
-			if(this.parcelaAtual != null) {
-				if(this.parcelaAtual > this.qtdParcela) {
+
+		if (this.parcelada) {
+			if (this.parcelaAtual != null) {
+				if (this.parcelaAtual > this.qtdParcela) {
 					this.parcelaAtual = this.qtdParcela;
-				} 
+				}
 			} else {
 				this.parcelaAtual = 1;
-			}			
+			}
 		}
-		
+
 		return parcelaAtual;
 	}
 }

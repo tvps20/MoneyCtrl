@@ -61,7 +61,7 @@ public class Divida extends BaseEntity {
 	@Getter
 	@Setter
 	private Integer parcelaAtual = 1;
-	
+
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "divida")
@@ -69,6 +69,10 @@ public class Divida extends BaseEntity {
 
 	// Construtores
 	public Divida() {
+	}
+
+	public Divida(Long id) {
+		super(id);
 	}
 
 	public Divida(Long id, BigDecimal valorTotal, String observacao, LocalDate dataDivida, Fatura fatura,
