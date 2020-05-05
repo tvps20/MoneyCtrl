@@ -37,7 +37,7 @@ public class LancamentoDTO extends BaseDTO {
 	@Setter
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private LocalDate dataCompra;
+	private LocalDate dataCompra = LocalDate.now();
 
 	@Getter
 	@Setter

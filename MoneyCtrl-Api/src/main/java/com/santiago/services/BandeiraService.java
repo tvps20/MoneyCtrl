@@ -25,7 +25,7 @@ public class BandeiraService extends BaseService<Bandeira, BandeiraDTO> implemen
 
 	@Override
 	public void updateData(Bandeira newObj, Bandeira obj) {
-		log.info("Parse 'bandeira' from 'newUsuario': " + this.getTClass().getName());
+		log.info("Parse 'bandeira' from 'newBandeira': " + this.getTClass().getName());
 		newObj.setNome(obj.getNome());
 	}
 
