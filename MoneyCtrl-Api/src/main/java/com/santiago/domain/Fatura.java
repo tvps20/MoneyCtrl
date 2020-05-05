@@ -1,6 +1,5 @@
 package com.santiago.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +30,6 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
-	private BigDecimal valorTotal;
-
-	@Getter
-	@Setter
 	private String observacao;
 
 	@Getter
@@ -59,15 +54,14 @@ public class Fatura extends BaseEntity {
 	// Construtores
 	public Fatura() {
 	}
-	
+
 	public Fatura(Long id) {
 		super(id);
 	}
 
-	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente, Cartao cartao) {
+	public Fatura(Long id, LocalDate vencimento, String observacao, TipoMes mesReferente, Cartao cartao) {
 		super(id);
 		this.vencimento = vencimento;
-		this.valorTotal = valorTotal;
 		this.observacao = observacao;
 		this.mesReferente = mesReferente;
 		this.cartao = cartao;

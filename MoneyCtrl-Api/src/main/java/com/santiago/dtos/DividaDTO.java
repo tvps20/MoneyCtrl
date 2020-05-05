@@ -29,7 +29,7 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private BigDecimal valorTotal;
+	private BigDecimal valor;
 
 	@Getter
 	@Setter
@@ -70,11 +70,11 @@ public class DividaDTO extends BaseDTO {
 	public DividaDTO() {
 	}
 
-	public DividaDTO(Long id, Long faturaId, BigDecimal valorTotal, String observacao, LocalDate dataDivida,
-			boolean paga, Long compradorId, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
+	public DividaDTO(Long id, Long faturaId, BigDecimal valor, String observacao, LocalDate dataDivida, boolean paga,
+			Long compradorId, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.faturaId = faturaId;
-		this.valorTotal = valorTotal;
+		this.valor = valor;
 		this.observacao = observacao;
 		this.dataDivida = dataDivida;
 		this.paga = paga;
@@ -94,7 +94,7 @@ public class DividaDTO extends BaseDTO {
 			this.faturaId = divida.getFatura().getId();
 		}
 
-		this.valorTotal = divida.getValorTotal();
+		this.valor = divida.getValor();
 		this.observacao = divida.getObservacao();
 		this.dataDivida = divida.getDataDivida();
 		this.paga = divida.isPaga();
@@ -108,8 +108,9 @@ public class DividaDTO extends BaseDTO {
 			this.qtdParcela = divida.getQtdParcela();
 			this.parcelaAtual = divida.getParcelaAtual();
 		}
-		
-		this.pagamentos = divida.getPagamentos().stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
+
+		this.pagamentos = divida.getPagamentos().stream().map(obj -> new PagamentoDTO(obj))
+				.collect(Collectors.toList());
 	}
 
 	// Getters and Setters
@@ -135,5 +136,11 @@ public class DividaDTO extends BaseDTO {
 		}
 
 		return parcelaAtual;
+	}
+	
+	public BigDecimal getPagamentoTotal() {
+		double total = this.pagamentos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+
+		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }

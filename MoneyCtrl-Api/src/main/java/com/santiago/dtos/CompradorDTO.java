@@ -1,5 +1,6 @@
 package com.santiago.dtos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,5 +39,18 @@ public class CompradorDTO extends UsuarioDTO {
 		this.devedor = false;
 		this.dividas = comprador.getDividas().stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
 		this.creditos = comprador.getCreditos().stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
+	}
+
+	// Getters and Setters
+	public BigDecimal getDividaTotal() {
+		double total = this.dividas.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+
+		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+	}
+
+	public BigDecimal getCreditoTotal() {
+		double total = this.creditos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+
+		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }

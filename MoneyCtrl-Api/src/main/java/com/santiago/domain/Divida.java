@@ -23,7 +23,7 @@ public class Divida extends BaseEntity {
 
 	@Getter
 	@Setter
-	private BigDecimal valorTotal;
+	private BigDecimal valor;
 
 	@Getter
 	@Setter
@@ -75,10 +75,10 @@ public class Divida extends BaseEntity {
 		super(id);
 	}
 
-	public Divida(Long id, BigDecimal valorTotal, String observacao, LocalDate dataDivida, Fatura fatura,
+	public Divida(Long id, BigDecimal valor, String observacao, LocalDate dataDivida, Fatura fatura,
 			Comprador comprador, boolean paga, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
-		this.valorTotal = valorTotal;
+		this.valor = valor;
 		this.observacao = observacao;
 		this.dataDivida = dataDivida;
 		this.fatura = fatura;

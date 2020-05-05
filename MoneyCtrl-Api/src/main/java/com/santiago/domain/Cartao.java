@@ -23,7 +23,7 @@ public class Cartao extends BaseEntity {
 	@Setter
 	@Column(unique = true, nullable = false)
 	private String nome;
-	
+
 	@Getter
 	@Setter
 	@ManyToOne
@@ -38,7 +38,7 @@ public class Cartao extends BaseEntity {
 	// Construtores
 	public Cartao() {
 	}
-	
+
 	public Cartao(Long id) {
 		super(id);
 	}

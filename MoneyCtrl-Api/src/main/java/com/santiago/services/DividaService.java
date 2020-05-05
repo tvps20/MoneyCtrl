@@ -63,10 +63,10 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		Comprador comprador = new Comprador(dto.getCompradorId());
 
 		if (dto.isParcelada()) {
-			divida = new Divida(dto.getId(), dto.getValorTotal(), dto.getObservacao(), dto.getDataDivida(), fatura,
+			divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
 					comprador, dto.isPaga(), dto.isParcelada(), dto.getQtdParcela(), dto.getParcelaAtual());
 		} else {
-			divida = new Divida(dto.getId(), dto.getValorTotal(), dto.getObservacao(), dto.getDataDivida(), fatura,
+			divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
 					comprador, dto.isPaga(), dto.isParcelada(), null, null);
 		}
 
@@ -76,7 +76,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 	@Override
 	public void updateData(Divida newObj, Divida obj) {
 		log.info("Parse 'divida' from 'newDivida': " + this.getTClass().getName());
-		newObj.setValorTotal(obj.getValorTotal());
+		newObj.setValor(obj.getValor());
 		newObj.setObservacao(obj.getObservacao());
 
 		if (obj.isParcelada()) {

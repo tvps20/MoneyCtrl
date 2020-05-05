@@ -62,8 +62,7 @@ public class DBService {
 		Cartao cartao2 = new Cartao(null, "nubank", bandeira1);
 		Cartao cartao3 = new Cartao(null, "digio", bandeira2);
 
-		Fatura fatura1 = new Fatura(null, LocalDate.now(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO,
-				cartao1);
+		Fatura fatura1 = new Fatura(null, LocalDate.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 
 		Usuario user1 = new Usuario(null, "thiago@email.com", "thiago", "123", TipoPerfil.ADMIN);
 		Comprador comprador2 = new Comprador(null, "filipe@email.com", "filipe", "123");

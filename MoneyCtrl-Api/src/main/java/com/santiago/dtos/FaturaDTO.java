@@ -30,10 +30,6 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private BigDecimal valorTotal;
-
-	@Getter
-	@Setter
 	private String observacao;
 
 	@Getter
@@ -54,10 +50,9 @@ public class FaturaDTO extends BaseDTO {
 	public FaturaDTO() {
 	}
 
-	public FaturaDTO(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, Long cartaoId) {
+	public FaturaDTO(Long id, LocalDate vencimento, String observacao, Long cartaoId) {
 		super(id);
 		this.vencimento = vencimento;
-		this.valorTotal = valorTotal;
 		this.observacao = observacao;
 		this.cartaoId = cartaoId;
 		this.gerarMesReferente();
@@ -66,7 +61,6 @@ public class FaturaDTO extends BaseDTO {
 	public FaturaDTO(Fatura fatura) {
 		super(fatura.getId());
 		this.vencimento = fatura.getVencimento();
-		this.valorTotal = fatura.getValorTotal();
 		this.observacao = fatura.getObservacao();
 		this.mesReferente = fatura.getMesReferente();
 		this.cartaoId = fatura.getCartao().getId();
@@ -92,6 +86,12 @@ public class FaturaDTO extends BaseDTO {
 
 	public void setMesReferente(String mesReferente) {
 		this.mesReferente = TipoMes.toEnum(mesReferente);
+	}
+
+	public BigDecimal getValorTotal() {
+		double total = this.lancamentos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+
+		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 
 	// Metodos
