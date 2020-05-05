@@ -8,6 +8,9 @@ import com.santiago.domain.Fatura;
 import com.santiago.dtos.FaturaDTO;
 import com.santiago.services.FaturaService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/fatura")
 public class FaturaController extends BaseController<Fatura, FaturaDTO> {
@@ -19,6 +22,7 @@ public class FaturaController extends BaseController<Fatura, FaturaDTO> {
 
 	@Override
 	public FaturaDTO newClassDTO(Fatura obj) {
+		log.info("Mapping 'Fatura' to 'FaturaDTO': " + this.getClass().getName());
 		return new FaturaDTO(obj);
 	}
 }

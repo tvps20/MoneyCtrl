@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.Getter;
@@ -15,7 +13,7 @@ import lombok.ToString;
 
 @Entity
 @ToString(callSuper = true)
-public class Cartao extends BaseEntity {
+public class Bandeira extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,26 +24,19 @@ public class Cartao extends BaseEntity {
 
 	@Getter
 	@Setter
-	@ManyToOne
-	@JoinColumn(name = "bandeira_id", nullable = false)
-	private Bandeira bandeira;
-
-	@Getter
-	@Setter
-	@OneToMany(mappedBy = "cartao")
-	private List<Fatura> faturas = new ArrayList<>();
+	@OneToMany(mappedBy = "bandeira")
+	private List<Cartao> cartoes = new ArrayList<>();
 
 	// Construtores
-	public Cartao() {
+	public Bandeira() {
 	}
 
-	public Cartao(Long id) {
+	public Bandeira(Long id) {
 		super(id);
 	}
 
-	public Cartao(Long id, String nome, Bandeira bandeira) {
+	public Bandeira(Long id, String nome) {
 		super(id);
 		this.nome = nome;
-		this.bandeira = bandeira;
 	}
 }

@@ -4,25 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.santiago.domain.Cartao;
-import com.santiago.dtos.CartaoDTO;
-import com.santiago.services.CartaoService;
+import com.santiago.domain.Credito;
+import com.santiago.dtos.CreditoDTO;
+import com.santiago.services.CreditoService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/cartao")
-public class CartaoController extends BaseController<Cartao, CartaoDTO> {
+@RequestMapping("/credito")
+public class CreditoController extends BaseController<Credito, CreditoDTO> {
 
 	@Autowired
-	public CartaoController(CartaoService service) {
+	public CreditoController(CreditoService service) {
 		super(service);
 	}
 
 	@Override
-	public CartaoDTO newClassDTO(Cartao obj) {
+	public CreditoDTO newClassDTO(Credito obj) {
 		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
-		return new CartaoDTO(obj);
+		return new CreditoDTO(obj);
 	}
 }

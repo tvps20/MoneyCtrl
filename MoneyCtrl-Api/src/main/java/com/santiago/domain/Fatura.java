@@ -1,12 +1,14 @@
 package com.santiago.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoStatus;
@@ -28,10 +30,6 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
-	private BigDecimal valorTotal;
-
-	@Getter
-	@Setter
 	private String observacao;
 
 	@Getter
@@ -48,21 +46,24 @@ public class Fatura extends BaseEntity {
 	@JoinColumn(name = "cartao_id", nullable = false)
 	private Cartao cartao;
 
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "fatura")
+	private List<Lancamento> lancamentos = new ArrayList<>();
+
 	// Construtores
 	public Fatura() {
 	}
 
-	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente) {
+	public Fatura(Long id) {
 		super(id);
-		this.vencimento = vencimento;
-		this.valorTotal = valorTotal;
-		this.observacao = observacao;
-		this.mesReferente = mesReferente;
 	}
 
-	public Fatura(Long id, LocalDate vencimento, BigDecimal valorTotal, String observacao, TipoMes mesReferente,
-			Cartao cartao) {
-		this(id, vencimento, valorTotal, observacao, mesReferente);
+	public Fatura(Long id, LocalDate vencimento, String observacao, TipoMes mesReferente, Cartao cartao) {
+		super(id);
+		this.vencimento = vencimento;
+		this.observacao = observacao;
+		this.mesReferente = mesReferente;
 		this.cartao = cartao;
 	}
 }
