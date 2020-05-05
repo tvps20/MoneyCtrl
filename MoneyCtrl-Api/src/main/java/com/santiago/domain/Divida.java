@@ -52,18 +52,6 @@ public class Divida extends BaseEntity {
 
 	@Getter
 	@Setter
-	private boolean parcelada;
-
-	@Getter
-	@Setter
-	private Integer qtdParcela = 2;
-
-	@Getter
-	@Setter
-	private Integer parcelaAtual = 1;
-
-	@Getter
-	@Setter
 	@OneToMany(mappedBy = "divida")
 	private List<Pagamento> pagamentos = new ArrayList<>();
 
@@ -76,7 +64,7 @@ public class Divida extends BaseEntity {
 	}
 
 	public Divida(Long id, BigDecimal valor, String observacao, LocalDate dataDivida, Fatura fatura,
-			Comprador comprador, boolean paga, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
+			Comprador comprador, boolean paga) {
 		super(id);
 		this.valor = valor;
 		this.observacao = observacao;
@@ -84,8 +72,5 @@ public class Divida extends BaseEntity {
 		this.fatura = fatura;
 		this.comprador = comprador;
 		this.paga = paga;
-		this.parcelada = parcelada;
-		this.qtdParcela = qtdParcela;
-		this.parcelaAtual = parcelaAtual;
 	}
 }

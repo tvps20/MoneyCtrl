@@ -52,18 +52,6 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	protected boolean parcelada = false;
-
-	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
-	private Integer qtdParcela;
-
-	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
-	private Integer parcelaAtual;
-
-	@Getter
-	@Setter
 	private List<PagamentoDTO> pagamentos = new ArrayList<>();
 
 	// Construtores
@@ -71,7 +59,7 @@ public class DividaDTO extends BaseDTO {
 	}
 
 	public DividaDTO(Long id, Long faturaId, BigDecimal valor, String observacao, LocalDate dataDivida, boolean paga,
-			Long compradorId, boolean parcelada, Integer qtdParcela, Integer parcelaAtual) {
+			Long compradorId) {
 		super(id);
 		this.faturaId = faturaId;
 		this.valor = valor;
@@ -79,12 +67,6 @@ public class DividaDTO extends BaseDTO {
 		this.dataDivida = dataDivida;
 		this.paga = paga;
 		this.compradorId = compradorId;
-		this.parcelada = parcelada;
-
-		if (parcelada) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
-			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
-		}
 	}
 
 	public DividaDTO(Divida divida) {
@@ -98,46 +80,15 @@ public class DividaDTO extends BaseDTO {
 		this.observacao = divida.getObservacao();
 		this.dataDivida = divida.getDataDivida();
 		this.paga = divida.isPaga();
-		this.parcelada = false;
 		this.compradorId = divida.getComprador().getId();
 		this.createdAt = divida.getCreatedAt();
 		this.updatedAt = divida.getUpdatedAt();
-		this.parcelada = divida.isParcelada();
-
-		if (divida.isParcelada()) {
-			this.qtdParcela = divida.getQtdParcela();
-			this.parcelaAtual = divida.getParcelaAtual();
-		}
 
 		this.pagamentos = divida.getPagamentos().stream().map(obj -> new PagamentoDTO(obj))
 				.collect(Collectors.toList());
 	}
 
 	// Getters and Setters
-	public Integer getQtdParcela() {
-
-		if (this.parcelada) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
-		}
-
-		return qtdParcela;
-	}
-
-	public Integer getParcelaAtual() {
-
-		if (this.parcelada) {
-			if (this.parcelaAtual != null) {
-				if (this.parcelaAtual > this.qtdParcela) {
-					this.parcelaAtual = this.qtdParcela;
-				}
-			} else {
-				this.parcelaAtual = 1;
-			}
-		}
-
-		return parcelaAtual;
-	}
-	
 	public BigDecimal getPagamentoTotal() {
 		double total = this.pagamentos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
 

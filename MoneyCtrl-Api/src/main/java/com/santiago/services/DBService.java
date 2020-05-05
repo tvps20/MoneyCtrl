@@ -75,9 +75,8 @@ public class DBService {
 		Lancamento lancamento3 = new Lancamento(null, new BigDecimal(47.27), "Aliexpress", "itens de magic",
 				LocalDate.now(), fatura1, comprador3, true, 6, 1);
 
-		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, true, false,
-				null, null);
-		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, false, true, 3, 2);
+		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, false);
+		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, true);
 
 		Credito credito = new Credito(null, new BigDecimal(20), LocalDate.now(), comprador2);
 		Pagamento pagamento1 = new Pagamento(null, new BigDecimal(10), LocalDate.now(), divida1);

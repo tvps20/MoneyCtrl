@@ -58,17 +58,10 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 	@Override
 	public Divida fromDTO(DividaDTO dto) {
 		log.info("Mapping 'DividaDTO' to 'Divida': " + this.getTClass().getName());
-		Divida divida;
 		Fatura fatura = dto.getFaturaId() != null ? new Fatura(dto.getFaturaId()) : null;
 		Comprador comprador = new Comprador(dto.getCompradorId());
-
-		if (dto.isParcelada()) {
-			divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
-					comprador, dto.isPaga(), dto.isParcelada(), dto.getQtdParcela(), dto.getParcelaAtual());
-		} else {
-			divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
-					comprador, dto.isPaga(), dto.isParcelada(), null, null);
-		}
+		Divida divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
+				comprador, dto.isPaga());
 
 		return divida;
 	}
@@ -78,10 +71,6 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		log.info("Parse 'divida' from 'newDivida': " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
 		newObj.setObservacao(obj.getObservacao());
-
-		if (obj.isParcelada()) {
-			newObj.setParcelaAtual(obj.getParcelaAtual());
-		}
 	}
 
 	@Override
