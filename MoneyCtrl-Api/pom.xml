@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.santiago</groupId>
-	<artifactId>MoneyCtrl-Api</artifactId>
+	<artifactId>MoneyCtrl</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 	
-	<name>MoneyCtrl-Api</name>
+	<name>MoneyCtrl</name>
 	<description>Api para aplicação de gerenciamento de contas</description>
 	
 	<parent>
