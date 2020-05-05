@@ -25,7 +25,7 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> implements 
 
 	@Override
 	public void updateData(Usuario newObj, Usuario obj) {
-		log.info("Parse usuario from newUsuario: " + this.getTClass().getName());
+		log.info("Parse 'usuario' from 'newUsuario': " + this.getTClass().getName());
 		newObj.setEmail(obj.getEmail());
 		newObj.setPassword(obj.getPassword());
 		newObj.setNome(obj.getNome());

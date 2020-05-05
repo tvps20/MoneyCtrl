@@ -1,7 +1,11 @@
 package com.santiago.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +22,17 @@ public class Bandeira extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String nome;
 
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "bandeira")
+	private List<Cartao> cartoes = new ArrayList<>();
+
 	// Construtores
 	public Bandeira() {
+	}
+
+	public Bandeira(Long id) {
+		super(id);
 	}
 
 	public Bandeira(Long id, String nome) {

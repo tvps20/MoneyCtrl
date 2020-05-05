@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.santiago.domain.Bandeira;
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Comprador;
 import com.santiago.domain.Divida;
@@ -15,6 +16,7 @@ import com.santiago.domain.Lancamento;
 import com.santiago.domain.Usuario;
 import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoPerfil;
+import com.santiago.repositories.BandeiraRepository;
 import com.santiago.repositories.CartaoRepository;
 import com.santiago.repositories.DividaRepository;
 import com.santiago.repositories.FaturaRepository;
@@ -23,6 +25,9 @@ import com.santiago.repositories.UsuarioRepository;
 
 @Service
 public class DBService {
+	
+	@Autowired
+	private BandeiraRepository BandeiraRepository;
 
 	@Autowired
 	private CartaoRepository cartaoRepository;
@@ -40,9 +45,12 @@ public class DBService {
 	private DividaRepository dividaRepository;
 
 	public void instantiateTestDatabase() {
-		Cartao cartao1 = new Cartao(null, "mastercard");
-		Cartao cartao2 = new Cartao(null, "nubank");
-		Cartao cartao3 = new Cartao(null, "visa");
+		Bandeira bandeira1 = new Bandeira(null, "mastercard");
+		Bandeira bandeira2 = new Bandeira(null, "visa");
+		
+		Cartao cartao1 = new Cartao(null, "master", bandeira1);
+		Cartao cartao2 = new Cartao(null, "nubank", bandeira1);
+		Cartao cartao3 = new Cartao(null, "digio", bandeira2);
 
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), new BigDecimal(100), "fatura de janeiro", TipoMes.JANEIRO,
 				cartao1);
@@ -62,6 +70,7 @@ public class DBService {
 				null, null);
 		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, user3, false, true, 3, 2);
 
+		this.BandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
 		this.usuarioRepository.saveAll(Arrays.asList(user1, user2, user3));

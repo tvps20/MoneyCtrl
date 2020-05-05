@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.Getter;
@@ -21,6 +23,12 @@ public class Cartao extends BaseEntity {
 	@Setter
 	@Column(unique = true, nullable = false)
 	private String nome;
+	
+	@Getter
+	@Setter
+	@ManyToOne
+	@JoinColumn(name = "bandeira_id", nullable = false)
+	private Bandeira bandeira;
 
 	@Getter
 	@Setter
@@ -35,8 +43,9 @@ public class Cartao extends BaseEntity {
 		super(id);
 	}
 
-	public Cartao(Long id, String nome) {
+	public Cartao(Long id, String nome, Bandeira bandeira) {
 		super(id);
 		this.nome = nome;
+		this.bandeira = bandeira;
 	}
 }

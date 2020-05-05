@@ -24,6 +24,11 @@ public class Comprador extends Usuario {
 	@Setter
 	@OneToMany(mappedBy = "comprador")
 	private List<Divida> dividas = new ArrayList<>();
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "comprador")
+	private List<Credito> creditos = new ArrayList<>();
 
 	// Construtores
 	public Comprador() {

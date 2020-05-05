@@ -2,11 +2,14 @@ package com.santiago.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -58,6 +61,11 @@ public class Divida extends BaseEntity {
 	@Getter
 	@Setter
 	private Integer parcelaAtual = 1;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "divida")
+	private List<Pagamento> pagamentos = new ArrayList<>();
 
 	// Construtores
 	public Divida() {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -27,6 +28,11 @@ public class CartaoDTO extends BaseDTO {
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
 	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
 	private String nome;
+	
+	@Getter
+	@Setter
+	@NotNull(message = "{validation.erro.model.notEmpty}")
+	protected Long bandeiraId;
 
 	@Getter
 	@Setter
@@ -36,14 +42,16 @@ public class CartaoDTO extends BaseDTO {
 	public CartaoDTO() {
 	}
 
-	public CartaoDTO(Long id, String nome) {
+	public CartaoDTO(Long id, String nome, Long bandeira) {
 		super(id);
 		this.nome = nome;
+		this.bandeiraId = bandeira;
 	}
 
 	public CartaoDTO(Cartao cartao) {
 		super(cartao.getId());
 		this.nome = cartao.getNome();
+		this.bandeiraId = cartao.getBandeira().getId();
 		this.createdAt = cartao.getCreatedAt();
 		this.updatedAt = cartao.getUpdatedAt();
 		this.faturas = cartao.getFaturas().stream().map(obj -> new FaturaDTO(obj)).collect(Collectors.toList());

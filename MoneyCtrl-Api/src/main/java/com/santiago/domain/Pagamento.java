@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +26,10 @@ public class Pagamento extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate data;
+	
+	@Getter
+	@Setter
+	@ManyToOne
+	@JoinColumn(name = "divida_id", nullable = false)
+	private Divida divida;
 }
