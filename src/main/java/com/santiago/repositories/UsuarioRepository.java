@@ -9,6 +9,6 @@ import com.santiago.domain.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	@Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM USUARIO c WHERE c.email = ?1) THEN CAST (1 as BIT) ELSE CAST (0 as BIT) END", nativeQuery = true)
+	@Query("SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END FROM Usuario c WHERE c.email = :campo")
 	boolean verificarCampoUnico(String campo);
 }

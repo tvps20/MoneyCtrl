@@ -2,6 +2,7 @@ package com.santiago.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.santiago.domain.Bandeira;
@@ -9,6 +10,6 @@ import com.santiago.domain.Bandeira;
 @Repository
 public interface BandeiraRepository extends JpaRepository<Bandeira, Long> {
 
-	@Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM BANDEIRA c WHERE c.nome = ?1) THEN CAST (1 as BIT) ELSE CAST (0 as BIT) END", nativeQuery = true)
-	boolean verificarCampoUnico(String campo);
+	@Query("SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END FROM Bandeira c WHERE c.nome = :campo")
+	boolean verificarCampoUnico(@Param("campo") String campo);
 }
