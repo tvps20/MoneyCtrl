@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.domain.Credito;
 
 import lombok.Getter;
@@ -13,6 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString(callSuper = true)
+@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 public class CreditoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
@@ -48,7 +51,5 @@ public class CreditoDTO extends BaseDTO {
 		this.valor = credito.getValor();
 		this.data = credito.getData();
 		this.compradorId = credito.getComprador().getId();
-		this.createdAt = credito.getCreatedAt();
-		this.updatedAt = credito.getUpdatedAt();
 	}
 }

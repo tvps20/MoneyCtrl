@@ -2,7 +2,11 @@ package com.santiago.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -19,10 +23,6 @@ import lombok.ToString;
 public class LancamentoDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;
-
-	@Getter
-	@Setter
-	private BigDecimal valor;
 
 	@Getter
 	@Setter
@@ -46,11 +46,6 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
-	protected Long CompradorId;
-
-	@Getter
-	@Setter
 	protected boolean parcelado = false;
 
 	@Setter
@@ -61,6 +56,12 @@ public class LancamentoDTO extends BaseDTO {
 	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Integer parcelaAtual;
 
+	@Getter
+	@Setter
+	@Valid
+	@NotEmpty(message = "{validation.erro.model.notEmpty.list}")
+	private List<CotaDTO> compradores = new ArrayList<>();
+
 	// Construtores
 	public LancamentoDTO() {
 	}
@@ -68,12 +69,10 @@ public class LancamentoDTO extends BaseDTO {
 	public LancamentoDTO(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
 			Long faturaId, Long compradorId, boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
-		this.valor = valor;
 		this.descricao = descricao;
 		this.obsrvacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.faturaId = faturaId;
-		this.CompradorId = compradorId;
 		this.parcelado = parcelado;
 
 		if (parcelado) {
@@ -84,15 +83,15 @@ public class LancamentoDTO extends BaseDTO {
 
 	public LancamentoDTO(Lancamento lancamento) {
 		super(lancamento.getId());
-		this.valor = lancamento.getValor();
 		this.descricao = lancamento.getDescricao();
 		this.obsrvacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
 		this.faturaId = lancamento.getFatura().getId();
-		this.CompradorId = lancamento.getComprador().getId();
 		this.createdAt = lancamento.getCreatedAt();
 		this.updatedAt = lancamento.getUpdatedAt();
 		this.parcelado = lancamento.isParcelado();
+		this.compradores = lancamento.getCompradores().stream().map(obj -> new CotaDTO(obj))
+				.collect(Collectors.toList());
 
 		if (lancamento.isParcelado()) {
 			this.qtdParcela = lancamento.getQtdParcela();
@@ -102,26 +101,32 @@ public class LancamentoDTO extends BaseDTO {
 
 	// Getters and Setters
 	public Integer getQtdParcela() {
-		
-		if(this.parcelado) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;			
+
+		if (this.parcelado) {
+			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
 		}
-		
+
 		return qtdParcela;
 	}
 
 	public Integer getParcelaAtual() {
-		
-		if(this.parcelado) {
-			if(this.parcelaAtual != null) {
-				if(this.parcelaAtual > this.qtdParcela) {
+
+		if (this.parcelado) {
+			if (this.parcelaAtual != null) {
+				if (this.parcelaAtual > this.qtdParcela) {
 					this.parcelaAtual = this.qtdParcela;
-				} 
+				}
 			} else {
 				this.parcelaAtual = 1;
-			}			
+			}
 		}
-		
+
 		return parcelaAtual;
+	}
+
+	public BigDecimal getValorTotal() {
+		double total = this.compradores.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+
+		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }

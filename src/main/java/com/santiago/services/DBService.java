@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.santiago.domain.Bandeira;
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Comprador;
+import com.santiago.domain.Cota;
 import com.santiago.domain.Credito;
 import com.santiago.domain.Divida;
 import com.santiago.domain.Fatura;
@@ -20,6 +21,7 @@ import com.santiago.domain.enuns.TipoMes;
 import com.santiago.domain.enuns.TipoPerfil;
 import com.santiago.repositories.BandeiraRepository;
 import com.santiago.repositories.CartaoRepository;
+import com.santiago.repositories.CotaRepository;
 import com.santiago.repositories.CreditoRepository;
 import com.santiago.repositories.DividaRepository;
 import com.santiago.repositories.FaturaRepository;
@@ -54,6 +56,9 @@ public class DBService {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 
+	@Autowired
+	private CotaRepository cotaRepository;
+
 	public void instantiateTestDatabase() {
 		Bandeira bandeira1 = new Bandeira(null, "mastercard");
 		Bandeira bandeira2 = new Bandeira(null, "visa");
@@ -68,12 +73,17 @@ public class DBService {
 		Comprador comprador2 = new Comprador(null, "filipe@email.com", "filipe", "123");
 		Comprador comprador3 = new Comprador(null, "gilson@email.com", "gilson", "123");
 
-		Lancamento lancamento1 = new Lancamento(null, new BigDecimal(23.53), "Itens para o chachorro",
-				"Comprei tambem uma resistencia", LocalDate.now(), fatura1, comprador2, false, null, null);
-		Lancamento lancamento2 = new Lancamento(null, new BigDecimal(47.27), "CardsofParadise", "cartas de magic",
-				LocalDate.now(), fatura1, comprador3, false, null, null);
-		Lancamento lancamento3 = new Lancamento(null, new BigDecimal(47.27), "Aliexpress", "itens de magic",
-				LocalDate.now(), fatura1, comprador3, true, 6, 1);
+		Lancamento lancamento1 = new Lancamento(null, "Itens para o chachorro", "Comprei tambem uma resistencia",
+				LocalDate.now(), fatura1, false, null, null);
+		Lancamento lancamento2 = new Lancamento(null, "CardsofParadise", "cartas de magic", LocalDate.now(), fatura1,
+				false, null, null);
+		Lancamento lancamento3 = new Lancamento(null, "Aliexpress", "itens de magic", LocalDate.now(), fatura1, true, 6,
+				1);
+
+		Cota cota1 = new Cota(null, new BigDecimal(23.53), comprador2, lancamento1);
+		Cota cota2 = new Cota(null, new BigDecimal(47.27), comprador3, lancamento2);
+		Cota cota3 = new Cota(null, new BigDecimal(10.27), comprador3, lancamento3);
+		Cota cota4 = new Cota(null, new BigDecimal(6.27), comprador3, lancamento3);
 
 		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, false);
 		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, true);
@@ -87,6 +97,7 @@ public class DBService {
 		this.faturaRepository.save(fatura1);
 		this.usuarioRepository.saveAll(Arrays.asList(user1, comprador2, comprador3));
 		this.lancamentoRepository.saveAll(Arrays.asList(lancamento1, lancamento2, lancamento3));
+		this.cotaRepository.saveAll(Arrays.asList(cota1, cota2, cota3, cota4));
 		this.dividaRepository.saveAll(Arrays.asList(divida1, divida2));
 		this.creditoRepository.save(credito);
 		this.pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));

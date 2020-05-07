@@ -1,12 +1,14 @@
 package com.santiago.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,10 +19,6 @@ import lombok.ToString;
 public class Lancamento extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-
-	@Getter
-	@Setter
-	private BigDecimal valor;
 
 	@Getter
 	@Setter
@@ -44,12 +42,6 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	@ManyToOne
-	@JoinColumn(name = "comprador_id", nullable = false)
-	private Comprador comprador;
-
-	@Getter
-	@Setter
 	protected boolean parcelado;
 
 	@Getter
@@ -60,19 +52,22 @@ public class Lancamento extends BaseEntity {
 	@Setter
 	private Integer parcelaAtual = 1;
 
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "lancamento")
+	private List<Cota> compradores = new ArrayList<>();
+
 	// Construtores
 	public Lancamento() {
 	}
 
-	public Lancamento(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Fatura fatura, Comprador comprador, boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
+	public Lancamento(Long id, String descricao, String obsrvacao, LocalDate dataCompra, Fatura fatura,
+			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
-		this.valor = valor;
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.fatura = fatura;
-		this.comprador = comprador;
 		this.parcelado = parcelado;
 		this.qtdParcela = qtdParcela;
 		this.parcelaAtual = parcelaAtual;

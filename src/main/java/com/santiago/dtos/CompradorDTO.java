@@ -17,6 +17,10 @@ public class CompradorDTO extends UsuarioDTO {
 	@Getter
 	@Setter
 	private boolean devedor;
+	
+	@Getter
+	@Setter
+	private List<CotaDTO> lancamentos = new ArrayList<>();
 
 	@Getter
 	@Setter
@@ -39,6 +43,7 @@ public class CompradorDTO extends UsuarioDTO {
 		this.devedor = false;
 		this.dividas = comprador.getDividas().stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
 		this.creditos = comprador.getCreditos().stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
+		this.lancamentos = comprador.getLancamentos().stream().map(obj -> new CotaDTO(obj)).collect(Collectors.toList());
 	}
 
 	// Getters and Setters

@@ -1,10 +1,13 @@
 package com.santiago.services;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.santiago.domain.Comprador;
+import com.santiago.domain.Cota;
 import com.santiago.domain.Fatura;
 import com.santiago.domain.Lancamento;
 import com.santiago.dtos.LancamentoDTO;
@@ -24,20 +27,30 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	@Autowired
 	private CompradorService compradorService;
+	
+	@Autowired
+	private CotaService cotaService;
 
 	public LancamentoService(LancamentoRepository repository) {
 		super(repository);
 	}
 
 	@Override
+	@Transactional
 	public Lancamento insert(Lancamento entity) {
 		log.info("Insert entity: " + this.getTClass().getName());
 
 		try {
 			entity.setId(null);
 			this.faturaService.findById(entity.getFatura().getId());
-			this.compradorService.findById(entity.getComprador().getId());
-			return this.repository.save(entity);
+			entity.getCompradores().forEach(x -> {
+				this.compradorService.findById(x.getComprador().getId());
+			});
+			
+			Lancamento lancamentoSalvo = this.repository.save(entity);
+			this.cotaService.repository.saveAll(lancamentoSalvo.getCompradores());
+			
+			return lancamentoSalvo;
 
 		} catch (DataIntegrityViolationException ex) {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
@@ -48,7 +61,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 						entity.getFatura().getClass().getName()), this.faturaService.getClass());
 			} else {
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "compradorId",
-						entity.getComprador().getClass().getName()), this.compradorService.getClass());
+						entity.getCompradores().getClass().getName()), this.compradorService.getClass());
 			}
 		}
 	}
@@ -58,23 +71,26 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		log.info("Mapping 'LancamentoDTO' to 'Lancamento': " + this.getTClass().getName());
 		Lancamento lancamento;
 		Fatura fatura = new Fatura(dto.getFaturaId());
-		Comprador comprador = new Comprador(dto.getCompradorId());
 
 		if (dto.isParcelado()) {
-			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura, comprador, dto.isParcelado(), dto.getQtdParcela(),
+			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(),
+					dto.getDataCompra(), fatura, dto.isParcelado(), dto.getQtdParcela(),
 					dto.getParcelaAtual());
 		} else {
-			lancamento = new Lancamento(dto.getId(), dto.getValor(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura, comprador, dto.isParcelado(), null, null);
+			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(),
+					dto.getDataCompra(), fatura, dto.isParcelado(), null, null);
 		}
+		
+		dto.getCompradores().forEach(x -> {
+			Cota cota = new Cota(null, x.getValor(), new Comprador(x.getCompradorId()), lancamento);
+			lancamento.getCompradores().add(cota);
+		});
 
 		return lancamento;
 	}
 
 	public void updateData(Lancamento newObj, Lancamento obj) {
 		log.info("Parse 'lancamento' from 'newLancamento': " + this.getTClass().getName());
-		newObj.setValor(obj.getValor());
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setObservacao(obj.getObservacao());
 
