@@ -51,6 +51,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 * @return
 	 */
 	// TODO: Corrigir problema de busca pela direção
+	// https://stackoverflow.com/questions/52687061/spring-data-jpa-method-query-with-paging-gives-me-an-error
 	@Override
 	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		log.info("Find page entity: " + this.getTClass().getName());

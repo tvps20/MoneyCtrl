@@ -61,6 +61,10 @@ public class Lancamento extends BaseEntity {
 	public Lancamento() {
 	}
 
+	public Lancamento(Long id) {
+		super(id);
+	}
+
 	public Lancamento(Long id, String descricao, String obsrvacao, LocalDate dataCompra, Fatura fatura,
 			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
