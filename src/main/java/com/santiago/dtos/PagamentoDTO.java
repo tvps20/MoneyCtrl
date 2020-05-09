@@ -55,6 +55,5 @@ public class PagamentoDTO extends BaseDTO {
 		super(pagamento.getId());
 		this.valor = pagamento.getValor();
 		this.data = pagamento.getData();
-		this.dividaId = pagamento.getDivida().getId();
 	}
 }
