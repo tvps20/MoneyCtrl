@@ -43,6 +43,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		try {
 			entity.setId(null);
 			this.faturaService.findById(entity.getFatura().getId());
+
 			entity.getCompradores().forEach(x -> {
 				this.compradorService.findById(x.getComprador().getId());
 			});
@@ -60,8 +61,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), this.faturaService.getClass());
 			} else {
-				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "compradorId",
-						entity.getCompradores().getClass().getName()), this.compradorService.getClass());
+				throw new ObjectNotFoundException(ex.getMessage(), this.compradorService.getClass());
 			}
 		}
 	}
