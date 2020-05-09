@@ -22,7 +22,7 @@ public class PagamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private BigDecimal valor;
+	private BigDecimal valor = new BigDecimal(0);
 
 	@Getter
 	@Setter
@@ -32,22 +32,28 @@ public class PagamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	private String observacao;
+
+	@Getter
+	@Setter
 	private Long dividaId;
 
 	// Construtores
 	public PagamentoDTO() {
 	}
 
-	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data) {
+	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, String observacao) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 	}
 
-	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, Long dividaId) {
+	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, String observacao, Long dividaId) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 		this.dividaId = dividaId;
 	}
 
@@ -55,5 +61,6 @@ public class PagamentoDTO extends BaseDTO {
 		super(pagamento.getId());
 		this.valor = pagamento.getValor();
 		this.data = pagamento.getData();
+		this.observacao = pagamento.getObservacao();
 	}
 }

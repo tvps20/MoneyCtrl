@@ -36,13 +36,15 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 	@Override
 	public Pagamento fromDTO(PagamentoDTO dto) {
 		log.info("Mapping 'PagamentoDTO' to 'Pagamento': " + this.getTClass().getName());
-		return new Pagamento(dto.getId(), dto.getValor(), dto.getData(), new Divida(dto.getDividaId()));
+		return new Pagamento(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
+				new Divida(dto.getDividaId()));
 	}
 
 	@Override
 	public void updateData(Pagamento newObj, Pagamento obj) {
 		log.info("Parse 'pagamento' from 'newPagamento': " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
+		newObj.setObservacao(obj.getObservacao());
 	}
 
 	@Override

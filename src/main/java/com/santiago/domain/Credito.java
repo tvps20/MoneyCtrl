@@ -26,6 +26,10 @@ public class Credito extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate data;
+	
+	@Getter
+	@Setter
+	private String observacao;
 
 	@Getter
 	@Setter
@@ -41,10 +45,11 @@ public class Credito extends BaseEntity {
 		super(id);
 	}
 
-	public Credito(Long id, BigDecimal valor, LocalDate data, Comprador comprador) {
+	public Credito(Long id, BigDecimal valor, LocalDate data, String observacao, Comprador comprador) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 		this.comprador = comprador;
 	}
 }

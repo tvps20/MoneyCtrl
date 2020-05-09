@@ -20,7 +20,7 @@ public class CotaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private BigDecimal valor;
+	private BigDecimal valor = new BigDecimal(0);
 
 	@Getter
 	@Setter

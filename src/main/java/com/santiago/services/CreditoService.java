@@ -36,13 +36,15 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 	@Override
 	public Credito fromDTO(CreditoDTO dto) {
 		log.info("Mapping 'CreditoDTO' to 'Credito': " + this.getTClass().getName());
-		return new Credito(dto.getId(), dto.getValor(), dto.getData(), new Comprador(dto.getCompradorId()));
+		return new Credito(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
+				new Comprador(dto.getCompradorId()));
 	}
 
 	@Override
 	public void updateData(Credito newObj, Credito obj) {
 		log.info("Parse 'credito' from 'newCredito': " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
+		newObj.setObservacao(obj.getObservacao());
 	}
 
 	@Override

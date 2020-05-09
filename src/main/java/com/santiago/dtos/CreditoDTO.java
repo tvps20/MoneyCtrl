@@ -22,7 +22,7 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private BigDecimal valor;
+	private BigDecimal valor = new BigDecimal(0);
 
 	@Getter
 	@Setter
@@ -32,22 +32,28 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
+	private String observacao;
+
+	@Getter
+	@Setter
 	private Long compradorId;
 
 	// Construtores
 	public CreditoDTO() {
 	}
 
-	public CreditoDTO(Long id, BigDecimal valor, LocalDate data) {
+	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, String observacao) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 	}
 
-	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, Long compradorId) {
+	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, String observacao, Long compradorId) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 		this.compradorId = compradorId;
 	}
 
@@ -55,5 +61,6 @@ public class CreditoDTO extends BaseDTO {
 		super(credito.getId());
 		this.valor = credito.getValor();
 		this.data = credito.getData();
+		this.observacao = credito.getObservacao();
 	}
 }

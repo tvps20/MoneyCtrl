@@ -29,6 +29,10 @@ public class Pagamento extends BaseEntity {
 
 	@Getter
 	@Setter
+	private String observacao;
+
+	@Getter
+	@Setter
 	@ManyToOne
 	@JoinColumn(name = "divida_id", nullable = false)
 	private Divida divida;
@@ -41,10 +45,11 @@ public class Pagamento extends BaseEntity {
 		super(id);
 	}
 
-	public Pagamento(Long id, BigDecimal valor, LocalDate data, Divida divida) {
+	public Pagamento(Long id, BigDecimal valor, LocalDate data, String observacao, Divida divida) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
+		this.observacao = observacao;
 		this.divida = divida;
 	}
 }

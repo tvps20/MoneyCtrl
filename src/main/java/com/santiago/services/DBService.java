@@ -88,9 +88,10 @@ public class DBService {
 		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, false);
 		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, true);
 
-		Credito credito = new Credito(null, new BigDecimal(20), LocalDate.now(), comprador2);
-		Pagamento pagamento1 = new Pagamento(null, new BigDecimal(10), LocalDate.now(), divida1);
-		Pagamento pagamento2 = new Pagamento(null, new BigDecimal(60), LocalDate.now(), divida1);
+		Credito credito = new Credito(null, new BigDecimal(20), LocalDate.now(), null, comprador2);
+		Pagamento pagamento1 = new Pagamento(null, new BigDecimal(10), LocalDate.now(), "fiquei devendo 5 de troco",
+				divida1);
+		Pagamento pagamento2 = new Pagamento(null, new BigDecimal(60), LocalDate.now(), "pagou adiantado", divida1);
 
 		this.BandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
