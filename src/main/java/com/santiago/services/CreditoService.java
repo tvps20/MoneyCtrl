@@ -21,12 +21,12 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 		super(repository);
 	}
 
-	public List<Credito> findAllCotaByLancamentoId(Long lancamentoId) {
+	public List<Credito> findAllCreditoByCompradorId(Long lancamentoId) {
 		log.info("Find All credito: " + this.getTClass().getName());
 		return ((CreditoRepository) this.repository).findByCompradorId(lancamentoId);
 	}
 
-	public Page<Credito> findPageByLancamentoId(Long compradorId, Integer page, Integer linesPerPage, String orderBy,
+	public Page<Credito> findPageByCompradorId(Long compradorId, Integer page, Integer linesPerPage, String orderBy,
 			String direction) {
 		log.info("Find page credito: " + this.getTClass().getName());
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);

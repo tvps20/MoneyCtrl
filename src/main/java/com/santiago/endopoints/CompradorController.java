@@ -43,7 +43,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 
 	@GetMapping("/{compradorId}/credito")
 	public ResponseEntity<List<CreditoDTO>> listarCotas(@PathVariable Long compradorId) {
-		List<Credito> list = creditoService.findAllCotaByLancamentoId(compradorId);
+		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
 		List<CreditoDTO> listDTO = list.stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
@@ -54,7 +54,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		Page<Credito> list = creditoService.findPageByLancamentoId(compradorId, page, linesPerPage, direction, orderBy);
+		Page<Credito> list = creditoService.findPageByCompradorId(compradorId, page, linesPerPage, direction, orderBy);
 		Page<CreditoDTO> listDTO = list.map(obj -> new CreditoDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
@@ -73,7 +73,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		objDTO.setCompradorId(compradorId);
 		Credito obj = this.creditoService.fromDTO(objDTO);
 		obj = this.creditoService.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("comprador/cota/{id}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("comprador/credito/{id}")
 				.buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

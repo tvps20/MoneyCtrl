@@ -32,11 +32,16 @@ public class PagamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long dividaId;
 
 	// Construtores
 	public PagamentoDTO() {
+	}
+
+	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data) {
+		super(id);
+		this.valor = valor;
+		this.data = data;
 	}
 
 	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, Long dividaId) {
