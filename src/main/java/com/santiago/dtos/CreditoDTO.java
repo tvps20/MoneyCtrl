@@ -32,14 +32,19 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long compradorId;
 
 	// Construtores
 	public CreditoDTO() {
 	}
 
-	public CreditoDTO(Long id, BigDecimal valor, LocalDate data , Long compradorId) {
+	public CreditoDTO(Long id, BigDecimal valor, LocalDate data) {
+		super(id);
+		this.valor = valor;
+		this.data = data;
+	}
+
+	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, Long compradorId) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
@@ -50,6 +55,5 @@ public class CreditoDTO extends BaseDTO {
 		super(credito.getId());
 		this.valor = credito.getValor();
 		this.data = credito.getData();
-		this.compradorId = credito.getComprador().getId();
 	}
 }

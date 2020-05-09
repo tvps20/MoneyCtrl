@@ -71,7 +71,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	public ResponseEntity<CotaDTO> insert(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
 		this.service.findById(lancamentoId);
 		objDTO.setLancamentoId(lancamentoId);
-		Cota obj = cotaService.fromDTO(objDTO);
+		Cota obj = this.cotaService.fromDTO(objDTO);
 		obj = this.cotaService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("lancamento/cota/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
