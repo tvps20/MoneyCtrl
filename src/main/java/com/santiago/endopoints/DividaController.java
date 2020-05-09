@@ -42,7 +42,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 	}
 
 	@GetMapping("/{dividaId}/pagamento")
-	public ResponseEntity<List<PagamentoDTO>> listarCotas(@PathVariable Long dividaId) {
+	public ResponseEntity<List<PagamentoDTO>> listarPagamentos(@PathVariable Long dividaId) {
 		List<Pagamento> list = pagamentoService.findAllPagamentoByDividaId(dividaId);
 		List<PagamentoDTO> listDTO = list.stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
@@ -60,7 +60,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 	}
 
 	@GetMapping("/pagamento/{id}")
-	public ResponseEntity<PagamentoDTO> findCotaById(@PathVariable Long id) {
+	public ResponseEntity<PagamentoDTO> findPagamentoById(@PathVariable Long id) {
 		Pagamento obj = this.pagamentoService.findById(id);
 		PagamentoDTO objDTO = new PagamentoDTO(obj);
 		objDTO.setDividaId(obj.getDivida().getId());

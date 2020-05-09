@@ -5,7 +5,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.domain.Usuario;
 import com.santiago.services.UsuarioService;
 import com.santiago.services.validation.CustomUnique;
@@ -32,7 +33,7 @@ public class UsuarioDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonIgnore
+	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
 	private String password;
 

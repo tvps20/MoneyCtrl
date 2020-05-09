@@ -42,7 +42,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	}
 
 	@GetMapping("/{compradorId}/credito")
-	public ResponseEntity<List<CreditoDTO>> listarCotas(@PathVariable Long compradorId) {
+	public ResponseEntity<List<CreditoDTO>> listarCreditos(@PathVariable Long compradorId) {
 		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
 		List<CreditoDTO> listDTO = list.stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
@@ -60,7 +60,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	}
 
 	@GetMapping("/credito/{id}")
-	public ResponseEntity<CreditoDTO> findCotaById(@PathVariable Long id) {
+	public ResponseEntity<CreditoDTO> findCreditoById(@PathVariable Long id) {
 		Credito obj = this.creditoService.findById(id);
 		CreditoDTO objDTO = new CreditoDTO(obj);
 		objDTO.setCompradorId(obj.getComprador().getId());
