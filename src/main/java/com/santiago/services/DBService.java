@@ -83,7 +83,7 @@ public class DBService {
 		Cota cota1 = new Cota(null, new BigDecimal(23.53), comprador2, lancamento1);
 		Cota cota2 = new Cota(null, new BigDecimal(47.27), comprador3, lancamento2);
 		Cota cota3 = new Cota(null, new BigDecimal(10.27), comprador3, lancamento3);
-		Cota cota4 = new Cota(null, new BigDecimal(6.27), comprador3, lancamento3);
+		Cota cota4 = new Cota(null, new BigDecimal(6.27), comprador2, lancamento3);
 
 		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, false);
 		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, true);
