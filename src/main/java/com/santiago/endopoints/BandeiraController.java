@@ -22,7 +22,7 @@ public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
 
 	@Override
 	public BandeiraDTO newClassDTO(Bandeira obj) {
-		log.info("Mapping 'Cartao' to 'CartaoDTO'. Tipo: " + this.getClass().getName());
+		log.info("Mapping 'Bandeira' to 'BandeiraDTO'. Tipo: " + this.getClass().getName());
 		return new BandeiraDTO(obj);
 	}
 }
