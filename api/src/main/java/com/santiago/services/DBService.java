@@ -33,7 +33,7 @@ import com.santiago.repositories.UsuarioRepository;
 public class DBService {
 
 	@Autowired
-	private BandeiraRepository BandeiraRepository;
+	private BandeiraRepository bandeiraRepository;
 
 	@Autowired
 	private CartaoRepository cartaoRepository;
@@ -80,20 +80,20 @@ public class DBService {
 		Lancamento lancamento3 = new Lancamento(null, "Aliexpress", "itens de magic", LocalDate.now(), fatura1, true, 6,
 				1);
 
-		Cota cota1 = new Cota(null, new BigDecimal(23.53), comprador2, lancamento1);
-		Cota cota2 = new Cota(null, new BigDecimal(47.27), comprador3, lancamento2);
-		Cota cota3 = new Cota(null, new BigDecimal(10.27), comprador3, lancamento3);
-		Cota cota4 = new Cota(null, new BigDecimal(6.27), comprador2, lancamento3);
+		Cota cota1 = new Cota(null, BigDecimal.valueOf(23.53), comprador2, lancamento1);
+		Cota cota2 = new Cota(null, BigDecimal.valueOf(47.27), comprador3, lancamento2);
+		Cota cota3 = new Cota(null, BigDecimal.valueOf(10.27), comprador3, lancamento3);
+		Cota cota4 = new Cota(null, BigDecimal.valueOf(6.27), comprador2, lancamento3);
 
-		Divida divida1 = new Divida(null, new BigDecimal(333.38), "", LocalDate.now(), fatura1, comprador3, false);
-		Divida divida2 = new Divida(null, new BigDecimal(25), "", LocalDate.now(), null, comprador3, true);
+		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "", LocalDate.now(), fatura1, comprador3, false);
+		Divida divida2 = new Divida(null, BigDecimal.valueOf(25), "", LocalDate.now(), null, comprador3, true);
 
-		Credito credito = new Credito(null, new BigDecimal(20), LocalDate.now(), null, comprador2);
-		Pagamento pagamento1 = new Pagamento(null, new BigDecimal(10), LocalDate.now(), "fiquei devendo 5 de troco",
+		Credito credito = new Credito(null, BigDecimal.valueOf(20), LocalDate.now(), null, comprador2);
+		Pagamento pagamento1 = new Pagamento(null, BigDecimal.valueOf(10), LocalDate.now(), "fiquei devendo 5 de troco",
 				divida1);
-		Pagamento pagamento2 = new Pagamento(null, new BigDecimal(60), LocalDate.now(), "pagou adiantado", divida1);
+		Pagamento pagamento2 = new Pagamento(null, BigDecimal.valueOf(60), LocalDate.now(), "pagou adiantado", divida1);
 
-		this.BandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
+		this.bandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
 		this.usuarioRepository.saveAll(Arrays.asList(user1, comprador2, comprador3));

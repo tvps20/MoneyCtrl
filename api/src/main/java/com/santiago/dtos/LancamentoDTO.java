@@ -46,7 +46,7 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	protected boolean parcelado = false;
+	protected boolean parcelado;
 
 	@Setter
 	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
@@ -66,8 +66,8 @@ public class LancamentoDTO extends BaseDTO {
 	public LancamentoDTO() {
 	}
 
-	public LancamentoDTO(Long id, BigDecimal valor, String descricao, String obsrvacao, LocalDate dataCompra,
-			Long faturaId, Long compradorId, boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
+	public LancamentoDTO(Long id, String descricao, String obsrvacao, LocalDate dataCompra, Long faturaId,
+			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
 		this.obsrvacao = obsrvacao;
@@ -127,6 +127,6 @@ public class LancamentoDTO extends BaseDTO {
 	public BigDecimal getValorTotal() {
 		double total = this.compradores.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
 
-		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }

@@ -48,10 +48,9 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 	@Override
 	public Fatura fromDTO(FaturaDTO dto) {
 		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
-		Fatura fatura = new Fatura(dto.getId(), dto.getVencimento(), dto.getObservacao(), dto.getMesReferente(),
-				new Cartao(dto.getCartaoId()));
 
-		return fatura;
+		return new Fatura(dto.getId(), dto.getVencimento(), dto.getObservacao(), dto.getMesReferente(),
+				new Cartao(dto.getCartaoId()));
 	}
 
 	@Override

@@ -74,7 +74,8 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	}
 
 	@PostMapping("/{compradorId}/credito")
-	public ResponseEntity<CreditoDTO> insert(@PathVariable Long compradorId, @Valid @RequestBody CreditoDTO objDTO) {
+	public ResponseEntity<CreditoDTO> insertCredito(@PathVariable Long compradorId,
+			@Valid @RequestBody CreditoDTO objDTO) {
 		this.service.findById(compradorId);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setCompradorId(compradorId);
@@ -90,7 +91,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	}
 
 	@DeleteMapping("credito/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteCredito(@PathVariable Long id) {
 		this.creditoService.delete(id);
 		log.info("Finishing delete. Tipo: " + this.getClass().getName());
 		return ResponseEntity.noContent().build();

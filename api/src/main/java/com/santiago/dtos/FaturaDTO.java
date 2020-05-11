@@ -91,7 +91,7 @@ public class FaturaDTO extends BaseDTO {
 	public BigDecimal getValorTotal() {
 		double total = this.lancamentos.stream().mapToDouble(x -> x.getValorTotal().doubleValue()).sum();
 
-		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 
 	// Metodos

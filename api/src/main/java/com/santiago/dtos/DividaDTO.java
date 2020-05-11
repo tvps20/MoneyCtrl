@@ -92,6 +92,6 @@ public class DividaDTO extends BaseDTO {
 	public BigDecimal getPagamentoTotal() {
 		double total = this.pagamentos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
 
-		return new BigDecimal(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 }

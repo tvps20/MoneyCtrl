@@ -79,7 +79,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		T obj = service.fromDTO(objDTO);
 		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj.setId(id);
-		obj = this.service.update(obj);
+		this.service.update(obj);
 		log.info("Finishing update. Tipo: " + this.getClass().getName());
 		return ResponseEntity.noContent().build();
 	}
