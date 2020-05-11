@@ -1,1 +1,1 @@
-web: sh -c 'cd MoneyCtrl-Api/target/ && exec MoneyCtrl-0.0.1.jar
+web: java MoneyCtrl-Api/target/MoneyCtrl-0.0.1.jar
