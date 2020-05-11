@@ -27,7 +27,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	@Autowired
 	private CompradorService compradorService;
-	
+
 	@Autowired
 	private CotaService cotaService;
 
@@ -43,14 +43,15 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		try {
 			entity.setId(null);
 			this.faturaService.findById(entity.getFatura().getId());
-
+			log.info("Finishing findById. Tipo" + this.faturaService.getTClass().getName());
 			entity.getCompradores().forEach(x -> {
 				this.compradorService.findById(x.getComprador().getId());
 			});
-			
+			log.info("Finishing findById. Tipo" + this.compradorService.getTClass().getName());
 			Lancamento lancamentoSalvo = this.repository.save(entity);
 			this.cotaService.repository.saveAll(lancamentoSalvo.getCompradores());
-			
+			log.info("Finishing saveAll. Tipo" + this.cotaService.getTClass().getName());
+
 			return lancamentoSalvo;
 
 		} catch (DataIntegrityViolationException ex) {
@@ -73,14 +74,13 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		Fatura fatura = new Fatura(dto.getFaturaId());
 
 		if (dto.isParcelado()) {
-			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura, dto.isParcelado(), dto.getQtdParcela(),
-					dto.getParcelaAtual());
+			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(), dto.getDataCompra(),
+					fatura, dto.isParcelado(), dto.getQtdParcela(), dto.getParcelaAtual());
 		} else {
-			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(),
-					dto.getDataCompra(), fatura, dto.isParcelado(), null, null);
+			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObsrvacao(), dto.getDataCompra(),
+					fatura, dto.isParcelado(), null, null);
 		}
-		
+
 		dto.getCompradores().forEach(x -> {
 			Cota cota = new Cota(null, x.getValor(), new Comprador(x.getCompradorId()), lancamento);
 			lancamento.getCompradores().add(cota);

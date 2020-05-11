@@ -44,43 +44,56 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 	@GetMapping("/{dividaId}/pagamento")
 	public ResponseEntity<List<PagamentoDTO>> listarPagamentos(@PathVariable Long dividaId) {
 		List<Pagamento> list = pagamentoService.findAllPagamentoByDividaId(dividaId);
+		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<PagamentoDTO> listDTO = list.stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping("/{dividaId}/pagamento/page")
-	public ResponseEntity<Page<PagamentoDTO>> findPage(@PathVariable Long dividaId,
+	public ResponseEntity<Page<PagamentoDTO>> findPagePagamento(@PathVariable Long dividaId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Pagamento> list = pagamentoService.findPageByDividaId(dividaId, page, linesPerPage, direction, orderBy);
+		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<PagamentoDTO> listDTO = list.map(obj -> new PagamentoDTO(obj));
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping("/pagamento/{id}")
 	public ResponseEntity<PagamentoDTO> findPagamentoById(@PathVariable Long id) {
 		Pagamento obj = this.pagamentoService.findById(id);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		PagamentoDTO objDTO = new PagamentoDTO(obj);
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setDividaId(obj.getDivida().getId());
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping("/{dividaId}/pagamento")
-	public ResponseEntity<PagamentoDTO> insert(@PathVariable Long dividaId, @Valid @RequestBody PagamentoDTO objDTO) {
+	public ResponseEntity<PagamentoDTO> insertPagamento(@PathVariable Long dividaId,
+			@Valid @RequestBody PagamentoDTO objDTO) {
 		this.service.findById(dividaId);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setDividaId(dividaId);
 		Pagamento obj = this.pagamentoService.fromDTO(objDTO);
+		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.pagamentoService.insert(obj);
+		log.info("Finishing insert. Tipo: " + this.getClass().getName());
+		log.info("Create uri. " + this.getClass().getName());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("divida/pagamento/{id}")
 				.buildAndExpand(obj.getId()).toUri();
+		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping("pagamento/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> deletePagamento(@PathVariable Long id) {
 		this.pagamentoService.delete(id);
+		log.info("Finishing delete. Tipo: " + this.getClass().getName());
 		return ResponseEntity.noContent().build();
 	}
 

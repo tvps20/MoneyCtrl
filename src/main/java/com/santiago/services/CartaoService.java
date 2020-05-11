@@ -33,12 +33,14 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 		try {
 			entity.setId(null);
 			this.bandeiraService.findById(entity.getBandeira().getId());
+			log.info("Finishing findById. Tipo" + this.bandeiraService.getTClass().getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
 		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
 					entity.getBandeira().getClass().getName()));
 		}

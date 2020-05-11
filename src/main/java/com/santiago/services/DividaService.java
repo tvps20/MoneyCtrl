@@ -38,7 +38,9 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 			if (entity.getFatura() != null) {
 				this.faturaService.findById(entity.getFatura().getId());
 			}
+			log.info("Finishing findById. Tipo" + this.faturaService.getTClass().getName());
 			this.compradorService.findById(entity.getComprador().getId());
+			log.info("Finishing findById. Tipo" + this.compradorService.getTClass().getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
@@ -46,9 +48,11 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
+				log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), this.faturaService.getClass());
 			} else {
+				log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "compradorId",
 						entity.getComprador().getClass().getName()), this.compradorService.getClass());
 			}

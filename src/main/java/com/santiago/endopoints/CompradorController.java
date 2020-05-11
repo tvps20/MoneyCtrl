@@ -44,7 +44,9 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	@GetMapping("/{compradorId}/credito")
 	public ResponseEntity<List<CreditoDTO>> listarCreditos(@PathVariable Long compradorId) {
 		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
+		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<CreditoDTO> listDTO = list.stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -55,14 +57,18 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Credito> list = creditoService.findPageByCompradorId(compradorId, page, linesPerPage, direction, orderBy);
+		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<CreditoDTO> listDTO = list.map(obj -> new CreditoDTO(obj));
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping("/credito/{id}")
 	public ResponseEntity<CreditoDTO> findCreditoById(@PathVariable Long id) {
 		Credito obj = this.creditoService.findById(id);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		CreditoDTO objDTO = new CreditoDTO(obj);
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setCompradorId(obj.getComprador().getId());
 		return ResponseEntity.ok().body(objDTO);
 	}
@@ -70,17 +76,23 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	@PostMapping("/{compradorId}/credito")
 	public ResponseEntity<CreditoDTO> insert(@PathVariable Long compradorId, @Valid @RequestBody CreditoDTO objDTO) {
 		this.service.findById(compradorId);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setCompradorId(compradorId);
 		Credito obj = this.creditoService.fromDTO(objDTO);
+		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.creditoService.insert(obj);
+		log.info("Finishing insert. Tipo: " + this.getClass().getName());
+		log.info("Create uri. " + this.getClass().getName());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("comprador/credito/{id}")
 				.buildAndExpand(obj.getId()).toUri();
+		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping("credito/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		this.creditoService.delete(id);
+		log.info("Finishing delete. Tipo: " + this.getClass().getName());
 		return ResponseEntity.noContent().build();
 	}
 

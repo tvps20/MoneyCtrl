@@ -32,12 +32,14 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		try {
 			entity.setId(null);
 			this.cartaoService.findById(entity.getCartao().getId());
+			log.info("Finishing findById. Tipo" + this.cartaoService.getTClass().getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
 		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getCartao().getId(), "cartaoId",
 					entity.getCartao().getClass().getName()));
 		}

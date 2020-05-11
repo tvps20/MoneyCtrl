@@ -13,6 +13,9 @@ import com.santiago.domain.Usuario;
 import com.santiago.dtos.UsuarioDTO;
 import com.santiago.services.UsuarioService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -23,7 +26,9 @@ public class UsuarioController {
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
 		List<Usuario> list = service.findAll();
+		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<UsuarioDTO> listDTO = list.stream().map(obj -> new UsuarioDTO(obj)).collect(Collectors.toList());
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
 }

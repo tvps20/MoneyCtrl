@@ -8,6 +8,9 @@ import org.springframework.context.ApplicationContext;
 
 import com.santiago.services.interfaces.IServiceValidator;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CustomUniqueValidator implements ConstraintValidator<CustomUnique, String> {
 
 	@Autowired
@@ -25,6 +28,7 @@ public class CustomUniqueValidator implements ConstraintValidator<CustomUnique, 
 
 		// Teste de validação
 		boolean aux = this.service.verificarCampoUnico(value);
+		log.info("Finishing findById unique. return: " + aux);
 		
 		if (aux) {
 			// Valor já cadastrado no banco.

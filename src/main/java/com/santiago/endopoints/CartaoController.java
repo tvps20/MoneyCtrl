@@ -22,7 +22,7 @@ public class CartaoController extends BaseController<Cartao, CartaoDTO> {
 
 	@Override
 	public CartaoDTO newClassDTO(Cartao obj) {
-		log.info("Mapping 'Cartao' to 'CartaoDTO': " + this.getClass().getName());
+		log.info("Mapping 'Cartao' to 'CartaoDTO'. Tipo: " + this.getClass().getName());
 		return new CartaoDTO(obj);
 	}
 }

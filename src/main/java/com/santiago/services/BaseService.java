@@ -36,7 +36,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 */
 	@Override
 	public List<T> findAll() {
-		log.info("Find All entity: " + this.getTClass().getName());
+		log.info("FindAll entity. Tipo: " + this.getTClass().getName());
 		return this.repository.findAll();
 	}
 
@@ -54,7 +54,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	// https://stackoverflow.com/questions/52687061/spring-data-jpa-method-query-with-paging-gives-me-an-error
 	@Override
 	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		log.info("Find page entity: " + this.getTClass().getName());
+		log.info("FindPage entity. Tipo: " + this.getTClass().getName());
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);
 		return repository.findAll(pageRequest);
 	}
@@ -67,12 +67,13 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 */
 	@Override
 	public T findById(Long id) throws ObjectNotFoundException {
-		log.info("Find by id entity: " + id + ": " + this.getTClass().getName());
+		log.info("FindById entity. Id: " + id + ". Tipo: " + this.getTClass().getName());
 		Optional<T> obj = this.repository.findById(id);
 
 		if (!obj.isPresent()) {
 			log.error(Mensagem.erroObjNotFount(id, this.getTClass().getName()));
-			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(id, this.getTClass().getName()), this.getClass());
+			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(id, this.getTClass().getName()),
+					this.getClass());
 		}
 
 		return obj.get();
@@ -86,7 +87,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 */
 	@Override
 	public T insert(T entity) {
-		log.info("Insert entity: " + this.getTClass().getName());
+		log.info("Insert entity. Tipo: " + this.getTClass().getName());
 		entity.setId(null);
 		try {
 			return this.repository.save(entity);
@@ -104,9 +105,11 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 */
 	@Override
 	public T update(T entity) {
-		log.info("Update entity: " + this.getTClass().getName());
+		log.info("Update entity. Id: " + entity.getId() + ". Tipo: " + this.getTClass().getName());
 		T newObj = this.findById(entity.getId());
+		log.info("Finishing findByid. Tipo: " + this.getClass().getName());
 		this.updateData(newObj, entity);
+		log.info("Finishing parse. Tipo: " + this.getClass().getName());
 		return this.repository.save(newObj);
 	}
 
@@ -119,7 +122,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	public void delete(Long id) {
 		this.findById(id);
 		try {
-			log.info("Delete entity: " + this.getTClass().getName());
+			log.info("Delete entity. Id:" + id + ". Tipo: " + this.getTClass().getName());
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException ex) {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);

@@ -35,51 +35,64 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 
 	@Autowired
 	private CotaService cotaService;
-	
+
 	@Autowired
 	public LancamentoController(LancamentoService service) {
 		super(service);
 	}
-	
+
 	@GetMapping("/{lancamentoId}/cota")
 	public ResponseEntity<List<CotaDTO>> listarCotas(@PathVariable Long lancamentoId) {
 		List<Cota> list = cotaService.findAllCotaByLancamentoId(lancamentoId);
+		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<CotaDTO> listDTO = list.stream().map(obj -> new CotaDTO(obj)).collect(Collectors.toList());
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@GetMapping("/{lancamentoId}/cota/page")
-	public ResponseEntity<Page<CotaDTO>> findPage(@PathVariable Long lancamentoId,
+	public ResponseEntity<Page<CotaDTO>> findPageCotas(@PathVariable Long lancamentoId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Cota> list = cotaService.findPageByLancamentoId(lancamentoId, page, linesPerPage, direction, orderBy);
+		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<CotaDTO> listDTO = list.map(obj -> new CotaDTO(obj));
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@GetMapping("/cota/{id}")
 	public ResponseEntity<CotaDTO> findCotaById(@PathVariable Long id) {
 		Cota obj = this.cotaService.findById(id);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		CotaDTO objDTO = new CotaDTO(obj);
+		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setLancamentoId(obj.getLancamento().getId());
 		return ResponseEntity.ok().body(objDTO);
 	}
-	
+
 	@PostMapping("/{lancamentoId}/cota")
-	public ResponseEntity<CotaDTO> insert(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
+	public ResponseEntity<CotaDTO> insertCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
 		this.service.findById(lancamentoId);
+		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setLancamentoId(lancamentoId);
 		Cota obj = this.cotaService.fromDTO(objDTO);
+		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.cotaService.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("lancamento/cota/{id}").buildAndExpand(obj.getId()).toUri();
+		log.info("Finishing insert. Tipo: " + this.getClass().getName());
+		log.info("Create uri. " + this.getClass().getName());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("lancamento/cota/{id}")
+				.buildAndExpand(obj.getId()).toUri();
+		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@DeleteMapping("cota/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteCota(@PathVariable Long id) {
 		this.cotaService.delete(id);
+		log.info("Finishing delete. Tipo: " + this.getClass().getName());
 		return ResponseEntity.noContent().build();
 	}
 

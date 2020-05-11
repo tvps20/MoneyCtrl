@@ -49,12 +49,14 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 		try {
 			entity.setId(null);
 			this.compradorService.findById(entity.getComprador().getId());
+			log.info("Finishing findById. Tipo" + this.compradorService.getTClass().getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
 			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
 		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
 			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getComprador().getId(), "compradorId",
 					entity.getComprador().getClass().getName()));
 		}
