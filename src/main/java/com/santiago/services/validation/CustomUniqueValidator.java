@@ -28,13 +28,14 @@ public class CustomUniqueValidator implements ConstraintValidator<CustomUnique, 
 
 		// Teste de validação
 		boolean aux = this.service.verificarCampoUnico(value);
-		log.info("Finishing findById unique. return: " + aux);
+		log.info("Finishing find by unique.");
 		
 		if (aux) {
-			// Valor já cadastrado no banco.
+			log.info("Value already saved in the database.");
 			return false;
 		}
 
+		log.info("Value not saved in the database");
 		return true;
 	}
 }
