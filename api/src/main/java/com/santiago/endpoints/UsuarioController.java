@@ -1,4 +1,4 @@
-package com.santiago.endopoints;
+package com.santiago.endpoints;
 
 import java.util.List;
 import java.util.stream.Collectors;

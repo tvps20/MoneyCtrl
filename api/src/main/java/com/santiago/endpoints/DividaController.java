@@ -1,4 +1,4 @@
-package com.santiago.endopoints;
+package com.santiago.endpoints;
 
 import java.net.URI;
 import java.util.List;
