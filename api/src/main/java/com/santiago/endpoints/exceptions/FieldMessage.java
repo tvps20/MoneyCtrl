@@ -1,4 +1,4 @@
-package com.santiago.endopoints.exceptions;
+package com.santiago.endpoints.exceptions;
 
 import java.io.Serializable;
 
