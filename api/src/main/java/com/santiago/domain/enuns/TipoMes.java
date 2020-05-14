@@ -3,12 +3,17 @@ package com.santiago.domain.enuns;
 import com.santiago.domain.exceptions.IllegalEnumException;
 import com.santiago.util.Mensagem;
 
+import lombok.Getter;
+
 public enum TipoMes {
 	JANEIRO(1, "Janeiro"), FEVEREIRO(2, "Fevereiro"), MARCO(3, "Março"), ABRIL(4, "Abril"), MAIO(5, "Maio"),
 	JUNHO(6, "Junho"), JULHO(7, "Julho"), AGOSTO(8, "Agosto"), SETEMBRO(9, "Setembro"), OUTUBRO(10, "Outubro"),
 	NOVEMBRO(11, "Novembro"), DEZEMBRO(12, "Dezembro");
 
+	@Getter
 	private int cod;
+	
+	@Getter
 	private String descricao;
 
 	// Construtor
@@ -18,14 +23,6 @@ public enum TipoMes {
 	}
 
 	// Metodos
-	public int getCod() {
-		return this.cod;
-	}
-
-	public String getDescricao() {
-		return this.descricao;
-	}
-
 	public static TipoMes toEnum(Integer cod) {
 		if (cod == null) {
 			return null;

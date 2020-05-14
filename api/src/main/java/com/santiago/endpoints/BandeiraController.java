@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.domain.Bandeira;
 import com.santiago.dtos.BandeiraDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.BandeiraService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/bandeira")
+@RequestMapping(TipoEndPoint.bandeira)
 public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
 
 	@Autowired
