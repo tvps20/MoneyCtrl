@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.santiago.domain.BaseEntity;
 import com.santiago.dtos.BaseDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.interfaces.IServiceCrud;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/page")
+	@GetMapping(TipoEndPoint.PAGE)
 	public ResponseEntity<Page<K>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
@@ -53,7 +54,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(TipoEndPoint.ID)
 	public ResponseEntity<K> findById(@PathVariable Long id) {
 		T obj = this.service.findById(id);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
@@ -74,7 +75,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(TipoEndPoint.ID)
 	public ResponseEntity<Void> update(@Valid @RequestBody K objDTO, @PathVariable Long id) {
 		T obj = service.fromDTO(objDTO);
 		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
@@ -84,7 +85,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping(TipoEndPoint.ID)
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		this.service.delete(id);
 		log.info("Finishing delete. Tipo: " + this.getClass().getName());

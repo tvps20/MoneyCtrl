@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.domain.Cartao;
 import com.santiago.dtos.CartaoDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.CartaoService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/cartao")
+@RequestMapping(TipoEndPoint.CARTAO)
 public class CartaoController extends BaseController<Cartao, CartaoDTO> {
 
 	@Autowired

@@ -67,4 +67,9 @@ public class BandeiraBuilder {
 
 		return builder;
 	}
+
+	public BandeiraDTO getBandeiraDTOInvalido() {
+		this.bandeiraDTO.setNome(null);
+		return this.bandeiraDTO;
+	}
 }

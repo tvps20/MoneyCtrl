@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(TipoEndPoint.bandeira)
+@RequestMapping(TipoEndPoint.BANDEIRA)
 public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
 
 	@Autowired
