@@ -43,7 +43,7 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 	private K entityDTO;
 	private K entityDTOInvalida;
 	private List<T> entityList;
-	private static Validator validator;
+	protected static Validator validator;
 
 	@Before
 	public void setup() {
@@ -75,8 +75,8 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 
 		when(this.service.findPage(0, 24, "ASC", "nome")).thenReturn(entityPage);
 
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-				.get(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.PAGE)).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(
+				MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.PAGE).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.content[0]").exists())
@@ -88,8 +88,8 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 	public void deveRetornarSucesso_QuandoBuscarEntity() throws Exception {
 		when(this.service.findById(1L)).thenReturn(this.entity);
 
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-				.get(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.ID), 1L).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(
+				MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.ID, 1L).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L));
@@ -99,8 +99,8 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 	public void deveRetornarNaoEncontrado_QuandoBuscarEntity() throws Exception {
 		when(this.service.findById(2L)).thenThrow(ObjectNotFoundException.class);
 
-		ResultActions result = mockMvc.perform(MockMvcRequestBuilders
-				.get(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.ID), 2L).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(
+				MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.ID, 2L).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
@@ -134,10 +134,9 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 		when(this.service.fromDTO(this.entityDTO)).thenReturn(this.entity);
 		when(this.service.update(this.entity)).thenReturn(this.entity);
 
-		ResultActions result = mockMvc
-				.perform(MockMvcRequestBuilders.put(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.ID), 1L)
-						.content(this.jsonParse(this.entityDTO)).contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.put(this.getRoute() + TipoEndPoint.ID, 1L)
+				.content(this.jsonParse(this.entityDTO)).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isNoContent());
 	}
@@ -146,9 +145,8 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 	public void deveRetornarSucesso_QuandoDeletarEntity() throws Exception {
 		doNothing().when(this.service).delete(1L);
 
-		ResultActions result = mockMvc
-				.perform(MockMvcRequestBuilders.delete(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.ID), 1L)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.delete(this.getRoute() + TipoEndPoint.ID, 1L)
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isNoContent());
 	}
@@ -157,17 +155,16 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 	public void deveRetornarNaoEncontrado_QuandoDeletarEntity() throws Exception {
 		doThrow(ObjectNotFoundException.class).when(this.service).delete(1L);
 
-		ResultActions result = mockMvc
-				.perform(MockMvcRequestBuilders.delete(TipoEndPoint.makeRoute(this.getRoute(), TipoEndPoint.ID), 1L)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.delete(this.getRoute() + TipoEndPoint.ID, 1L)
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 
 	// Metodos
-	protected String jsonParse(final Object obj) {
+	protected String jsonParse(final K objDTO) {
 		try {
-			return new ObjectMapper().writeValueAsString(obj);
+			return new ObjectMapper().writeValueAsString(objDTO);
 		} catch (JsonProcessingException ex) {
 			throw new RuntimeException(ex);
 		}

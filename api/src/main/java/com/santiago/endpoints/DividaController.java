@@ -23,6 +23,7 @@ import com.santiago.domain.Divida;
 import com.santiago.domain.Pagamento;
 import com.santiago.dtos.DividaDTO;
 import com.santiago.dtos.PagamentoDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.DividaService;
 import com.santiago.services.PagamentoService;
 
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/divida")
+@RequestMapping(TipoEndPoint.DIVIDA)
 public class DividaController extends BaseController<Divida, DividaDTO> {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		super(service);
 	}
 
-	@GetMapping("/{dividaId}/pagamento")
+	@GetMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO)
 	public ResponseEntity<List<PagamentoDTO>> listarPagamentos(@PathVariable Long dividaId) {
 		List<Pagamento> list = pagamentoService.findAllPagamentoByDividaId(dividaId);
 		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
@@ -50,7 +51,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/{dividaId}/pagamento/page")
+	@GetMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO + TipoEndPoint.PAGE)
 	public ResponseEntity<Page<PagamentoDTO>> findPagePagamento(@PathVariable Long dividaId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -63,7 +64,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/pagamento/{id}")
+	@GetMapping(TipoEndPoint.PAGAMENTO + TipoEndPoint.ID)
 	public ResponseEntity<PagamentoDTO> findPagamentoById(@PathVariable Long id) {
 		Pagamento obj = this.pagamentoService.findById(id);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
@@ -73,7 +74,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.ok().body(objDTO);
 	}
 
-	@PostMapping("/{dividaId}/pagamento")
+	@PostMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO)
 	public ResponseEntity<PagamentoDTO> insertPagamento(@PathVariable Long dividaId,
 			@Valid @RequestBody PagamentoDTO objDTO) {
 		this.service.findById(dividaId);
@@ -90,7 +91,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@DeleteMapping("pagamento/{id}")
+	@DeleteMapping(TipoEndPoint.PAGAMENTO + TipoEndPoint.ID)
 	public ResponseEntity<Void> deletePagamento(@PathVariable Long id) {
 		this.pagamentoService.delete(id);
 		log.info("Finishing delete. Tipo: " + this.getClass().getName());

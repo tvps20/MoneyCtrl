@@ -52,7 +52,6 @@ public class BandeiraControllerTest extends BaseControllerTest<Bandeira, Bandeir
 		result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
 	}
 
-	// Metodos
 	@Override
 	public String getRoute() {
 		return TipoEndPoint.BANDEIRA;
@@ -75,7 +74,7 @@ public class BandeiraControllerTest extends BaseControllerTest<Bandeira, Bandeir
 
 	@Override
 	public List<Bandeira> mockCollectionEntityListBuilder() {
-		return (List<Bandeira>) BandeiraBuilder.mockCollectionBandeirasBuilder().getBandeiras();
+		return BandeiraBuilder.mockCollectionBandeirasBuilder().getBandeiras();
 	}
 
 	@Override

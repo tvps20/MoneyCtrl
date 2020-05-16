@@ -51,7 +51,6 @@ public class CartaoControllerTest extends BaseControllerTest<Cartao, CartaoDTO> 
 		result.andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
 	}
 
-	// Metodos
 	@Override
 	public String getRoute() {
 		return TipoEndPoint.CARTAO;
@@ -74,7 +73,7 @@ public class CartaoControllerTest extends BaseControllerTest<Cartao, CartaoDTO> 
 
 	@Override
 	public List<Cartao> mockCollectionEntityListBuilder() {
-		return (List<Cartao>) CartaoBuilder.mockCollectionCartoesBuilder().getCartoes();
+		return CartaoBuilder.mockCollectionCartoesBuilder().getCartoes();
 	}
 
 	@Override

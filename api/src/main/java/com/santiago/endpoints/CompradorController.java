@@ -23,6 +23,7 @@ import com.santiago.domain.Comprador;
 import com.santiago.domain.Credito;
 import com.santiago.dtos.CompradorDTO;
 import com.santiago.dtos.CreditoDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.CompradorService;
 import com.santiago.services.CreditoService;
 
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/comprador")
+@RequestMapping(TipoEndPoint.COMPRADOR)
 public class CompradorController extends BaseController<Comprador, CompradorDTO> {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		super(service);
 	}
 
-	@GetMapping("/{compradorId}/credito")
+	@GetMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)
 	public ResponseEntity<List<CreditoDTO>> listarCreditos(@PathVariable Long compradorId) {
 		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
 		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
@@ -50,7 +51,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/{lancamentoId}/credito/page")
+	@GetMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO + TipoEndPoint.PAGE)
 	public ResponseEntity<Page<CreditoDTO>> findPage(@PathVariable Long compradorId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -63,7 +64,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/credito/{id}")
+	@GetMapping(TipoEndPoint.CREDITO + TipoEndPoint.ID)
 	public ResponseEntity<CreditoDTO> findCreditoById(@PathVariable Long id) {
 		Credito obj = this.creditoService.findById(id);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
@@ -73,7 +74,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		return ResponseEntity.ok().body(objDTO);
 	}
 
-	@PostMapping("/{compradorId}/credito")
+	@PostMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)
 	public ResponseEntity<CreditoDTO> insertCredito(@PathVariable Long compradorId,
 			@Valid @RequestBody CreditoDTO objDTO) {
 		this.service.findById(compradorId);
@@ -90,7 +91,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		return ResponseEntity.created(uri).build();
 	}
 
-	@DeleteMapping("credito/{id}")
+	@DeleteMapping(TipoEndPoint.CREDITO + TipoEndPoint.ID)
 	public ResponseEntity<Void> deleteCredito(@PathVariable Long id) {
 		this.creditoService.delete(id);
 		log.info("Finishing delete. Tipo: " + this.getClass().getName());

@@ -31,7 +31,7 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private String obsrvacao;
+	private String observacao;
 
 	@Getter
 	@Setter
@@ -70,7 +70,7 @@ public class LancamentoDTO extends BaseDTO {
 			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
-		this.obsrvacao = obsrvacao;
+		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.faturaId = faturaId;
 		this.parcelado = parcelado;
@@ -84,7 +84,7 @@ public class LancamentoDTO extends BaseDTO {
 	public LancamentoDTO(Lancamento lancamento) {
 		super(lancamento.getId());
 		this.descricao = lancamento.getDescricao();
-		this.obsrvacao = lancamento.getObservacao();
+		this.observacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
 		this.faturaId = lancamento.getFatura().getId();
 		this.createdAt = lancamento.getCreatedAt();

@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.domain.Usuario;
 import com.santiago.dtos.UsuarioDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.UsuarioService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping(TipoEndPoint.USUARIO)
 public class UsuarioController {
 
 	@Autowired

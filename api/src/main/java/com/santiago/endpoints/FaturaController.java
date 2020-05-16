@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.domain.Fatura;
 import com.santiago.dtos.FaturaDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.FaturaService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/fatura")
+@RequestMapping(TipoEndPoint.FATURA)
 public class FaturaController extends BaseController<Fatura, FaturaDTO> {
 
 	@Autowired

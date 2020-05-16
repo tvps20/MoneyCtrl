@@ -1,7 +1,7 @@
 package com.santiago.builders;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.santiago.domain.Bandeira;
 import com.santiago.domain.Cartao;
@@ -18,10 +18,10 @@ public class CartaoBuilder {
 	private CartaoDTO cartaoDTO;
 
 	@Getter
-	private Collection<Cartao> cartoes;
+	private List<Cartao> cartoes;
 
 	@Getter
-	private Collection<CartaoDTO> cartoesDTO;
+	private List<CartaoDTO> cartoesDTO;
 
 	private static Bandeira bandeira;
 
@@ -74,6 +74,7 @@ public class CartaoBuilder {
 	public CartaoDTO getCartaoDTOInvalido() {
 		this.cartaoDTO.setNome(null);
 		this.cartaoDTO.setBandeiraId(null);
+		
 		return this.cartaoDTO;
 	}
 }

@@ -23,6 +23,7 @@ import com.santiago.domain.Cota;
 import com.santiago.domain.Lancamento;
 import com.santiago.dtos.CotaDTO;
 import com.santiago.dtos.LancamentoDTO;
+import com.santiago.endpoints.enuns.TipoEndPoint;
 import com.santiago.services.CotaService;
 import com.santiago.services.LancamentoService;
 
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/lancamento")
+@RequestMapping(TipoEndPoint.LANCAMENTO)
 public class LancamentoController extends BaseController<Lancamento, LancamentoDTO> {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		super(service);
 	}
 
-	@GetMapping("/{lancamentoId}/cota")
+	@GetMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA)
 	public ResponseEntity<List<CotaDTO>> listarCotas(@PathVariable Long lancamentoId) {
 		List<Cota> list = cotaService.findAllCotaByLancamentoId(lancamentoId);
 		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
@@ -50,7 +51,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/{lancamentoId}/cota/page")
+	@GetMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA + TipoEndPoint.PAGE)
 	public ResponseEntity<Page<CotaDTO>> findPageCotas(@PathVariable Long lancamentoId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -63,7 +64,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping("/cota/{id}")
+	@GetMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
 	public ResponseEntity<CotaDTO> findCotaById(@PathVariable Long id) {
 		Cota obj = this.cotaService.findById(id);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
@@ -73,7 +74,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		return ResponseEntity.ok().body(objDTO);
 	}
 
-	@PostMapping("/{lancamentoId}/cota")
+	@PostMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA)
 	public ResponseEntity<CotaDTO> insertCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
 		this.service.findById(lancamentoId);
 		log.info("Finishing findById. Tipo: " + this.getClass().getName());
@@ -89,7 +90,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		return ResponseEntity.created(uri).build();
 	}
 
-	@DeleteMapping("cota/{id}")
+	@DeleteMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
 	public ResponseEntity<Void> deleteCota(@PathVariable Long id) {
 		this.cotaService.delete(id);
 		log.info("Finishing delete. Tipo: " + this.getClass().getName());

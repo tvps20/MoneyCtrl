@@ -1,7 +1,7 @@
 package com.santiago.builders;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.santiago.domain.Bandeira;
 import com.santiago.dtos.BandeiraDTO;
@@ -17,10 +17,10 @@ public class BandeiraBuilder {
 	private BandeiraDTO bandeiraDTO;
 
 	@Getter
-	private Collection<Bandeira> bandeiras;
+	private List<Bandeira> bandeiras;
 
 	@Getter
-	private Collection<BandeiraDTO> bandeirasDTO;
+	private List<BandeiraDTO> bandeirasDTO;
 
 	// Construtores
 	private BandeiraBuilder() {
@@ -70,6 +70,7 @@ public class BandeiraBuilder {
 
 	public BandeiraDTO getBandeiraDTOInvalido() {
 		this.bandeiraDTO.setNome(null);
+
 		return this.bandeiraDTO;
 	}
 }
