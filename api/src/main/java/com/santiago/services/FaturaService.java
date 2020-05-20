@@ -32,16 +32,16 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		try {
 			entity.setId(null);
 			this.cartaoService.findById(entity.getCartao().getId());
-			log.info("Finishing findById. Tipo" + this.cartaoService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + CartaoService.class.getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getCartao().getId(), "cartaoId",
-					entity.getCartao().getClass().getName()));
+			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
+			throw new ObjectNotFoundException(
+					Mensagem.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
 		}
 	}
 
@@ -58,7 +58,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		log.info("Parse 'fatura' from 'newFatura': " + this.getTClass().getName());
 		newObj.setVencimento(obj.getVencimento());
 		newObj.setObservacao(obj.getObservacao());
-		newObj.setMesReferente(obj.getMesReferente());
+		newObj.setStatus(obj.getStatus());
 	}
 
 	@Override

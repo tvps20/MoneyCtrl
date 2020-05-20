@@ -2,6 +2,7 @@ package com.santiago.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Bandeira;
 import com.santiago.domain.Cartao;
@@ -74,7 +75,11 @@ public class CartaoBuilder {
 	public CartaoDTO getCartaoDTOInvalido() {
 		this.cartaoDTO.setNome(null);
 		this.cartaoDTO.setBandeiraId(null);
-		
+
 		return this.cartaoDTO;
+	}
+
+	public Optional<Cartao> getCartaoOpt() {
+		return Optional.of(this.cartao);
 	}
 }

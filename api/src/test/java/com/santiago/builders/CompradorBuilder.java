@@ -2,6 +2,7 @@ package com.santiago.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Comprador;
 import com.santiago.dtos.CompradorDTO;
@@ -71,7 +72,11 @@ public class CompradorBuilder {
 
 	public CompradorDTO getCompradorDTOInvalido() {
 		this.compradorDTO.setEmail(null);
-		
+
 		return this.compradorDTO;
+	}
+
+	public Optional<Comprador> getCompradorOpt() {
+		return Optional.of(this.comprador);
 	}
 }

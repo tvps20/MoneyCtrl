@@ -2,6 +2,7 @@ package com.santiago.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Usuario;
 import com.santiago.dtos.UsuarioDTO;
@@ -72,5 +73,9 @@ public class UsuarioBuilder {
 		this.usuarioDTO.setEmail(null);
 		this.usuarioDTO.setPassword(null);
 		return this.usuarioDTO;
+	}
+
+	public Optional<Usuario> getUsuarioOpt() {
+		return Optional.of(this.usuario);
 	}
 }

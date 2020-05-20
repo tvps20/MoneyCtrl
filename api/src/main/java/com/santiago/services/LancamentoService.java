@@ -38,31 +38,31 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	@Override
 	@Transactional
 	public Lancamento insert(Lancamento entity) {
-		log.info("Insert entity: " + this.getTClass().getName());
+		log.info("Insert entity: " + this.getClass().getName());
 
 		try {
 			entity.setId(null);
 			this.faturaService.findById(entity.getFatura().getId());
-			log.info("Finishing findById. Tipo" + this.faturaService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + FaturaService.class.getName());
 			entity.getCompradores().forEach(x -> {
 				this.compradorService.findById(x.getComprador().getId());
 			});
-			log.info("Finishing findById. Tipo" + this.compradorService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + CompradorService.class.getName());
 			Lancamento lancamentoSalvo = this.repository.save(entity);
-			this.cotaService.repository.saveAll(lancamentoSalvo.getCompradores());
-			log.info("Finishing saveAll. Tipo" + this.cotaService.getTClass().getName());
+			this.cotaService.saveAllCotas(lancamentoSalvo.getCompradores());
+			log.info("Finishing saveAll. Tipo" + CotaService.class.getName());
 
 			return lancamentoSalvo;
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
-						entity.getFatura().getClass().getName()), this.faturaService.getClass());
+						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
-				throw new ObjectNotFoundException(ex.getMessage(), this.compradorService.getClass());
+				throw new ObjectNotFoundException(ex.getMessage(), CompradorService.class);
 			}
 		}
 	}

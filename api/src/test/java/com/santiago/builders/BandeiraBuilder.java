@@ -2,6 +2,7 @@ package com.santiago.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Bandeira;
 import com.santiago.dtos.BandeiraDTO;
@@ -72,5 +73,9 @@ public class BandeiraBuilder {
 		this.bandeiraDTO.setNome(null);
 
 		return this.bandeiraDTO;
+	}
+
+	public Optional<Bandeira> getBandeiraOpt() {
+		return Optional.of(this.bandeira);
 	}
 }

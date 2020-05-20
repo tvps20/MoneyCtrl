@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Comprador;
 import com.santiago.domain.Divida;
@@ -85,5 +86,9 @@ public class DividaBuilder {
 		this.dividaDTO.setCompradorId(null);
 
 		return this.dividaDTO;
+	}
+
+	public Optional<Divida> getDividaOpt() {
+		return Optional.of(this.divida);
 	}
 }

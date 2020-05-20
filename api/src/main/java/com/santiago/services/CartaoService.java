@@ -28,21 +28,21 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	@Override
 	public Cartao insert(Cartao entity) {
-		log.info("Insert entity: " + this.getTClass().getName());
+		log.info("Insert entity: " + this.getClass().getName());
 
 		try {
 			entity.setId(null);
 			this.bandeiraService.findById(entity.getBandeira().getId());
-			log.info("Finishing findById. Tipo" + this.bandeiraService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + BandeiraService.class.getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
 			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
-					entity.getBandeira().getClass().getName()));
+					BandeiraService.class.getName()));
 		}
 	}
 

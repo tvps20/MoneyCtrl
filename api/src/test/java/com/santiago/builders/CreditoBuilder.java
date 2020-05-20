@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Comprador;
 import com.santiago.domain.Credito;
@@ -80,5 +81,9 @@ public class CreditoBuilder {
 		this.creditoDTO.setData(null);
 
 		return this.creditoDTO;
+	}
+
+	public Optional<Credito> getCreditoOpt() {
+		return Optional.of(this.credito);
 	}
 }

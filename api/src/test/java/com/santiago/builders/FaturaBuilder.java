@@ -3,6 +3,7 @@ package com.santiago.builders;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Cartao;
 import com.santiago.domain.Fatura;
@@ -77,7 +78,11 @@ public class FaturaBuilder {
 	public FaturaDTO getFaturaDTOInvalido() {
 		this.faturaDTO.setVencimento(null);
 		this.faturaDTO.setCartaoId(null);
-		
+
 		return this.faturaDTO;
+	}
+
+	public Optional<Fatura> getFaturaOpt() {
+		return Optional.of(this.fatura);
 	}
 }

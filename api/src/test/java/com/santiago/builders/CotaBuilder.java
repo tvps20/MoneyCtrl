@@ -3,6 +3,7 @@ package com.santiago.builders;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Comprador;
 import com.santiago.domain.Cota;
@@ -79,5 +80,9 @@ public class CotaBuilder {
 		this.cotaDTO.setCompradorId(null);
 
 		return this.cotaDTO;
+	}
+
+	public Optional<Cota> getCotaOpt() {
+		return Optional.of(this.cota);
 	}
 }

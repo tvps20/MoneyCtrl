@@ -71,9 +71,9 @@ public abstract class BaseControllerTest<T extends BaseEntity, K extends BaseDTO
 
 	@Test
 	public void deveRetornarSucesso_QuandoBuscarAllPageEntities() throws Exception {
-		Page<T> entityPage = new PageImpl<>(this.entityList);
+		Page<T> entityListPage = new PageImpl<>(this.entityList);
 
-		when(this.service.findPage(0, 24, "ASC", "nome")).thenReturn(entityPage);
+		when(this.service.findPage(0, 24, "ASC", "nome")).thenReturn(entityListPage);
 
 		ResultActions result = mockMvc.perform(
 				MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.PAGE).accept(MediaType.APPLICATION_JSON));

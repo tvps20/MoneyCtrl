@@ -38,23 +38,23 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 			if (entity.getFatura() != null) {
 				this.faturaService.findById(entity.getFatura().getId());
 			}
-			log.info("Finishing findById. Tipo" + this.faturaService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + FaturaService.class.getName());
 			this.compradorService.findById(entity.getComprador().getId());
-			log.info("Finishing findById. Tipo" + this.compradorService.getTClass().getName());
+			log.info("Finishing findById. Tipo" + CompradorService.class.getName());
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
-				log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+			if (ex.getClassTipo().equals(FaturaService.class)) {
+				log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
-						entity.getFatura().getClass().getName()), this.faturaService.getClass());
+						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
-				log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+				log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "compradorId",
-						entity.getComprador().getClass().getName()), this.compradorService.getClass());
+						entity.getComprador().getClass().getName()), CompradorService.class);
 			}
 		}
 	}
@@ -75,6 +75,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		log.info("Parse 'divida' from 'newDivida': " + this.getTClass().getName());
 		newObj.setValor(obj.getValor());
 		newObj.setObservacao(obj.getObservacao());
+		newObj.setPaga(obj.isPaga());
 	}
 
 	@Override

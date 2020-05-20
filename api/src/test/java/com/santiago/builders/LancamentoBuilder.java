@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.santiago.domain.Comprador;
 import com.santiago.domain.Cota;
@@ -93,5 +94,9 @@ public class LancamentoBuilder {
 		this.lancamentoDTO.setFaturaId(null);
 
 		return this.lancamentoDTO;
+	}
+
+	public Optional<Lancamento> getLancamentoOpt() {
+		return Optional.of(this.lancamento);
 	}
 }
