@@ -92,8 +92,8 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 		try {
 			return this.repository.save(entity);
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getTClass().getName()));
+			log.error(Mensagem.erroObjInserir(this.getTClass().getName()));
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		}
 	}
 
@@ -125,7 +125,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			log.info("Delete entity. Id:" + id + ". Tipo: " + this.getTClass().getName());
 			this.repository.deleteById(id);
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getTClass().getName()), ex);
+			log.error(Mensagem.erroObjDelete(this.getTClass().getName()));
 			throw new DataIntegrityException(Mensagem.erroObjDelete(this.getTClass().getName()));
 		}
 	}

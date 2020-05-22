@@ -44,15 +44,14 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 			return this.repository.save(entity);
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
 			if (ex.getClassTipo().equals(FaturaService.class)) {
-				log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
-				log.error(Mensagem.erroObjDelete(this.getClass().getName()), ex);
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "compradorId",
 						entity.getComprador().getClass().getName()), CompradorService.class);
 			}

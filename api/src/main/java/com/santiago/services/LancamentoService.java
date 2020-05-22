@@ -55,9 +55,10 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 			return lancamentoSalvo;
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()), ex);
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
 			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), FaturaService.class);
