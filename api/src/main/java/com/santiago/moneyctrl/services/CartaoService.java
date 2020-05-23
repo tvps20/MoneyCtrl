@@ -1,0 +1,71 @@
+package com.santiago.moneyctrl.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import com.santiago.moneyctrl.domain.Bandeira;
+import com.santiago.moneyctrl.domain.Cartao;
+import com.santiago.moneyctrl.dtos.CartaoDTO;
+import com.santiago.moneyctrl.repositories.CartaoRepository;
+import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
+import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
+import com.santiago.moneyctrl.services.interfaces.IServiceValidator;
+import com.santiago.moneyctrl.util.Mensagem;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class CartaoService extends BaseService<Cartao, CartaoDTO> implements IServiceValidator {
+
+	@Autowired
+	private BandeiraService bandeiraService;
+
+	public CartaoService(CartaoRepository repository) {
+		super(repository);
+	}
+
+	@Override
+	public Cartao insert(Cartao entity) {
+		log.info("Insert entity: " + this.getClass().getName());
+
+		try {
+			entity.setId(null);
+			this.bandeiraService.findById(entity.getBandeira().getId());
+			log.info("Finishing findById. Tipo" + BandeiraService.class.getName());
+			return this.repository.save(entity);
+
+		} catch (DataIntegrityViolationException ex) {
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+		} catch (ObjectNotFoundException ex) {
+			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
+					BandeiraService.class.getName()));
+		}
+	}
+
+	@Override
+	public Cartao fromDTO(CartaoDTO dto) {
+		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
+		return new Cartao(dto.getId(), dto.getNome(), new Bandeira(dto.getBandeiraId()));
+	}
+
+	@Override
+	public void updateData(Cartao newObj, Cartao obj) {
+		log.info("Parse 'cartao' from 'newCartao': " + this.getTClass().getName());
+		newObj.setNome(obj.getNome());
+	}
+
+	@Override
+	public Class<Cartao> getTClass() {
+		return Cartao.class;
+	}
+
+	@Override
+	public boolean verificarCampoUnico(String campo) {
+		log.info("Find by unique value: " + campo);
+		return ((CartaoRepository) this.repository).verificarCampoUnico(campo);
+	}
+}
