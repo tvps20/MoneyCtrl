@@ -3,7 +3,7 @@ package com.santiago.moneyctrl.endpoints.enuns;
 public class TipoEndPoint {
 
 	public static final String BANDEIRA = "/bandeiras";
-	public static final String CARTAO = "/catoes";
+	public static final String CARTAO = "/cartoes";
 	public static final String COMPRADOR = "/compradores";
 	public static final String DIVIDA = "/dividas";
 	public static final String FATURA = "/faturas";
