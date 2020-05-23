@@ -36,6 +36,8 @@ public class Usuario extends BaseEntity {
 	@JsonIgnore
 	private String password;
 
+	@Getter
+	@Setter
 	@CollectionTable(name = "PERFIS")
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<TipoPerfil> perfis = new HashSet<>();
@@ -44,7 +46,7 @@ public class Usuario extends BaseEntity {
 	public Usuario() {
 		this.perfis.add(TipoPerfil.USUARIO);
 	}
-	
+
 	public Usuario(Long id) {
 		super(id);
 	}
@@ -56,12 +58,17 @@ public class Usuario extends BaseEntity {
 		this.password = password;
 		this.perfis.add(TipoPerfil.USUARIO);
 	}
-	
-	public Usuario(Long id, String email, String nome, String password, TipoPerfil perfil) {
+
+	public Usuario(Long id, String email, String nome, String password, TipoPerfil... perfis) {
 		super(id);
 		this.email = email;
 		this.nome = nome;
 		this.password = password;
-		this.perfis.add(perfil);
+
+		for (TipoPerfil tipoPerfil : perfis) {
+			if (!this.perfis.contains(tipoPerfil)) {
+				this.perfis.add(tipoPerfil);
+			}
+		}
 	}
 }

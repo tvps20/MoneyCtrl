@@ -69,7 +69,7 @@ public class DBService {
 
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 
-		Usuario user1 = new Usuario(null, "thiago@email.com", "thiago", "123", TipoPerfil.ADMIN);
+		Usuario user1 = new Usuario(null, "thiago@email.com", "thiago", "123", TipoPerfil.USUARIO, TipoPerfil.ADMIN);
 		Comprador comprador2 = new Comprador(null, "filipe@email.com", "filipe", "123");
 		Comprador comprador3 = new Comprador(null, "gilson@email.com", "gilson", "123");
 
