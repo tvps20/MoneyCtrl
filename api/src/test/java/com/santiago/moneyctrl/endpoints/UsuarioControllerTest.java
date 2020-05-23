@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.santiago.moneyctrl.builders.UsuarioBuilder;
 import com.santiago.moneyctrl.domain.Usuario;
+import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
 import com.santiago.moneyctrl.endpoints.UsuarioController;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.UsuarioService;
@@ -33,16 +34,18 @@ public class UsuarioControllerTest {
 	@MockBean
 	private UsuarioService service;
 
-	private List<Usuario> entityList;
+	private Usuario user;
+	private List<Usuario> userList;
 
 	@Before
 	public void setup() {
-		this.entityList = UsuarioBuilder.mockCollectionUsuariosBuilder().getUsuarios();
+		this.user = UsuarioBuilder.mockUsuarioBuilder().getUsuario();
+		this.userList = UsuarioBuilder.mockCollectionUsuariosBuilder().getUsuarios();
 	}
 
 	@Test
 	public void deveRetornarSucesso_QuandoBuscarAllEntities() throws Exception {
-		when(this.service.findAll()).thenReturn(this.entityList);
+		when(this.service.findAll()).thenReturn(this.userList);
 
 		ResultActions result = mockMvc
 				.perform(MockMvcRequestBuilders.get(this.getRoute()).accept(MediaType.APPLICATION_JSON));
@@ -51,6 +54,19 @@ public class UsuarioControllerTest {
 				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
 				.andExpect(MockMvcResultMatchers.jsonPath("$[*].id").isNotEmpty())
 				.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1));
+	}
+
+	@Test
+	public void deveRetornarSucesso_QuandoBuscarAllPerfis() throws Exception {
+		when(this.service.findById(1L)).thenReturn(this.user);
+
+		ResultActions result = mockMvc
+				.perform(MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.USUARIO_ID + TipoEndPoint.PERFIl, 1L)
+						.accept(MediaType.APPLICATION_JSON));
+
+		result.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(TipoPerfil.USUARIO.toString()));
 	}
 
 	public String getRoute() {
