@@ -29,6 +29,9 @@ import com.santiago.moneyctrl.repositories.LancamentoRepository;
 import com.santiago.moneyctrl.repositories.PagamentoRepository;
 import com.santiago.moneyctrl.repositories.UsuarioRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class DBService {
 
@@ -60,6 +63,8 @@ public class DBService {
 	private CotaRepository cotaRepository;
 
 	public void instantiateTestDatabase() {
+		log.info("[DbService] - Populando banco de dados.");
+
 		Bandeira bandeira1 = new Bandeira(null, "mastercard");
 		Bandeira bandeira2 = new Bandeira(null, "visa");
 
@@ -69,7 +74,8 @@ public class DBService {
 
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 
-		Usuario user1 = new Usuario(null, "thiago@email.com", "thiago", "123", TipoPerfil.USUARIO, TipoPerfil.ADMIN);
+		Usuario user1 = new Usuario(null, "admin@email.com", "admin", "123", TipoPerfil.USUARIO, TipoPerfil.ADMIN);
+		Comprador comprador1 = new Comprador(null, "thiago@email.com", "thiago", "123");
 		Comprador comprador2 = new Comprador(null, "filipe@email.com", "filipe", "123");
 		Comprador comprador3 = new Comprador(null, "gilson@email.com", "gilson", "123");
 
@@ -96,11 +102,13 @@ public class DBService {
 		this.bandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));
 		this.faturaRepository.save(fatura1);
-		this.usuarioRepository.saveAll(Arrays.asList(user1, comprador2, comprador3));
+		this.usuarioRepository.saveAll(Arrays.asList(user1, comprador1, comprador2, comprador3));
 		this.lancamentoRepository.saveAll(Arrays.asList(lancamento1, lancamento2, lancamento3));
 		this.cotaRepository.saveAll(Arrays.asList(cota1, cota2, cota3, cota4));
 		this.dividaRepository.saveAll(Arrays.asList(divida1, divida2));
 		this.creditoRepository.save(credito);
 		this.pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
+
+		log.info("[DbService] - Dados inseridos com sucesso.");
 	}
 }
