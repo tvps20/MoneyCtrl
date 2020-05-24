@@ -49,7 +49,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		List<Cota> list = cotaService.findAllCotaByLancamentoId(lancamentoId);
 		List<CotaDTO> listDTO = list.stream().map(obj -> new CotaDTO(obj)).collect(Collectors.toList());
 
-		log.info("[GET] - Busca finalizada com sucesso.");
+		log.info("[GET] - Get realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -64,24 +64,24 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		Page<Cota> list = cotaService.findPageByLancamentoId(lancamentoId, page, linesPerPage, direction, orderBy);
 		Page<CotaDTO> listDTO = list.map(obj -> new CotaDTO(obj));
 
-		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
+		log.info("[GET PAGE] - GetPage realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
-	public ResponseEntity<CotaDTO> findCotaById(@PathVariable Long id) {
+	public ResponseEntity<CotaDTO> buscarCotaPeloId(@PathVariable Long id) {
 		log.info("[GET ID] - Buscando cota pelo Id: " + id);
 		Cota obj = this.cotaService.findById(id);
 		CotaDTO objDTO = new CotaDTO(obj);
 		objDTO.setLancamentoId(obj.getLancamento().getId());
 
-		log.info("[GET ID] - Cota encontrado com sucesso.");
+		log.info("[GET ID] - GetById realizado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA)
-	public ResponseEntity<CotaDTO> insertCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
-		log.info("[POST] - Salvando uma nova Cota. Entity: " + objDTO.toString());
+	public ResponseEntity<CotaDTO> inserirCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
+		log.info("[POST] - Salvando uma nova Cota. Dto: " + objDTO.toString());
 		this.service.findById(lancamentoId);
 		objDTO.setLancamentoId(lancamentoId);
 		Cota obj = this.cotaService.fromDTO(objDTO);
@@ -92,16 +92,16 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 				.buildAndExpand(obj.getId()).toUri();
 		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
 
-		log.info("[POST] - Cota salvo no bando de dados.");
+		log.info("[POST] - Put realizado com sucesso.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
-	public ResponseEntity<Void> deleteCota(@PathVariable Long id) {
+	public ResponseEntity<Void> deletarCota(@PathVariable Long id) {
 		log.info("[DELETE] - Apagando Cota de Id: " + id);
 		this.cotaService.delete(id);
 
-		log.info("[DELETE] - Cota apagado com sucesso.");
+		log.info("[DELETE] - Delete realizado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 

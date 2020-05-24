@@ -49,7 +49,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
 		List<CreditoDTO> listDTO = list.stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
 
-		log.info("[GET] - Busca finalizada com sucesso.");
+		log.info("[GET] - Get realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -64,7 +64,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		Page<Credito> list = creditoService.findPageByCompradorId(compradorId, page, linesPerPage, direction, orderBy);
 		Page<CreditoDTO> listDTO = list.map(obj -> new CreditoDTO(obj));
 
-		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
+		log.info("[GET PAGE] - GetPage realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -75,14 +75,14 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		CreditoDTO objDTO = new CreditoDTO(obj);
 		objDTO.setCompradorId(obj.getComprador().getId());
 
-		log.info("[GET ID] - Credito encontrado com sucesso.");
+		log.info("[GET ID] - GetById realizado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)
 	public ResponseEntity<CreditoDTO> inserirCredito(@PathVariable Long compradorId,
 			@Valid @RequestBody CreditoDTO objDTO) {
-		log.info("[POST] - Salvando um novo credito. Entity: " + objDTO.toString());
+		log.info("[POST] - Salvando um novo credito. Dto: " + objDTO.toString());
 		this.service.findById(compradorId);
 		objDTO.setCompradorId(compradorId);
 		Credito obj = this.creditoService.fromDTO(objDTO);
@@ -92,7 +92,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 				.buildAndExpand(obj.getId()).toUri();
 		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
 
-		log.info("[POST] - Credito salvo no bando de dados.");
+		log.info("[POST] - Post realizado com sucesso.");
 		return ResponseEntity.created(uri).build();
 	}
 
@@ -101,7 +101,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 		log.info("[DELETE] - Apagando credito de Id: " + id);
 		this.creditoService.delete(id);
 
-		log.info("[DELETE] - Credito apagado com sucesso.");
+		log.info("[DELETE] - Delete realizado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 

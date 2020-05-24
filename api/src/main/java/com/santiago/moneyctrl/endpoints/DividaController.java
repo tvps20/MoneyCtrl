@@ -49,7 +49,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		List<Pagamento> list = pagamentoService.findAllPagamentoByDividaId(dividaId);
 		List<PagamentoDTO> listDTO = list.stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
 
-		log.info("[GET] - Busca finalizada com sucesso.");
+		log.info("[GET] - Get realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -64,7 +64,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		Page<Pagamento> list = pagamentoService.findPageByDividaId(dividaId, page, linesPerPage, direction, orderBy);
 		Page<PagamentoDTO> listDTO = list.map(obj -> new PagamentoDTO(obj));
 
-		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
+		log.info("[GET PAGE] - GetPage realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -75,14 +75,14 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		PagamentoDTO objDTO = new PagamentoDTO(obj);
 		objDTO.setDividaId(obj.getDivida().getId());
 
-		log.info("[GET ID] - Pagamento encontrado com sucesso.");
+		log.info("[GET ID] - GetById realizado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO)
 	public ResponseEntity<PagamentoDTO> insertPagamento(@PathVariable Long dividaId,
 			@Valid @RequestBody PagamentoDTO objDTO) {
-		log.info("[POST] - Salvando um novo Pagamento. Entity: " + objDTO.toString());
+		log.info("[POST] - Salvando um novo Pagamento. Dto: " + objDTO.toString());
 		this.service.findById(dividaId);
 		objDTO.setDividaId(dividaId);
 		Pagamento obj = this.pagamentoService.fromDTO(objDTO);
@@ -92,7 +92,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 				.buildAndExpand(obj.getId()).toUri();
 		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
 
-		log.info("[POST] - Pagamento salvo no bando de dados.");
+		log.info("[POST] - Post realizado com sucesso.");
 		return ResponseEntity.created(uri).build();
 	}
 
@@ -101,7 +101,7 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		log.info("[DELETE] - Apagando Pagamento de Id: " + id);
 		this.pagamentoService.delete(id);
 
-		log.info("[DELETE] - Pagamento apagado com sucesso.");
+		log.info("[DELETE] - Delete realizado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 

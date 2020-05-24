@@ -40,7 +40,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		List<T> list = service.findAll();
 		List<K> listDTO = list.stream().map(obj -> this.newClassDTO(obj)).collect(Collectors.toList());
 
-		baseLog.info("[GET] - Busca finalizada com sucesso.");
+		baseLog.info("[GET] - Get realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -54,7 +54,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		Page<T> list = service.findPage(page, linesPerPage, direction, orderBy);
 		Page<K> listDTO = list.map(obj -> this.newClassDTO(obj));
 
-		baseLog.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
+		baseLog.info("[GET PAGE] - GetPage realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
@@ -64,31 +64,31 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		T obj = this.service.findById(id);
 		K objDTO = this.newClassDTO(obj);
 
-		baseLog.info("[GET ID] - Entidade encontrada com sucesso.");
+		baseLog.info("[GET ID] - GetById realizado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping
 	public ResponseEntity<Void> inserir(@Valid @RequestBody K objDTO) {
-		baseLog.info("[POST] - Salvando uma nova entidade. Entity: " + objDTO.toString());
+		baseLog.info("[POST] - Salvando uma nova entidade. Dto: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
 		obj = this.service.insert(obj);
 		baseLog.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		baseLog.info("[POST] - Uri criado com sucesso. Uri: " + uri);
 
-		baseLog.info("[POST] - Entidade salva no bando de dados.");
+		baseLog.info("[POST] - Post realizado com sucesso.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@PutMapping(TipoEndPoint.ID)
 	public ResponseEntity<Void> atualizar(@Valid @RequestBody K objDTO, @PathVariable Long id) {
-		baseLog.info("[PUT] - Atualizando entidade. Entity: " + objDTO.toString());
+		baseLog.info("[PUT] - Atualizando entidade. Dto: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		this.service.update(obj);
 
-		baseLog.info("[PUT] - Entitade atualizada no bando de dados.");
+		baseLog.info("[PUT] - Put realizado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 
@@ -97,7 +97,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 		baseLog.info("[DELETE] - Apagando entidade de Id: " + id);
 		this.service.delete(id);
 
-		baseLog.info("[DELETE] - Entidade apagada com sucesso.");
+		baseLog.info("[DELETE] - Delete realizado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 
