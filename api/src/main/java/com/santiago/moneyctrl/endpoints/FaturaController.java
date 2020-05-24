@@ -19,11 +19,15 @@ public class FaturaController extends BaseController<Fatura, FaturaDTO> {
 	@Autowired
 	public FaturaController(FaturaService service) {
 		super(service);
+		BaseController.baseLog = FaturaController.log;
 	}
 
 	@Override
 	public FaturaDTO newClassDTO(Fatura obj) {
-		log.info("Mapping 'Fatura' to 'FaturaDTO'. Tipo: " + this.getClass().getName());
-		return new FaturaDTO(obj);
+		log.info("[Mapping] - 'Fatura' to 'FaturaDTO'. Id: " + obj.getId());
+		FaturaDTO dto = new FaturaDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

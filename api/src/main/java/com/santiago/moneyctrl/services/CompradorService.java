@@ -14,25 +14,25 @@ public class CompradorService extends BaseService<Comprador, CompradorDTO> {
 
 	public CompradorService(CompradorRepository repository) {
 		super(repository);
+		BaseService.baseLog = CompradorService.log;
 	}
 
 	@Override
 	public Comprador fromDTO(CompradorDTO dto) {
-		log.info("Mapping 'CompradorDTO' to 'Comprador': " + this.getTClass().getName());
-		return new Comprador(dto.getId(), dto.getEmail(), dto.getNome(), dto.getPassword());
+		log.info("[Mapping] - 'CompradorDTO' to 'Comprador'. Id: " + dto.getId());
+		Comprador comprador = new Comprador(dto.getId(), dto.getEmail(), dto.getNome(), dto.getPassword());
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return comprador;
 	}
 
 	@Override
 	public void updateData(Comprador newObj, Comprador obj) {
-		log.info("Parse 'comprador' from 'newComprador': " + this.getTClass().getName());
+		log.info("[Parse] - 'comprador' from 'newComprador'. Id: " + newObj.getId());
 		newObj.setEmail(obj.getEmail());
 		newObj.setPassword(obj.getPassword());
 		newObj.setNome(obj.getNome());
 		newObj.setDevedor(obj.isDevedor());
-	}
-
-	@Override
-	public Class<Comprador> getTClass() {
-		return Comprador.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

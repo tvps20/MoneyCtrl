@@ -23,23 +23,27 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	public FaturaService(FaturaRepository repository) {
 		super(repository);
+		BaseService.baseLog = FaturaService.log;
 	}
 
 	@Override
 	public Fatura insert(Fatura entity) {
-		log.info("Insert entity: " + this.getTClass().getName());
+		entity.setId(null);
+		log.info("[Insert] - Salvando uma nova fatura. Entity: " + entity.toString());
 
 		try {
-			entity.setId(null);
+			log.info("[Insert] - Buscando cartao.");
 			this.cartaoService.findById(entity.getCartao().getId());
-			log.info("Finishing findById. Tipo" + CartaoService.class.getName());
-			return this.repository.save(entity);
+			Fatura fatura = this.repository.save(entity);
+
+			log.info("[Insert] - Fatura salva no bando de dados.");
+			return fatura;
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar salvar fatura.");
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar buscar cartao.");
 			throw new ObjectNotFoundException(
 					Mensagem.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
 		}
@@ -47,22 +51,20 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	@Override
 	public Fatura fromDTO(FaturaDTO dto) {
-		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
-
-		return new Fatura(dto.getId(), dto.getVencimento(), dto.getObservacao(), dto.getMesReferente(),
+		log.info("[Mapping] - 'FaturaDTO' to 'Fatura'. Id: " + dto.getId());
+		Fatura fatura = new Fatura(dto.getId(), dto.getVencimento(), dto.getObservacao(), dto.getMesReferente(),
 				new Cartao(dto.getCartaoId()));
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return fatura;
 	}
 
 	@Override
 	public void updateData(Fatura newObj, Fatura obj) {
-		log.info("Parse 'fatura' from 'newFatura': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewFatura' from 'Fatura'. Id: " + newObj.getId());
 		newObj.setVencimento(obj.getVencimento());
 		newObj.setObservacao(obj.getObservacao());
 		newObj.setStatus(obj.getStatus());
-	}
-
-	@Override
-	public Class<Fatura> getTClass() {
-		return Fatura.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

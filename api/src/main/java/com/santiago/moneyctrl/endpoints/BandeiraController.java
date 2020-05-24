@@ -19,11 +19,15 @@ public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
 	@Autowired
 	public BandeiraController(BandeiraService service) {
 		super(service);
+		BaseController.baseLog = BandeiraController.log;
 	}
 
 	@Override
 	public BandeiraDTO newClassDTO(Bandeira obj) {
-		log.info("Mapping 'Bandeira' to 'BandeiraDTO'. Tipo: " + this.getClass().getName());
-		return new BandeiraDTO(obj);
+		log.info("[Mapping] - 'Bandeira' to 'BandeiraDTO'. Id: " + obj.getId());
+		BandeiraDTO dto = new BandeiraDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

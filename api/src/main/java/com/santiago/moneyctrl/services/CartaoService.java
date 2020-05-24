@@ -24,23 +24,27 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	public CartaoService(CartaoRepository repository) {
 		super(repository);
+		BaseService.baseLog = CartaoService.log;
 	}
 
 	@Override
 	public Cartao insert(Cartao entity) {
-		log.info("Insert entity: " + this.getClass().getName());
+		entity.setId(null);
+		log.info("[Insert] - Salvando um novo cartao. Entity: " + entity.toString());
 
 		try {
-			entity.setId(null);
+			log.info("[Insert] - Buscando bandeira.");
 			this.bandeiraService.findById(entity.getBandeira().getId());
-			log.info("Finishing findById. Tipo" + BandeiraService.class.getName());
-			return this.repository.save(entity);
+			Cartao cartao = this.repository.save(entity);
+
+			log.info("[Insert] - Cartao salvo no bando de dados.");
+			return cartao;
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar salvar cartao.");
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar buscar bandeira.");
 			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
 					BandeiraService.class.getName()));
 		}
@@ -48,24 +52,26 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	@Override
 	public Cartao fromDTO(CartaoDTO dto) {
-		log.info("Mapping 'CartaoDTO' to 'Cartao': " + this.getTClass().getName());
-		return new Cartao(dto.getId(), dto.getNome(), new Bandeira(dto.getBandeiraId()));
+		log.info("[Mapping] - 'CartaoDTO' to 'Cartao'. Id: " + dto.getId());
+		Cartao cartao = new Cartao(dto.getId(), dto.getNome(), new Bandeira(dto.getBandeiraId()));
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return cartao;
 	}
 
 	@Override
 	public void updateData(Cartao newObj, Cartao obj) {
-		log.info("Parse 'cartao' from 'newCartao': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewCartao' from 'Cartao'. Id: " + newObj.getId());
 		newObj.setNome(obj.getNome());
-	}
-
-	@Override
-	public Class<Cartao> getTClass() {
-		return Cartao.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 
 	@Override
 	public boolean verificarCampoUnico(String campo) {
-		log.info("Find by unique value: " + campo);
-		return ((CartaoRepository) this.repository).verificarCampoUnico(campo);
+		log.info("[FindByUnique] - Buscando valor no banco de dados. Value: " + campo);
+		boolean retorno = ((CartaoRepository) this.repository).verificarCampoUnico(campo);
+
+		log.info("[FindByUnique] - Busca finalizada. Retorno: " + retorno);
+		return retorno;
 	}
 }

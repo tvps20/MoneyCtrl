@@ -19,36 +19,43 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 
 	public CreditoService(CreditoRepository repository) {
 		super(repository);
+		BaseService.baseLog = CreditoService.log;
 	}
 
-	public List<Credito> findAllCreditoByCompradorId(Long lancamentoId) {
-		log.info("Find All credito: " + this.getTClass().getName());
-		return ((CreditoRepository) this.repository).findByCompradorId(lancamentoId);
+	public List<Credito> findAllCreditoByCompradorId(Long compradorId) {
+		log.info("[FindAllCredito] - Buscando todas as creditos. CompradorId: " + compradorId);
+		List<Credito> creditos = ((CreditoRepository) this.repository).findByCompradorId(compradorId);
+
+		log.info("[FindAllCredito] - Busca finalizada com sucesso.");
+		return creditos;
 	}
 
 	public Page<Credito> findPageByCompradorId(Long compradorId, Integer page, Integer linesPerPage, String orderBy,
 			String direction) {
-		log.info("Find page credito: " + this.getTClass().getName());
+		log.info("[FindPageCota] - Buscando todas os creditos paginado: { compradorId: " + compradorId + ", Page: "
+				+ page + ", linesPerPage: " + linesPerPage + " }");
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);
-		return ((CreditoRepository) this.repository).findByCompradorId(compradorId, pageRequest);
+		Page<Credito> creditos = ((CreditoRepository) this.repository).findByCompradorId(compradorId, pageRequest);
+
+		log.info("[FindPageCota] - Busca paginada finalizada com sucesso.");
+		return creditos;
 	}
 
 	@Override
 	public Credito fromDTO(CreditoDTO dto) {
-		log.info("Mapping 'CreditoDTO' to 'Credito': " + this.getTClass().getName());
-		return new Credito(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
+		log.info("[Mapping] - 'CreditoDTO' to 'Credito'. Id: " + dto.getId());
+		Credito credito = new Credito(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
 				new Comprador(dto.getCompradorId()));
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return credito;
 	}
 
 	@Override
 	public void updateData(Credito newObj, Credito obj) {
-		log.info("Parse 'credito' from 'newCredito': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewCredito' from 'Credito'. Id: " + newObj.getId());
 		newObj.setValor(obj.getValor());
 		newObj.setObservacao(obj.getObservacao());
-	}
-
-	@Override
-	public Class<Credito> getTClass() {
-		return Credito.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

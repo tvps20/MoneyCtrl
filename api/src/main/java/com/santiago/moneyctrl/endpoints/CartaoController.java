@@ -19,11 +19,15 @@ public class CartaoController extends BaseController<Cartao, CartaoDTO> {
 	@Autowired
 	public CartaoController(CartaoService service) {
 		super(service);
+		BaseController.baseLog = CartaoController.log;
 	}
 
 	@Override
 	public CartaoDTO newClassDTO(Cartao obj) {
-		log.info("Mapping 'Cartao' to 'CartaoDTO'. Tipo: " + this.getClass().getName());
-		return new CartaoDTO(obj);
+		log.info("[Mapping] - 'Cartao' to 'CartaoDTO'. Id: " + obj.getId());
+		CartaoDTO dto = new CartaoDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

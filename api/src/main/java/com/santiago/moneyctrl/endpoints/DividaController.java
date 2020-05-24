@@ -40,67 +40,77 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 	@Autowired
 	public DividaController(DividaService service) {
 		super(service);
+		BaseController.baseLog = DividaController.log;
 	}
 
 	@GetMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO)
 	public ResponseEntity<List<PagamentoDTO>> listarPagamentos(@PathVariable Long dividaId) {
+		log.info("[GET] - Buscando todas as dividas. DividaId: " + dividaId);
 		List<Pagamento> list = pagamentoService.findAllPagamentoByDividaId(dividaId);
-		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<PagamentoDTO> listDTO = list.stream().map(obj -> new PagamentoDTO(obj)).collect(Collectors.toList());
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO + TipoEndPoint.PAGE)
-	public ResponseEntity<Page<PagamentoDTO>> findPagePagamento(@PathVariable Long dividaId,
+	public ResponseEntity<Page<PagamentoDTO>> listarPagePagamentos(@PathVariable Long dividaId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		log.info("[GET PAGE] - Buscando todos os pagamentos paginado: {dividaId: " + dividaId + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
 		Page<Pagamento> list = pagamentoService.findPageByDividaId(dividaId, page, linesPerPage, direction, orderBy);
-		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<PagamentoDTO> listDTO = list.map(obj -> new PagamentoDTO(obj));
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.PAGAMENTO + TipoEndPoint.ID)
-	public ResponseEntity<PagamentoDTO> findPagamentoById(@PathVariable Long id) {
+	public ResponseEntity<PagamentoDTO> buscarPagamentoPeloId(@PathVariable Long id) {
+		log.info("[GET ID] - Buscando pagamento pelo Id: " + id);
 		Pagamento obj = this.pagamentoService.findById(id);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		PagamentoDTO objDTO = new PagamentoDTO(obj);
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setDividaId(obj.getDivida().getId());
+
+		log.info("[GET ID] - Pagamento encontrado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO)
 	public ResponseEntity<PagamentoDTO> insertPagamento(@PathVariable Long dividaId,
 			@Valid @RequestBody PagamentoDTO objDTO) {
+		log.info("[POST] - Salvando um novo Pagamento. Entity: " + objDTO.toString());
 		this.service.findById(dividaId);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setDividaId(dividaId);
 		Pagamento obj = this.pagamentoService.fromDTO(objDTO);
-		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.pagamentoService.insert(obj);
-		log.info("Finishing insert. Tipo: " + this.getClass().getName());
-		log.info("Create uri. " + this.getClass().getName());
+		log.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("divida/pagamento/{id}")
 				.buildAndExpand(obj.getId()).toUri();
-		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
+		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
+
+		log.info("[POST] - Pagamento salvo no bando de dados.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping(TipoEndPoint.PAGAMENTO + TipoEndPoint.ID)
 	public ResponseEntity<Void> deletePagamento(@PathVariable Long id) {
+		log.info("[DELETE] - Apagando Pagamento de Id: " + id);
 		this.pagamentoService.delete(id);
-		log.info("Finishing delete. Tipo: " + this.getClass().getName());
+
+		log.info("[DELETE] - Pagamento apagado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public DividaDTO newClassDTO(Divida obj) {
-		log.info("Mapping 'Divida' to 'DividaDTO': " + this.getClass().getName());
-		return new DividaDTO(obj);
+		log.info("[Mapping] - 'Divida' to 'DividaDTO'. Id: " + obj.getId());
+		DividaDTO dto = new DividaDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

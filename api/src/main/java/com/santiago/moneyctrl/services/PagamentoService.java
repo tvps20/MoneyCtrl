@@ -19,36 +19,43 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 
 	public PagamentoService(PagamentoRepository repository) {
 		super(repository);
+		BaseService.baseLog = PagamentoService.log;
 	}
 
 	public List<Pagamento> findAllPagamentoByDividaId(Long dividaId) {
-		log.info("Find All Pagamento: " + this.getTClass().getName());
-		return ((PagamentoRepository) this.repository).findByDividaId(dividaId);
+		log.info("[FindAllPagamento] - Buscando todas os pagamentos. DividaId: " + dividaId);
+		List<Pagamento> pagamentos = ((PagamentoRepository) this.repository).findByDividaId(dividaId);
+
+		log.info("[FindAllPagamento] - Busca finalizada com sucesso.");
+		return pagamentos;
 	}
 
 	public Page<Pagamento> findPageByDividaId(Long dividaId, Integer page, Integer linesPerPage, String orderBy,
 			String direction) {
-		log.info("Find page credito: " + this.getTClass().getName());
+		log.info("[FindPageCota] - Buscando todas os pagamentos paginado: { dividaId: " + dividaId + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + " }");
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);
-		return ((PagamentoRepository) this.repository).findByDividaId(dividaId, pageRequest);
+		Page<Pagamento> pagamentos = ((PagamentoRepository) this.repository).findByDividaId(dividaId, pageRequest);
+
+		log.info("[FindPageCota] - Busca paginada finalizada com sucesso.");
+		return pagamentos;
 	}
 
 	@Override
 	public Pagamento fromDTO(PagamentoDTO dto) {
-		log.info("Mapping 'PagamentoDTO' to 'Pagamento': " + this.getTClass().getName());
-		return new Pagamento(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
+		log.info("[Mapping] - 'PagamentoDTO' to 'Pagamento'. Id: " + dto.getId());
+		Pagamento pagamento = new Pagamento(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
 				new Divida(dto.getDividaId()));
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return pagamento;
 	}
 
 	@Override
 	public void updateData(Pagamento newObj, Pagamento obj) {
-		log.info("Parse 'pagamento' from 'newPagamento': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewPagamento' from 'Pagamento'. Id: " + newObj.getId());
 		newObj.setValor(obj.getValor());
 		newObj.setObservacao(obj.getObservacao());
-	}
-
-	@Override
-	public Class<Pagamento> getTClass() {
-		return Pagamento.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

@@ -8,10 +8,8 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Cota extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -45,5 +43,11 @@ public class Cota extends BaseEntity {
 		this.valor = valor;
 		this.comprador = comprador;
 		this.lancamento = lancamento;
+	}
+
+	@Override
+	public String toString() {
+		return "Cota [" + super.toString() + ", valor=" + valor + ", compradorId=" + comprador.getId()
+				+ ", lancamentoId=" + lancamento.getId() + "]";
 	}
 }

@@ -40,66 +40,77 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	@Autowired
 	public LancamentoController(LancamentoService service) {
 		super(service);
+		BaseController.baseLog = LancamentoController.log;
 	}
 
 	@GetMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA)
 	public ResponseEntity<List<CotaDTO>> listarCotas(@PathVariable Long lancamentoId) {
+		log.info("[GET] - Buscando todas as cotas. LancamentoId: " + lancamentoId);
 		List<Cota> list = cotaService.findAllCotaByLancamentoId(lancamentoId);
-		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<CotaDTO> listDTO = list.stream().map(obj -> new CotaDTO(obj)).collect(Collectors.toList());
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA + TipoEndPoint.PAGE)
-	public ResponseEntity<Page<CotaDTO>> findPageCotas(@PathVariable Long lancamentoId,
+	public ResponseEntity<Page<CotaDTO>> listarPageCotas(@PathVariable Long lancamentoId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		log.info("[GET PAGE] - Buscando todos as cotas paginado: {lancamentoId: " + lancamentoId + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
 		Page<Cota> list = cotaService.findPageByLancamentoId(lancamentoId, page, linesPerPage, direction, orderBy);
-		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<CotaDTO> listDTO = list.map(obj -> new CotaDTO(obj));
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
 	public ResponseEntity<CotaDTO> findCotaById(@PathVariable Long id) {
+		log.info("[GET ID] - Buscando cota pelo Id: " + id);
 		Cota obj = this.cotaService.findById(id);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		CotaDTO objDTO = new CotaDTO(obj);
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setLancamentoId(obj.getLancamento().getId());
+
+		log.info("[GET ID] - Cota encontrado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA)
 	public ResponseEntity<CotaDTO> insertCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
+		log.info("[POST] - Salvando uma nova Cota. Entity: " + objDTO.toString());
 		this.service.findById(lancamentoId);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setLancamentoId(lancamentoId);
 		Cota obj = this.cotaService.fromDTO(objDTO);
-		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.cotaService.insert(obj);
-		log.info("Finishing insert. Tipo: " + this.getClass().getName());
-		log.info("Create uri. " + this.getClass().getName());
+
+		log.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("lancamento/cota/{id}")
 				.buildAndExpand(obj.getId()).toUri();
-		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
+		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
+
+		log.info("[POST] - Cota salvo no bando de dados.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping(TipoEndPoint.COTA + TipoEndPoint.ID)
 	public ResponseEntity<Void> deleteCota(@PathVariable Long id) {
+		log.info("[DELETE] - Apagando Cota de Id: " + id);
 		this.cotaService.delete(id);
-		log.info("Finishing delete. Tipo: " + this.getClass().getName());
+
+		log.info("[DELETE] - Cota apagado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public LancamentoDTO newClassDTO(Lancamento obj) {
-		log.info("Mapping 'Lancamento' to 'LancamentoDTO': " + this.getClass().getName());
-		return new LancamentoDTO(obj);
+		log.info("[Mapping] - 'Lancamento' to 'LancamentoDTO'. Id: " + obj.getId());
+		LancamentoDTO dto = new LancamentoDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

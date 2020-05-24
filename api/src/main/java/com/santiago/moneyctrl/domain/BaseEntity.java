@@ -15,13 +15,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-
-@ToString
-@MappedSuperclass //Não vai mapear como tabela no banco
+@MappedSuperclass // Não vai mapear como tabela no banco
 public class BaseEntity implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -78,5 +75,10 @@ public class BaseEntity implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "id=" + id + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", ativo=" + ativo;
 	}
 }

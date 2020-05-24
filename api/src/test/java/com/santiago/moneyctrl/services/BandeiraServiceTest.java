@@ -31,15 +31,11 @@ public class BandeiraServiceTest extends BaseServiceTest<Bandeira, BandeiraDTO> 
 		super.setup();
 	}
 
-	
-
 	@Override
 	public void deveRetornarException_QuandoInserirEntity() {
 		// TODO Auto-generated method stub
 		super.deveRetornarException_QuandoInserirEntity();
 	}
-
-
 
 	@Override
 	public Bandeira mockEntityBuilder() {

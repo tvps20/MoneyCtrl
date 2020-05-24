@@ -10,10 +10,8 @@ import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Credito extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +24,7 @@ public class Credito extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate data;
-	
+
 	@Getter
 	@Setter
 	private String observacao;
@@ -51,5 +49,11 @@ public class Credito extends BaseEntity {
 		this.data = data;
 		this.observacao = observacao;
 		this.comprador = comprador;
+	}
+
+	@Override
+	public String toString() {
+		return "Credito [" + super.toString() + ", valor=" + valor + ", data=" + data + ", observacao=" + observacao
+				+ ", compradorId=" + comprador.getId() + "]";
 	}
 }

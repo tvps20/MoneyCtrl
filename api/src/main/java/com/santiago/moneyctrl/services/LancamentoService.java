@@ -33,36 +33,44 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	public LancamentoService(LancamentoRepository repository) {
 		super(repository);
+		BaseService.baseLog = LancamentoService.log;
 	}
 
 	@Override
 	@Transactional
 	public Lancamento insert(Lancamento entity) {
-		log.info("Insert entity: " + this.getClass().getName());
+		entity.setId(null);
+		log.info("[Insert] - Salvando um novo lancamento. Entity: " + entity.toString());
 
 		try {
-			entity.setId(null);
+			log.info("[Insert] - Buscando fatura.");
 			this.faturaService.findById(entity.getFatura().getId());
-			log.info("Finishing findById. Tipo" + FaturaService.class.getName());
+			log.info("[Insert] - Buscando compradores.");
 			entity.getCompradores().forEach(x -> {
 				this.compradorService.findById(x.getComprador().getId());
 			});
-			log.info("Finishing findById. Tipo" + CompradorService.class.getName());
-			Lancamento lancamentoSalvo = this.repository.save(entity);
-			this.cotaService.saveAllCotas(lancamentoSalvo.getCompradores());
-			log.info("Finishing saveAll. Tipo" + CotaService.class.getName());
 
+			log.info("[Insert] - Salvando lancamento.");
+			Lancamento lancamentoSalvo = this.repository.save(entity);
+			log.info("[Insert] - Salvando compradores.");
+			this.cotaService.saveAllCotas(lancamentoSalvo.getCompradores());
+
+			log.info("[Insert] - Lacamento salvo no bando de dados.");
 			return lancamentoSalvo;
 
 		} catch (DataIntegrityViolationException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar salvar lancamento.");
+			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+		} catch (DataIntegrityException ex) {
+			baseLog.error("[Insert] - Erro ao tentar salvar compradores.");
 			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
-			log.error(Mensagem.erroObjInserir(this.getClass().getName()));
 			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
+				baseLog.error("[Insert] - Erro ao tentar buscar fatura.");
 				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
+				baseLog.error("[Insert] - Erro ao tentar comprador fatura.");
 				throw new ObjectNotFoundException(ex.getMessage(), CompradorService.class);
 			}
 		}
@@ -70,7 +78,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	@Override
 	public Lancamento fromDTO(LancamentoDTO dto) {
-		log.info("Mapping 'LancamentoDTO' to 'Lancamento': " + this.getTClass().getName());
+		log.info("[Mapping] - 'LancamentoDTO' to 'Lancamento'. Id: " + dto.getId());
 		Lancamento lancamento;
 		Fatura fatura = new Fatura(dto.getFaturaId());
 
@@ -87,21 +95,19 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 			lancamento.getCompradores().add(cota);
 		});
 
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
 		return lancamento;
 	}
 
 	public void updateData(Lancamento newObj, Lancamento obj) {
-		log.info("Parse 'lancamento' from 'newLancamento': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewLancamento' from 'Lancamento'. Id: " + newObj.getId());
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setObservacao(obj.getObservacao());
 
 		if (obj.isParcelado()) {
 			newObj.setParcelaAtual(obj.getParcelaAtual());
 		}
-	}
 
-	@Override
-	public Class<Lancamento> getTClass() {
-		return Lancamento.class;
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

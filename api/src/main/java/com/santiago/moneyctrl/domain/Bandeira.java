@@ -9,10 +9,8 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Bandeira extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -39,4 +37,10 @@ public class Bandeira extends BaseEntity {
 		super(id);
 		this.nome = nome;
 	}
+
+	@Override
+	public String toString() {
+		return "Bandeira [" + super.toString() + ", nome=" + nome + ", cartoesEmpty=" + cartoes.isEmpty() + "]";
+	}
+
 }

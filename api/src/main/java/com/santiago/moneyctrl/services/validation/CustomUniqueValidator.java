@@ -29,20 +29,19 @@ public class CustomUniqueValidator implements ConstraintValidator<CustomUnique, 
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 
 		if (this.service == null) {
-			log.info("Service is null.");
+			log.info("[Validator] - Service is null.");
 			return false;
 		}
 
 		// Teste de validação
 		boolean aux = this.service.verificarCampoUnico(value);
-		log.info("Finishing find by unique.");
 
 		if (aux) {
-			log.info("Value already saved in the database.");
+			log.info("[Validator] - Value already saved in the database.");
 			return false;
 		}
 
-		log.info("Value not saved in the database");
+		log.info("[Validator] - Value not saved in the database");
 		return true;
 	}
 }

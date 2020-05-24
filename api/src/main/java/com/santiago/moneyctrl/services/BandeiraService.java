@@ -11,32 +11,35 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BandeiraService extends BaseService<Bandeira, BandeiraDTO> implements IServiceValidator{
+public class BandeiraService extends BaseService<Bandeira, BandeiraDTO> implements IServiceValidator {
 
 	public BandeiraService(BandeiraRepository repository) {
 		super(repository);
+		BaseService.baseLog = BandeiraService.log;
 	}
 
 	@Override
 	public Bandeira fromDTO(BandeiraDTO dto) {
-		log.info("Mapping 'BandeiraDTO' to 'Bandeira': " + this.getTClass().getName());
-		return new Bandeira(dto.getId(), dto.getNome());
+		log.info("[Mapping] - 'BandeiraDTO' to 'Bandeira'. Id: " + dto.getId());
+		Bandeira bandeira = new Bandeira(dto.getId(), dto.getNome());
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return bandeira;
 	}
 
 	@Override
 	public void updateData(Bandeira newObj, Bandeira obj) {
-		log.info("Parse 'bandeira' from 'newBandeira': " + this.getTClass().getName());
+		log.info("[Parse] - 'NewBandeira' from 'Bandeira'. Id: " + newObj.getId());
 		newObj.setNome(obj.getNome());
+		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 
 	@Override
-	public Class<Bandeira> getTClass() {
-		return Bandeira.class;
-	}
-	
-	@Override
 	public boolean verificarCampoUnico(String campo) {
-		log.info("Find by unique value: " + campo);
-		return ((BandeiraRepository) this.repository).verificarCampoUnico(campo);
+		log.info("[FindByUnique] - Buscando valor no banco de dados. Value: " + campo);
+		boolean retorno = ((BandeiraRepository) this.repository).verificarCampoUnico(campo);
+
+		log.info("[FindByUnique] - Busca finalizada. Retorno: " + retorno);
+		return retorno;
 	}
 }

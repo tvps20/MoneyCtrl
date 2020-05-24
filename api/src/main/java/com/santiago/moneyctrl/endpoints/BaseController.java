@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +24,11 @@ import com.santiago.moneyctrl.dtos.BaseDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.interfaces.IServiceCrud;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 
 	protected IServiceCrud<T, K> service;
+
+	protected static Logger baseLog = LoggerFactory.getLogger(BaseController.class);
 
 	public BaseController(IServiceCrud<T, K> service) {
 		this.service = service;
@@ -35,60 +36,68 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 
 	@GetMapping
 	public ResponseEntity<List<K>> listar() {
+		baseLog.info("[GET] - Buscando todas as entidades.");
 		List<T> list = service.findAll();
-		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<K> listDTO = list.stream().map(obj -> this.newClassDTO(obj)).collect(Collectors.toList());
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		baseLog.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.PAGE)
-	public ResponseEntity<Page<K>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<K>> listarPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		baseLog.info("[GET PAGE] - Buscando todas as entidades paginada: { Page: " + page + ", linesPerPage: "
+				+ linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
 		Page<T> list = service.findPage(page, linesPerPage, direction, orderBy);
-		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<K> listDTO = list.map(obj -> this.newClassDTO(obj));
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		baseLog.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.ID)
-	public ResponseEntity<K> findById(@PathVariable Long id) {
+	public ResponseEntity<K> buscarPeloId(@PathVariable Long id) {
+		baseLog.info("[GET ID] - Buscando entidade pelo Id: " + id);
 		T obj = this.service.findById(id);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		K objDTO = this.newClassDTO(obj);
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		baseLog.info("[GET ID] - Entidade encontrada com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> insert(@Valid @RequestBody K objDTO) {
+	public ResponseEntity<Void> inserir(@Valid @RequestBody K objDTO) {
+		baseLog.info("[POST] - Salvando uma nova entidade. Entity: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
-		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.service.insert(obj);
-		log.info("Finishing insert. Tipo: " + this.getClass().getName());
-		log.info("Create uri. " + this.getClass().getName());
+		baseLog.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
+		baseLog.info("[POST] - Uri criado com sucesso. Uri: " + uri);
+
+		baseLog.info("[POST] - Entidade salva no bando de dados.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@PutMapping(TipoEndPoint.ID)
-	public ResponseEntity<Void> update(@Valid @RequestBody K objDTO, @PathVariable Long id) {
+	public ResponseEntity<Void> atualizar(@Valid @RequestBody K objDTO, @PathVariable Long id) {
+		baseLog.info("[PUT] - Atualizando entidade. Entity: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
-		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj.setId(id);
 		this.service.update(obj);
-		log.info("Finishing update. Tipo: " + this.getClass().getName());
+
+		baseLog.info("[PUT] - Entitade atualizada no bando de dados.");
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping(TipoEndPoint.ID)
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
+		baseLog.info("[DELETE] - Apagando entidade de Id: " + id);
 		this.service.delete(id);
-		log.info("Finishing delete. Tipo: " + this.getClass().getName());
+
+		baseLog.info("[DELETE] - Entidade apagada com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 

@@ -8,28 +8,26 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Comprador extends Usuario {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Getter
 	@Setter
 	private boolean devedor;
-	
+
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "comprador")
 	private List<Cota> lancamentos = new ArrayList<>();
-	
+
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "comprador")
 	private List<Divida> dividas = new ArrayList<>();
-	
+
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "comprador")
@@ -38,12 +36,18 @@ public class Comprador extends Usuario {
 	// Construtores
 	public Comprador() {
 	}
-	
+
 	public Comprador(Long id) {
 		super(id);
 	}
 
 	public Comprador(Long id, String email, String nome, String password) {
 		super(id, email, nome, password);
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Comprador [" + super.toString() + ", devedor=" + devedor + ", lancamentosEmpty=" + lancamentos.isEmpty()
+				+ ", dividasEmpty=" + dividas.isEmpty() + ", creditosEmpty=" + creditos.isEmpty() + "]";
+	}
 }

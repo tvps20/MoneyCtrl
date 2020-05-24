@@ -15,10 +15,8 @@ import com.santiago.moneyctrl.domain.enuns.TipoStatus;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Fatura extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -65,5 +63,12 @@ public class Fatura extends BaseEntity {
 		this.observacao = observacao;
 		this.mesReferente = mesReferente;
 		this.cartao = cartao;
+	}
+
+	@Override
+	public String toString() {
+		return "Fatura [" + super.toString() + ", vencimento=" + vencimento + ", observacao=" + observacao + ", status="
+				+ status + ", mesReferente=" + mesReferente + ", cartaoId=" + cartao.getId() + ", lancamentosEmpty="
+				+ lancamentos.isEmpty() + "]";
 	}
 }

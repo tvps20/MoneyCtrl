@@ -40,67 +40,77 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	@Autowired
 	public CompradorController(CompradorService service) {
 		super(service);
+		BaseController.baseLog = CompradorController.log;
 	}
 
 	@GetMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)
 	public ResponseEntity<List<CreditoDTO>> listarCreditos(@PathVariable Long compradorId) {
+		log.info("[GET] - Buscando todos os creditos. CompradorId: " + compradorId);
 		List<Credito> list = creditoService.findAllCreditoByCompradorId(compradorId);
-		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
 		List<CreditoDTO> listDTO = list.stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO + TipoEndPoint.PAGE)
-	public ResponseEntity<Page<CreditoDTO>> findPage(@PathVariable Long compradorId,
+	public ResponseEntity<Page<CreditoDTO>> listarPageCreditos(@PathVariable Long compradorId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		log.info("[GET PAGE] - Buscando todas os creditos paginado: {compradorId: " + compradorId + " Page: " + page
+				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
 		Page<Credito> list = creditoService.findPageByCompradorId(compradorId, page, linesPerPage, direction, orderBy);
-		log.info("Finishing findPage. Tipo: " + this.getClass().getName());
 		Page<CreditoDTO> listDTO = list.map(obj -> new CreditoDTO(obj));
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+
+		log.info("[GET PAGE] - Busca paginada finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.CREDITO + TipoEndPoint.ID)
-	public ResponseEntity<CreditoDTO> findCreditoById(@PathVariable Long id) {
+	public ResponseEntity<CreditoDTO> buscarCreditoPeloId(@PathVariable Long id) {
+		log.info("[GET ID] - Buscando credito pelo Id: " + id);
 		Credito obj = this.creditoService.findById(id);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		CreditoDTO objDTO = new CreditoDTO(obj);
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
 		objDTO.setCompradorId(obj.getComprador().getId());
+
+		log.info("[GET ID] - Credito encontrado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@PostMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)
-	public ResponseEntity<CreditoDTO> insertCredito(@PathVariable Long compradorId,
+	public ResponseEntity<CreditoDTO> inserirCredito(@PathVariable Long compradorId,
 			@Valid @RequestBody CreditoDTO objDTO) {
+		log.info("[POST] - Salvando um novo credito. Entity: " + objDTO.toString());
 		this.service.findById(compradorId);
-		log.info("Finishing findById. Tipo: " + this.getClass().getName());
 		objDTO.setCompradorId(compradorId);
 		Credito obj = this.creditoService.fromDTO(objDTO);
-		log.info("Finishing fromDTO. Tipo: " + this.getClass().getName());
 		obj = this.creditoService.insert(obj);
-		log.info("Finishing insert. Tipo: " + this.getClass().getName());
-		log.info("Create uri. " + this.getClass().getName());
+		log.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("comprador/credito/{id}")
 				.buildAndExpand(obj.getId()).toUri();
-		log.info("Finishing create uri. Tipo: " + this.getClass().getName());
+		log.info("[POST] - Uri criado com sucesso. Uri: " + uri);
+
+		log.info("[POST] - Credito salvo no bando de dados.");
 		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping(TipoEndPoint.CREDITO + TipoEndPoint.ID)
-	public ResponseEntity<Void> deleteCredito(@PathVariable Long id) {
+	public ResponseEntity<Void> deletarCredito(@PathVariable Long id) {
+		log.info("[DELETE] - Apagando credito de Id: " + id);
 		this.creditoService.delete(id);
-		log.info("Finishing delete. Tipo: " + this.getClass().getName());
+
+		log.info("[DELETE] - Credito apagado com sucesso.");
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public CompradorDTO newClassDTO(Comprador obj) {
-		log.info("Mapping 'Comprador' to 'CompradorDTO': " + this.getClass().getName());
-		return new CompradorDTO(obj);
+		log.info("[Mapping] - 'Comprador' to 'CompradorDTO'. Id: " + obj.getId());
+		CompradorDTO dto = new CompradorDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

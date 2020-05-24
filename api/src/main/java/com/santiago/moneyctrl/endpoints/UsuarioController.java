@@ -29,16 +29,29 @@ public class UsuarioController {
 
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
+		log.info("[GET] - Buscando todos os Usuarios.");
 		List<Usuario> list = service.findAll();
-		log.info("Finishing findAll. Tipo: " + this.getClass().getName());
-		List<UsuarioDTO> listDTO = list.stream().map(obj -> new UsuarioDTO(obj)).collect(Collectors.toList());
-		log.info("Finishing mapping. Tipo: " + this.getClass().getName());
+		List<UsuarioDTO> listDTO = list.stream().map(obj -> this.newClassDTO(obj)).collect(Collectors.toList());
+
+		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping(TipoEndPoint.USUARIO_ID + TipoEndPoint.PERFIl)
 	public ResponseEntity<Set<TipoPerfil>> listarRoles(@PathVariable Long usuarioId) {
+		log.info("[GET] - Buscando todas os perfis. UsuarioId: " + usuarioId);
 		Usuario user = this.service.findById(usuarioId);
+
+		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(user.getPerfis());
+	}
+
+	// Metodos
+	private UsuarioDTO newClassDTO(Usuario obj) {
+		log.info("[Mapping] - 'Usuario' to 'UsuarioDTO'. Id: " + obj.getId());
+		UsuarioDTO dto = new UsuarioDTO(obj);
+
+		log.info("[Mapping] - Mapping finalizado com sucesso.");
+		return dto;
 	}
 }

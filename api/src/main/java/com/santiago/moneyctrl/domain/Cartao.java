@@ -11,10 +11,8 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Cartao extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -47,5 +45,11 @@ public class Cartao extends BaseEntity {
 		super(id);
 		this.nome = nome;
 		this.bandeira = bandeira;
+	}
+
+	@Override
+	public String toString() {
+		return "Cartao [" + super.toString() + ", nome=" + nome + ", bandeiraId=" + bandeira.getId() + ", faturasEmpty="
+				+ faturas.isEmpty() + "]";
 	}
 }

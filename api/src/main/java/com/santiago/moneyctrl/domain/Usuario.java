@@ -14,10 +14,8 @@ import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Usuario extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -70,5 +68,10 @@ public class Usuario extends BaseEntity {
 				this.perfis.add(tipoPerfil);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [" + super.toString() + ", email=" + email + ", nome=" + nome + ", password=" + password + ", perfis=" + perfis + "]";
 	}
 }

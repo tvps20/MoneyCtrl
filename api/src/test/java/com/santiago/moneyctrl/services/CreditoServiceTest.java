@@ -25,7 +25,7 @@ import com.santiago.moneyctrl.services.CreditoService;
 import com.santiago.moneyctrl.services.interfaces.IServiceCrud;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CeditoSerivceTest extends BaseServiceTest<Credito, CreditoDTO> {
+public class CreditoServiceTest extends BaseServiceTest<Credito, CreditoDTO> {
 
 	@InjectMocks
 	private CreditoService creditoService;

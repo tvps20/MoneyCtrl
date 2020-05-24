@@ -13,10 +13,8 @@ import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@ToString(callSuper = true)
 public class Divida extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -72,5 +70,12 @@ public class Divida extends BaseEntity {
 		this.fatura = fatura;
 		this.comprador = comprador;
 		this.paga = paga;
+	}
+
+	@Override
+	public String toString() {
+		return "Divida [" + super.toString() + ", valor=" + valor + ", observacao=" + observacao + ", dataDivida="
+				+ dataDivida + ", faturaId=" + fatura.getId() + ", compradorId=" + comprador.getId() + ", paga=" + paga
+				+ ", pagamentosEmpty=" + pagamentos.isEmpty() + "]";
 	}
 }
