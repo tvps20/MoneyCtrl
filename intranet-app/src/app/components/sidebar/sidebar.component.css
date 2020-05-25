@@ -1,0 +1,3 @@
+.sidebar[data-color] li.active > a  {
+    background-color: aqua;
+}
