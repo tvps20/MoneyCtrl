@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { CartaoComponent } from '../../cartao/cartao.component';
+import { UserCompradorComponent } from '../../user-comprador/user-comprador.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -27,7 +29,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatTooltipModule,
   ],
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    CartaoComponent,
+    UserCompradorComponent
   ]
 })
 

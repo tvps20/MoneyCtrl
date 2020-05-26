@@ -9,13 +9,11 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { UserCompradorComponent } from './user-comprador/user-comprador.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    UserCompradorComponent
+    AdminLayoutComponent
   ],
   imports: [
     BrowserAnimationsModule,
