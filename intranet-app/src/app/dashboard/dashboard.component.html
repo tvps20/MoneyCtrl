@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-plain">
-                    <div class="card-header card-header-primary">
+                    <div class="card-header card-header-info">
                         <h4 class="card-title mt-0"> Contas de Janeiro de 2020 </h4>
                         <p class="card-category"> Lista de pagamentos </p>
                     </div>
@@ -11,97 +11,118 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead class="">
-                                    <th>
-                                        Comprador
-                                    </th>
-                                    <th>
-                                        Master
-                                    </th>
-                                    <th>
-                                        Nubank
-                                    </th>
-                                    <th>
-                                        Digio
-                                    </th>
-                                    <th>
-                                        Total
-                                    </th>
-                                    <th>
-                                        Pago
-                                    </th>
-                                    <th>
-                                        Restante
-                                    </th>
+                                    <th>Comprador</th>
+                                    <th>Total</th>
+                                    <th>Pago</th>
+                                    <th>Restante</th>
+                                    <th>Cartões</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr id="accordion">
                                         <td>
-                                            Thiago
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                Thiago
+                                            </button>
                                         </td>
                                         <td>
-                                            0,00
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                R$ 1484,12,00
+                                            </button>
                                         </td>
                                         <td>
-                                            R$ 405,86
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                R$ 978,26,00
+                                            </button>
+                                        </td>
+                                        <td>                        
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                R$ 505,86
+                                            </button> 
                                         </td>
                                         <td>
-                                            R$ 0,00
-                                        </td>
-                                        <td>
-                                            R$ 405,86
-                                        </td>
-                                        <td>
-                                            R$ 0,00
-                                        </td>
-                                        <td>
-                                            R$ 405,86
+                                            <div id="collapseOne" class="collapse show" 
+                                                data-parent="#accordion">
+                                                <button class="btn btn-link" data-toggle="collapse"
+                                                    data-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                    3
+                                                </button>
+                                            </div>
+                                            <div id="collapseOne" class="collapse" 
+                                                data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <table class="table table-hover">
+                                                        <thead class="">
+                                                            <th>
+                                                                Nome
+                                                            </th>
+                                                            <th>
+                                                                Total
+                                                            </th>
+                                                            <th>
+                                                                Pago
+                                                            </th>
+                                                            <th>
+                                                                Restante
+                                                            </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    Nubank
+                                                                </td>
+                                                                <td>
+                                                                    R$ 405,86
+                                                                </td>
+                                                                <td>
+                                                                    R$ 0,00
+                                                                </td>
+                                                                <td>
+                                                                    R$ 405,86
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Digio
+                                                                </td>
+                                                                <td>
+                                                                    R$ 128,77
+                                                                </td>
+                                                                <td>
+                                                                    R$ 128,77
+                                                                </td>
+                                                                <td>
+                                                                    R$ 0,0
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Master
+                                                                </td>
+                                                                <td>
+                                                                    R$ 949,49
+                                                                </td>
+                                                                <td>
+                                                                    R$ 849,49
+                                                                </td>
+                                                                <td>
+                                                                    R$ 100,00
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            Gilson
-                                        </td>
-                                        <td>
-                                            R$ 74,87
-                                        </td>
-                                        <td>
-                                            R$ 53,90
-                                        </td>
-                                        <td>
-                                            R$ 0,00
-                                        </td>
-                                        <td>
-                                            R$ 128,77
-                                        </td>
-                                        <td>
-                                            R$ 128,77
-                                        </td>
-                                        <td>
-                                            R$ 0,0
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Joseilton
-                                        </td>
-                                        <td>
-                                            R$ 228,25
-                                        </td>
-                                        <td>
-                                            R$ 0,00
-                                        </td>
-                                        <td>
-                                            R$ 721,24
-                                        </td>
-                                        <td>
-                                            R$ 949,49
-                                        </td>
-                                        <td>
-                                            R$ 849,49
-                                        </td>
-                                        <td>
-                                            R$ 100,00
-                                        </td>
                                 </tbody>
                             </table>
                         </div>
