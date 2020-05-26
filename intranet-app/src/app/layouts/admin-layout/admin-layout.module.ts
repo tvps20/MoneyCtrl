@@ -8,6 +8,7 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { CartaoComponent } from '../../cartao/cartao.component';
 import { UserCompradorComponent } from '../../user-comprador/user-comprador.component';
 import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
+import { FaturaDetailComponent } from '../../cartao/cartao-detail/fatura-detail/fatura-detail.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -37,7 +38,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     DashboardComponent,
     CartaoComponent,
     UserCompradorComponent,
-    CartaoDetailComponent
+    CartaoDetailComponent,
+    FaturaDetailComponent
   ]
 })
 
