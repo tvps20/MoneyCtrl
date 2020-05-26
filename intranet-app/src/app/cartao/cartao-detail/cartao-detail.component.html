@@ -1,17 +1,51 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">store</i>
+                        </div>
+                        <p class="card-category">Total gasto ate o momento</p>
+                        <h3 class="card-title">R$ 806,86</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Valores apenas para 2020
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">info_outline</i>
+                        </div>
+                        <p class="card-category">Faturas Cadastradas</p>
+                        <h3 class="card-title">3</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Atualizado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-info">
                         <div class="row">
                             <div class="col-lg-10 col-md-10 col-sm-8">
-                                <h4 class="card-title ">Cartões Cadastrados</h4>
-                                <p class="card-category">Lista de cartões usados para as compras</p>
+                                <h4 class="card-title ">Faturas Cadastrados</h4>
+                                <p class="card-category">Lista de faturas do cartao nubank</p>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-4">
                                 <button type="button" mat-button class="nav-link" data-toggle="modal"
-                                    data-target="#addCartaoModal">
+                                    data-target="#addFaturaModal">
                                     <i class="material-icons">library_add</i> Adicionar
                                     <div class="ripple-container"></div>
                                 </button>
@@ -23,34 +57,40 @@
                             <table class="table table-hover">
                                 <thead class=" text-primary">
                                     <th>
-                                        ID
+                                        Referêcia
                                     </th>
                                     <th>
-                                        Nome
+                                        Vencimento
                                     </th>
                                     <th>
-                                        Bandeira
+                                        Valor
+                                    </th>
+                                    <th>
+                                        Status
                                     </th>
                                     <th class="text-center">
-                                        Faturas
+                                        Lancamentos
                                     </th>
                                     <th>
                                         Ação
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr [routerLink]="['/cartoes/1']">
+                                    <tr>
                                         <td>
-                                            1
+                                            Janeiro/2020
                                         </td>
                                         <td>
-                                            Master
+                                            01/02/2020
                                         </td>
                                         <td>
-                                            Mastercard
+                                            R$ 98,89
+                                        </td>
+                                        <td>
+                                            Fechada
                                         </td>
                                         <td class="text-center">
-                                            3
+                                            17
                                         </td>
                                         <td class="text-primary">
                                             <button mat-raised-button type="button" matTooltip="Edit Task"
@@ -65,18 +105,21 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr [routerLink]="['/cartoes/1']">
+                                    <tr>
                                         <td>
-                                            2
+                                            Fevereiro/2020
                                         </td>
                                         <td>
-                                            Nubank
+                                            01/03/2020
                                         </td>
                                         <td>
-                                            Mastercard
+                                            R$ 153,43
+                                        </td>
+                                        <td>
+                                            Aberta
                                         </td>
                                         <td class="text-center">
-                                            3
+                                            5
                                         </td>
                                         <td class="text-primary">
                                             <button mat-raised-button type="button" matTooltip="Edit Task"
@@ -91,18 +134,21 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr [routerLink]="['/cartoes/1']">
+                                    <tr>
                                         <td>
-                                            3
+                                            Março/2020
                                         </td>
                                         <td>
-                                            Digio
+                                            01/04/2020
                                         </td>
                                         <td>
-                                            Visa
+                                            R$ 554,54
+                                        </td>
+                                        <td>
+                                            Futura
                                         </td>
                                         <td class="text-center">
-                                            3
+                                            8
                                         </td>
                                         <td class="text-primary">
                                             <button mat-raised-button type="button" matTooltip="Edit Task"
@@ -127,30 +173,34 @@
     </div>
 </div>
 
-<!-- Modal de Adicionar novo Cartao -->
-<div class="modal fade" id="addCartaoModal" tabindex="-1" role="dialog" aria-labelledby="cartaoModalLabel"
+<!-- Modal de Adicionar nova Fatura -->
+<div class="modal fade" id="addFaturaModal" tabindex="-1" role="dialog" aria-labelledby="faturaModalLabel"
     aria-hidden="true">
     <div class="card modal-dialog" role="document">
         <div class="modal-content">
             <div class="card-header card-header-info">
-                <i class="material-icons">credit_card</i>
-                <h4 class="card-title">Novo Cartao</h4>
-                <p class="card-category">Formulário para adicionar novo cartão ao sistema.</p>
+                <i class="material-icons">insert_drive_file</i>
+                <h4 class="card-title">Nova Fatura</h4>
+                <p class="card-category">Formulário para adicionar nova fatura ao cartao nubank.</p>
             </div>
             <form>
                 <div class="modal-body">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="example-full-width">
-                                    <mat-label>Nome</mat-label>
-                                    <input matInput placeholder="Nome">
+                            <div class="col-md-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Vencimento</mat-label>
+                                    <input matInput [matDatepicker]="dp3" disabled>
+                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <mat-form-field appearance="outline" class="example-full-width">
-                                    <mat-label>Bandeira</mat-label>
-                                    <input matInput placeholder="Bandeira">
+                                    <mat-label>Observação</mat-label>
+                                    <textarea matInput placeholder="Observação"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>

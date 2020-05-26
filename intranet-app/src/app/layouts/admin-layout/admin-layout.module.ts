@@ -7,6 +7,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { CartaoComponent } from '../../cartao/cartao.component';
 import { UserCompradorComponent } from '../../user-comprador/user-comprador.component';
+import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -14,6 +15,8 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -27,11 +30,14 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   declarations: [
     DashboardComponent,
     CartaoComponent,
-    UserCompradorComponent
+    UserCompradorComponent,
+    CartaoDetailComponent
   ]
 })
 

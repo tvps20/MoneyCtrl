@@ -3,6 +3,10 @@ import { ROUTES } from '../sidebar/sidebar.component';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+const ROUTESCHILD: any[] = [
+  { path: '/cartoes/:id', title: 'Cartão' }
+];
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -12,6 +16,7 @@ export class NavbarComponent implements OnInit {
 
   public user: any = { username: "admin" };
   private listTitles: any[];
+  private listTitlesChildren: any[];
   public location: Location;
 
   public mobile_menu_visible: any = 0;
@@ -26,6 +31,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.listTitlesChildren = ROUTESCHILD.filter(listTitlesChildren => listTitlesChildren);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     this.router.events.subscribe((event) => {
@@ -129,6 +135,12 @@ export class NavbarComponent implements OnInit {
     for (var item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {
         return this.listTitles[item].title;
+      }
+    }
+
+    for (var item = 0; item < this.listTitlesChildren.length; item++) {
+      if (this.listTitlesChildren[item].path.split("/")[1] === titlee.split("/")[1]) {
+        return this.listTitlesChildren[item].title + " Nubank";
       }
     }
 
