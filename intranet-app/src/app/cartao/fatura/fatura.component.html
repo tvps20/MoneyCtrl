@@ -1,1 +1,180 @@
-<p>fatura works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#newFaturas" data-toggle="tab">
+                                            <i class="material-icons">update</i> Faturas Recentes
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#oldFaturas" data-toggle="tab">
+                                            <i class="material-icons">history</i> Faturas Anteriores
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="newFaturas">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>
+                                                    Referêcia
+                                                </th>
+                                                <th>
+                                                    Vencimento
+                                                </th>
+                                                <th>
+                                                    Valor
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th class="text-center">
+                                                    Cartão
+                                                </th>
+                                                <th>
+                                                    Ação
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr [routerLink]="['/cartoes/1/faturas/1']">
+                                                    <td>
+                                                        Fevereiro/2020
+                                                    </td>
+                                                    <td>
+                                                        01/03/2020
+                                                    </td>
+                                                    <td>
+                                                        R$ 153,43
+                                                    </td>
+                                                    <td>
+                                                        Aberta
+                                                    </td>
+                                                    <td class="text-center">
+                                                        Nubank
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Edit Task"
+                                                            matTooltipPosition="'above'"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Remove"
+                                                            matTooltipPosition="'above'"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr [routerLink]="['/cartoes/1/faturas/1']">
+                                                    <td>
+                                                        Março/2020
+                                                    </td>
+                                                    <td>
+                                                        01/04/2020
+                                                    </td>
+                                                    <td>
+                                                        R$ 554,54
+                                                    </td>
+                                                    <td>
+                                                        Futura
+                                                    </td>
+                                                    <td class="text-center">
+                                                        Master
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Edit Task"
+                                                            matTooltipPosition="'above'"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Remove"
+                                                            matTooltipPosition="'above'"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="oldFaturas">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>
+                                                Referêcia
+                                            </th>
+                                            <th>
+                                                Vencimento
+                                            </th>
+                                            <th>
+                                                Valor
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th class="text-center">
+                                                Cartão
+                                            </th>
+                                            <th>
+                                                Ação
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr [routerLink]="['/cartoes/1/faturas/1']">
+                                                <td>
+                                                    Janeiro/2020
+                                                </td>
+                                                <td>
+                                                    01/02/2020
+                                                </td>
+                                                <td>
+                                                    R$ 98,89
+                                                </td>
+                                                <td>
+                                                    Fechada
+                                                </td>
+                                                <td class="text-center">
+                                                    Nubank
+                                                </td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button" matTooltip="Edit Task"
+                                                        matTooltipPosition="'above'"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Remove"
+                                                        matTooltipPosition="'above'"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
