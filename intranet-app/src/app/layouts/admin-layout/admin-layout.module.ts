@@ -18,6 +18,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {TextMaskModule} from 'angular2-text-mask';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -32,7 +35,10 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatTooltipModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatCheckboxModule,
+    TextMaskModule,
+    MatExpansionModule
   ],
   declarations: [
     DashboardComponent,

@@ -1,0 +1,15 @@
+td button {
+    color: #212529;
+}
+
+td button:focus {
+    color: #212529;
+}
+
+td button:hover {
+    color: #212529;
+}
+
+::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
+}
