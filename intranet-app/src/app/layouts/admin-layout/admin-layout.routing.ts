@@ -6,6 +6,7 @@ import { CartaoComponent } from '../../cartao/cartao.component';
 import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
 import { FaturaComponent } from '../../cartao/fatura/fatura.component';
 import { FaturaDetailComponent } from '../../cartao/fatura/fatura-detail/fatura-detail.component';
+import { DividaComponent } from '../../divida/divida.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -24,4 +25,5 @@ export const AdminLayoutRoutes: Routes = [
         ]
     },
     { path: 'faturas', component: FaturaComponent },
+    { path: 'dividas', component: DividaComponent }
 ];

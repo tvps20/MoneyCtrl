@@ -10,12 +10,12 @@ import { UserCompradorComponent } from '../../user-comprador/user-comprador.comp
 import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
 import { FaturaComponent } from '../../cartao/fatura/fatura.component';
 import { FaturaDetailComponent } from '../../cartao/fatura/fatura-detail/fatura-detail.component';
+import { DividaComponent } from '../../divida/divida.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -34,7 +34,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatTooltipModule,
     MatNativeDateModule,
     MatDatepickerModule,
     MatCheckboxModule,
@@ -47,7 +46,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     UserCompradorComponent,
     CartaoDetailComponent,
     FaturaComponent,
-    FaturaDetailComponent
+    FaturaDetailComponent,
+    DividaComponent
   ]
 })
 
