@@ -4,7 +4,8 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserCompradorComponent } from '../../user-comprador/user-comprador.component';
 import { CartaoComponent } from '../../cartao/cartao.component';
 import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
-import { FaturaDetailComponent } from '../../cartao/cartao-detail/fatura-detail/fatura-detail.component';
+import { FaturaComponent } from '../../cartao/fatura/fatura.component';
+import { FaturaDetailComponent } from '../../cartao/fatura/fatura-detail/fatura-detail.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -21,5 +22,6 @@ export const AdminLayoutRoutes: Routes = [
                 ]
             }
         ]
-    }
+    },
+    { path: 'faturas', component: FaturaComponent },
 ];

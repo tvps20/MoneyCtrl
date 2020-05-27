@@ -8,7 +8,8 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { CartaoComponent } from '../../cartao/cartao.component';
 import { UserCompradorComponent } from '../../user-comprador/user-comprador.component';
 import { CartaoDetailComponent } from '../../cartao/cartao-detail/cartao-detail.component';
-import { FaturaDetailComponent } from '../../cartao/cartao-detail/fatura-detail/fatura-detail.component';
+import { FaturaComponent } from '../../cartao/fatura/fatura.component';
+import { FaturaDetailComponent } from '../../cartao/fatura/fatura-detail/fatura-detail.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -45,6 +46,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     CartaoComponent,
     UserCompradorComponent,
     CartaoDetailComponent,
+    FaturaComponent,
     FaturaDetailComponent
   ]
 })
