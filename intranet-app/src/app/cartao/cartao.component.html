@@ -3,82 +3,96 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-info">
-                        <div class="row">
-                            <div class="col-lg-10 col-md-10 col-sm-8">
-                                <h4 class="card-title ">Cartões Cadastrados</h4>
-                                <p class="card-category">Lista de cartões usados para as compras</p>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-4">
-                                <button type="button" mat-button class="nav-link" data-toggle="modal"
-                                    data-target="#addCartaoModal">
-                                    <i class="material-icons">library_add</i> Adicionar
-                                    <div class="ripple-container"></div>
-                                </button>
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#cartoes" data-toggle="tab">
+                                            <i class="material-icons">credit_card</i> Cartões
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class=" text-primary">
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Bandeira</th>
-                                    <th>Faturas</th>
-                                    <th class="text-right">Ação</th>
-                                </thead>
-                                <tbody>
-                                    <tr [routerLink]="['/cartoes/1']">
-                                        <td>1</td>
-                                        <td>Master</td>
-                                        <td>Mastercard</td>
-                                        <td>3</td>
-                                        <td class="text-primary text-right">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr [routerLink]="['/cartoes/1']">
-                                        <td>2</td>
-                                        <td>Nubank</td>
-                                        <td>Mastercard</td>
-                                        <td>3</td>
-                                        <td class="text-primary text-right">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr [routerLink]="['/cartoes/1']">
-                                        <td>3</td>
-                                        <td>Digio</td>
-                                        <td>Visa</td>
-                                        <td>3</td>
-                                        <td class="text-primary text-right">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">edit</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="cartoes">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Bandeira</th>
+                                            <th>Faturas</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr [routerLink]="['/cartoes/1']">
+                                                <td>1</td>
+                                                <td>Master</td>
+                                                <td>Mastercard</td>
+                                                <td>3</td>
+                                                <td>Ativo</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr [routerLink]="['/cartoes/1']">
+                                                <td>2</td>
+                                                <td>Nubank</td>
+                                                <td>Mastercard</td>
+                                                <td>3</td>
+                                                <td>Ativo</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr [routerLink]="['/cartoes/1']">
+                                                <td>3</td>
+                                                <td>Digio</td>
+                                                <td>Visa</td>
+                                                <td>3</td>
+                                                <td>Ativo</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="adicionar"></div>
                         </div>
                     </div>
                 </div>
