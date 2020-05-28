@@ -22,6 +22,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {TextMaskModule} from 'angular2-text-mask';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatDatepickerModule,
     MatCheckboxModule,
     TextMaskModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule
   ],
   declarations: [
     DashboardComponent,
