@@ -8,7 +8,7 @@ import { FaturaComponent } from '../../cartao/fatura/fatura.component';
 import { FaturaDetailComponent } from '../../cartao/fatura/fatura-detail/fatura-detail.component';
 import { DividaComponent } from '../../divida/divida.component';
 
-export const AdminLayoutRoutes: Routes = [
+export const BaseLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'user-comprador', component: UserCompradorComponent },
     {

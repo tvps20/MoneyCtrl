@@ -8,12 +8,12 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { BaseLayoutComponent } from './layouts/base-layout/base-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    BaseLayoutComponent
   ],
   imports: [
     BrowserAnimationsModule,

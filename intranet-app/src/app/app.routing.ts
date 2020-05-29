@@ -3,16 +3,16 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { BaseLayoutComponent } from './layouts/base-layout/base-layout.component';
 
 const ROUTES: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     {
         path: '',
-        component: AdminLayoutComponent,
+        component: BaseLayoutComponent,
         children: [{
             path: '',
-            loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
+            loadChildren: () => import('./layouts/base-layout/base-layout.module').then(m => m.BaseLayoutModule)
         }]
     }
 ];
