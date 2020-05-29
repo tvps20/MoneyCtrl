@@ -14,6 +14,12 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#bandeiras" data-toggle="tab">
+                                            <i class="material-icons">flag</i> Bandeiras
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
                                             <i class="material-icons">library_add</i> Adicionar
                                             <div class="ripple-container"></div>
@@ -82,6 +88,39 @@
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="bandeiras">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr [routerLink]="['/cartoes/1']">
+                                                <td>1</td>
+                                                <td>Mastercard</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr [routerLink]="['/cartoes/1']">
+                                                <td>2</td>
+                                                <td>Visa</td>
+                                                <td class="text-primary">
                                                     <button mat-raised-button type="button"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>

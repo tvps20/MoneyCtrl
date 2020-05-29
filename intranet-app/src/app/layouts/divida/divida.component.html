@@ -1,1 +1,246 @@
-<p>divida works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">monetization_on</i>
+                        </div>
+                        <p class="card-category">Total a receber</p>
+                        <h3 class="card-title">R$ 806,86</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Atualizado
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">monetization_on</i>
+                        </div>
+                        <p class="card-category">Total de pagamentos</p>
+                        <h3 class="card-title">R$ 550,00</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Atualizado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#devedores" data-toggle="tab">
+                                            <i class="material-icons">swap_vert</i> Devedores
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#dividas" data-toggle="tab">
+                                            <i class="material-icons">attach_money</i> Dividas Ativas
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#oldDividas" data-toggle="tab">
+                                            <i class="material-icons">history</i> Histórico
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="devedores">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Comprador</th>
+                                            <th>Valor Total</th>
+                                            <th>Valor Pago</th>
+                                            <th>Credito</th>
+                                            <th>Restante</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Gilson</td>
+                                                <td>74,87 R$</td>
+                                                <td>0,00 R$</td>
+                                                <td>0,00 R$</td>
+                                                <td>74,87 R$</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Filipe</td>
+                                                <td>700,00 R$</td>
+                                                <td>700,00 R$</td>
+                                                <td>0, 00 R$</td>
+                                                <td>0, 00 R$</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="dividas">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor Total</th>
+                                            <th>Valor Pago</th>
+                                            <th>Tipo</th>
+                                            <th>Comprador</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Divida da fatura de janeiro</td>
+                                                <td>74,87 R$</td>
+                                                <td>0,00 R$</td>
+                                                <td><i class="material-icons">description</i></td>
+                                                <td>Gilson</td>
+                                                <td>Ativa</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Comprou a bicicleta</td>
+                                                <td>100,00 R$</td>
+                                                <td>50,00 R$</td>                                             
+                                                <td><i class="material-icons">monetization_on</i></td>
+                                                <td>Gilson</td>
+                                                <td>Ativa</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="oldDividas">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor Total</th>
+                                            <th>Valor Pago</th>
+                                            <th>Tipo</th>
+                                            <th>Data da Divida</th>
+                                            <th>Comprador</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Comprou a bicicleta</td>
+                                                <td>700,00 R$</td>
+                                                <td>700,00 R$</td>                                             
+                                                <td><i class="material-icons">monetization_on</i></td>
+                                                <td>13/02/2020</td>
+                                                <td>Filipe</td>
+                                                <td>Paga</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Valor</mat-label>
+                                                    <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Data da Divida</mat-label>
+                                                    <input matInput [matDatepicker]="dp3" disabled>
+                                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                    <mat-label>Comprador</mat-label>
+                                                    <mat-select>
+                                                        <mat-option value="option1">Thiago</mat-option>
+                                                        <mat-option value="option1">Gilson</mat-option>
+                                                        <mat-option value="option3">Filipe</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">       
+                                            <div class="col-md-12">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Lembrou de algo? Deixa aqui para não esquecer...</mat-label>
+                                                    <textarea matInput placeholder="Observação"></textarea>
+                                                </mat-form-field>
+                                            </div>         
+                                        </div>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
