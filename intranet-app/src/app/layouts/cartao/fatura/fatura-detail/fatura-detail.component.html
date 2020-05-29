@@ -37,7 +37,7 @@
                 <div class="card card-stats">
                     <div class="card-header card-header-danger card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">date_range</i>
+                            <i class="material-icons">event_available</i>
                         </div>
                         <p class="card-category">Referência</p>
                         <h3 class="card-title">Janeiro/2020</h3>
@@ -67,11 +67,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-6 col-sm-6">
+            <div class="col-lg-8 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-info card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">event</i>
+                            <i class="material-icons">info</i>
                         </div>
                         <p class="card-category">Observação</p>
                         <h3 class="card-title">Sem informações</h3>
@@ -83,11 +83,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <!-- <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-danger card-header-icon">
                         <div class="card-icon">
-                            <i class="material-icons">shop_two</i>
+                            <i class="material-icons">receipt</i>
                         </div>
                         <p class="card-category">Lançamentos</p>
                         <h3 class="card-title">3</h3>
@@ -98,172 +98,342 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-info">
-                        <div class="row">
-                            <div class="col-lg-10 col-md-10 col-sm-8">
-                                <h4 class="card-title ">Lançamentos do Mês</h4>
-                                <p class="card-category">Lista de lancamentos realizados antes de fechar a fatura</p>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-4">
-                                <button type="button" mat-button class="nav-link" data-toggle="modal"
-                                    data-target="#addLancamentoModal">
-                                    <i class="material-icons">library_add</i> Adicionar
-                                    <div class="ripple-container"></div>
-                                </button>
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#lancamentos" data-toggle="tab">
+                                            <i class="material-icons">shop_two</i> Lançamentos
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class=" text-primary">
-                                    <th>Descrição</th>
-                                    <th>Data da Compra</th>
-                                    <th>Valor</th>
-                                    <th>Parcela</th>
-                                    <th class="text-center">Compradores</th>
-                                    <th>Ação</th>
-                                </thead>
-                                <tbody>
-                                    <tr id="accordion">
-                                        <td>
-                                            <button class="btn btn-link" data-toggle="collapse"
-                                                data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                Barbeador
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" data-toggle="collapse"
-                                                data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                01/02/2020
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" data-toggle="collapse"
-                                                data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                R$ 28,34
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" data-toggle="collapse"
-                                                data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                09/10
-                                            </button>
-                                        </td>
-                                        <td class="text-center">
-                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                                <button class="btn btn-link" data-toggle="collapse"
-                                                    data-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    2
-                                                </button>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="lancamentos">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Data da Compra</th>
+                                            <th>Valor</th>
+                                            <th>Parcela</th>
+                                            <th class="text-center">Compradores</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="accordion">
+                                                <td>
+                                                    <button class="btn btn-link" data-toggle="collapse"
+                                                        data-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                        Barbeador
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-link" data-toggle="collapse"
+                                                        data-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                        01/02/2020
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-link" data-toggle="collapse"
+                                                        data-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                        R$ 28,34
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-link" data-toggle="collapse"
+                                                        data-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                        09/10
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                                        <button class="btn btn-link" data-toggle="collapse"
+                                                            data-target="#collapseOne" aria-expanded="true"
+                                                            aria-controls="collapseOne">
+                                                            2
+                                                        </button>
+                                                    </div>
+                                                    <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <table class="table table-hover">
+                                                                <!-- <thead>
+                                                                    <th>-</th>
+                                                                    <th>-</th>
+                                                                </thead> -->
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Thiago
+                                                                        </td>
+                                                                        <td>
+                                                                            R$ 14,17
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Everton
+                                                                        </td>
+                                                                        <td>
+                                                                            R$ 13,17
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Celuar
+                                                </td>
+                                                <td>
+                                                    01/03/2020
+                                                </td>
+                                                <td>
+                                                    R$ 68,74
+                                                </td>
+                                                <td>
+                                                    08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    1
+                                                </td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Cinema
+                                                </td>
+                                                <td>
+                                                    01/04/2020
+                                                </td>
+                                                <td>
+                                                    R$ 30,00
+                                                </td>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td class="text-center">
+                                                    1
+                                                </td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <mat-accordion class="example-headers-align">
+                                                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                            Dados do lançamento
+                                                            </mat-panel-title>
+                                                            <mat-panel-description>
+                                                            Data da compra, valor, compradores...
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+                                                    
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>Data da Compra</mat-label>
+                                                                    <input matInput [matDatepicker]="dp3" disabled>
+                                                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                                    <mat-label>Valor</mat-label>
+                                                                    <input matInput placeholder="00,00 R$" disabled value="00,00 R$">
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <p>
+                                                                    <mat-checkbox [formControl]="disableSelect">Parcelado</mat-checkbox>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>Parcelas</mat-label>
+                                                                    <input matInput [disabled]="disableSelect.value" [textMask]="{mask: datemask}"
+                                                                        value="01/10">
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <mat-form-field>
+                                                                    <mat-label>Comprador</mat-label>
+                                                                    <mat-select>
+                                                                        <mat-option value="option1">Thiago</mat-option>
+                                                                        <mat-option value="option1">Gilson</mat-option>
+                                                                        <mat-option value="option3">Filipe</mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>Valor</mat-label>
+                                                                    <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button type="button" mat-button class="nav-link">
+                                                                    <i class="material-icons">library_add</i> Adicionar
+                                                                    <div class="ripple-container"></div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <mat-action-row>
+                                                            <button mat-button color="primary" (click)="nextStep()">Next</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+                                                
+                                                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                            Compradores
+                                                            </mat-panel-title>
+                                                            <mat-panel-description>
+                                                            Divisão dos gastos dessa compra...
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+                                                    
+                                                        <div class="row">
+                                                            <div class="card-body">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover">
+                                                                        <thead class=" text-primary">
+                                                                            <th>Comprador</th>
+                                                                            <th>Valor</th>
+                                                                            <th>Ação</th>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Thiago</td>
+                                                                                <td>R$ 18,89</td>
+                                                                                <td class="text-primary">
+                                                                                    <button mat-raised-button type="button"
+                                                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                                                        <i class="material-icons">close</i>
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Gilson</td>
+                                                                                <td>R$ 28,55</td>
+                                                                                <td class="text-primary">
+                                                                                    <button mat-raised-button type="button"
+                                                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                                                        <i class="material-icons">close</i>
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <mat-action-row>
+                                                            <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary" (click)="nextStep()">Next</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+                                                
+                                                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                            Observação
+                                                            </mat-panel-title>
+                                                            <mat-panel-description>
+                                                            Alguma informação relevante...
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+                                                    
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                                    <mat-label>Lembrou de algo? Deixa aqui para não esquecer...</mat-label>
+                                                                    <textarea matInput placeholder="Observação"></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <mat-action-row>
+                                                            <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary" (click)="nextStep()">End</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+                                                
+                                                </mat-accordion>
                                             </div>
-                                            <div id="collapseOne" class="collapse" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    <table class="table table-hover">
-                                                        <!-- <thead>
-                                                            <th>-</th>
-                                                            <th>-</th>
-                                                        </thead> -->
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    Thiago
-                                                                </td>
-                                                                <td>
-                                                                    R$ 14,17
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Everton
-                                                                </td>
-                                                                <td>
-                                                                    R$ 13,17
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-primary">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">more</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Celuar
-                                        </td>
-                                        <td>
-                                            01/03/2020
-                                        </td>
-                                        <td>
-                                            R$ 68,74
-                                        </td>
-                                        <td>
-                                            08/12
-                                        </td>
-                                        <td class="text-center">
-                                            1
-                                        </td>
-                                        <td class="text-primary">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">more</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Cinema
-                                        </td>
-                                        <td>
-                                            01/04/2020
-                                        </td>
-                                        <td>
-                                            R$ 30,00
-                                        </td>
-                                        <td>
-                                            -
-                                        </td>
-                                        <td class="text-center">
-                                            1
-                                        </td>
-                                        <td class="text-primary">
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">more</i>
-                                            </button>
-                                            <button mat-raised-button type="button"
-                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                <i class="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                        </div>
+                                        <br/>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>                      
                     </div>
                 </div>
             </div>

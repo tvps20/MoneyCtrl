@@ -12,8 +12,21 @@ export class FaturaDetailComponent implements OnInit {
     public datemask = [/\d/, /\d/, '/', /\d/, /\d/];
     public valormask = [/\d/, /\d/, ',', /\d/, /\d/, ' R$'];
     public panelOpenState = false;
+    public step = 0;
 
-    constructor() {}
+    constructor() { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
+
+    setStep(index: number) {
+        this.step = index;
+    }
+
+    nextStep() {
+        this.step++;
+    }
+
+    prevStep() {
+        this.step--;
+    }
 }
