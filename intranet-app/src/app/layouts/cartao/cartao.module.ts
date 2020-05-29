@@ -12,15 +12,21 @@ import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
 
 @NgModule({
   declarations: [
-    CartaoComponent,
+    CartaoComponent, 
     CartaoDetailComponent,
     FaturaComponent,
-    FaturaDetailComponent,
+    FaturaDetailComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     SharedImportModule
+  ],
+  exports: [
+    CartaoComponent, 
+    CartaoDetailComponent,
+    FaturaComponent,
+    FaturaDetailComponent
   ]
 })
 export class CartaoModule { }

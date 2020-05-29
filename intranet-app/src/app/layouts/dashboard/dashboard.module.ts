@@ -15,6 +15,9 @@ import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
     CommonModule,
     RouterModule,
     SharedImportModule
+  ],
+  exports: [
+    DashboardComponent
   ]
 })
 export class DashboardModule { }
