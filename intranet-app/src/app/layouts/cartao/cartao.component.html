@@ -9,7 +9,7 @@
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">
                                         <a mat-button class="nav-link active" href="#cartoes" data-toggle="tab">
-                                            <i class="material-icons">credit_card</i> Cartões
+                                            <i class="material-icons">filter_none</i> Cartões
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
@@ -92,49 +92,52 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="adicionar"></div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Nome</mat-label>
+                                                    <input matInput placeholder="Nome">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Bandeira</mat-label>
+                                                    <input matInput placeholder="Bandeira"
+                                                        [disabled]="!disableSelect.value">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                           
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Bandeira</mat-label>
+                                                    <mat-select [disabled]="disableSelect.value">
+                                                        <mat-option value="option1">Master</mat-option>
+                                                        <mat-option value="option3">Visa</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <mat-checkbox [formControl]="disableSelect">Nova Bandeira
+                                                    </mat-checkbox>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de Adicionar novo Cartao -->
-<div class="modal fade" id="addCartaoModal" tabindex="-1" role="dialog" aria-labelledby="cartaoModalLabel"
-    aria-hidden="true">
-    <div class="card modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="card-header card-header-info">
-                <i class="material-icons">credit_card</i>
-                <h4 class="card-title">Novo Cartao</h4>
-                <p class="card-category">Formulário para adicionar novo cartão ao sistema.</p>
-            </div>
-            <form>
-                <div class="modal-body">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="example-full-width">
-                                    <mat-label>Nome</mat-label>
-                                    <input matInput placeholder="Nome">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="example-full-width">
-                                    <mat-label>Bandeira</mat-label>
-                                    <input matInput placeholder="Bandeira">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-info">Adicionar</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
