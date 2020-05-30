@@ -1,0 +1,268 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#compras" data-toggle="tab">
+                                            <i class="material-icons">shop_two</i> Compras
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#dividas" data-toggle="tab">
+                                            <i class="material-icons">swap_vert</i> Dividas
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#creditos" data-toggle="tab">
+                                            <i class="material-icons">attach_money</i> Creditos
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#atualizar" data-toggle="tab">
+                                            <i class="material-icons">person</i> Atualizar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="compras">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                            <th>Descrição</th>
+                                            <th>valor</th>
+                                            <th>Parcela</th>
+                                            <th>Especificação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Amazon Prime</td>
+                                                <td>R$ 9,90</td>
+                                                <td>Assinatura</td>
+                                                <td>Cartao Nubank</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ssd</td>
+                                                <td>R$ 20,00</td>
+                                                <td>08/10</td>
+                                                <td>Cartao Master</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Shop</td>
+                                                <td>R$ 14,71</td>
+                                                <td>-</td>
+                                                <td>Emprestimo</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>     
+                                </div>                                   
+                            </div>
+                            <div class="tab-pane" id="dividas">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor Total</th>
+                                            <th>Valor Pago</th>
+                                            <th>Tipo</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Divida da fatura de janeiro</td>
+                                                <td>74,87 R$</td>
+                                                <td>0,00 R$</td>
+                                                <td><i class="material-icons">description</i></td>
+                                                <td>Ativa</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Comprou a bicicleta</td>
+                                                <td>100,00 R$</td>
+                                                <td>50,00 R$</td>                                             
+                                                <td><i class="material-icons">monetization_on</i></td>
+                                                <td>Ativa</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">done</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="creditos">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Credito da fatura de janeiro</td>
+                                                <td>4,87 R$</td>
+                                                <td>27/01/2020</td>
+                                                <td>Usado</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cartas vendidas</td>
+                                                <td>50,00 R$</td>
+                                                <td>01/02/2020</td>                                             
+                                                <td>Ativa</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Motivo do crédito</mat-label>
+                                                    <input matInput placeholder="Descrição" type="text">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Valor</mat-label>
+                                                    <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="atualizar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Nome</mat-label>
+                                                    <input matInput placeholder="Nome" type="text">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Sobrenome</mat-label>
+                                                    <input matInput placeholder="Sobrenome" type="text">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mat-radio-group aria-label="Select an option">
+                                                    <mat-radio-button value="1">Usuario</mat-radio-button>
+                                                    <mat-radio-button checked value="2">Comprador</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mat-checkbox>Admin</mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Username</mat-label>
+                                                    <input matInput placeholder="Username">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-7" style="padding-top: -10px;">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput placeholder="Email" type="email">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Senha</mat-label>
+                                                    <input matInput placeholder="Senha" type="password">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Confirmar Senha</mat-label>
+                                                    <input matInput placeholder="Confirmar Senha" type="password">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Atualizar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="../../../../assets/img/faces/marc.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">Comprador/User</h6>
+                        <h4 class="card-title">Gilson Santiago</h4>
+                        <p class="card-description">
+                            Total de compras: 5<br/>
+                            Dividas Ativas: 174,87 R$<br/>
+                            Credito Disponível: 50,00 R$
+                        </p>                    
+                        <a href="javascript:void(0)" class="btn btn-info btn-round">Imprimir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

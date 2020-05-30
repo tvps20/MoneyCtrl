@@ -7,11 +7,18 @@ import { CartaoDetailComponent } from '../cartao/cartao-detail/cartao-detail.com
 import { FaturaDetailComponent } from '../cartao/fatura/fatura-detail/fatura-detail.component';
 import { FaturaComponent } from '../cartao/fatura/fatura.component';
 import { DividaComponent } from '../divida/divida.component';
+import { CompradorDetailComponent } from './../user-comprador/comprador-detail/comprador-detail.component';
 
 
 export const BaseLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'user-comprador', component: UserCompradorComponent },
+    { 
+        path: 'user-comprador', 
+        children: [
+            { path: '', component: UserCompradorComponent },
+            { path: ':id', component: CompradorDetailComponent }
+        ] 
+    },
     {
         path: 'cartoes',
         children: [
