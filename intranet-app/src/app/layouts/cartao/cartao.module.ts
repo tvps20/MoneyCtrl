@@ -8,6 +8,7 @@ import { FaturaComponent } from './fatura/fatura.component';
 import { FaturaDetailComponent } from './fatura/fatura-detail/fatura-detail.component';
 
 import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
   imports: [
     CommonModule,
     RouterModule,
-    SharedImportModule
+    SharedImportModule,
+    ComponentsModule,
   ],
   exports: [
     CartaoComponent, 

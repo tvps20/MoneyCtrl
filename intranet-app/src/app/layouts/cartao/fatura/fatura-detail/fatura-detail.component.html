@@ -79,7 +79,7 @@
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons text-primary">more_horiz</i>
-                            <a href="javascript:void(0)">Detalhes</a> 
+                            <a href="javascript:void(0)">Detalhes</a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr data-toggle="modal" data-target="#detalhesModalLancamento">
                                                 <td>Barbeador</td>
                                                 <td>01/02/2020</td>
                                                 <td>R$ 28,34</td>
@@ -249,33 +249,37 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <mat-accordion class="example-headers-align">
-                                                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                                                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)"
+                                                        hideToggle>
                                                         <mat-expansion-panel-header>
                                                             <mat-panel-title>
-                                                            Dados do lançamento
+                                                                Dados do lançamento
                                                             </mat-panel-title>
                                                             <mat-panel-description>
-                                                            Data da compra, valor, compradores...
+                                                                Data da compra, valor, compradores...
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
-                                                    
+
                                                         <div class="row">
                                                             <div class="col-md-8">
-                                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="example-full-width">
                                                                     <mat-label>Descrição</mat-label>
-                                                                    <input matInput placeholder="Breve descrição da compra...">
+                                                                    <input matInput
+                                                                        placeholder="Breve descrição da compra...">
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <p>
-                                                                    <mat-checkbox [formControl]="disableSelect">Parcelado</mat-checkbox>
+                                                                    <mat-checkbox [formControl]="disableSelect">
+                                                                        Parcelado</mat-checkbox>
                                                                 </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Parcelas</mat-label>
-                                                                    <input matInput [disabled]="disableSelect.value" [textMask]="{mask: datemask}"
-                                                                        value="01/10">
+                                                                    <input matInput [disabled]="disableSelect.value"
+                                                                        [textMask]="{mask: datemask}" value="01/10">
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -284,8 +288,10 @@
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Data da Compra</mat-label>
                                                                     <input matInput [matDatepicker]="dp3" disabled>
-                                                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                                                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #dp3 disabled="false">
+                                                                    </mat-datepicker>
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-4">
@@ -301,7 +307,8 @@
                                                             <div class="col-md-2">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Valor</mat-label>
-                                                                    <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
+                                                                    <input matInput [textMask]="{mask: valormask}"
+                                                                        value="R$ 00,00">
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-2">
@@ -313,20 +320,22 @@
                                                         </div>
 
                                                         <mat-action-row>
-                                                            <button mat-button color="primary" (click)="nextStep()">Next</button>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">Next</button>
                                                         </mat-action-row>
                                                     </mat-expansion-panel>
-                                                
-                                                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+
+                                                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
+                                                        hideToggle>
                                                         <mat-expansion-panel-header>
                                                             <mat-panel-title>
                                                                 Compradores: 2
                                                             </mat-panel-title>
                                                             <mat-panel-description>
                                                                 Total: 47,44 R$
-                                                            </mat-panel-description>  
+                                                            </mat-panel-description>
                                                         </mat-expansion-panel-header>
-                                                    
+
                                                         <div class="row">
                                                             <div class="card-body">
                                                                 <div class="table-responsive">
@@ -341,9 +350,11 @@
                                                                                 <td>Thiago</td>
                                                                                 <td>R$ 18,89</td>
                                                                                 <td class="text-primary">
-                                                                                    <button mat-raised-button type="button"
+                                                                                    <button mat-raised-button
+                                                                                        type="button"
                                                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                                        <i class="material-icons">close</i>
+                                                                                        <i
+                                                                                            class="material-icons">close</i>
                                                                                     </button>
                                                                                 </td>
                                                                             </tr>
@@ -351,9 +362,11 @@
                                                                                 <td>Gilson</td>
                                                                                 <td>R$ 28,55</td>
                                                                                 <td class="text-primary">
-                                                                                    <button mat-raised-button type="button"
+                                                                                    <button mat-raised-button
+                                                                                        type="button"
                                                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                                        <i class="material-icons">close</i>
+                                                                                        <i
+                                                                                            class="material-icons">close</i>
                                                                                     </button>
                                                                                 </td>
                                                                             </tr>
@@ -362,49 +375,57 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    
+
                                                         <mat-action-row>
-                                                            <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                                                            <button mat-button color="primary" (click)="nextStep()">Next</button>
+                                                            <button mat-button color="warn"
+                                                                (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">Next</button>
                                                         </mat-action-row>
                                                     </mat-expansion-panel>
-                                                
-                                                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+
+                                                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)"
+                                                        hideToggle>
                                                         <mat-expansion-panel-header>
                                                             <mat-panel-title>
-                                                            Observação
+                                                                Observação
                                                             </mat-panel-title>
                                                             <mat-panel-description>
-                                                            Alguma informação relevante...
+                                                                Alguma informação relevante...
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
-                                                    
+
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                                    <mat-label>Lembrou de algo? Deixa aqui para não esquecer...</mat-label>
-                                                                    <textarea matInput placeholder="Observação"></textarea>
+                                                                <mat-form-field appearance="outline"
+                                                                    class="example-full-width">
+                                                                    <mat-label>Lembrou de algo? Deixa aqui para não
+                                                                        esquecer...</mat-label>
+                                                                    <textarea matInput
+                                                                        placeholder="Observação"></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
-                                                    
+
                                                         <mat-action-row>
-                                                            <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                                                            <button mat-button color="primary" (click)="nextStep()">End</button>
+                                                            <button mat-button color="warn"
+                                                                (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">End</button>
                                                         </mat-action-row>
                                                     </mat-expansion-panel>
-                                                
+
                                                 </mat-accordion>
                                             </div>
                                         </div>
-                                        <br/>
+                                        <br />
                                         <button mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right">Salvar</button>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>
                             </div>
-                        </div>                      
+                        </div>
                     </div>
                 </div>
             </div>
@@ -412,146 +433,5 @@
     </div>
 </div>
 
-<!-- Modal de Adicionar um novo Lancamento -->
-<!-- <div class="modal fade" id="addLancamentoModal" tabindex="-1" role="dialog" aria-labelledby="lancamentoModalLabel"
-    aria-hidden="true">
-    <div class="card modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="card-header card-header-info">
-                <i class="material-icons">shop</i>
-                <h4 class="card-title">Novo Lancamento</h4>
-                <p class="card-category">Formulário para adicionar um novo lançamento a fatura deste mês.</p>
-            </div>
-            <form>
-                <div class="modal-body">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Data da Compra</mat-label>
-                                    <input matInput [matDatepicker]="dp3" disabled>
-                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                                <p>
-                                    <mat-checkbox [formControl]="disableSelect">Parcelado</mat-checkbox>
-                                </p>
-                            </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Parcelas</mat-label>
-                                    <input matInput [disabled]="disableSelect.value" [textMask]="{mask: datemask}"
-                                        value="01/10">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <mat-accordion>
-                                <mat-expansion-panel>
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            Compradores
-                                        </mat-panel-title>
-                                        <mat-panel-description>
-                                            Divisão dos gastos da compra
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <mat-form-field>
-                                                <mat-label>Comprador</mat-label>
-                                                <mat-select>
-                                                    <mat-option value="option1">Thiago</mat-option>
-                                                    <mat-option value="option1">Gilson</mat-option>
-                                                    <mat-option value="option3">Filipe</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <mat-form-field appearance="outline">
-                                                <mat-label>Valor</mat-label>
-                                                <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" mat-button class="nav-link">
-                                                <i class="material-icons">library_add</i> Adicionar
-                                                <div class="ripple-container"></div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </mat-expansion-panel>
-                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            Lista de Compradores
-                                        </mat-panel-title>
-                                        <mat-panel-description>
-                                            Total: 2
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead class=" text-primary">
-                                                    <th>Comprador</th>
-                                                    <th>Valor</th>
-                                                    <th>Ação</th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Thiago</td>
-                                                        <td>R$ 18,89</td>
-                                                        <td class="text-primary">
-                                                            <button mat-raised-button type="button"
-                                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                <i class="material-icons">close</i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gilson</td>
-                                                        <td>R$ 28,55</td>
-                                                        <td class="text-primary">
-                                                            <button mat-raised-button type="button"
-                                                                class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                <i class="material-icons">close</i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </mat-expansion-panel>
-                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            Observação
-                                        </mat-panel-title>
-                                    </mat-expansion-panel-header>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <mat-form-field appearance="outline" class="example-full-width">
-                                                <textarea matInput placeholder="Essa compra..."></textarea>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                </mat-expansion-panel>
-                            </mat-accordion>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-info">Adicionar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
+<!-- Modal de detalhes do lançamento -->
+<app-modal-lancamento></app-modal-lancamento>
