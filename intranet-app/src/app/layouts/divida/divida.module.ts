@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DividaComponent } from './divida.component';
 
 import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
   imports: [
     CommonModule,
     RouterModule,
-    SharedImportModule
+    SharedImportModule,
+    ComponentsModule
   ],
   exports: [
     DividaComponent

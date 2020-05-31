@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ModalLancamentoComponent } from './modal-lancamento/modal-lancamento.component';
+import { ModalDividaComponent } from './modal-divida/modal-divida.component';
 
 @NgModule({
   imports: [
@@ -16,13 +17,15 @@ import { ModalLancamentoComponent } from './modal-lancamento/modal-lancamento.co
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    ModalLancamentoComponent
+    ModalLancamentoComponent,
+    ModalDividaComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    ModalLancamentoComponent
+    ModalLancamentoComponent,
+    ModalDividaComponent
   ]
 })
 export class ComponentsModule { }
