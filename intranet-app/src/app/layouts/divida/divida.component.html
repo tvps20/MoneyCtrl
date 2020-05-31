@@ -113,7 +113,7 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr data-toggle="modal" data-target="#detalhesModalDivida">
+                                            <tr>
                                                 <td>Divida da fatura de janeiro</td>
                                                 <td>74,87 R$</td>
                                                 <td>0,00 R$</td>
@@ -126,10 +126,16 @@
                                                         <i class="material-icons">done</i>
                                                     </button>
                                                     <button mat-raised-button type="button"
+                                                        data-toggle="modal" data-target="#detalhesModalDivida"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button"
+                                                        data-toggle="modal" data-target="#detalhesModalAviso"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -146,6 +152,10 @@
                                                     <button mat-raised-button type="button"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">done</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
                                                     </button>
                                                     <button mat-raised-button type="button"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
@@ -247,3 +257,5 @@
 
 <!-- Modal de detalhes do Divida -->
 <app-modal-divida></app-modal-divida>
+<!-- Modal de aviso -->
+<app-modal-aviso></app-modal-aviso>

@@ -14,7 +14,7 @@ import { UserCompradorModule } from '../user-comprador/user-comprador.module';
   imports: [
     CommonModule,
     RouterModule.forChild(BaseLayoutRoutes),
-
+    
     DashboardModule,
     UserCompradorModule,
     CartaoModule,
