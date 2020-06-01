@@ -46,7 +46,7 @@ export class NavbarComponent implements OnInit {
 
   public deslogar() {
     console.log("saiu")
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['auth']);
   }
 
   sidebarOpen() {

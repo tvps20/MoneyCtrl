@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -32,6 +33,12 @@ export const BaseLayoutRoutes: Routes = [
             }
         ]
     },
-    { path: 'faturas', component: FaturaComponent },
+    { 
+        path: 'faturas', 
+        children: [
+            { path: '', component: FaturaComponent },
+            { path: ':id', component: FaturaDetailComponent }
+        ] 
+    },
     { path: 'dividas', component: DividaComponent }
 ];
