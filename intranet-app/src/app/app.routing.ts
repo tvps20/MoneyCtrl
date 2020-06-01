@@ -6,7 +6,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { BaseLayoutComponent } from './layouts/base-layout/base-layout.component';
 
 const ROUTES: Routes = [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: 'auth', pathMatch: 'full' },
+    {
+        path: 'auth',
+        loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+    },
     {
         path: '',
         component: BaseLayoutComponent,
