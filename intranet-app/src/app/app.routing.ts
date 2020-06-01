@@ -3,7 +3,7 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { BaseLayoutComponent } from './layouts/base-layout/base-layout.component';
+import { BaseLayoutComponent } from './layouts/base-layout.component';
 
 const ROUTES: Routes = [
     { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -16,7 +16,7 @@ const ROUTES: Routes = [
         component: BaseLayoutComponent,
         children: [{
             path: '',
-            loadChildren: () => import('./layouts/base-layout/base-layout.module').then(m => m.BaseLayoutModule)
+            loadChildren: () => import('./layouts/base-layout.module').then(m => m.BaseLayoutModule)
         }]
     }
 ];
