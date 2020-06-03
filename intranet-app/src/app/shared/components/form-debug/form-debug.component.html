@@ -1,0 +1,20 @@
+<div style="margin-top: 20px;" *ngIf="formulario" >
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                Detalhes do from
+            </div>
+            <pre>
+                Form Válido: {{ formulario.valid }}
+            </pre>
+            <pre>
+                Form status: {{ formulario.status }}
+            </pre>
+        </div>
+        <div class="col-md-6">
+            <pre>
+                Valores: <br/> {{ formulario.value | json }}
+            </pre>
+        </div>
+    </div>
+</div>

@@ -4,14 +4,16 @@ import { RouterModule } from '@angular/router';
 
 import { UserCompradorComponent } from './user-comprador.component';
 import { CompradorDetailComponent } from './comprador-detail/comprador-detail.component';
+import { FormDebugComponent } from 'src/app/shared/components/form-debug/form-debug.component';
 
-import { SharedImportModule } from 'src/app/shared/import/shared-import.module';
+import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
 
 
 @NgModule({
   declarations: [
     UserCompradorComponent,
-    CompradorDetailComponent
+    CompradorDetailComponent,
+    FormDebugComponent
   ],
   imports: [
     CommonModule,

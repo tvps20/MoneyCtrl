@@ -7,7 +7,7 @@ import { CartaoDetailComponent } from './cartao-detail/cartao-detail.component';
 import { FaturaComponent } from './fatura/fatura.component';
 import { FaturaDetailComponent } from './fatura/fatura-detail/fatura-detail.component';
 
-import { SharedImportModule } from 'src/app/shared/import/shared-import.module';
+import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 
