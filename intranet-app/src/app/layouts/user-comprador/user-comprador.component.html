@@ -64,13 +64,13 @@
                                                     1
                                                 </td>
                                                 <td class="td-actions text-left">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Editar" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Editar"
+                                                        matTooltipPosition="above"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -120,13 +120,13 @@
                                             <td>R$ 50,00</td>
                                             <td>2</td>
                                             <td class="td-actions text-left">
-                                                <button mat-raised-button type="button"
-                                                    matTooltip="Editar" matTooltipPosition="above"
+                                                <button mat-raised-button type="button" matTooltip="Editar"
+                                                    matTooltipPosition="above"
                                                     class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                     <i class="material-icons">edit</i>
                                                 </button>
-                                                <button mat-raised-button type="button"
-                                                    matTooltip="Excluir" matTooltipPosition="above"
+                                                <button mat-raised-button type="button" matTooltip="Excluir"
+                                                    matTooltipPosition="above"
                                                     class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                     <i class="material-icons">close</i>
                                                 </button>
@@ -137,41 +137,46 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form>
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Nome</mat-label>
-                                                    <input matInput placeholder="Nome" type="text">
+                                                    <input matInput type="text" formControlName="nome">
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('nome')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('nome').valid">done</mat-icon>
+                                                    <mat-hint class="form-text text-danger" *ngIf="verificarValidField('nome')">
+                                                        Campo Obrigatório
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Sobrenome</mat-label>
-                                                    <input matInput placeholder="Sobrenome" type="text">
+                                                    <input matInput type="text" formControlName="sobrenome">
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-2">
-                                                <mat-radio-group aria-label="Select an option">
-                                                    <mat-radio-button value="1">Usuario</mat-radio-button>
-                                                    <mat-radio-button checked value="2">Comprador</mat-radio-button>
+                                                <mat-radio-group aria-label="Select an option" formControlName="perfil">
+                                                    <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
+                                                    <mat-radio-button checked value="COMPRADOR">Comprador</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                             <div class="col-md-2">
-                                                <mat-checkbox>Admin</mat-checkbox>
+                                                <mat-checkbox formControlName="admin">Admin</mat-checkbox>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Username</mat-label>
-                                                    <input matInput placeholder="Username">
+                                                    <input matInput type="text" formControlName="username">
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-md-7" style="padding-top: -10px;">
+                                            <div class="col-md-7">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Email</mat-label>
-                                                    <input matInput placeholder="Email" type="email">
+                                                    <input matInput type="email" formControlName="email">
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -179,19 +184,18 @@
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Senha</mat-label>
-                                                    <input matInput placeholder="Senha" type="password">
+                                                    <input matInput type="password" formControlName="senha">
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Confirmar Senha</mat-label>
-                                                    <input matInput placeholder="Confirmar Senha" type="password">
+                                                    <input matInput type="password" formControlName="confirmarSenha">
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                         <button mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right">Salvar</button>
-                                        <div class="clearfix"></div>
                                     </form>
                                 </div>
                             </div>

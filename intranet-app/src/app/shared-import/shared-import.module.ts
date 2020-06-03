@@ -13,6 +13,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
-
+    MatIconModule,
     MatSelectModule,
     MatTooltipModule,
     MatNativeDateModule,
@@ -42,7 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
-
+    MatIconModule,
     MatSelectModule,
     MatTooltipModule,
     MatNativeDateModule,

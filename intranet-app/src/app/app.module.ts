@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app.routing';
@@ -21,10 +21,9 @@ import { SharedImportModule } from './shared-import/shared-import.module';
   imports: [
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
-    ComponentsModule,
     RouterModule,
     AppRoutingModule,
+    ComponentsModule,
     SharedImportModule
   ],
   providers: [],
