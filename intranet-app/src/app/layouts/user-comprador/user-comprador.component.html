@@ -146,7 +146,7 @@
                                                     <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('nome')">error</mat-icon>
                                                     <mat-icon matSuffix class="text-success" *ngIf="formulario.get('nome').valid">done</mat-icon>
                                                     <mat-hint class="form-text text-danger" *ngIf="verificarValidField('nome')">
-                                                        Campo Obrigatório
+                                                        Campo Obrigatório.
                                                     </mat-hint>
                                                 </mat-form-field>
                                             </div>
@@ -177,6 +177,14 @@
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Email</mat-label>
                                                     <input matInput type="email" formControlName="email">
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('email')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('email').valid && formulario.get('email').dirty">done</mat-icon>
+                                                    <mat-hint class="form-text text-danger" *ngIf="formulario.get('email').status === 'PENDING'">
+                                                        Validando email...
+                                                    </mat-hint>
+                                                    <mat-hint class="form-text text-danger" *ngIf="formulario.get('email').hasError('emailInvalido')">
+                                                        Email já cadastrado.
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -191,6 +199,11 @@
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Confirmar Senha</mat-label>
                                                     <input matInput type="password" formControlName="confirmarSenha">
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('confirmarSenha')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('confirmarSenha').valid && formulario.get('confirmarSenha').dirty">done</mat-icon>
+                                                    <mat-hint class="form-text text-danger" *ngIf="verificarValidField('confirmarSenha')">
+                                                        Senhas não são iguais.
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>

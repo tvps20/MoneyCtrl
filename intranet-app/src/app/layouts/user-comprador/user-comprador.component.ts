@@ -1,7 +1,10 @@
+import { VerificaUniqueFieldService } from './../../shared/services/verifica-unique-field.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
+import { FormValidations } from 'src/app/shared/util/form-validations';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-user-comprador',
@@ -13,10 +16,12 @@ export class UserCompradorComponent implements OnInit {
     public formulario: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
-        private validFormsService: ValidFormsService) { }
+        private validFormsService: ValidFormsService,
+        private verificaUniqueFieldService: VerificaUniqueFieldService) { }
 
     ngOnInit(): void {
         this.formulario = this.createForm();
+        this.verificaUniqueFieldService.verificaEmail('email1@email.com').subscribe();
     }
 
     public onSubmit(): void {
@@ -42,9 +47,9 @@ export class UserCompradorComponent implements OnInit {
             perfil: ["COMPRADOR", Validators.required],
             admin: [false],
             username: [null, Validators.minLength(6)],
-            email: [null, Validators.email],
+            email: [null, Validators.email, [this.validarEmail.bind(this)]],
             senha: [null, Validators.required],
-            confirmarSenha: [null, Validators.required],
+            confirmarSenha: [null, [FormValidations.equalsTo('senha')]],
             roles: [[]]
         });
     }
@@ -58,5 +63,11 @@ export class UserCompradorComponent implements OnInit {
         }
 
         return valueSubmit;
+    }
+
+
+    private validarEmail(formControl: FormControl){
+        return this.verificaUniqueFieldService.verificaEmail(formControl.value)
+        .pipe(map(emailExist => emailExist ? {emailInvalido: true} : null));
     }
 }
