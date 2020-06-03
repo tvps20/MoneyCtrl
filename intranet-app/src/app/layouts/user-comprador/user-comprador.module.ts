@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { UserCompradorComponent } from './user-comprador.component';
 import { CompradorDetailComponent } from './comprador-detail/comprador-detail.component';
 
-import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
+import { SharedImportModule } from 'src/app/shared/import/shared-import.module';
 
 
 @NgModule({

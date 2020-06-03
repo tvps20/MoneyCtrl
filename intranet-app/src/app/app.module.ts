@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 
 import { BaseLayoutComponent } from './layouts/base-layout.component';
 import { LoginComponent } from './login/login.component';
-import { SharedImportModule } from './shared-import/shared-import.module';
+import { SharedImportModule } from './shared/import/shared-import.module';
 
 @NgModule({
   declarations: [

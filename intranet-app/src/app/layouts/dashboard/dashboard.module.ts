@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
 
-import { SharedImportModule } from 'src/app/shared-import/shared-import.module';
+import { SharedImportModule } from 'src/app/shared/import/shared-import.module';
 
 
 @NgModule({
