@@ -8,7 +8,7 @@ import { FaturaComponent } from './fatura/fatura.component';
 import { FaturaDetailComponent } from './fatura/fatura-detail/fatura-detail.component';
 
 import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 @NgModule({
