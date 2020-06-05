@@ -7,7 +7,7 @@
       "createAt": "26/05/2020",
       "verificaro": "26/05/2020",
       "ativo": true,
-      "type": "USER",
+      "perfil": "USER",
       "roles": [
         "ADMIN",
         "USER"
@@ -20,7 +20,7 @@
       "createAt": "26/05/2020",
       "verificaro": "26/05/2020",
       "ativo": true,
-      "type": "COMPRADOR",
+      "perfil": "COMPRADOR",
       "roles": [
         "USER"
       ]
@@ -37,7 +37,7 @@
       "ativo": true,
       "nome": "thiago",
       "sobrenome": "santiago",
-      "type": "COMPRADOR",
+      "perfil": "COMPRADOR",
       "dividas": [],
       "creditos": [],
       "roles": [

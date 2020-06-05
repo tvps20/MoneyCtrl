@@ -13,20 +13,23 @@ export abstract class BaseFormComponent implements OnInit {
 
     constructor(public validFormsService: ValidFormsService) { }
 
-    ngOnInit(): void {}
+    ngOnInit(): void { }
 
     public abstract submit();
 
-    public onSubmit(){
-        if(this.formulario.valid){
+    public abstract createForm();
+
+    public onSubmit() {
+        if (this.formulario.valid) {
             this.submit();
         } else {
             this.validFormsService.verificarValidacoesForm(this.formulario);
         }
     }
 
-    public reseteForm(){
+    public reseteForm() {
         this.formulario.reset();
+        this.formulario.get('nome').markAsUntouched();
     }
 
     public errorMessage(controle: string, label: string) {

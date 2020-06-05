@@ -17,7 +17,7 @@ content-type: application/json
     "ativo": true,
     "nome": "thiago",
     "sobrenome": "santiago",
-    "type": "COMPRADOR",
+    "perfil": "COMPRADOR",
     "dividas": [],
     "creditos": [],
     "roles": [

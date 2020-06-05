@@ -21,6 +21,7 @@ export class InputFieldComponent implements ControlValueAccessor {
     @Input() tipo: string = 'text';
     @Input() control: FormControl;
     @Input() isReadOnly = false;
+    @Input() submitted = false;
 
     private innerValue: any;
 

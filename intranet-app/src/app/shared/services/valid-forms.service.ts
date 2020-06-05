@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { FormValidations } from '../util/form-validations';
 import { HttpClient } from '@angular/common/http';
-import { map, tap, delay } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +25,7 @@ export class ValidFormsService {
 
     public verificarValidField(formControl: FormControl): boolean {
         return !formControl.valid &&
-        (formControl.touched || formControl.dirty);
+        (formControl.touched && formControl.dirty);
     }
 
     public errorMessage(formControl: AbstractControl, label: string){

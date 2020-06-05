@@ -138,7 +138,7 @@
                                 <ng-template #loading>
                                     <div *ngIf="error$ | async; else loadingNoError" >
                                         <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
+                                            <p>Problemas ao tentar carregar cursos.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>
@@ -154,12 +154,12 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="nome"
-                                                    label="nome" [control]="formulario.get('nome')">
+                                                    label="Nome" [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="sobrenome"
-                                                    label="sobrenome" [control]="formulario.get('sobrenome')">
+                                                    label="Sobrenome" [control]="formulario.get('sobrenome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-2">
@@ -174,10 +174,9 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Username</mat-label>
-                                                    <input matInput type="text" formControlName="username">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="username"
+                                                    label="Username" [control]="formulario.get('username')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-7">
                                                 <mat-form-field appearance="outline" class="example-full-width">
@@ -204,12 +203,12 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="senha"
-                                                    label="senha" tipo="password" [control]="formulario.get('senha')">
+                                                    label="Senha" tipo="password" [control]="formulario.get('senha')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="confirmarSenha"
-                                                    label="confirmar senha" tipo="password" [control]="formulario.get('confirmarSenha')">
+                                                    label="Confirmar Senha" tipo="password" [control]="formulario.get('confirmarSenha')">
                                                 </app-input-field>
                                             </div>
                                         </div>

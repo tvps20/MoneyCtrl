@@ -8,7 +8,7 @@ export interface Comprador {
     ativo: boolean,
     nome: string,
     sobrenome: string,
-    type: string,
+    perfil: string,
     dividas: [],
     creditos: [],
     roles: [ "USER" ]

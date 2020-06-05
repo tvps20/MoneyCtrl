@@ -5,7 +5,8 @@
     <input matInput [type]="tipo" [readonly]="!!isReadOnly" [(ngModel)]="value">
     <mat-icon matSuffix class="text-danger"
         *ngIf="verificarValidControl(control)">error</mat-icon>
-    <mat-icon matSuffix class="text-success" *ngIf="control.valid">done</mat-icon>
+    <mat-icon matSuffix class="text-success" *ngIf="control.valid && control.value !== '' &&
+    control.value !== null">done</mat-icon>
     <mat-hint class="text-danger" *ngIf="verificarValidControl(control)">
         {{ errorMessage() }}
     </mat-hint>
