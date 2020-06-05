@@ -1,0 +1,5 @@
+<mat-icon matSuffix class="text-danger" *ngIf="verificarValidField()">error</mat-icon>
+<mat-icon matSuffix class="text-success" *ngIf="control.valid">done</mat-icon>
+<mat-hint class="form-text text-danger" *ngIf="verificarValidField()">
+    {{ errorMessage }}
+</mat-hint>

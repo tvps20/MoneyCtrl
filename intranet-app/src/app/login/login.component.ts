@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(){
-      console.log(this.formulario);
       if(this.formulario.valid){
         // Transformando o obj em Json
         JSON.stringify(this.formulario.value);

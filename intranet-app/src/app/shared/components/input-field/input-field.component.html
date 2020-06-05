@@ -1,0 +1,12 @@
+<mat-form-field appearance="outline" (change)="markAsTouched()"
+(click)="markAsTouched()" (focusout)="markAsTouched()"
+[class]="(this.control.valid || !this.control.touched) ? '' : 'mat-form-field-invalid'">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [type]="tipo" [readonly]="!!isReadOnly" [(ngModel)]="value">
+    <mat-icon matSuffix class="text-danger"
+        *ngIf="verificarValidControl(control)">error</mat-icon>
+    <mat-icon matSuffix class="text-success" *ngIf="control.valid">done</mat-icon>
+    <mat-hint class="text-danger" *ngIf="verificarValidControl(control)">
+        {{ errorMessage() }}
+    </mat-hint>
+</mat-form-field>

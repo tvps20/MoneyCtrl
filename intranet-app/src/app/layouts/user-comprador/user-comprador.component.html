@@ -140,21 +140,14 @@
                                     <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Nome</mat-label>
-                                                    <input matInput type="text" formControlName="nome">
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('nome')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('nome').valid">done</mat-icon>
-                                                    <mat-hint class="form-text text-danger" *ngIf="verificarValidField('nome')">
-                                                        Campo Obrigatório.
-                                                    </mat-hint>
-                                                </mat-form-field>
+                                                <app-input-field formControlName="nome"
+                                                    label="nome" [control]="formulario.get('nome')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-4">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Sobrenome</mat-label>
-                                                    <input matInput type="text" formControlName="sobrenome">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="sobrenome"
+                                                    label="sobrenome" [control]="formulario.get('sobrenome')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-2">
                                                 <mat-radio-group aria-label="Select an option" formControlName="perfil">
@@ -177,34 +170,34 @@
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Email</mat-label>
                                                     <input matInput type="email" formControlName="email">
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('email')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('email').valid && formulario.get('email').dirty">done</mat-icon>
-                                                    <mat-hint class="form-text text-danger" *ngIf="formulario.get('email').status === 'PENDING'">
-                                                        Validando email...
-                                                    </mat-hint>
-                                                    <mat-hint class="form-text text-danger" *ngIf="formulario.get('email').hasError('emailInvalido')">
-                                                        Email já cadastrado.
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl(formulario.get('email'))">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="formulario.get('email').valid &&
+                                                        formulario.get('email').value !== '' &&
+                                                        formulario.get('email').value !== null">
+                                                        done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-warning" *ngIf="formulario.get('email').status === 'PENDING'">
+                                                            Validando email...
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="verificarValidControl(formulario.get('email'))">
+                                                            {{ errorMessage("email", "email") }}
+                                                        </div>
                                                     </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Senha</mat-label>
-                                                    <input matInput type="password" formControlName="senha">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="senha"
+                                                    label="senha" tipo="password" [control]="formulario.get('senha')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Confirmar Senha</mat-label>
-                                                    <input matInput type="password" formControlName="confirmarSenha">
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidField('confirmarSenha')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="formulario.get('confirmarSenha').valid && formulario.get('confirmarSenha').dirty">done</mat-icon>
-                                                    <mat-hint class="form-text text-danger" *ngIf="verificarValidField('confirmarSenha')">
-                                                        Senhas não são iguais.
-                                                    </mat-hint>
-                                                </mat-form-field>
+                                                <app-input-field formControlName="confirmarSenha"
+                                                    label="confirmação" tipo="password" [control]="formulario.get('confirmarSenha')">
+                                                </app-input-field>
                                             </div>
                                         </div>
                                         <button mat-raised-button appearance="outline" type="submit"

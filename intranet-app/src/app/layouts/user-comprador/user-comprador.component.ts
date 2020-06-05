@@ -1,4 +1,3 @@
-import { VerificaUniqueFieldService } from './../../shared/services/verifica-unique-field.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
@@ -16,12 +15,10 @@ export class UserCompradorComponent implements OnInit {
     public formulario: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
-        private validFormsService: ValidFormsService,
-        private verificaUniqueFieldService: VerificaUniqueFieldService) { }
+        private validFormsService: ValidFormsService) { }
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.verificaUniqueFieldService.verificaEmail('email1@email.com').subscribe();
     }
 
     public onSubmit(): void {
@@ -36,11 +33,7 @@ export class UserCompradorComponent implements OnInit {
         }
     }
 
-    public verificarValidField(campo: string): boolean {
-        return this.validFormsService.verificarValidField(campo, this.formulario);
-    }
-
-    private createForm():FormGroup {
+    private createForm(): FormGroup {
         return this.formBuilder.group({
             nome: [null, [Validators.required, Validators.minLength(6)]],
             sobrenome: [null, [Validators.required, Validators.minLength(6)]],
@@ -48,15 +41,15 @@ export class UserCompradorComponent implements OnInit {
             admin: [false],
             username: [null, Validators.minLength(6)],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
-            senha: [null, Validators.required],
-            confirmarSenha: [null, [FormValidations.equalsTo('senha')]],
+            senha: [null, [Validators.required]],
+            confirmarSenha: [null, [FormValidations.equalsTo('senha'), Validators.required]],
             roles: [[]]
         });
     }
 
     private addRoles(form: FormGroup): any {
         let valueSubmit = Object.assign({}, form.value);
-        if(form.get('admin').value){
+        if (form.get('admin').value) {
             valueSubmit.roles = ["USER", "ADMIN"];
         } else {
             valueSubmit.roles = ["USER"];
@@ -66,8 +59,16 @@ export class UserCompradorComponent implements OnInit {
     }
 
 
-    private validarEmail(formControl: FormControl){
-        return this.verificaUniqueFieldService.verificaEmail(formControl.value)
-        .pipe(map(emailExist => emailExist ? {emailInvalido: true} : null));
+    private validarEmail(formControl: FormControl) {
+        return this.validFormsService.verificaEmail(formControl.value)
+            .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
+    }
+
+    public errorMessage(controle: string, label: string) {
+        return this.validFormsService.errorMessage(this.formulario.get(controle), label);
+    }
+
+    public verificarValidControl(formControl: any): boolean {
+        return this.validFormsService.verificarValidField(formControl);
     }
 }
