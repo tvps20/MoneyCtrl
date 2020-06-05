@@ -1,0 +1,26 @@
+ http://localhost:3000/users
+
+###
+ http://localhost:3000/compradores
+
+####
+POST  http://localhost:3000/compradores HTTP/1.1
+content-type: application/json
+
+{
+    "id": null,
+    "email": "thiago@email.com",
+    "acesso": "email",
+    "username": "tvps20",
+    "createAt": "26/05/2020",
+    "verificaro": "26/05/2020",
+    "ativo": true,
+    "nome": "thiago",
+    "sobrenome": "santiago",
+    "type": "COMPRADOR",
+    "dividas": [],
+    "creditos": [],
+    "roles": [
+        "USER"
+    ]
+}

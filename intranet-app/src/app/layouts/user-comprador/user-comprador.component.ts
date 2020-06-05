@@ -1,11 +1,14 @@
+import { Comprador } from './../../shared/models/comprador';
+import { UserCompradorService } from './user-comprador.service';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { FormValidations } from 'src/app/shared/util/form-validations';
+import { Observable, empty, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-user-comprador',
@@ -14,11 +17,20 @@ import { FormValidations } from 'src/app/shared/util/form-validations';
 })
 export class UserCompradorComponent extends BaseFormComponent implements OnInit {
 
+    public compradores$: Observable<Comprador[]>;
+    public error$ = new Subject<boolean>();
+
     constructor(private formBuilder: FormBuilder,
-        public validFormsService: ValidFormsService) { super(validFormsService); }
+        public validFormsService: ValidFormsService,
+        private userCompradorService: UserCompradorService) { super(validFormsService); }
 
     ngOnInit(): void {
         this.formulario = this.createForm();
+        this.compradores$ = this.userCompradorService.listAll()
+        .pipe( catchError( error => {
+            this.error$.next(true);
+            return empty();
+        }));
     }
 
     public submit() {

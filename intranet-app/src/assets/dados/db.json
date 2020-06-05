@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@email.com",
+      "acesso": "email",
+      "createAt": "26/05/2020",
+      "verificaro": "26/05/2020",
+      "ativo": true,
+      "type": "USER",
+      "roles": [
+        "ADMIN",
+        "USER"
+      ]
+    },
+    {
+      "id": 2,
+      "email": "thiago@email.com",
+      "acesso": "email",
+      "createAt": "26/05/2020",
+      "verificaro": "26/05/2020",
+      "ativo": true,
+      "type": "COMPRADOR",
+      "roles": [
+        "USER"
+      ]
+    }
+  ],
+  "compradores": [
+    {
+      "id": 2,
+      "email": "thiago@email.com",
+      "acesso": "email",
+      "username": "tvps20",
+      "createAt": "26/05/2020",
+      "verificaro": "26/05/2020",
+      "ativo": true,
+      "nome": "thiago",
+      "sobrenome": "santiago",
+      "type": "COMPRADOR",
+      "dividas": [],
+      "creditos": [],
+      "roles": [
+        "USER"
+      ]
+    }
+  ]
+}

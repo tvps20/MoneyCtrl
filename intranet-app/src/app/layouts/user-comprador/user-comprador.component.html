@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="compradores">
-                                <table class="table table-hover">
+                                <table class="table table-hover" *ngIf="compradores$ | async as compradores; else loading" >
                                     <thead class="text-primary">
                                         <th>Nome Completo</th>
                                         <th>Username</th>
@@ -112,13 +112,13 @@
                                         <th>Ação</th>
                                     </thead>
                                     <tbody>
-                                        <tr [routerLink]="['/user-comprador/1']">
-                                            <td>Thiago Santiago</td>
-                                            <td>Thiago</td>
-                                            <td>thiago@email.com</td>
+                                        <tr *ngFor="let comprador of compradores"  [routerLink]="['/user-comprador/1']">
+                                            <td>{{ comprador.nome + " " + comprador.sobrenome }}</td>
+                                            <td>{{ comprador.username }}</td>
+                                            <td>{{ comprador.email }}</td>
                                             <td>R$ 0,00</td>
                                             <td>R$ 50,00</td>
-                                            <td>2</td>
+                                            <td>{{ comprador.id }}</td>
                                             <td class="td-actions text-left">
                                                 <button mat-raised-button type="button" matTooltip="Editar"
                                                     matTooltipPosition="above"
@@ -134,6 +134,19 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
+                                <ng-template #loading>
+                                    <div *ngIf="error$ | async; else loadingNoError" >
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="row justify-content-center">
+                                            <mat-spinner></mat-spinner>
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">

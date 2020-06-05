@@ -13,7 +13,8 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     FormsModule,
@@ -51,7 +53,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedImportModule { }
