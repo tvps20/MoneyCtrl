@@ -24,12 +24,12 @@ export class InputFieldComponent implements ControlValueAccessor {
 
     private innerValue: any;
 
-    get value(){
+    get value() {
         return this.innerValue;
     }
 
-    set value(valor: any){
-        if(valor !== this.innerValue){
+    set value(valor: any) {
+        if (valor !== this.innerValue) {
             this.innerValue = valor;
             this.onChangeCb(valor);
         }
@@ -37,8 +37,8 @@ export class InputFieldComponent implements ControlValueAccessor {
 
     constructor(private validFormsService: ValidFormsService) { }
 
-    onChangeCb: (_:any) => void = () => {};
-    onTouchedCb: (_:any) => void = () => {};
+    onChangeCb: (_: any) => void = () => { };
+    onTouchedCb: (_: any) => void = () => { };
 
     writeValue(valor: any): void {
         // Chamando a função de set
@@ -62,8 +62,13 @@ export class InputFieldComponent implements ControlValueAccessor {
         return this.validFormsService.errorMessage(this.control, this.label);
     }
 
-    public  markAsTouched(){
-        console.log(this.control.valid ? '' : 'mat-form-field-invalid')
+    public markAsTouched() {
         this.control.markAsTouched();
+    }
+
+    public aplicaClassErro() {
+        return {
+            'mat-form-field-invalid': this.validFormsService.verificarValidField(this.control)
+        };
     }
 }

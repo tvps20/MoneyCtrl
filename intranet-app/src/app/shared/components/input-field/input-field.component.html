@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" (change)="markAsTouched()"
 (click)="markAsTouched()" (focusout)="markAsTouched()"
-[class]="(this.control.valid || !this.control.touched) ? '' : 'mat-form-field-invalid'">
+[class]="aplicaClassErro()">
     <mat-label>{{label}}</mat-label>
     <input matInput [type]="tipo" [readonly]="!!isReadOnly" [(ngModel)]="value">
     <mat-icon matSuffix class="text-danger"

@@ -1,36 +1,31 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
+import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { FormValidations } from 'src/app/shared/util/form-validations';
-import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-user-comprador',
     templateUrl: './user-comprador.component.html',
     styleUrls: ['./user-comprador.component.css']
 })
-export class UserCompradorComponent implements OnInit {
-
-    public formulario: FormGroup;
+export class UserCompradorComponent extends BaseFormComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
-        private validFormsService: ValidFormsService) { }
+        public validFormsService: ValidFormsService) { super(validFormsService); }
 
     ngOnInit(): void {
         this.formulario = this.createForm();
     }
 
-    public onSubmit(): void {
-        if (this.formulario.valid) {
-            let valueSubmit = this.addRoles(this.formulario);
-            console.log(valueSubmit);
-            // Transformando o obj em Json
-            JSON.stringify(valueSubmit);
-            // this.formulario.reset();
-        } else {
-            this.validFormsService.verificarValidacoesForm(this.formulario);
-        }
+    public submit() {
+        let valueSubmit = this.addRoles(this.formulario);
+        console.log(valueSubmit);
+        // Transformando o obj em Json
+        JSON.stringify(valueSubmit);
     }
 
     private createForm(): FormGroup {
@@ -58,17 +53,8 @@ export class UserCompradorComponent implements OnInit {
         return valueSubmit;
     }
 
-
     private validarEmail(formControl: FormControl) {
         return this.validFormsService.verificaEmail(formControl.value)
             .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
-    }
-
-    public errorMessage(controle: string, label: string) {
-        return this.validFormsService.errorMessage(this.formulario.get(controle), label);
-    }
-
-    public verificarValidControl(formControl: any): boolean {
-        return this.validFormsService.verificarValidField(formControl);
     }
 }
