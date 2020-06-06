@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
-  selector: 'app-modal-aviso',
-  templateUrl: './modal-aviso.component.html',
-  styleUrls: ['./modal-aviso.component.css']
+    selector: 'app-modal-aviso',
+    templateUrl: './modal-aviso.component.html',
+    styleUrls: ['./modal-aviso.component.css']
 })
 export class ModalAvisoComponent implements OnInit {
 
-  constructor() { }
+    @Output() confimaModal = new EventEmitter();
+    @ViewChild('modalAviso') modalAviso: any;
 
-  ngOnInit(): void {
-  }
+    constructor() { }
 
+    ngOnInit(): void {
+    }
+
+    public onConfirm() {
+        this.confimaModal.emit('sim');
+    }
 }

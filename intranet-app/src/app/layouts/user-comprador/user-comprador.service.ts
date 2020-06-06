@@ -12,8 +12,8 @@ import { User } from 'src/app/shared/models/user';
 })
 export class UserCompradorService {
 
-    private readonly APIUSER = `${environment.API}users`;
-    private readonly APICOMPRADOR = `${environment.API}compradores`;
+    private readonly APIUSER = `${environment.API}/users`;
+    private readonly APICOMPRADOR = `${environment.API}/compradores`;
 
     constructor(private http: HttpClient) { }
 
@@ -28,6 +28,10 @@ export class UserCompradorService {
     public create(user: User) {
         // Take(1) ja se desinscrever do observable
         return this.http.post(this.APICOMPRADOR, user).pipe(take(1));
+    }
+
+    public delete(id: number){
+        return this.http.delete(`${this.APICOMPRADOR}/${id}`).pipe(take(1));
     }
 
     public parseToComprador(form: FormGroup): Comprador {

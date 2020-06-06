@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
@@ -11,6 +11,7 @@ import { AlertServiceService } from './../../shared/services/alert-service.servi
 import { UserCompradorService } from './user-comprador.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+declare var $: any;
 
 @Component({
     selector: 'app-user-comprador',
@@ -22,6 +23,9 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public compradores$: Observable<Comprador[]>;
     public error$ = new Subject<boolean>();
     public submitte = false;
+    public compradorSelecionado: Comprador;
+    @ViewChild('myModal') myModal;
+
 
     constructor(private formBuilder: FormBuilder,
         public validFormsService: ValidFormsService,
@@ -50,6 +54,24 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 this.alertServiceService.ShowAlertDanger("Error ao tentar salvar comprador")
             }
         );
+    }
+
+    public onDelete(comprador: Comprador, modal: any){
+        this.compradorSelecionado = comprador;
+        $("#detalhesModalAviso").modal('show');
+    }
+
+    public confirmModal(event: any) {
+        if(event === 'sim'){
+            this.userCompradorService.delete(this.compradorSelecionado.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.")
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador")
+                }
+            )
+        }
     }
 
     public createForm() {

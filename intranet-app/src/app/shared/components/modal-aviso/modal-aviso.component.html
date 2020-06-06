@@ -1,4 +1,4 @@
-<div class="card card-profile">
+<div class="card card-profile" #modalAviso>
     <div class="modal fade" id="detalhesModalAviso" tabindex="-1" role="dialog"
         aria-labelledby="lancamentoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                    <button type="button" class="btn btn-info">Sim</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="onConfirm()">Sim</button>
                 </div>
             </div>
         </div>

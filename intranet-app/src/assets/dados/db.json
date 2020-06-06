@@ -76,24 +76,6 @@
       "sobrenome": "Santiago",
       "email": "gilson@email.com",
       "id": 3
-    },
-    {
-      "acesso": [
-        "USERNAME",
-        "EMAIL"
-      ],
-      "roles": [
-        "USER"
-      ],
-      "nome": "123",
-      "username": "12333",
-      "senha": "123",
-      "tipo": "COMPRADOR",
-      "dividas": [],
-      "creditos": [],
-      "sobrenome": null,
-      "email": null,
-      "id": 4
     }
   ]
 }

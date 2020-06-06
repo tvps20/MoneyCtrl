@@ -112,8 +112,8 @@
                                         <th>Ação</th>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let comprador of compradores"  [routerLink]="['/user-comprador/1']">
-                                            <td>{{ comprador.nome + " " + comprador.sobrenome }}</td>
+                                        <tr *ngFor="let comprador of compradores">
+                                            <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}</td>
                                             <td>{{ comprador.username }}</td>
                                             <td>{{ comprador.email ? comprador.email : '-' }}</td>
                                             <td>R$ 0,00</td>
@@ -126,7 +126,7 @@
                                                     <i class="material-icons">edit</i>
                                                 </button>
                                                 <button mat-raised-button type="button" matTooltip="Excluir"
-                                                    matTooltipPosition="above"
+                                                    matTooltipPosition="above" (click)="onDelete(comprador, deleteModal)"
                                                     class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                     <i class="material-icons">close</i>
                                                 </button>
@@ -221,7 +221,8 @@
                 </div>
             </div>
         </div>
-
-        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
+
+<!-- Modal de aviso -->
+<app-modal-aviso #deleteModal (confimaModal)="confirmModal($event)"></app-modal-aviso>
