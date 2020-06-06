@@ -150,7 +150,7 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="nome"
@@ -174,9 +174,25 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <app-input-field formControlName="username"
-                                                    label="Username" [control]="formulario.get('username')">
-                                                </app-input-field>
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Username</mat-label>
+                                                    <input matInput type="username" formControlName="username">
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl(formulario.get('username'))">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="formulario.get('username').valid &&
+                                                        formulario.get('username').value !== '' &&
+                                                        formulario.get('username').value !== null">
+                                                        done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-warning" *ngIf="formulario.get('username').status === 'PENDING'">
+                                                            Validando username...
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="verificarValidControl(formulario.get('username'))">
+                                                            {{ errorMessage("username", "username") }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
                                             </div>
                                             <div class="col-md-7">
                                                 <mat-form-field appearance="outline" class="example-full-width">

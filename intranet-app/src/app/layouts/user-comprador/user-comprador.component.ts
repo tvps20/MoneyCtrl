@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
-import { Observable, empty, Subject } from 'rxjs';
+import { Observable, empty, Subject, observable, of } from 'rxjs';
 
 import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
@@ -56,13 +56,13 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         );
     }
 
-    public onDelete(comprador: Comprador, modal: any){
+    public onDelete(comprador: Comprador, modal: any) {
         this.compradorSelecionado = comprador;
         $("#detalhesModalAviso").modal('show');
     }
 
     public confirmModal(event: any) {
-        if(event === 'sim'){
+        if (event === 'sim') {
             this.userCompradorService.delete(this.compradorSelecionado.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.")
@@ -80,7 +80,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             sobrenome: [null, [Validators.minLength(3), Validators.maxLength(20)]],
             tipo: ["COMPRADOR", Validators.required],
             admin: [false, Validators.required],
-            username: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+            username: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)], [this.validarUsername.bind(this)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
             senha: [null, [Validators.required]],
             confirmarSenha: [null, [FormValidations.equalsTo('senha'), Validators.required]],
@@ -95,7 +95,19 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     private validarEmail(formControl: FormControl) {
-        return this.validFormsService.verificaEmail(formControl.value)
-            .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
+        if (formControl.value !== '' && formControl.value !== null) {
+            console.log(formControl.value)
+            return this.validFormsService.verificaEmail(formControl.value)
+                .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
+        }
+        return of({});
+    }
+
+    private validarUsername(formControl: FormControl) {
+        if (formControl.value !== '' && formControl.value !== null) {
+            return this.validFormsService.verificaUsername(formControl.value)
+                .pipe(map(usernameExist => usernameExist ? { usernameInvalido: true } : null));
+        }
+        return of({});
     }
 }
