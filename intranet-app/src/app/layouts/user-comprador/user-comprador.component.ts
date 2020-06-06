@@ -33,7 +33,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.compradores$ = this.userCompradorService.listAllCompradores()
+        this.compradores$ = this.userCompradorService.listAll()
             .pipe(catchError(error => {
                 this.error$.next(true);
                 this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
@@ -42,7 +42,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     public submit() {
-        let novoUser: User = this.userCompradorService.parseToComprador(this.formulario);
+        let novoUser: Comprador = this.userCompradorService.parseToComprador(this.formulario);
         console.log(novoUser);
         this.userCompradorService.create(novoUser).subscribe(
             success => {
