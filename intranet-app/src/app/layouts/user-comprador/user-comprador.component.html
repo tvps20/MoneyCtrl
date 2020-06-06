@@ -115,7 +115,7 @@
                                         <tr *ngFor="let comprador of compradores"  [routerLink]="['/user-comprador/1']">
                                             <td>{{ comprador.nome + " " + comprador.sobrenome }}</td>
                                             <td>{{ comprador.username }}</td>
-                                            <td>{{ comprador.email }}</td>
+                                            <td>{{ comprador.email ? comprador.email : '-' }}</td>
                                             <td>R$ 0,00</td>
                                             <td>R$ 50,00</td>
                                             <td>{{ comprador.id }}</td>
@@ -138,7 +138,7 @@
                                 <ng-template #loading>
                                     <div *ngIf="error$ | async; else loadingNoError" >
                                         <div class="row justify-content-center text-danger">
-                                            <p>Problemas ao tentar carregar cursos.</p>
+                                            <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>
@@ -163,7 +163,7 @@
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-2">
-                                                <mat-radio-group aria-label="Select an option" formControlName="perfil">
+                                                <mat-radio-group aria-label="Select an option" formControlName="tipo">
                                                     <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
                                                     <mat-radio-button checked value="COMPRADOR">Comprador</mat-radio-button>
                                                 </mat-radio-group>
@@ -212,8 +212,7 @@
                                                 </app-input-field>
                                             </div>
                                         </div>
-                                        <button mat-raised-button appearance="outline" type="submit"
-                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button type="submit" class="btn btn-info pull-right">Salvar</button>
                                     </form>
                                 </div>
                             </div>

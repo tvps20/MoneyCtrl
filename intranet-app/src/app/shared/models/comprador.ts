@@ -1,15 +1,12 @@
-export interface Comprador {
-    id: number,
-    email: string,
-    username: string,
-    acesso: string,
-    createAt: Date,
-    verificaro: Date,
-    ativo: boolean,
-    nome: string,
-    sobrenome: string,
-    perfil: string,
-    dividas: [],
-    creditos: [],
-    roles: [ "USER" ]
+import { User } from './user';
+
+export class Comprador extends User {
+    public sobrenome: string;
+    public dividas: any[] = [];
+    public creditos: any[] = [];
+
+    constructor(nome: string, username: string, senha: string){
+        super(nome, username, senha);
+        this.tipo = "COMPRADOR"
+    }
 }

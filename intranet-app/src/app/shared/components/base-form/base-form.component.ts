@@ -29,7 +29,6 @@ export abstract class BaseFormComponent implements OnInit {
 
     public reseteForm() {
         this.formulario.reset();
-        this.formulario.get('nome').markAsUntouched();
     }
 
     public errorMessage(controle: string, label: string) {

@@ -2,12 +2,18 @@
   "users": [
     {
       "id": 1,
-      "email": "admin@email.com",
-      "acesso": "email",
       "createAt": "26/05/2020",
-      "verificaro": "26/05/2020",
+      "updateAt": "26/05/2020",
       "ativo": true,
-      "perfil": "USER",
+      "nome": "admin",
+      "username": "admin1",
+      "email": "admin@email.com",
+      "verificaoEmail": "26/05/2020",
+      "tipo": "USER",
+      "acesso": [
+        "USERNAME",
+        "EMAIL"
+      ],
       "roles": [
         "ADMIN",
         "USER"
@@ -15,12 +21,17 @@
     },
     {
       "id": 2,
-      "email": "thiago@email.com",
-      "acesso": "email",
       "createAt": "26/05/2020",
-      "verificaro": "26/05/2020",
+      "updateAt": "26/05/2020",
       "ativo": true,
-      "perfil": "COMPRADOR",
+      "nome": "thiago",
+      "username": "tvps20",
+      "email": null,
+      "verificaoEmail": "26/05/2020",
+      "tipo": "COMPRADOR",
+      "acesso": [
+        "EMAIL"
+      ],
       "roles": [
         "USER"
       ]
@@ -29,20 +40,60 @@
   "compradores": [
     {
       "id": 2,
-      "email": "thiago@email.com",
-      "acesso": "email",
-      "username": "tvps20",
       "createAt": "26/05/2020",
-      "verificaro": "26/05/2020",
+      "updateAt": "26/05/2020",
       "ativo": true,
       "nome": "thiago",
       "sobrenome": "santiago",
-      "perfil": "COMPRADOR",
-      "dividas": [],
-      "creditos": [],
+      "username": "admin1",
+      "email": null,
+      "verificaoEmail": null,
+      "tipo": "COMPRADOR",
+      "acesso": [
+        "USERNAME"
+      ],
       "roles": [
         "USER"
-      ]
+      ],
+      "dividas": [],
+      "creditos": []
+    },
+    {
+      "acesso": [
+        "USERNAME",
+        "EMAIL"
+      ],
+      "roles": [
+        "USER"
+      ],
+      "nome": "Gilson",
+      "username": "gilson20",
+      "senha": "123",
+      "tipo": "USER",
+      "dividas": [],
+      "creditos": [],
+      "Tipo": "COMPRADOR",
+      "sobrenome": "Santiago",
+      "email": "gilson@email.com",
+      "id": 3
+    },
+    {
+      "acesso": [
+        "USERNAME",
+        "EMAIL"
+      ],
+      "roles": [
+        "USER"
+      ],
+      "nome": "123",
+      "username": "12333",
+      "senha": "123",
+      "tipo": "COMPRADOR",
+      "dividas": [],
+      "creditos": [],
+      "sobrenome": null,
+      "email": null,
+      "id": 4
     }
   ]
 }

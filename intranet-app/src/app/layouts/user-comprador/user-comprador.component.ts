@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
 
+import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
@@ -29,7 +30,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.compradores$ = this.userCompradorService.listAll()
+        this.compradores$ = this.userCompradorService.listAllCompradores()
             .pipe(catchError(error => {
                 this.error$.next(true);
                 this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
@@ -38,21 +39,26 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     public submit() {
-        let valueSubmit = this.addRoles(this.formulario);
-        // Transformando o obj em Json
-        JSON.stringify(valueSubmit);
-        this.reseteForm();
-        console.log(this.formulario)
-        this.alertServiceService.ShowAlertSuccess("Comprador salvo com sucesso.")
+        let novoUser: User = this.userCompradorService.parseToComprador(this.formulario);
+        console.log(novoUser);
+        this.userCompradorService.create(novoUser).subscribe(
+            success => {
+                this.reseteForm();
+                this.alertServiceService.ShowAlertSuccess("Comprador salvo com sucesso.")
+            },
+            error => {
+                this.alertServiceService.ShowAlertDanger("Error ao tentar salvar comprador")
+            }
+        );
     }
 
     public createForm() {
         return this.formBuilder.group({
             nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-            sobrenome: [null, [Validators.minLength(6), Validators.maxLength(20)]],
-            perfil: ["COMPRADOR", Validators.required],
-            admin: [false],
-            username: [null, [Validators.required, Validators.minLength(6)]],
+            sobrenome: [null, [Validators.minLength(3), Validators.maxLength(20)]],
+            tipo: ["COMPRADOR", Validators.required],
+            admin: [false, Validators.required],
+            username: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
             senha: [null, [Validators.required]],
             confirmarSenha: [null, [FormValidations.equalsTo('senha'), Validators.required]],
@@ -60,15 +66,10 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         });
     }
 
-    private addRoles(form: FormGroup): any {
-        let valueSubmit = Object.assign({}, form.value);
-        if (form.get('admin').value) {
-            valueSubmit.roles = ["USER", "ADMIN"];
-        } else {
-            valueSubmit.roles = ["USER"];
-        }
-
-        return valueSubmit;
+    public reseteForm() {
+        this.formulario.reset();
+        this.formulario.get('admin').setValue(false);
+        this.formulario.get('tipo').setValue('COMPRADOR');
     }
 
     private validarEmail(formControl: FormControl) {
