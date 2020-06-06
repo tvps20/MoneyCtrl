@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
-import { Observable, empty, Subject, observable, of } from 'rxjs';
+import { Observable, empty, Subject, of } from 'rxjs';
 
 import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
@@ -11,7 +11,6 @@ import { AlertServiceService } from './../../shared/services/alert-service.servi
 import { UserCompradorService } from './user-comprador.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
-declare var $: any;
 
 @Component({
     selector: 'app-user-comprador',
@@ -56,9 +55,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         );
     }
 
-    public onDelete(comprador: Comprador, modal: any) {
+    public onDelete(comprador: Comprador) {
         this.compradorSelecionado = comprador;
-        $("#detalhesModalAviso").modal('show');
     }
 
     public confirmModal(event: any) {

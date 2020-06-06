@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef, Input } from '@angular/core';
 
 @Component({
     selector: 'app-modal-aviso',
@@ -7,6 +7,10 @@ import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '
 })
 export class ModalAvisoComponent implements OnInit {
 
+    @Input() msg = "Deseja realmente excluir esse item?";
+    @Input() obs = "Lembre-se que isso não é reversivel.";
+    @Input() cancelTxt = "Não";
+    @Input() okTxt = "Sim";
     @Output() confimaModal = new EventEmitter();
     @ViewChild('modalAviso') modalAviso: any;
 

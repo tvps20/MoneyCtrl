@@ -9,13 +9,13 @@
                     </div>
                 <!-- </div> -->
                 <div class="modal-body">
-                    <h2 class="card-title">Deseja realmente excluir esse item?</h2>
+                    <h2 class="card-title">{{ msg }}</h2>
                     <hr>
-                    <p class="card-description">Lembre-se que isso não é reversivel.</p>
+                    <p class="card-description">{{ obs }}</p>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="onConfirm()">Sim</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ cancelTxt }}</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="onConfirm()">{{ okTxt }}</button>
                 </div>
             </div>
         </div>
