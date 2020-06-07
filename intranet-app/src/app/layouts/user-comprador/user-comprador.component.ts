@@ -1,5 +1,5 @@
 import { UCType } from './../../shared/util/enuns-type.enum';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, empty, Subject, of } from 'rxjs';
