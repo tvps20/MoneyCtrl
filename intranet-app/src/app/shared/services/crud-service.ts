@@ -21,7 +21,8 @@ export class CrudService<T> {
     }
 
     public create(entity: T) {
-        return this.http.post(this.API_URL, entity).pipe(take(1));
+        // TODO: Remover dalay
+        return this.http.post(this.API_URL, entity).pipe(delay(3000),take(1));
     }
 
     public update(entity: T){

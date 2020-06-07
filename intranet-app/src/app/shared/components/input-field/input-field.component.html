@@ -6,8 +6,13 @@
     <mat-icon matSuffix class="text-danger"
         *ngIf="verificarValidControl(control)">error</mat-icon>
     <mat-icon matSuffix class="text-success" *ngIf="control.valid && control.value !== '' &&
-    control.value !== null">done</mat-icon>
-    <mat-hint class="text-danger" *ngIf="verificarValidControl(control)">
-        {{ errorMessage() }}
+    control.value !== null && control.value !== ''">done</mat-icon>
+    <mat-hint>
+        <div class="text-warning" *ngIf="control.status === 'PENDING' && uniqueFiled">
+            Validando {{ label }}...
+        </div>
+        <div class="text-danger" *ngIf="verificarValidControl(control)">
+            {{ errorMessage() }}
+        </div>
     </mat-hint>
 </mat-form-field>

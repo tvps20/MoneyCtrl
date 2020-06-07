@@ -27,7 +27,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
 
     constructor(private formBuilder: FormBuilder,
-        public validFormsService: ValidFormsService,
+        protected validFormsService: ValidFormsService,
         private userCompradorService: UserCompradorService,
         private alertServiceService: AlertServiceService) { super(validFormsService); }
 
@@ -42,8 +42,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     public submit() {
+        this.submitte = true;
         let novoUser: Comprador = this.userCompradorService.parseToComprador(this.formulario);
-        console.log(novoUser);
         this.userCompradorService.create(novoUser).subscribe(
             success => {
                 this.reseteForm();
@@ -51,7 +51,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             },
             error => {
                 this.alertServiceService.ShowAlertDanger("Error ao tentar salvar comprador")
-            }
+            },
+            () => this.submitte = false
         );
     }
 
@@ -63,10 +64,10 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         if (event === 'sim') {
             this.userCompradorService.delete(this.compradorSelecionado.id).subscribe(
                 success => {
-                    this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.")
+                    this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
                 },
                 error => {
-                    this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador")
+                    this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador");
                 }
             )
         }
@@ -94,7 +95,6 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     private validarEmail(formControl: FormControl) {
         if (formControl.value !== '' && formControl.value !== null) {
-            console.log(formControl.value)
             return this.validFormsService.verificaEmail(formControl.value)
                 .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
         }

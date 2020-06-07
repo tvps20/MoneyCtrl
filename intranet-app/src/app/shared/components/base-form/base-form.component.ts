@@ -11,7 +11,7 @@ export abstract class BaseFormComponent implements OnInit {
 
     public formulario: FormGroup;
 
-    constructor(public validFormsService: ValidFormsService) { }
+    constructor(protected validFormsService: ValidFormsService) { }
 
     ngOnInit(): void { }
 
@@ -29,13 +29,5 @@ export abstract class BaseFormComponent implements OnInit {
 
     public reseteForm() {
         this.formulario.reset();
-    }
-
-    public errorMessage(controle: string, label: string) {
-        return this.validFormsService.errorMessage(this.formulario.get(controle), label);
-    }
-
-    public verificarValidControl(formControl: any): boolean {
-        return this.validFormsService.verificarValidField(formControl);
     }
 }

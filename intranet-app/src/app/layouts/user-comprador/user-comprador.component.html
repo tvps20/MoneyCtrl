@@ -101,41 +101,42 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="compradores">
-                                <table class="table table-hover" *ngIf="compradores$ | async as compradores; else loading" >
-                                    <thead class="text-primary">
-                                        <th>Nome Completo</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Dividas</th>
-                                        <th>Creditos</th>
-                                        <th>Id</th>
-                                        <th>Ação</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let comprador of compradores">
-                                            <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}</td>
-                                            <td>{{ comprador.username }}</td>
-                                            <td>{{ comprador.email ? comprador.email : '-' }}</td>
-                                            <td>R$ 0,00</td>
-                                            <td>R$ 50,00</td>
-                                            <td>{{ comprador.id }}</td>
-                                            <td class="td-actions text-left">
-                                                <button mat-raised-button type="button" matTooltip="Editar"
-                                                    matTooltipPosition="above"
-                                                    class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">edit</i>
-                                                </button>
-                                                <button mat-raised-button type="button" matTooltip="Excluir"
-                                                    data-toggle="modal" data-target="#detalhesModalAviso"
-                                                    matTooltipPosition="above" (click)="onDelete(comprador)"
-                                                    class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
+                                <div class="table-responsive">
+                                    <table class="table table-hover" *ngIf="compradores$ | async as compradores; else loading" >
+                                        <thead class="text-primary">
+                                            <th>Nome Completo</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Dividas</th>
+                                            <th>Creditos</th>
+                                            <th>Id</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let comprador of compradores">
+                                                <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}</td>
+                                                <td>{{ comprador.username }}</td>
+                                                <td>{{ comprador.email ? comprador.email : '-' }}</td>
+                                                <td>R$ 0,00</td>
+                                                <td>R$ 50,00</td>
+                                                <td>{{ comprador.id }}</td>
+                                                <td class="td-actions text-left">
+                                                    <button mat-raised-button type="button" matTooltip="Editar"
+                                                        matTooltipPosition="above"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        matTooltipPosition="above" (click)="onDelete(comprador)"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <ng-template #loading>
                                     <div *ngIf="error$ | async; else loadingNoError" >
                                         <div class="row justify-content-center text-danger">
@@ -175,46 +176,14 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Username</mat-label>
-                                                    <input matInput type="username" formControlName="username">
-                                                    <mat-icon matSuffix class="text-danger"
-                                                        *ngIf="verificarValidControl(formulario.get('username'))">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success"
-                                                        *ngIf="formulario.get('username').valid &&
-                                                        formulario.get('username').value !== '' &&
-                                                        formulario.get('username').value !== null">
-                                                        done</mat-icon>
-                                                    <mat-hint>
-                                                        <div class="text-warning" *ngIf="formulario.get('username').status === 'PENDING'">
-                                                            Validando username...
-                                                        </div>
-                                                        <div class="text-danger" *ngIf="verificarValidControl(formulario.get('username'))">
-                                                            {{ errorMessage("username", "username") }}
-                                                        </div>
-                                                    </mat-hint>
-                                                </mat-form-field>
+                                                <app-input-field formControlName="username" uniqueFiled="true"
+                                                    label="username" [control]="formulario.get('username')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-7">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Email</mat-label>
-                                                    <input matInput type="email" formControlName="email">
-                                                    <mat-icon matSuffix class="text-danger"
-                                                        *ngIf="verificarValidControl(formulario.get('email'))">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success"
-                                                        *ngIf="formulario.get('email').valid &&
-                                                        formulario.get('email').value !== '' &&
-                                                        formulario.get('email').value !== null">
-                                                        done</mat-icon>
-                                                    <mat-hint>
-                                                        <div class="text-warning" *ngIf="formulario.get('email').status === 'PENDING'">
-                                                            Validando email...
-                                                        </div>
-                                                        <div class="text-danger" *ngIf="verificarValidControl(formulario.get('email'))">
-                                                            {{ errorMessage("email", "email") }}
-                                                        </div>
-                                                    </mat-hint>
-                                                </mat-form-field>
+                                                <app-input-field formControlName="email" uniqueFiled="true"
+                                                    label="email" [control]="formulario.get('email')">
+                                                </app-input-field>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -229,7 +198,11 @@
                                                 </app-input-field>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="!submitte"  type="submit" class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right"  disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>

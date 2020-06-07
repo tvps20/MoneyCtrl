@@ -12,6 +12,7 @@ export class ModalAvisoComponent implements OnInit {
     @Input() cancelTxt = "Não";
     @Input() okTxt = "Sim";
     @Output() confimaModal = new EventEmitter();
+    // TODO: Remover
     @ViewChild('modalAviso') modalAviso: any;
 
     constructor() { }
