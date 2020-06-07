@@ -56,7 +56,7 @@ export class ValidFormsService {
             .pipe(
                 delay(3000),
                 map((dados: { usernames: any [] }) => dados.usernames),
-                tap(console.log),
+            //    tap(console.log),
                 map((dados: { username: string }[]) => dados.filter(v => v.username === username)),
                 map((dados: any[]) => dados.length > 0),
             //    tap(console.log)
