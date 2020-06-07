@@ -1,3 +1,4 @@
+import { UCType } from './../../shared/util/enuns-type.enum';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
@@ -8,7 +9,7 @@ import { Comprador } from './../../shared/models/comprador';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
 import { AlertServiceService } from './../../shared/services/alert-service.service';
-import { UserCompradorService } from './user-comprador.service';
+import { UserCompradorService } from './services/user-comprador.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 
@@ -23,7 +24,6 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public error$ = new Subject<boolean>();
     public submitte = false;
     public compradorSelecionado: Comprador;
-    @ViewChild('myModal') myModal;
 
 
     constructor(private formBuilder: FormBuilder,
@@ -33,7 +33,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.compradores$ = this.userCompradorService.listAll()
+        this.compradores$ = this.userCompradorService.listAllCompradores()
             .pipe(catchError(error => {
                 this.error$.next(true);
                 this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
@@ -43,7 +43,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     public submit() {
         this.submitte = true;
-        let novoUser: Comprador = this.userCompradorService.parseToComprador(this.formulario);
+        let novoUser: Comprador | User = this.userCompradorService.parseToUserComprador(this.formulario);
         this.userCompradorService.create(novoUser).subscribe(
             success => {
                 this.reseteForm();
@@ -62,7 +62,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     public confirmModal(event: any) {
         if (event === 'sim') {
-            this.userCompradorService.delete(this.compradorSelecionado.id).subscribe(
+            this.userCompradorService.deleteComprador(this.compradorSelecionado.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
                 },
@@ -75,9 +75,9 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     public createForm() {
         return this.formBuilder.group({
-            nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-            sobrenome: [null, [Validators.minLength(3), Validators.maxLength(20)]],
-            tipo: ["COMPRADOR", Validators.required],
+            nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(12)]],
+            sobrenome: [null, [Validators.minLength(3), Validators.maxLength(12)]],
+            tipo: [UCType.COMPRADOR, Validators.required],
             admin: [false, Validators.required],
             username: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)], [this.validarUsername.bind(this)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
@@ -90,7 +90,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public reseteForm() {
         this.formulario.reset();
         this.formulario.get('admin').setValue(false);
-        this.formulario.get('tipo').setValue('COMPRADOR');
+        this.formulario.get('tipo').setValue(UCType.COMPRADOR);
     }
 
     private validarEmail(formControl: FormControl) {

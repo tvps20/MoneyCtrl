@@ -1,22 +1,19 @@
-import { CrudService } from './../../shared/services/crud-service';
-import { FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from './../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { FormGroup } from '@angular/forms';
 
-import { Comprador } from './../../shared/models/comprador';
+import { CrudService } from 'src/app/shared/services/crud-service';
+import { Comprador } from 'src/app/shared/models/comprador';
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserCompradorService extends CrudService<Comprador> {
-
-    private readonly API_USER = `${environment.API}/users`;
-    private readonly API_COMPRADOR = `${environment.API}/compradores`;
+export class CompradorService extends CrudService<Comprador> {
 
     constructor(protected http: HttpClient) {
         super(http, `${environment.API}/compradores`);
-     }
+    }
 
     public parseToComprador(form: FormGroup): Comprador {
         let comprador: Comprador = new Comprador(form.get('nome').value, form.get('username').value, form.get('senha').value);

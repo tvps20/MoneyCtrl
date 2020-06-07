@@ -14,7 +14,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -35,8 +34,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule,
-    MatProgressSpinnerModule
+    MatRadioModule
   ],
   exports: [
     FormsModule,
@@ -53,8 +51,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule,
-    MatProgressSpinnerModule
+    MatRadioModule
   ]
 })
 export class SharedImportModule { }

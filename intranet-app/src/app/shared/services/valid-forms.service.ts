@@ -42,7 +42,7 @@ export class ValidFormsService {
         return this.http.get('assets/dados/dbUniqueFields.json')
             .pipe
             (
-                delay(3000),
+                delay(2000),
                 map((dados: { emails: any[] }) => dados.emails),
             //    tap(console.log),
                 map((dados: { email: string }[]) => dados.filter(v => v.email === email)),
@@ -54,7 +54,7 @@ export class ValidFormsService {
     public verificaUsername(username: string) {
         return this.http.get('assets/dados/dbUniqueFields.json')
             .pipe(
-                delay(3000),
+                delay(2000),
                 map((dados: { usernames: any [] }) => dados.usernames),
             //    tap(console.log),
                 map((dados: { username: string }[]) => dados.filter(v => v.username === username)),

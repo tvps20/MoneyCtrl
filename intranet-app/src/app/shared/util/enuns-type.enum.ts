@@ -13,3 +13,8 @@ export enum IconsType {
     WARNING = 'warning',
     PRIMARY = 'add_alert'
 }
+
+export enum UCType {
+    USER = 'USER',
+    COMPRADOR = 'COMPRADOR'
+}
