@@ -20,8 +20,10 @@ public class CompradorService extends BaseService<Comprador, CompradorDTO> {
 	@Override
 	public Comprador fromDTO(CompradorDTO dto) {
 		log.info("[Mapping] - 'CompradorDTO' to 'Comprador'. Id: " + dto.getId());
-		Comprador comprador = new Comprador(dto.getId(), dto.getEmail(), dto.getNome(), dto.getPassword());
-
+		Comprador comprador = new Comprador(dto.getId(), dto.getNome(), dto.getUsername(), dto.getPassword());
+		comprador.setSobrenome(dto.getSobrenome());
+		comprador.setEmail(dto.getEmail());
+		
 		log.info("[Mapping] - Mapping finalizado com sucesso.");
 		return comprador;
 	}
@@ -29,9 +31,10 @@ public class CompradorService extends BaseService<Comprador, CompradorDTO> {
 	@Override
 	public void updateData(Comprador newObj, Comprador obj) {
 		log.info("[Parse] - 'comprador' from 'newComprador'. Id: " + newObj.getId());
-		newObj.setEmail(obj.getEmail());
-		newObj.setPassword(obj.getPassword());
 		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setSobrenome(obj.getSobrenome());
+		newObj.setPassword(obj.getPassword());
 		newObj.setDevedor(obj.isDevedor());
 		log.info("[Parse] - Parse finalizado com sucesso.");
 	}

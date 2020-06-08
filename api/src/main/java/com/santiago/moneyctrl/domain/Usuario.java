@@ -1,5 +1,6 @@
 package com.santiago.moneyctrl.domain;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,8 +10,10 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
+import com.santiago.moneyctrl.domain.enuns.TipoAcesso;
+import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,13 +25,23 @@ public class Usuario extends BaseEntity {
 
 	@Getter
 	@Setter
-	@Column(unique = true, nullable = false)
+	private String nome;
+	
+	@Getter
+	@Setter
+	@Column(unique = true)
+	private String username;
+
+	@Getter
+	@Setter
+	@Column(unique = true)
 	private String email;
 
 	@Getter
 	@Setter
-	private String nome;
-
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate verificaoEmail;
+	
 	@Getter
 	@Setter
 	@JsonIgnore
@@ -36,42 +49,50 @@ public class Usuario extends BaseEntity {
 
 	@Getter
 	@Setter
-	@CollectionTable(name = "PERFIS")
+	@CollectionTable(name = "ACESSO")
 	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<TipoPerfil> perfis = new HashSet<>();
+	private Set<TipoAcesso> acesso = new HashSet<>();
+	
+	@Getter
+	@Setter
+	@CollectionTable(name = "ROLES")
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<TipoRoles> roles = new HashSet<>();
 
 	// Construtores
 	public Usuario() {
-		this.perfis.add(TipoPerfil.USUARIO);
+		this.roles.add(TipoRoles.USUARIO);
 	}
 
 	public Usuario(Long id) {
 		super(id);
 	}
 
-	public Usuario(Long id, String email, String nome, String password) {
+	public Usuario(Long id, String nome, String username, String password) {
 		super(id);
-		this.email = email;
 		this.nome = nome;
+		this.username = username;
 		this.password = password;
-		this.perfis.add(TipoPerfil.USUARIO);
+		this.roles.add(TipoRoles.USUARIO);
+		this.acesso.add(TipoAcesso.USERNAME);
 	}
 
-	public Usuario(Long id, String email, String nome, String password, TipoPerfil... perfis) {
+	public Usuario(Long id, String nome, String username, String password, TipoRoles... perfis) {
 		super(id);
-		this.email = email;
 		this.nome = nome;
+		this.username = username;
 		this.password = password;
+		this.acesso.add(TipoAcesso.USERNAME);
 
-		for (TipoPerfil tipoPerfil : perfis) {
-			if (!this.perfis.contains(tipoPerfil)) {
-				this.perfis.add(tipoPerfil);
+		for (TipoRoles tipoPerfil : perfis) {
+			if (!this.roles.contains(tipoPerfil)) {
+				this.roles.add(tipoPerfil);
 			}
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario [" + super.toString() + ", email=" + email + ", nome=" + nome + ", password=" + password + ", perfis=" + perfis + "]";
+		return "Usuario [" + super.toString() + ", nome=" + nome + ", username=" + username + ", password=" + password + ", roles=" + roles + ", acesso=" + acesso +"]";
 	}
 }

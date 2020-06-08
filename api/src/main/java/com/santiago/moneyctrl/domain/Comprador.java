@@ -16,7 +16,11 @@ public class Comprador extends Usuario {
 
 	@Getter
 	@Setter
-	private boolean devedor;
+	private String sobrenome;
+
+	@Getter
+	@Setter
+	private boolean devedor = false;
 
 	@Getter
 	@Setter
@@ -41,13 +45,13 @@ public class Comprador extends Usuario {
 		super(id);
 	}
 
-	public Comprador(Long id, String email, String nome, String password) {
-		super(id, email, nome, password);
+	public Comprador(Long id, String nome, String username, String password) {
+		super(id, nome, username, password);
 	}
 
 	@Override
 	public String toString() {
-		return "Comprador [" + super.toString() + ", devedor=" + devedor + ", lancamentosEmpty=" + lancamentos.isEmpty()
+		return "Comprador [" + super.toString() + ", sobrenome=" + sobrenome + ", devedor=" + devedor + ", lancamentosEmpty=" + lancamentos.isEmpty()
 				+ ", dividasEmpty=" + dividas.isEmpty() + ", creditosEmpty=" + creditos.isEmpty() + "]";
 	}
 }

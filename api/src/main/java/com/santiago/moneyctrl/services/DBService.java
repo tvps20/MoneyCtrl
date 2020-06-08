@@ -18,7 +18,7 @@ import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.domain.Pagamento;
 import com.santiago.moneyctrl.domain.Usuario;
 import com.santiago.moneyctrl.domain.enuns.TipoMes;
-import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
+import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.repositories.BandeiraRepository;
 import com.santiago.moneyctrl.repositories.CartaoRepository;
 import com.santiago.moneyctrl.repositories.CotaRepository;
@@ -74,10 +74,10 @@ public class DBService {
 
 		Fatura fatura1 = new Fatura(null, LocalDate.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 
-		Usuario user1 = new Usuario(null, "admin@email.com", "admin", "123", TipoPerfil.USUARIO, TipoPerfil.ADMIN);
-		Comprador comprador1 = new Comprador(null, "thiago@email.com", "thiago", "123");
-		Comprador comprador2 = new Comprador(null, "filipe@email.com", "filipe", "123");
-		Comprador comprador3 = new Comprador(null, "gilson@email.com", "gilson", "123");
+		Usuario user1 = new Usuario(null, "admin", "admin20", "123", TipoRoles.USUARIO, TipoRoles.ADMIN);
+		Comprador comprador1 = new Comprador(null, "thiago", "tvps20", "123");
+		Comprador comprador2 = new Comprador(null, "filipe", "filipe20", "123");
+		Comprador comprador3 = new Comprador(null, "gilson", "gilson20", "123");
 
 		Lancamento lancamento1 = new Lancamento(null, "Itens para o chachorro", "Comprei tambem uma resistencia",
 				LocalDate.now(), fatura1, false, null, null);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.moneyctrl.domain.Usuario;
-import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
+import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.dtos.UsuarioDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.UsuarioService;
@@ -38,12 +38,12 @@ public class UsuarioController {
 	}
 
 	@GetMapping(TipoEndPoint.USUARIO_ID + TipoEndPoint.PERFIl)
-	public ResponseEntity<Set<TipoPerfil>> listarRoles(@PathVariable Long usuarioId) {
-		log.info("[GET] - Buscando todas os perfis. UsuarioId: " + usuarioId);
+	public ResponseEntity<Set<TipoRoles>> listarRoles(@PathVariable Long usuarioId) {
+		log.info("[GET] - Buscando todas as roles. UsuarioId: " + usuarioId);
 		Usuario user = this.service.findById(usuarioId);
 
 		log.info("[GET] - Busca finalizada com sucesso.");
-		return ResponseEntity.ok().body(user.getPerfis());
+		return ResponseEntity.ok().body(user.getRoles());
 	}
 
 	// Metodos

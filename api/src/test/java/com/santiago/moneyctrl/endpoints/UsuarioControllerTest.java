@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.santiago.moneyctrl.builders.UsuarioBuilder;
 import com.santiago.moneyctrl.domain.Usuario;
-import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
+import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.endpoints.UsuarioController;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.UsuarioService;
@@ -66,7 +66,7 @@ public class UsuarioControllerTest {
 
 		result.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(TipoPerfil.USUARIO.toString()));
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(TipoRoles.USUARIO.toString()));
 	}
 
 	public String getRoute() {

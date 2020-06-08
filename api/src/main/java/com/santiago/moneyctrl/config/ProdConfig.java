@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.santiago.moneyctrl.domain.Usuario;
-import com.santiago.moneyctrl.domain.enuns.TipoPerfil;
+import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.repositories.UsuarioRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,8 @@ public class ProdConfig {
 		log.info("[ProdConfig] - Verificando estratégia. Strategy: " + this.strategy);
 		log.info("[ProdConfig] - Atualizando banco de dados.");
 
-		Usuario userAdmin = new Usuario(null, "admin@email.com", "admin", "123", TipoPerfil.ADMIN, TipoPerfil.USUARIO);
+		Usuario userAdmin = new Usuario(null, "admin", "admin20", "123", TipoRoles.ADMIN, TipoRoles.USUARIO);
+		userAdmin.setEmail("admin@email.com.br");
 
 		log.info("[ProdConfig] - Verificando se ja existe um admin no banco de dados.");
 		boolean adminSalvo = this.usuarioRepository.verificarCampoUnico(userAdmin.getEmail());

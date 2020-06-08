@@ -13,6 +13,10 @@ import lombok.Setter;
 public class CompradorDTO extends UsuarioDTO {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Getter
+	@Setter
+	private String sobrenome;
 
 	@Getter
 	@Setter
@@ -33,14 +37,16 @@ public class CompradorDTO extends UsuarioDTO {
 	public CompradorDTO() {
 	}
 
-	public CompradorDTO(Long id, String email, String nome, String password) {
-		super(id, email, nome, password);
+	public CompradorDTO(Long id, String nome, String username, String password) {
+		super(id, nome, username, password);
 		this.devedor = false;
 	}
 
 	public CompradorDTO(Comprador comprador) {
 		super(comprador);
 		this.devedor = false;
+		this.sobrenome = comprador.getSobrenome();
+		this.setTipo("Comprador");
 		this.dividas = comprador.getDividas().stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
 		this.creditos = comprador.getCreditos().stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
 		this.lancamentos = comprador.getLancamentos().stream().map(obj -> new CotaDTO(obj))

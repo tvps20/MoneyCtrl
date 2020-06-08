@@ -21,8 +21,9 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> implements 
 	@Override
 	public Usuario fromDTO(UsuarioDTO dto) {
 		log.info("[Mapping] - 'UsuarioDTO' to 'Usuario'. Id: " + dto.getId());
-		Usuario usuario = new Usuario(dto.getId(), dto.getEmail(), dto.getNome(), dto.getPassword());
-
+		Usuario usuario = new Usuario(dto.getId(), dto.getNome(), dto.getUsername(), dto.getPassword());
+		usuario.setEmail(dto.getEmail());
+		
 		log.info("[Mapping] - Mapping finalizado com sucesso.");
 		return usuario;
 	}
@@ -30,9 +31,9 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> implements 
 	@Override
 	public void updateData(Usuario newObj, Usuario obj) {
 		log.info("[Parse] - 'NewUsuario' from 'Usuario'. Id: " + newObj.getId());
-		newObj.setEmail(obj.getEmail());
-		newObj.setPassword(obj.getPassword());
 		newObj.setNome(obj.getNome());
+		newObj.setPassword(obj.getPassword());
+		newObj.setEmail(obj.getEmail());
 		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 

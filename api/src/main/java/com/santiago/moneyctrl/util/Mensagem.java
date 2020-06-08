@@ -48,4 +48,8 @@ public final class Mensagem {
 	public static String erroEnumPerfil(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.perfil"), tipo);
 	}
+	
+	public static String erroEnumAcesso(String tipo) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.acesso"), tipo);
+	}
 }
