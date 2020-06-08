@@ -1,10 +1,10 @@
-import { UCType } from './../util/enuns-type.enum';
+import { UCType, AcessoType, RolesType } from './../util/enuns-type.enum';
 export class User {
 
     public id: number;
-    public createAt: Date;
-    public updateAt: Date;
-    public ativo: boolean;
+    public createdAt: Date;
+    public updatedAt: Date;
+    public ativo = true;
 
     public nome: string;
     public username: string;
@@ -20,7 +20,7 @@ export class User {
         this.username = username;
         this.senha = senha;
         this.tipo = UCType.USER;
-        this.acesso.push("USERNAME");
-        this.roles.push("USER");
+        this.acesso.push(AcessoType.USERNAME);
+        this.roles.push(RolesType.USER);
     }
 }

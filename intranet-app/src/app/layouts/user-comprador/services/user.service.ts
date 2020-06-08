@@ -1,3 +1,4 @@
+import { RolesType, AcessoType } from './../../../shared/util/enuns-type.enum';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -12,19 +13,19 @@ import { User } from 'src/app/shared/models/user';
 export class UserService extends CrudService<User> {
 
     constructor(protected http: HttpClient) {
-        super(http, `${environment.API}/users`);
+        super(http, '/api/usuarios');
     }
 
     public parseToUser(form: FormGroup): User {
         let user: User = new User(form.get('nome').value, form.get('username').value, form.get('senha').value);
 
         if(form.get('admin').value){
-            user.roles.push('ADMIN');
+            user.roles.push(RolesType.ADMIN);
         }
 
         if(form.get('email') !== null && form.get('email').value !== ''){
             user.email = form.get('email').value;
-            user.acesso.push('EMAIL');
+            user.acesso.push(AcessoType.EMAIL);
         }
 
         return user;

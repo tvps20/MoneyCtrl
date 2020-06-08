@@ -1,6 +1,7 @@
 # RequestsHttp
 
 json-server --watch src/assets/dados/db.json
+proxy - npm run start 
 
 # IntranetApp
 

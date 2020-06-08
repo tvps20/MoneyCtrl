@@ -3,6 +3,7 @@ import { User } from './user';
 
 export class Comprador extends User {
     public sobrenome: string;
+    public devedor = false;
     public dividas: any[] = [];
     public creditos: any[] = [];
 

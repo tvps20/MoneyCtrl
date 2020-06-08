@@ -1,4 +1,4 @@
-export enum AlertTypes {
+export enum AlertType {
     DANGER = 'danger',
     SUCCESS = 'success',
     INFO = 'info',
@@ -15,6 +15,16 @@ export enum IconsType {
 }
 
 export enum UCType {
-    USER = 'USUARIO',
-    COMPRADOR = 'COMPRADOR'
+    USER = 'Usuario',
+    COMPRADOR = 'Comprador'
+}
+
+export enum AcessoType {
+    USERNAME = "Username",
+    EMAIL = "email"
+}
+
+export enum RolesType {
+    USER = 'ROLE_USER',
+    ADMIN = 'ROLE_ADMIN',
 }

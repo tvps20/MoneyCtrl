@@ -1,4 +1,4 @@
-import { AlertTypes, IconsType } from './../util/enuns-type.enum';
+import { AlertType, IconsType } from './../util/enuns-type.enum';
 import { Injectable } from '@angular/core';
 declare var $: any;
 
@@ -11,23 +11,23 @@ export class AlertServiceService {
     constructor() { }
 
     public ShowAlertDanger(msg){
-        this.showNotification(msg, IconsType.DANGER, AlertTypes.DANGER);
+        this.showNotification(msg, IconsType.DANGER, AlertType.DANGER);
     }
 
     public ShowAlertSuccess(msg){
-        this.showNotification(msg, IconsType.SUCCESS, AlertTypes.SUCCESS);
+        this.showNotification(msg, IconsType.SUCCESS, AlertType.SUCCESS);
     }
 
     public ShowAlertInfo(msg){
-        this.showNotification(msg, IconsType.INFO, AlertTypes.INFO);
+        this.showNotification(msg, IconsType.INFO, AlertType.INFO);
     }
 
     public ShowAlertWarning(msg){
-        this.showNotification(msg, IconsType.WARNING, AlertTypes.WARNING);
+        this.showNotification(msg, IconsType.WARNING, AlertType.WARNING);
     }
 
     public ShowAlertPrimary(msg){
-        this.showNotification(msg, IconsType.PRIMARY, AlertTypes.PRIMARY);
+        this.showNotification(msg, IconsType.PRIMARY, AlertType.PRIMARY);
     }
 
     private showNotification(msg: string, icone: string, color: string, from: string = "top", align:string = "right") {

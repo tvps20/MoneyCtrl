@@ -142,10 +142,11 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 this.reseteForm();
                 entity instanceof Comprador ? this.compradores$ = this.listAllCompradores() :
                     this.usuarios$ = this.listAllUsers();
-                this.alertServiceService.ShowAlertSuccess(msgSuccess)
+                this.alertServiceService.ShowAlertSuccess(msgSuccess);
             },
             error => {
-                this.alertServiceService.ShowAlertDanger(msgError)
+                this.alertServiceService.ShowAlertDanger(msgError);
+                this.submitte = false;
             },
             () => this.submitte = false
         );

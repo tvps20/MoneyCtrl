@@ -40,7 +40,7 @@
                                             <th>Acesso</th>
                                             <th>Criado</th>
                                             <th>Verificado</th>
-                                            <th>Ativo</th>
+                                            <th>roles</th>
                                             <th>Id</th>
                                             <th>Ação</th>
                                         </thead>
@@ -55,10 +55,10 @@
                                                     <i *ngIf="usuario.email" class="material-icons" matTooltip="email"
                                                         matTooltipPosition="above">email</i>
                                                 </td>
-                                                <td>{{ usuario.createAt }}</td>
+                                                <td>{{ usuario.createdAt }}</td>
                                                 <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
                                                 </td>
-                                                <td>{{ usuario.ativo }}</td>
+                                                <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
                                                 <td>{{ usuario.id }}</td>
                                                 <td class="td-actions text-left">
                                                     <button mat-raised-button type="button" matTooltip="Editar"
@@ -167,8 +167,8 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <mat-radio-group aria-label="Select an option" formControlName="tipo">
-                                                    <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
-                                                    <mat-radio-button checked value="COMPRADOR">Comprador
+                                                    <mat-radio-button value="Usuario">Usuario</mat-radio-button>
+                                                    <mat-radio-button checked value="Comprador">Comprador
                                                     </mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
