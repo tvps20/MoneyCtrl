@@ -1,3 +1,4 @@
+import { UCType } from './../util/enuns-type.enum';
 export class User {
 
     public id: number;
@@ -18,7 +19,7 @@ export class User {
         this.nome = nome;
         this.username = username;
         this.senha = senha;
-        this.tipo = "USER";
+        this.tipo = UCType.USER;
         this.acesso.push("USERNAME");
         this.roles.push("USER");
     }

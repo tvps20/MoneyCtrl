@@ -15,6 +15,6 @@ export enum IconsType {
 }
 
 export enum UCType {
-    USER = 'USER',
+    USER = 'USUARIO',
     COMPRADOR = 'COMPRADOR'
 }

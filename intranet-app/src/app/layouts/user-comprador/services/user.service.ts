@@ -12,7 +12,7 @@ import { User } from 'src/app/shared/models/user';
 export class UserService extends CrudService<User> {
 
     constructor(protected http: HttpClient) {
-        super(http, `${environment.API}/compradores`);
+        super(http, `${environment.API}/users`);
     }
 
     public parseToUser(form: FormGroup): User {

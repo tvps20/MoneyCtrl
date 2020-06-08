@@ -1,3 +1,4 @@
+import { UCType } from './../util/enuns-type.enum';
 import { User } from './user';
 
 export class Comprador extends User {
@@ -7,6 +8,6 @@ export class Comprador extends User {
 
     constructor(nome: string, username: string, senha: string){
         super(nome, username, senha);
-        this.tipo = "COMPRADOR"
+        this.tipo = UCType.COMPRADOR
     }
 }

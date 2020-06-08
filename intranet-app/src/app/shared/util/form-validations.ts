@@ -1,6 +1,4 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { ValidFormsService } from '../services/valid-forms.service';
-import { map } from 'rxjs/operators';
 
 
 export class FormValidations {
@@ -31,6 +29,26 @@ export class FormValidations {
         return validator;
     }
 
+    static onlyLetters(control: FormControl){
+        const valor: string = control.value;
+        if(valor && valor !== ''){
+            const regex = new RegExp("^[aA-zZ]+((\s[aA-zZ]+)+)?$");
+            return regex.test(valor) ? null : { OnlyLetters: false };
+        }
+
+        return null;
+    }
+
+    static notStartNumber(control: FormControl){
+        const valor: string = control.value;
+        if(valor && valor !== ''){
+            const regex = new RegExp("^[^0-9]");
+            return regex.test(valor) ? null : { startNumber: true };
+        }
+
+        return null;
+    }
+
     static getErrorMsg(fieldName: string, validatorName: string, validatorValue?: any){
         const config = {
             'required': `${fieldName} é origatório.`,
@@ -39,7 +57,10 @@ export class FormValidations {
             'email': `${fieldName} é inválido.`,
             'emailInvalido': 'Email já cadastrado.',
             'usernameInvalido': 'Username já cadastrado',
-            'equalsTo': `As senhas são diferentes.`
+            'equalsTo': `As senhas são diferentes.`,
+            'pattern': `${fieldName} não atende ao regex.`,
+            'OnlyLetters': `${fieldName} não pode conter números.`,
+            'startNumber': `${fieldName} não pode começar com números.`,
         }
 
         return config[validatorName];

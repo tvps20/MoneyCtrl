@@ -33,36 +33,33 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="users">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                        *ngIf="usuarios$ | async as users; else loadingUsers">
                                         <thead class="text-primary">
                                             <th>Login</th>
-                                            <th class="text-center">Acesso</th>
+                                            <th>Acesso</th>
                                             <th>Criado</th>
                                             <th>Verificado</th>
-                                            <th class="text-center">Ativo</th>
+                                            <th>Ativo</th>
                                             <th>Id</th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    admin@email.com
-                                                </td>
-                                                <td class="text-center">
-                                                    <i class="material-icons">email</i>
+                                            <tr *ngFor="let usuario of users">
+                                                <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
                                                 </td>
                                                 <td>
-                                                    26/05/2020
+                                                    <i *ngIf="usuario.username" class="material-icons"
+                                                        matTooltip="username"
+                                                        matTooltipPosition="above">account_circle</i>
+                                                    <i *ngIf="usuario.email" class="material-icons" matTooltip="email"
+                                                        matTooltipPosition="above">email</i>
                                                 </td>
-                                                <td>
-                                                    26/05/2020
+                                                <td>{{ usuario.createAt }}</td>
+                                                <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
                                                 </td>
-                                                <td class="text-center">
-                                                    true
-                                                </td>
-                                                <td>
-                                                    1
-                                                </td>
+                                                <td>{{ usuario.ativo }}</td>
+                                                <td>{{ usuario.id }}</td>
                                                 <td class="td-actions text-left">
                                                     <button mat-raised-button type="button" matTooltip="Editar"
                                                         matTooltipPosition="above"
@@ -70,27 +67,8 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        matTooltipPosition="above"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>thiago@email.com</td>
-                                                <td class="text-center">
-                                                    <i class="material-icons">email</i>
-                                                </td>
-                                                <td>26/05/2020</td>
-                                                <td>26/05/2020</td>
-                                                <td class="text-center">true</td>
-                                                <td>2</td>
-                                                <td class="td-actions text-left">
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
+                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        matTooltipPosition="above" (click)="onDelete(usuario)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -99,10 +77,25 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <ng-template #loadingUsers>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar usuários. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="compradores">
                                 <div class="table-responsive">
-                                    <table class="table table-hover" *ngIf="compradores$ | async as compradores; else loading" >
+                                    <table class="table table-hover"
+                                        *ngIf="compradores$ | async as compradores; else loadingCompradores">
                                         <thead class="text-primary">
                                             <th>Nome Completo</th>
                                             <th>Username</th>
@@ -114,13 +107,19 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let comprador of compradores">
-                                                <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}</td>
+                                                <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
+                                                </td>
                                                 <td>{{ comprador.username }}</td>
                                                 <td>{{ comprador.email ? comprador.email : '-' }}</td>
                                                 <td>R$ 0,00</td>
                                                 <td>R$ 50,00</td>
                                                 <td>{{ comprador.id }}</td>
                                                 <td class="td-actions text-left">
+                                                    <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                        matTooltipPosition="above"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
                                                     <button mat-raised-button type="button" matTooltip="Editar"
                                                         matTooltipPosition="above"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
@@ -137,15 +136,16 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <ng-template #loading>
-                                    <div *ngIf="error$ | async; else loadingNoError" >
+                                <ng-template #loadingCompradores>
+                                    <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
                                             <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
                                             Carregando...
                                         </div>
                                     </ng-template>
@@ -156,19 +156,20 @@
                                     <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <app-input-field formControlName="nome"
-                                                    label="Nome" [control]="formulario.get('nome')">
+                                                <app-input-field formControlName="nome" label="Nome"
+                                                    [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-4">
-                                                <app-input-field formControlName="sobrenome"
-                                                    label="Sobrenome" [control]="formulario.get('sobrenome')">
+                                                <app-input-field formControlName="sobrenome" label="Sobrenome"
+                                                    [control]="formulario.get('sobrenome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-2">
                                                 <mat-radio-group aria-label="Select an option" formControlName="tipo">
                                                     <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
-                                                    <mat-radio-button checked value="COMPRADOR">Comprador</mat-radio-button>
+                                                    <mat-radio-button checked value="COMPRADOR">Comprador
+                                                    </mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                             <div class="col-md-2">
@@ -189,19 +190,22 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="senha"
-                                                    label="Senha" tipo="password" [control]="formulario.get('senha')">
+                                                <app-input-field formControlName="senha" label="Senha" tipo="password"
+                                                    [control]="formulario.get('senha')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="confirmarSenha"
-                                                    label="Confirmar Senha" tipo="password" [control]="formulario.get('confirmarSenha')">
+                                                    label="Confirmar Senha" tipo="password"
+                                                    [control]="formulario.get('confirmarSenha')">
                                                 </app-input-field>
                                             </div>
                                         </div>
-                                        <button *ngIf="!submitte"  type="submit" class="btn btn-info pull-right">Salvar</button>
-                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right"  disabled>
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <button *ngIf="!submitte" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
                                             Salvando
                                         </button>
                                     </form>
