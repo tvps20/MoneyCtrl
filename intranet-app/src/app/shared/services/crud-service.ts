@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { delay, tap, take } from 'rxjs/operators';
+import { delay, tap, take, map } from 'rxjs/operators';
 
 export class CrudService<T> {
 
@@ -13,6 +13,10 @@ export class CrudService<T> {
             delay(2000),
         //    tap(console.log)
         );
+    }
+
+    public listAllPage(page: number, linesPerPage: number){
+        return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}`);
     }
 
     public findById(id: number) {

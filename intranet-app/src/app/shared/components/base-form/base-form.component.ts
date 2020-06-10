@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 import { ValidFormsService } from '../../services/valid-forms.service';
 

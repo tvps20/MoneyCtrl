@@ -26,6 +26,14 @@ export class UserCompradorService {
         return this.compradorService.listAll();
     }
 
+    public listAllCompradoresPage(page: number, linesPerPage: number){
+        return this.compradorService.listAllPage(page, linesPerPage)
+    }
+
+    public listAllUsersPage(page: number, linesPerPage: number){
+        return this.userService.listAllPage(page, linesPerPage)
+    }
+
     public findByIdUser(id: number){
         return this.userService.findById(id);
     }

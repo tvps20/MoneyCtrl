@@ -1,8 +1,6 @@
 package com.santiago.moneyctrl.endpoints;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +20,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(TipoEndPoint.USUARIO)
-public class UsuarioController {
+public class UsuarioController extends BaseController<Usuario, UsuarioDTO> {
 
 	@Autowired
 	private UsuarioService service;
 
-	@GetMapping
-	public ResponseEntity<List<UsuarioDTO>> listar() {
-		log.info("[GET] - Buscando todos os Usuarios.");
-		List<Usuario> list = service.findAll();
-		List<UsuarioDTO> listDTO = list.stream().map(obj -> this.newClassDTO(obj)).collect(Collectors.toList());
-
-		log.info("[GET] - Busca finalizada com sucesso.");
-		return ResponseEntity.ok().body(listDTO);
+	@Autowired
+	public UsuarioController(UsuarioService service) {
+		super(service);
+		BaseController.baseLog = UsuarioController.log;
 	}
 
 	@GetMapping(TipoEndPoint.USUARIO_ID + TipoEndPoint.ROLES)
@@ -45,27 +39,27 @@ public class UsuarioController {
 		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(user.getRoles());
 	}
-	
+
 	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.EMAIL + TipoEndPoint.VALOR)
-	public ResponseEntity<String> verificaEmailUnico(@PathVariable String valor){
+	public ResponseEntity<String> verificaEmailUnico(@PathVariable String valor) {
 		log.info("[GET] - Verificando campo único: " + valor);
 		boolean result = this.service.verificarEmailUnico(valor);
-		
-		log.info("[GET] - Busca finalizada com sucesso.");
-		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
-	}
-	
-	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
-	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor){
-		log.info("[GET] - Verificando valor único: " + valor);
-		boolean result = this.service.verificarCampoUnico(valor);
-		
+
 		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
 	}
 
-	// Metodos
-	private UsuarioDTO newClassDTO(Usuario obj) {
+	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
+	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor) {
+		log.info("[GET] - Verificando valor único: " + valor);
+		boolean result = this.service.verificarCampoUnico(valor);
+
+		log.info("[GET] - Busca finalizada com sucesso.");
+		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
+	}
+
+	@Override
+	protected UsuarioDTO newClassDTO(Usuario obj) {
 		log.info("[Mapping] - 'Usuario' to 'UsuarioDTO'. Id: " + obj.getId());
 		UsuarioDTO dto = new UsuarioDTO(obj);
 

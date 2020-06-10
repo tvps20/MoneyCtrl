@@ -14,6 +14,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntlCro } from '../util/MatPaginatorIntlCustom';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatPaginatorModule
   ],
   exports: [
     FormsModule,
@@ -51,7 +54,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     TextMaskModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatPaginatorModule
+  ],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro}
   ]
 })
 export class SharedImportModule { }

@@ -55,7 +55,7 @@
                                                     <i *ngIf="usuario.email" class="material-icons" matTooltip="email"
                                                         matTooltipPosition="above">email</i>
                                                 </td>
-                                                <td>{{ usuario.createdAt }}</td>
+                                                <td>{{ usuario.createdAt | date:'dd/MM/yyyy' }}</td>
                                                 <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
                                                 </td>
                                                 <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
@@ -76,6 +76,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <mat-paginator
+                                        [length]="lengthUsuarios"
+                                        [pageSize]="pageSizeUsuarios"
+                                        [pageSizeOptions]="[5, 10, 25, 100]"
+                                        [pageIndex]="pageIndexUsuarios"
+                                        (page)="changeListUsuario($event)">
+                                    </mat-paginator>
                                 </div>
                                 <ng-template #loadingUsers>
                                     <div *ngIf="error$ | async; else loadingNoError">
@@ -111,12 +118,12 @@
                                                 </td>
                                                 <td>{{ comprador.username }}</td>
                                                 <td>{{ comprador.email ? comprador.email : '-' }}</td>
-                                                <td>R$ 0,00</td>
-                                                <td>R$ 50,00</td>
+                                                <td>{{ comprador.dividaTotal | currency:'BRL' }}</td>
+                                                <td>{{ comprador.creditoTotal | currency:'BRL' }}</td>
                                                 <td>{{ comprador.id }}</td>
                                                 <td class="td-actions text-left">
                                                     <button mat-raised-button type="button" matTooltip="Detalhes"
-                                                        matTooltipPosition="above"
+                                                        matTooltipPosition="above" [routerLink]="['/user-comprador', comprador.id]"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">description</i>
                                                     </button>
@@ -135,6 +142,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <mat-paginator [length]="lengthCompradores"
+                                        [pageSize]="pageSizeCompradores"
+                                        [pageSizeOptions]="[5, 10, 25, 100]"
+                                        [pageIndex]="pageIndexCompradores"
+                                        (page)="changeListComprador($event)">
+                                    </mat-paginator>
                                 </div>
                                 <ng-template #loadingCompradores>
                                     <div *ngIf="error$ | async; else loadingNoError">
