@@ -144,7 +144,6 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     private create(entity: User | Comprador, msgSuccess: string, msgError: string){
-        console.log(entity)
         return this.userCompradorService.create(entity).subscribe(
             success => {
                 this.reseteForm();
