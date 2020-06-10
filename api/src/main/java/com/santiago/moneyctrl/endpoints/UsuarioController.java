@@ -37,13 +37,31 @@ public class UsuarioController {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping(TipoEndPoint.USUARIO_ID + TipoEndPoint.PERFIl)
+	@GetMapping(TipoEndPoint.USUARIO_ID + TipoEndPoint.ROLES)
 	public ResponseEntity<Set<TipoRoles>> listarRoles(@PathVariable Long usuarioId) {
 		log.info("[GET] - Buscando todas as roles. UsuarioId: " + usuarioId);
 		Usuario user = this.service.findById(usuarioId);
 
 		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body(user.getRoles());
+	}
+	
+	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.EMAIL + TipoEndPoint.VALOR)
+	public ResponseEntity<String> verificaEmailUnico(@PathVariable String valor){
+		log.info("[GET] - Verificando campo único: " + valor);
+		boolean result = this.service.verificarEmailUnico(valor);
+		
+		log.info("[GET] - Busca finalizada com sucesso.");
+		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
+	}
+	
+	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
+	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor){
+		log.info("[GET] - Verificando valor único: " + valor);
+		boolean result = this.service.verificarCampoUnico(valor);
+		
+		log.info("[GET] - Busca finalizada com sucesso.");
+		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
 	}
 
 	// Metodos

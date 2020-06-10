@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.domain.enuns;
 
 import com.santiago.moneyctrl.domain.exceptions.IllegalEnumException;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 public enum TipoStatus {
 
@@ -50,6 +50,6 @@ public enum TipoStatus {
 			}
 		}
 
-		throw new IllegalEnumException(Mensagem.erroEnumStatus(descricao)	);
+		throw new IllegalEnumException(MensagemUtil.erroEnumStatus(descricao)	);
 	}
 }

@@ -12,15 +12,21 @@ public class TipoEndPoint {
 	public static final String CREDITO = "/creditos";
 	public static final String PAGAMENTO = "/pagamentos";
 	public static final String COTA = "/cotas";
-	public static final String PERFIl = "/perfis";
+	public static final String ROLES = "/perfis";
 
 	public static final String ID = "/{id}";
 	public static final String PAGE = "/page";
+	public static final String FIELD = "/{field}";
+	public static final String VALIDA = "/valida";
+	public static final String VALOR = "/{valor}";
+	public static final String UNIQUE = "/valor-unico";
+	public static final String EMAIL = "/email-unico";
 
 	public static final String DIVIDA_ID = "/{dividaId}";
 	public static final String COMPRADOR_ID = "/{compradorId}";
 	public static final String LANCAMENTO_ID = "/{lancamentoId}";
 	public static final String USUARIO_ID = "/{usuarioId}";
+	
 
 	// Construtores
 	private TipoEndPoint() {

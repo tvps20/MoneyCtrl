@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public final class Mensagem {
+public final class MensagemUtil {
 
 	private static final ResourceBundle resourceBundle;
 	private static final Locale ptBR;
@@ -16,7 +16,7 @@ public final class Mensagem {
 	}
 
 	// Construtor
-	private Mensagem() {
+	private MensagemUtil() {
 		// System.out.println(Locale.getDefault());
 	}
 

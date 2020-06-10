@@ -11,7 +11,7 @@ import com.santiago.moneyctrl.repositories.CartaoRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
 import com.santiago.moneyctrl.services.interfaces.IServiceValidator;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,10 +42,10 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar cartao.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			baseLog.error("[Insert] - Erro ao tentar buscar bandeira.");
-			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
 					BandeiraService.class.getName()));
 		}
 	}

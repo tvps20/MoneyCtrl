@@ -18,7 +18,7 @@ export class CompradorService extends CrudService<Comprador> {
     }
 
     public parseToComprador(form: FormGroup): Comprador {
-        let comprador: Comprador = new Comprador(form.get('nome').value, form.get('username').value, form.get('senha').value);
+        let comprador: Comprador = new Comprador(form.get('nome').value, form.get('username').value, form.get('password').value);
         comprador.sobrenome = form.get('sobrenome').value;
 
         if(form.get('admin').value){

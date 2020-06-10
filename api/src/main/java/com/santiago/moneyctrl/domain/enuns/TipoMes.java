@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.domain.enuns;
 
 import com.santiago.moneyctrl.domain.exceptions.IllegalEnumException;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.Getter;
 
@@ -48,6 +48,6 @@ public enum TipoMes {
 			}
 		}
 
-		throw new IllegalEnumException(Mensagem.erroEnumMes(descricao));
+		throw new IllegalEnumException(MensagemUtil.erroEnumMes(descricao));
 	}
 }

@@ -1,7 +1,7 @@
 import { UCType } from './../../shared/util/enuns-type.enum';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap, debounceTime, take } from 'rxjs/operators';
 import { Observable, empty, Subject, of } from 'rxjs';
 
 import { User } from './../../shared/models/user';
@@ -90,9 +90,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             admin: [false, Validators.required],
             username: [null, [FormValidations.notStartNumber, Validators.required, Validators.minLength(5), Validators.maxLength(10)], [this.validarUsername.bind(this)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
-            senha: [null, [Validators.required, Validators.minLength(6)]],
-            confirmarSenha: [null, [FormValidations.equalsTo('senha'), Validators.required]],
-            roles: [[]]
+            password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+            confirmarPassword: [null, [FormValidations.equalsTo('password'), Validators.required]]
         });
     }
 
@@ -104,16 +103,24 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     private validarEmail(formControl: FormControl) {
         if (formControl.value !== '' && formControl.value !== null) {
-            return this.validFormsService.verificaEmail(formControl.value)
-                .pipe(map(emailExist => emailExist ? { emailInvalido: true } : null));
+            return formControl.valueChanges.pipe(
+                debounceTime(300),
+                switchMap(email => this.userCompradorService.verifacarEmailUnico(formControl.value)),
+                take(1),
+                map(usernameExist => usernameExist ? { usernameInvalido: true } : null)
+                );
         }
         return of({});
     }
 
     private validarUsername(formControl: FormControl) {
         if (formControl.value !== '' && formControl.value !== null) {
-            return this.validFormsService.verificaUsername(formControl.value)
-                .pipe(map(usernameExist => usernameExist ? { usernameInvalido: true } : null));
+            return formControl.valueChanges.pipe(
+                debounceTime(300),
+                switchMap(email => this.userCompradorService.verifacarUsernameUnico(formControl.value)),
+                take(1),
+                map(usernameExist => usernameExist ? { usernameInvalido: true } : null)
+            );
         }
         return of({});
     }
@@ -137,9 +144,11 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     }
 
     private create(entity: User | Comprador, msgSuccess: string, msgError: string){
+        console.log(entity)
         return this.userCompradorService.create(entity).subscribe(
             success => {
                 this.reseteForm();
+                this.submitte = false
                 entity instanceof Comprador ? this.compradores$ = this.listAllCompradores() :
                     this.usuarios$ = this.listAllUsers();
                 this.alertServiceService.ShowAlertSuccess(msgSuccess);
@@ -147,8 +156,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             error => {
                 this.alertServiceService.ShowAlertDanger(msgError);
                 this.submitte = false;
-            },
-            () => this.submitte = false
+            }
         );
     }
 }

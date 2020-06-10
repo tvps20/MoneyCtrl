@@ -179,25 +179,25 @@
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <app-input-field formControlName="username" uniqueFiled="true"
-                                                    label="username" [control]="formulario.get('username')">
+                                                    label="Username" [control]="formulario.get('username')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-7">
                                                 <app-input-field formControlName="email" uniqueFiled="true"
-                                                    label="email" [control]="formulario.get('email')">
+                                                    label="Email" [control]="formulario.get('email')">
                                                 </app-input-field>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="senha" label="Senha" tipo="password"
-                                                    [control]="formulario.get('senha')">
+                                                <app-input-field formControlName="password" label="Password" tipo="password"
+                                                    [control]="formulario.get('password')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="confirmarSenha"
-                                                    label="Confirmar Senha" tipo="password"
-                                                    [control]="formulario.get('confirmarSenha')">
+                                                <app-input-field formControlName="confirmarPassword"
+                                                    label="Confirmar Password" tipo="password"
+                                                    [control]="formulario.get('confirmarPassword')">
                                                 </app-input-field>
                                             </div>
                                         </div>
@@ -217,6 +217,7 @@
             </div>
         </div>
     </div>
+    <app-form-debug [formulario]="formulario"></app-form-debug>
 </div>
 
 <!-- Modal de aviso -->

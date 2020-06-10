@@ -10,15 +10,15 @@ export class User {
     public username: string;
     public email: string;
     public verificaoEmail: Date;
-    public senha: string
+    public password: string
     public tipo: string;
     public acesso: string[] = [];
     public roles: string[] = [];
 
-    constructor(nome: string, username: string, senha: string){
+    constructor(nome: string, username: string, password: string){
         this.nome = nome;
         this.username = username;
-        this.senha = senha;
+        this.password = password;
         this.tipo = UCType.USER;
         this.acesso.push(AcessoType.USERNAME);
         this.roles.push(RolesType.USER);

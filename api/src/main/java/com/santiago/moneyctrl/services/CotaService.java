@@ -15,7 +15,7 @@ import com.santiago.moneyctrl.dtos.CotaDTO;
 import com.santiago.moneyctrl.repositories.CotaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,7 +60,7 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[SaveAll] - Erro ao tentar salvar cotas.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		}
 	}
 
@@ -79,10 +79,10 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar cota.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			baseLog.error("[Insert] - Erro ao tentar buscar comprador.");
-			throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getComprador().getId(), "compradorId",
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getComprador().getId(), "compradorId",
 					CompradorService.class.getName()));
 		}
 	}

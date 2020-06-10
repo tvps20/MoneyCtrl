@@ -37,29 +37,4 @@ export class ValidFormsService {
         }
         return null;
     }
-
-    public verificaEmail(email: string) {
-        return this.http.get('assets/dados/dbUniqueFields.json')
-            .pipe
-            (
-                delay(2000),
-                map((dados: { emails: any[] }) => dados.emails),
-            //    tap(console.log),
-                map((dados: { email: string }[]) => dados.filter(v => v.email === email)),
-                map((dados: any[]) => dados.length > 0),
-            //    tap(console.log)
-            );
-    }
-
-    public verificaUsername(username: string) {
-        return this.http.get('assets/dados/dbUniqueFields.json')
-            .pipe(
-                delay(2000),
-                map((dados: { usernames: any [] }) => dados.usernames),
-            //    tap(console.log),
-                map((dados: { username: string }[]) => dados.filter(v => v.username === username)),
-                map((dados: any[]) => dados.length > 0),
-            //    tap(console.log)
-            );
-    }
 }

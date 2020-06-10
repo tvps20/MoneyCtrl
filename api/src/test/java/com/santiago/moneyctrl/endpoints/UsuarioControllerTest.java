@@ -61,7 +61,7 @@ public class UsuarioControllerTest {
 		when(this.service.findById(1L)).thenReturn(this.user);
 
 		ResultActions result = mockMvc
-				.perform(MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.USUARIO_ID + TipoEndPoint.PERFIl, 1L)
+				.perform(MockMvcRequestBuilders.get(this.getRoute() + TipoEndPoint.USUARIO_ID + TipoEndPoint.ROLES, 1L)
 						.accept(MediaType.APPLICATION_JSON));
 
 		result.andExpect(MockMvcResultMatchers.status().isOk())

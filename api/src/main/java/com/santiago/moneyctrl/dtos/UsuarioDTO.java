@@ -15,6 +15,7 @@ import com.santiago.moneyctrl.domain.enuns.TipoAcesso;
 import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.services.UsuarioService;
 import com.santiago.moneyctrl.services.validation.CustomUnique;
+import com.santiago.moneyctrl.services.validation.EmailUnique;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,13 +32,14 @@ public class UsuarioDTO extends BaseDTO {
 	
 	@Getter
 	@Setter
+	@CustomUnique(classType = UsuarioService.class)
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
 	@Length(min = 5, max = 10, message = "{validation.erro.model.length.nome}")
 	private String username;
 	
 	@Getter
 	@Setter
-	@CustomUnique(classType = UsuarioService.class)
+	@EmailUnique
 	@Email(message = "{validation.erro.model.email}")
 	private String email;
 	
@@ -53,6 +55,7 @@ public class UsuarioDTO extends BaseDTO {
 	@Setter
 	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@Length(min = 6, max = 20, message = "{validation.erro.model.length.nome}")
 	private String password;
 	
 	@Getter

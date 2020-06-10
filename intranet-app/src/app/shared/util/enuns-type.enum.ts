@@ -20,11 +20,11 @@ export enum UCType {
 }
 
 export enum AcessoType {
-    USERNAME = "Username",
-    EMAIL = "email"
+    USERNAME = "USERNAME",
+    EMAIL = "EMAIL"
 }
 
 export enum RolesType {
-    USER = 'ROLE_USER',
-    ADMIN = 'ROLE_ADMIN',
+    USER = 'USUARIO',
+    ADMIN = 'ADMIN',
 }

@@ -45,4 +45,12 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> implements 
 		log.info("[FindByUnique] - Busca finalizada. Retorno: " + retorno);
 		return retorno;
 	}
+	
+	public boolean verificarEmailUnico(String email) {
+		log.info("[FindByUnique] - Buscando email no banco de dados. Email: " + email);
+		boolean retorno = ((UsuarioRepository) this.repository).verificarEmailUnico(email);
+
+		log.info("[FindByUnique] - Busca finalizada. Retorno: " + retorno);
+		return retorno;
+	}
 }

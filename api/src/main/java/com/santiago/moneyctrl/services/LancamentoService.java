@@ -14,7 +14,7 @@ import com.santiago.moneyctrl.dtos.LancamentoDTO;
 import com.santiago.moneyctrl.repositories.LancamentoRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,14 +60,14 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar lancamento.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (DataIntegrityException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar compradores.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
 				baseLog.error("[Insert] - Erro ao tentar buscar fatura.");
-				throw new ObjectNotFoundException(Mensagem.erroObjNotFount(entity.getFatura().getId(), "faturaId",
+				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(), "faturaId",
 						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
 				baseLog.error("[Insert] - Erro ao tentar comprador fatura.");

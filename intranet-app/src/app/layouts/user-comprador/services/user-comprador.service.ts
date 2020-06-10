@@ -58,6 +58,14 @@ export class UserCompradorService {
         return this.compradorService.delete(id);
     }
 
+    public verifacarEmailUnico(email: string){
+        return this.userService.verificaEmail(email);
+    }
+
+    public verifacarUsernameUnico(username: string){
+        return this.userService.verificaUsername(username);
+    }
+
     public parseToUserComprador(form: FormGroup): User | Comprador  {
         if(form.get('tipo').value == UCType.USER){
             return this.userService.parseToUser(form);

@@ -10,7 +10,7 @@ import com.santiago.moneyctrl.dtos.FaturaDTO;
 import com.santiago.moneyctrl.repositories.FaturaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
-import com.santiago.moneyctrl.util.Mensagem;
+import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,11 +41,11 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar fatura.");
-			throw new DataIntegrityException(Mensagem.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			baseLog.error("[Insert] - Erro ao tentar buscar cartao.");
 			throw new ObjectNotFoundException(
-					Mensagem.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
+					MensagemUtil.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
 		}
 	}
 
