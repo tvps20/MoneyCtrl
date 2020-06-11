@@ -33,7 +33,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public pageIndexCompradores = 0;
     public PageCompradores: any;
     public directionCompradores = false;
-    public orderByCompradores = "createdAt"
+    public orderByCompradores = "nome"
     // MatPaginator Usuario Inputs
     public lengthUsuarios;
     public pageSizeUsuarios = 5;
@@ -68,10 +68,10 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         if(orderBy === 'dividaTotal' || orderBy === 'creditoTotal'){
             this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores)
                 .pipe(map( result => {
-                    if(direction !== 'ASC'){
-                        return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
-                    } else {
+                    if(this.directionCompradores){
                         return result.sort((a, b) => a[orderBy] < b[orderBy] ? -1 : 1)
+                    } else {
+                        return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
                     }
                 }));
         } else {
