@@ -47,8 +47,8 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 	@GetMapping(TipoEndPoint.PAGE)
 	public ResponseEntity<Page<K>> listarPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "createdAt") String orderBy) {
 		baseLog.info("[GET PAGE] - Buscando todas as entidades paginada: { Page: " + page + ", linesPerPage: "
 				+ linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
 		Page<T> list = service.findPage(page, linesPerPage, direction, orderBy);

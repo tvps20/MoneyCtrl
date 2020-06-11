@@ -36,12 +36,20 @@
                                     <table class="table table-hover"
                                         *ngIf="usuarios$ | async as users; else loadingUsers">
                                         <thead class="text-primary">
-                                            <th>Login</th>
+                                            <th (click)="sortingTableUsuario('username')">Login
+                                                <i *ngIf="orderByUsuarios === 'username'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
                                             <th>Acesso</th>
-                                            <th>Criado</th>
-                                            <th>Verificado</th>
+                                            <th (click)="sortingTableUsuario('createdAt')">Criado
+                                                <i *ngIf="orderByUsuarios === 'createdAt'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
+                                                <i *ngIf="orderByUsuarios === 'verificaoEmail'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
                                             <th>roles</th>
-                                            <th>Id</th>
+                                            <th (click)="sortingTableUsuario('id')">Id
+                                                <i *ngIf="orderByUsuarios === 'id'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
@@ -104,12 +112,24 @@
                                     <table class="table table-hover"
                                         *ngIf="compradores$ | async as compradores; else loadingCompradores">
                                         <thead class="text-primary">
-                                            <th>Nome Completo</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Dividas</th>
-                                            <th>Creditos</th>
-                                            <th>Id</th>
+                                            <th (click)="sortingTableComprador('nome')">Nome Completo
+                                                <i *ngIf="orderByCompradores === 'nome'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableComprador('username')">Username
+                                                <i *ngIf="orderByCompradores === 'username'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableComprador('email')">Email
+                                                <i *ngIf="orderByCompradores === 'email'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableComprador('dividaTotal')">Dividas
+                                                <i *ngIf="orderByCompradores === 'dividaTotal'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableComprador('creditoTotal')">Creditos
+                                                <i *ngIf="orderByCompradores === 'creditoTotal'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableComprador('id')">Id
+                                                <i *ngIf="orderByCompradores === 'id'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>

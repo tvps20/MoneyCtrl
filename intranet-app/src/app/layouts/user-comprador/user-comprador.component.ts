@@ -32,11 +32,15 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public pageSizeCompradores = 5;
     public pageIndexCompradores = 0;
     public PageCompradores: any;
+    public directionCompradores = false;
+    public orderByCompradores = "createdAt"
     // MatPaginator Usuario Inputs
     public lengthUsuarios;
     public pageSizeUsuarios = 5;
     public pageIndexUsuarios = 0;
     public PageUsuarios: any;
+    public directionUsuarios = false;
+    public orderByUsuarios = "createdAt"
 
 
     constructor(private formBuilder: FormBuilder,
@@ -48,6 +52,31 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         this.formulario = this.createForm();
         this.compradores$ = this.listAllCompradores();
         this.usuarios$ = this.listAllUsers();
+    }
+
+    public sortingTableUsuario(orderBy: string){
+        this.directionUsuarios = !this.directionUsuarios;
+        this.orderByUsuarios = orderBy;
+        let direction = this.directionUsuarios ? "ASC" : "DESC";
+        this.usuarios$ = this.listAllUsers(this.pageIndexUsuarios, this.pageSizeUsuarios, direction, orderBy);
+    }
+
+    public sortingTableComprador(orderBy: string){
+        this.directionCompradores = !this.directionCompradores;
+        this.orderByCompradores = orderBy;
+        let direction = this.directionCompradores ? "ASC" : "DESC";
+        if(orderBy === 'dividaTotal' || orderBy === 'creditoTotal'){
+            this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores)
+                .pipe(map( result => {
+                    if(direction !== 'ASC'){
+                        return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
+                    } else {
+                        return result.sort((a, b) => a[orderBy] < b[orderBy] ? -1 : 1)
+                    }
+                }));
+        } else {
+            this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores, direction, orderBy);
+        }
     }
 
     public changeListComprador(pageEvent: PageEvent) {
@@ -157,8 +186,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         return of({});
     }
 
-    private listAllCompradores(page: number = 0, linesPerPage: number = 5) {
-        return this.userCompradorService.listAllCompradoresPage(page, linesPerPage)
+    private listAllCompradores(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
+        return this.userCompradorService.listAllCompradoresPage(page, linesPerPage, direction, orderBy)
             .pipe(
                 tap((page: any) => this.PageCompradores = page),
                 tap((page: any) => this.lengthCompradores = page.totalElements),
@@ -168,11 +197,12 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                     this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
                     return empty();
                     }
-                ));
+                )
+            );
     }
 
-    private listAllUsers(page: number = 0, linesPerPage: number = 5) {
-        return this.userCompradorService.listAllUsersPage(page, linesPerPage)
+    private listAllUsers(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<User[]> {
+        return this.userCompradorService.listAllUsersPage(page, linesPerPage, direction, orderBy)
             .pipe(
                 tap((page: any) => this.PageUsuarios = page),
                 tap((page: any) => this.lengthUsuarios= page.totalElements),

@@ -23,17 +23,17 @@ public interface IServiceCrud<T extends BaseEntity, K extends BaseDTO> extends I
 	 * @return Container que encapsula a entidade
 	 */
 	public T findById(Long id);
-	
+
 	/**
 	 * Recupera todas as entidades da pase de dados paginado.
 	 * 
-	 * @param page pagina atual
+	 * @param page         pagina atual
 	 * @param linesPerPage quantidade de itens por pagina
-	 * @param orderBy ordena pela compo especfico.
-	 * @param direção da pagina de itens (ASC, DESC)
+	 * @param orderBy      ordena pela compo especfico.
+	 * @param direção      da pagina de itens (ASC, DESC)
 	 * @return
 	 */
-	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction);
+	public Page<T> findPage(Integer page, Integer linesPerPage, String direction, String orderBy);
 
 	/**
 	 * Cria ou atualiza uma entidade

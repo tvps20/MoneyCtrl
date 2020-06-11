@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.santiago.moneyctrl.domain.BaseEntity;
@@ -45,29 +46,6 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	}
 
 	/**
-	 * Recupera todas as entidades da base de dados de forma paginada.
-	 * 
-	 * @param page         pagina atual
-	 * @param linesPerPage quatidade de elementos por pagina
-	 * @param orderBy      campo pelo qual sera feita a ordenação
-	 * @param direction    Direção pelo qual os elementos serão retornados,
-	 *                     crescente ou decrescente.
-	 * @return
-	 */
-	// TODO: Corrigir problema de busca pela direção
-	// https://stackoverflow.com/questions/52687061/spring-data-jpa-method-query-with-paging-gives-me-an-error
-	@Override
-	public Page<T> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		baseLog.info("[FindPage] - Buscando todas as entidades paginada: { Page: " + page + ", linesPerPage: "
-				+ linesPerPage + " }");
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage);
-		Page<T> pages = repository.findAll(pageRequest);
-
-		baseLog.info("[FindPage] - Busca paginada finalizada com sucesso.");
-		return pages;
-	}
-
-	/**
 	 * Recupera uma entidade atravez do seu identificador
 	 *
 	 * @param id Idenficador da entidade a ser recuperada
@@ -85,6 +63,28 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 
 		baseLog.info("[FindById] - Entidade encontrada com sucesso.");
 		return obj.get();
+	}
+	
+	/**
+	 * Recupera todas as entidades da base de dados de forma paginada.
+	 * 
+	 * @param page         pagina atual
+	 * @param linesPerPage quatidade de elementos por pagina
+	 * @param orderBy      campo pelo qual sera feita a ordenação
+	 * @param direction    Direção pelo qual os elementos serão retornados,
+	 *                     crescente ou decrescente.
+	 * @return
+	 */
+	@Override
+	public Page<T> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
+		baseLog.info("[FindPage] - Buscando todas as entidades paginada: { Page: " + page + ", linesPerPage: "
+				+ linesPerPage + " }");
+		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
+		Page<T> pages = repository.findAll(pageRequest);
+
+		baseLog.info("[FindPage] - Busca paginada finalizada com sucesso.");
+		return pages;
 	}
 
 	/**

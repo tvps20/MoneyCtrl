@@ -26,12 +26,12 @@ export class UserCompradorService {
         return this.compradorService.listAll();
     }
 
-    public listAllCompradoresPage(page: number, linesPerPage: number){
-        return this.compradorService.listAllPage(page, linesPerPage)
+    public listAllCompradoresPage(page: number, linesPerPage: number, direction: string, orderBy: string){
+        return this.compradorService.listAllPage(page, linesPerPage, direction, orderBy)
     }
 
-    public listAllUsersPage(page: number, linesPerPage: number){
-        return this.userService.listAllPage(page, linesPerPage)
+    public listAllUsersPage(page: number, linesPerPage: number, direction: string, orderBy: string){
+        return this.userService.listAllPage(page, linesPerPage, direction, orderBy)
     }
 
     public findByIdUser(id: number){
