@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
+@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 public class BaseDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,6 +30,10 @@ public class BaseDTO implements Serializable {
 	@Setter
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	protected LocalDateTime updatedAt;
+	
+	@Getter
+	@Setter
+	protected boolean ativo;
 
 	// Construtores
 	public BaseDTO() {

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.santiago.moneyctrl.domain.Bandeira;
 import com.santiago.moneyctrl.domain.Cartao;
+import com.santiago.moneyctrl.dtos.BandeiraDTO;
 import com.santiago.moneyctrl.dtos.CartaoDTO;
 
 import lombok.Getter;
@@ -41,7 +42,7 @@ public class CartaoBuilder {
 
 	public static CartaoBuilder mockCartaoDTOBuilder() {
 		CartaoBuilder builder = new CartaoBuilder();
-		builder.cartaoDTO = new CartaoDTO(1L, "nubank", bandeira.getId());
+		builder.cartaoDTO = new CartaoDTO(1L, "nubank", new BandeiraDTO(bandeira));
 
 		return builder;
 	}
@@ -64,7 +65,7 @@ public class CartaoBuilder {
 		builder.cartoesDTO = new ArrayList<CartaoDTO>();
 
 		for (long i = 1; i <= 10; i++) {
-			CartaoDTO cartaoDTO = new CartaoDTO(i, "nubank" + i, bandeira.getId());
+			CartaoDTO cartaoDTO = new CartaoDTO(i, "nubank" + i, new BandeiraDTO(bandeira));
 
 			builder.cartoesDTO.add(cartaoDTO);
 		}
@@ -74,7 +75,7 @@ public class CartaoBuilder {
 
 	public CartaoDTO getCartaoDTOInvalido() {
 		this.cartaoDTO.setNome(null);
-		this.cartaoDTO.setBandeiraId(null);
+		this.cartaoDTO.setBandeira(null);
 
 		return this.cartaoDTO;
 	}

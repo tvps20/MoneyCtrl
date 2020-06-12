@@ -35,8 +35,8 @@ export class UserService extends CrudService<User> {
         );
     }
 
-    public parseToUser(form: FormGroup): User {
-        let user: User = new User(form.get('nome').value, form.get('username').value, form.get('password').value);
+    public partoToEntity(form: FormGroup): User {
+        let user: User = new User(null, form.get('nome').value, form.get('username').value, form.get('password').value);
 
         if(form.get('admin').value){
             user.roles.push(RolesType.ADMIN);

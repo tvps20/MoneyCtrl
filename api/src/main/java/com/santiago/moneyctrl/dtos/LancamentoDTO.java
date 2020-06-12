@@ -11,8 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.moneyctrl.domain.Lancamento;
 
 import lombok.Getter;
@@ -49,11 +47,9 @@ public class LancamentoDTO extends BaseDTO {
 	protected boolean parcelado;
 
 	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Integer qtdParcela;
 
 	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Integer parcelaAtual;
 
 	@Getter

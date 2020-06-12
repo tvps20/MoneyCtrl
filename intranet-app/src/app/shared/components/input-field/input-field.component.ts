@@ -1,5 +1,5 @@
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Component, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 
 import { ValidFormsService } from '../../services/valid-forms.service';
 

@@ -1,4 +1,3 @@
-import { UCType } from './../../shared/util/enuns-type.enum';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError, switchMap, debounceTime, take, tap } from 'rxjs/operators';
@@ -7,6 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
+import { UCType } from './../../shared/util/enuns-type.enum';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
 import { AlertServiceService } from './../../shared/services/alert-service.service';
@@ -46,7 +46,9 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private userCompradorService: UserCompradorService,
-        private alertServiceService: AlertServiceService) { super(validFormsService); }
+        private alertServiceService: AlertServiceService) {
+        super(validFormsService);
+    }
 
     ngOnInit(): void {
         this.formulario = this.createForm();
@@ -54,21 +56,21 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         this.usuarios$ = this.listAllUsers();
     }
 
-    public sortingTableUsuario(orderBy: string){
+    public sortingTableUsuario(orderBy: string) {
         this.directionUsuarios = !this.directionUsuarios;
         this.orderByUsuarios = orderBy;
         let direction = this.directionUsuarios ? "ASC" : "DESC";
         this.usuarios$ = this.listAllUsers(this.pageIndexUsuarios, this.pageSizeUsuarios, direction, orderBy);
     }
 
-    public sortingTableComprador(orderBy: string){
+    public sortingTableComprador(orderBy: string) {
         this.directionCompradores = !this.directionCompradores;
         this.orderByCompradores = orderBy;
         let direction = this.directionCompradores ? "ASC" : "DESC";
-        if(orderBy === 'dividaTotal' || orderBy === 'creditoTotal'){
+        if (orderBy === 'dividaTotal' || orderBy === 'creditoTotal') {
             this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores)
-                .pipe(map( result => {
-                    if(this.directionCompradores){
+                .pipe(map(result => {
+                    if (this.directionCompradores) {
                         return result.sort((a, b) => a[orderBy] < b[orderBy] ? -1 : 1)
                     } else {
                         return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
@@ -84,7 +86,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         this.compradores$ = this.listAllCompradores(pageEvent.pageIndex, pageEvent.pageSize);
     }
 
-    public changeListUsuario(pageEvent: PageEvent){
+    public changeListUsuario(pageEvent: PageEvent) {
         this.pageIndexUsuarios = pageEvent.pageIndex;
         console.log(pageEvent)
         this.usuarios$ = this.listAllUsers(pageEvent.pageIndex, pageEvent.pageSize);
@@ -117,8 +119,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                         this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador");
                     },
                     () => {
-                        this.pageIndexCompradores = this.lengthCompradores -1 < this.pageSizeCompradores ? 0 :
-                            this.PageCompradores.content.length -1 <= 0 ? this.pageIndexCompradores -1 : this.pageIndexCompradores;
+                        this.pageIndexCompradores = this.lengthCompradores - 1 < this.pageSizeCompradores ? 0 :
+                            this.PageCompradores.content.length - 1 <= 0 ? this.pageIndexCompradores - 1 : this.pageIndexCompradores;
                         this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores);
                         this.usuarios$ = this.listAllUsers();
                     }
@@ -133,8 +135,8 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                         this.alertServiceService.ShowAlertDanger("Error ao tentar apagar usuário");
                     },
                     () => {
-                        this.pageIndexUsuarios = this.lengthUsuarios -1 < this.pageSizeUsuarios ? 0 :
-                            this.PageUsuarios.content.length -1 <= 0 ? this.pageIndexUsuarios -1 : this.pageIndexUsuarios;
+                        this.pageIndexUsuarios = this.lengthUsuarios - 1 < this.pageSizeUsuarios ? 0 :
+                            this.PageUsuarios.content.length - 1 <= 0 ? this.pageIndexUsuarios - 1 : this.pageIndexUsuarios;
                         this.usuarios$ = this.listAllUsers(this.pageIndexUsuarios, this.pageSizeUsuarios);
                         this.compradores$ = this.listAllCompradores();
                     }
@@ -168,7 +170,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 debounceTime(300),
                 switchMap(email => this.userCompradorService.verifacarEmailUnico(formControl.value)),
                 take(1),
-                map(usernameExist => usernameExist ? { usernameInvalido: true } : null)
+                map(usernameExist => usernameExist ? { valorUnique: true } : null)
             );
         }
         return of({});
@@ -180,7 +182,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 debounceTime(300),
                 switchMap(email => this.userCompradorService.verifacarUsernameUnico(formControl.value)),
                 take(1),
-                map(usernameExist => usernameExist ? { usernameInvalido: true } : null)
+                map(usernameExist => usernameExist ? { valorUnique: true } : null)
             );
         }
         return of({});
@@ -196,7 +198,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                     this.error$.next(true);
                     this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
                     return empty();
-                    }
+                }
                 )
             );
     }
@@ -205,7 +207,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         return this.userCompradorService.listAllUsersPage(page, linesPerPage, direction, orderBy)
             .pipe(
                 tap((page: any) => this.PageUsuarios = page),
-                tap((page: any) => this.lengthUsuarios= page.totalElements),
+                tap((page: any) => this.lengthUsuarios = page.totalElements),
                 map((page: any) => page.content),
                 catchError(error => {
                     this.error$.next(true);

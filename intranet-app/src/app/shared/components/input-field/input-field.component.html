@@ -1,7 +1,7 @@
 <mat-form-field appearance="outline" (change)="markAsTouched()"
 (click)="markAsTouched()" (focusout)="markAsTouched()"
 [class]="aplicaClassErro()">
-    <mat-label>{{label}}</mat-label>
+    <mat-label>{{ label }}</mat-label>
     <input matInput [type]="tipo" [readonly]="!!isReadOnly" [(ngModel)]="value">
     <mat-icon matSuffix class="text-danger"
         *ngIf="verificarValidControl(control)">error</mat-icon>

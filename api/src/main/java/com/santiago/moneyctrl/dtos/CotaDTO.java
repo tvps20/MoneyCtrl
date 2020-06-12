@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.moneyctrl.domain.Cota;
 
 import lombok.Getter;
@@ -13,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 public class CotaDTO extends BaseDTO {
 
 	private static final long serialVersionUID = 1L;

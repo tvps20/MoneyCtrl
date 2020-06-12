@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.moneyctrl.domain.Divida;
 
 import lombok.Getter;
@@ -24,7 +22,6 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	private Long faturaId;
 
 	@Getter

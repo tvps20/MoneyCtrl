@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { delay, tap, take, map } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
-export class CrudService<T> {
+export abstract class CrudService<T> {
 
     constructor(protected http: HttpClient, private  API_URL) { }
 
@@ -36,4 +37,6 @@ export class CrudService<T> {
     public delete(id: number){
         return this.http.delete(`${this.API_URL}/${id}`).pipe(take(1));
     }
+
+    public abstract partoToEntity(form: FormGroup): T;
 }

@@ -1,6 +1,9 @@
 package com.santiago.moneyctrl.endpoints;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(TipoEndPoint.BANDEIRA)
 public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
+	
+	@Autowired
+	private BandeiraService service;
 
 	@Autowired
 	public BandeiraController(BandeiraService service) {
 		super(service);
 		BaseController.baseLog = BandeiraController.log;
+	}
+	
+	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
+	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor) {
+		log.info("[GET] - Verificando valor único: " + valor);
+		boolean result = this.service.verificarCampoUnico(valor);
+
+		log.info("[GET] - Busca finalizada com sucesso.");
+		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");
 	}
 
 	@Override

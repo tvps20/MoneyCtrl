@@ -26,13 +26,13 @@ public class CartaoDTO extends BaseDTO {
 	@Setter
 	@CustomUnique(classType = CartaoService.class)
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
+	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
 	private String nome;
 	
 	@Getter
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	protected Long bandeiraId;
+	protected BandeiraDTO bandeira;
 
 	@Getter
 	@Setter
@@ -41,19 +41,25 @@ public class CartaoDTO extends BaseDTO {
 	// Construtores
 	public CartaoDTO() {
 	}
+	
+	public CartaoDTO(Long id) {
+		super(id);
+	}
 
-	public CartaoDTO(Long id, String nome, Long bandeira) {
+	public CartaoDTO(Long id, String nome, BandeiraDTO bandeira) {
 		super(id);
 		this.nome = nome;
-		this.bandeiraId = bandeira;
+		this.bandeira = bandeira;
 	}
 
 	public CartaoDTO(Cartao cartao) {
 		super(cartao.getId());
 		this.nome = cartao.getNome();
-		this.bandeiraId = cartao.getBandeira().getId();
+		this.bandeira = new BandeiraDTO(cartao.getBandeira());
+		this.bandeira.setCartoes(null);
 		this.createdAt = cartao.getCreatedAt();
 		this.updatedAt = cartao.getUpdatedAt();
+		this.ativo = cartao.isAtivo();
 		this.faturas = cartao.getFaturas().stream().map(obj -> new FaturaDTO(obj)).collect(Collectors.toList());
 	}
 }

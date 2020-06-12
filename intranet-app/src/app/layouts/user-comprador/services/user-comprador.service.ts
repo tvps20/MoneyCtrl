@@ -76,9 +76,9 @@ export class UserCompradorService {
 
     public parseToUserComprador(form: FormGroup): User | Comprador  {
         if(form.get('tipo').value == UCType.USER){
-            return this.userService.parseToUser(form);
+            return this.userService.partoToEntity(form);
         } else {
-            return this.compradorService.parseToComprador(form);
+            return this.compradorService.partoToEntity(form);
         }
     }
 }

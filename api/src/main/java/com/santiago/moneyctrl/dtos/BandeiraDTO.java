@@ -25,7 +25,7 @@ public class BandeiraDTO extends BaseDTO {
 	@Setter
 	@CustomUnique(classType = BandeiraService.class)
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 4, max = 80, message = "{validation.erro.model.length.nome}")
+	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
 	private String nome;
 
 	@Getter
@@ -46,6 +46,8 @@ public class BandeiraDTO extends BaseDTO {
 		this.nome = bandeira.getNome();
 		this.createdAt = bandeira.getCreatedAt();
 		this.updatedAt = bandeira.getUpdatedAt();
-		this.cartoes = bandeira.getCartoes().stream().map(obj -> new CartaoDTO(obj)).collect(Collectors.toList());
+		this.ativo = bandeira.isAtivo();
+		this.cartoes = bandeira.getCartoes().stream().map(obj -> new CartaoDTO(obj.getId()))
+				.collect(Collectors.toList());
 	}
 }

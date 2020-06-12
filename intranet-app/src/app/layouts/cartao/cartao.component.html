@@ -33,7 +33,8 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="cartoes">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                    *ngIf="cartoes$ | async as cartoes; else loadingCartoes">
                                         <thead class=" text-primary">
                                             <th>ID</th>
                                             <th>Nome</th>
@@ -43,12 +44,12 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr [routerLink]="['/cartoes/1']">
-                                                <td>1</td>
-                                                <td>Master</td>
-                                                <td>Mastercard</td>
-                                                <td>3</td>
-                                                <td>Ativo</td>
+                                            <tr *ngFor="let cartao of cartoes">
+                                                <td>{{ cartao.id }}</td>
+                                                <td>{{ cartao.nome }}</td>
+                                                <td>{{ cartao.bandeira.nome }}</td>
+                                                <td>{{ cartao.faturas.length }}</td>
+                                                <td>{{ cartao.ativo ? 'Ativo' : 'Desabilitado' }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Editar" matTooltipPosition="above"
@@ -62,67 +63,41 @@
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr [routerLink]="['/cartoes/1']">
-                                                <td>2</td>
-                                                <td>Nubank</td>
-                                                <td>Mastercard</td>
-                                                <td>3</td>
-                                                <td>Ativo</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr [routerLink]="['/cartoes/1']">
-                                                <td>3</td>
-                                                <td>Digio</td>
-                                                <td>Visa</td>
-                                                <td>3</td>
-                                                <td>Ativo</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <ng-template #loadingCartoes>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar Cartões. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="bandeiras">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                        *ngIf="bandeiras$ | async as bandeiras; else loadingBandeiras">
                                         <thead class=" text-primary">
                                             <th>ID</th>
                                             <th>Nome</th>
+                                            <th>Criado</th>
+                                            <th>Cartões</th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr [routerLink]="['/cartoes/1']">
-                                                <td>1</td>
-                                                <td>Mastercard</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr [routerLink]="['/cartoes/1']">
-                                                <td>2</td>
-                                                <td>Visa</td>
+                                            <tr *ngFor="let bandeira of bandeiras">
+                                                <td>{{ bandeira.id }}</td>
+                                                <td>{{ bandeira.nome }}</td>
+                                                <td>{{ bandeira.createdAt | date:'dd/MM/yyyy'}}</td>
+                                                <td>{{ bandeira.cartoes.length }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Excluir" matTooltipPosition="above"
@@ -134,46 +109,56 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <ng-template #loadingBandeiras>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar bandeiras. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form>
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Nome</mat-label>
-                                                    <input matInput placeholder="Nome">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="nome" label="Nome"
+                                                    [control]="formulario.get('nome')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Bandeira</mat-label>
-                                                    <input matInput placeholder="Bandeira"
-                                                        [disabled]="!disableSelect.value">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="bandeira" label="Bandeira" uniqueFiled="true"
+                                                    [control]="formulario.get('bandeira')">
+                                                </app-input-field>
                                             </div>
                                         </div>
                                         <div class="row">
-                                           
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
-                                                    <mat-select [disabled]="disableSelect.value">
-                                                        <mat-option value="option1">Master</mat-option>
-                                                        <mat-option value="option3">Visa</mat-option>
+                                                    <mat-select formControlName="bandeiraSelect">
+                                                        <mat-option *ngFor="let bandeira of bandeiras$ | async" [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>
-                                                    <mat-checkbox [formControl]="disableSelect">Nova Bandeira
-                                                    </mat-checkbox>
-                                                </p>
+                                                <mat-checkbox formControlName="novaBandeira" (click)="disableFields()" >Nova Bandeira</mat-checkbox>
                                             </div>
                                         </div>
-                                        <button mat-raised-button appearance="outline" type="submit"
+                                        <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right">Salvar</button>
-                                        <div class="clearfix"></div>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -182,5 +167,6 @@
                 </div>
             </div>
         </div>
+        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>

@@ -1,10 +1,7 @@
 import { UCType, AcessoType, RolesType } from './../util/enuns-type.enum';
-export class User {
+import { BaseEntity } from './baseEntity';
 
-    public id: number;
-    public createdAt: Date;
-    public updatedAt: Date;
-    public ativo = true;
+export class User extends BaseEntity{
 
     public nome: string;
     public username: string;
@@ -15,7 +12,8 @@ export class User {
     public acesso: string[] = [];
     public roles: string[] = [];
 
-    constructor(nome: string, username: string, password: string){
+    constructor(id: number, nome: string, username: string, password: string){
+        super(id);
         this.nome = nome;
         this.username = username;
         this.password = password;

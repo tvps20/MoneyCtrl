@@ -1,5 +1,7 @@
 package com.santiago.moneyctrl.services;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -28,13 +30,21 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 	}
 
 	@Override
+	@Transactional
 	public Cartao insert(Cartao entity) {
 		entity.setId(null);
 		log.info("[Insert] - Salvando um novo cartao. Entity: " + entity.toString());
 
 		try {
-			log.info("[Insert] - Buscando bandeira.");
-			this.bandeiraService.findById(entity.getBandeira().getId());
+			if(entity.getBandeira().getId() != null ) {
+				log.info("[Insert] - Buscando bandeira.");
+				this.bandeiraService.findById(entity.getBandeira().getId());				
+			} else {
+				log.info("[Insert] - Salvando Bandeira.");
+				this.bandeiraService.insert(entity.getBandeira());
+			}
+			
+			log.info("[Insert] - Salvando Cartao.");
 			Cartao cartao = this.repository.save(entity);
 
 			log.info("[Insert] - Cartao salvo no bando de dados.");
@@ -53,7 +63,12 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 	@Override
 	public Cartao fromDTO(CartaoDTO dto) {
 		log.info("[Mapping] - 'CartaoDTO' to 'Cartao'. Id: " + dto.getId());
-		Cartao cartao = new Cartao(dto.getId(), dto.getNome(), new Bandeira(dto.getBandeiraId()));
+		Cartao cartao;
+		if(dto.getBandeira().getId() != null) {
+			cartao = new Cartao(dto.getId(), dto.getNome(), new Bandeira(dto.getBandeira().getId()));			
+		} else {
+			cartao = new Cartao(dto.getId(), dto.getNome(), new Bandeira(null, dto.getBandeira().getNome()));	
+		}
 
 		log.info("[Mapping] - Mapping finalizado com sucesso.");
 		return cartao;

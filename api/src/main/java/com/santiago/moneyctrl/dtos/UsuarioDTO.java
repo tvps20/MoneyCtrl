@@ -8,8 +8,6 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.moneyctrl.domain.Usuario;
 import com.santiago.moneyctrl.domain.enuns.TipoAcesso;
 import com.santiago.moneyctrl.domain.enuns.TipoRoles;
@@ -53,7 +51,6 @@ public class UsuarioDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonInclude(Include.NON_NULL) // Não faz a serialização se o valor for null
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
 	@Length(min = 6, max = 20, message = "{validation.erro.model.length.nome}")
 	private String password;
