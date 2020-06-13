@@ -1,4 +1,4 @@
-import { UCType } from './../../../shared/util/enuns-type.enum';
+import { EntityType } from './../../../shared/util/enuns-type.enum';
 import { CompradorService } from './comprador.service';
 import { UserService } from './user.service';
 import { FormGroup } from '@angular/forms';
@@ -43,7 +43,7 @@ export class UserCompradorService {
     }
 
     public create(entity: User | Comprador){
-        if(entity.tipo === UCType.USER){
+        if(entity.tipo === EntityType.USER){
             return this.userService.create(entity);
         } else {
             return this.compradorService.create(<Comprador>entity);
@@ -51,7 +51,7 @@ export class UserCompradorService {
     }
 
     public update(entity: User | Comprador){
-        if(entity.tipo === UCType.USER){
+        if(entity.tipo === EntityType.USER){
             return this.userService.update(entity);
         } else {
             return this.compradorService.update(<Comprador>entity);
@@ -75,7 +75,7 @@ export class UserCompradorService {
     }
 
     public parseToUserComprador(form: FormGroup): User | Comprador  {
-        if(form.get('tipo').value == UCType.USER){
+        if(form.get('tipo').value == EntityType.USER){
             return this.userService.partoToEntity(form);
         } else {
             return this.compradorService.partoToEntity(form);

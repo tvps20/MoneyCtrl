@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 import com.santiago.moneyctrl.domain.Usuario;
 import com.santiago.moneyctrl.domain.enuns.TipoAcesso;
 import com.santiago.moneyctrl.domain.enuns.TipoRoles;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 import com.santiago.moneyctrl.services.UsuarioService;
 import com.santiago.moneyctrl.services.validation.CustomUnique;
 import com.santiago.moneyctrl.services.validation.EmailUnique;
@@ -44,10 +45,6 @@ public class UsuarioDTO extends BaseDTO {
 	@Getter
 	@Setter
 	private LocalDate verificaoEmail;
-	
-	@Getter
-	@Setter
-	private String tipo;
 
 	@Getter
 	@Setter
@@ -77,14 +74,17 @@ public class UsuarioDTO extends BaseDTO {
 
 	public UsuarioDTO(Usuario usuario) {
 		super(usuario.getId());
+		
 		this.nome = usuario.getNome();
 		this.username = usuario.getUsername();
 		this.email = usuario.getEmail();
 		this.verificaoEmail = usuario.getVerificaoEmail();
-		this.tipo = "Usuario";
 		this.acesso = usuario.getAcesso();
 		this.roles = usuario.getRoles();
-		this.setCreatedAt(usuario.getCreatedAt());
-		this.setUpdatedAt(usuario.getUpdatedAt());
+		
+		this.createdAt = usuario.getCreatedAt();
+		this.updatedAt = usuario.getUpdatedAt();
+		this.ativo = usuario.isAtivo();
+		this.tipo = TipoEntity.USUARIO;
 	}
 }

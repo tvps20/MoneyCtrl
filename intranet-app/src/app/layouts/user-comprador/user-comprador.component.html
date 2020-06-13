@@ -63,7 +63,7 @@
                                                     <i *ngIf="usuario.email" class="material-icons" matTooltip="email"
                                                         matTooltipPosition="above">email</i>
                                                 </td>
-                                                <td>{{ usuario.createdAt | date:'dd/MM/yyyy' }}</td>
+                                                <td>{{ usuario.createdAt }}</td>
                                                 <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
                                                 </td>
                                                 <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
@@ -200,8 +200,8 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <mat-radio-group aria-label="Select an option" formControlName="tipo">
-                                                    <mat-radio-button value="Usuario">Usuario</mat-radio-button>
-                                                    <mat-radio-button checked value="Comprador">Comprador</mat-radio-button>
+                                                    <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
+                                                    <mat-radio-button checked value="COMPRADOR">Comprador</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                             <div class="col-md-2">

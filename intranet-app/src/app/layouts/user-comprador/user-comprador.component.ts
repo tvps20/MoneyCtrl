@@ -6,7 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
-import { UCType } from './../../shared/util/enuns-type.enum';
+import { EntityType } from './../../shared/util/enuns-type.enum';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
 import { AlertServiceService } from './../../shared/services/alert-service.service';
@@ -25,8 +25,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public usuarios$: Observable<User[]>;
     public error$ = new Subject<boolean>();
     public submitte = false;
-    public compradorSelecionado: Comprador;
-    public usuarioSelecionado: User;
+    public entitySelecionada: Comprador | User;
     // MatPaginator Comprador Inputs
     public lengthCompradores;
     public pageSizeCompradores = 5;
@@ -88,35 +87,47 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
 
     public changeListUsuario(pageEvent: PageEvent) {
         this.pageIndexUsuarios = pageEvent.pageIndex;
-        console.log(pageEvent)
         this.usuarios$ = this.listAllUsers(pageEvent.pageIndex, pageEvent.pageSize);
     }
 
     public submit() {
         this.submitte = true;
         let newEntity: Comprador | User = this.userCompradorService.parseToUserComprador(this.formulario);
-        newEntity.tipo === UCType.COMPRADOR ? this.create(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
+        newEntity.tipo === EntityType.COMPRADOR ? this.create(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
             this.create(newEntity, 'Usuário salvo com sucesso.', 'Error ao tentar salvar usuário');
     }
 
+    private create(entity: User | Comprador, msgSuccess: string, msgError: string) {
+        return this.userCompradorService.create(entity).subscribe(
+            success => {
+                this.reseteForm();
+                this.submitte = false;
+                this.alertServiceService.ShowAlertSuccess(msgSuccess);
+            },
+            error => {
+                this.submitte = false;
+                this.alertServiceService.ShowAlertDanger(msgError);
+            },
+            () => {
+                this.compradores$ = this.listAllCompradores();
+                this.usuarios$ = this.listAllUsers();
+            }
+        );
+    }
+
     public onDelete(entity: Comprador | User) {
-        if (entity.tipo === UCType.COMPRADOR) {
-            this.compradorSelecionado = <Comprador>entity;
-        } else {
-            this.usuarioSelecionado = entity;
-        }
+        this.entitySelecionada = entity;
     }
 
     public confirmModal(event: any) {
         if (event === 'sim') {
-            if (this.compradorSelecionado != null) {
-                this.userCompradorService.deleteComprador(this.compradorSelecionado.id).subscribe(
+            if (this.entitySelecionada.tipo === EntityType.COMPRADOR) {
+                this.userCompradorService.deleteComprador(this.entitySelecionada.id).subscribe(
                     success => {
-                        this.compradorSelecionado = null;
                         this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador");
+                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador.");
                     },
                     () => {
                         this.pageIndexCompradores = this.lengthCompradores - 1 < this.pageSizeCompradores ? 0 :
@@ -126,13 +137,12 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                     }
                 )
             } else {
-                this.userCompradorService.deleteUser(this.usuarioSelecionado.id).subscribe(
+                this.userCompradorService.deleteUser(this.entitySelecionada.id).subscribe(
                     success => {
-                        this.usuarioSelecionado = null
                         this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar usuário");
+                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar usuário.");
                     },
                     () => {
                         this.pageIndexUsuarios = this.lengthUsuarios - 1 < this.pageSizeUsuarios ? 0 :
@@ -143,13 +153,15 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 )
             }
         }
+
+        this.entitySelecionada = null;
     }
 
     public createForm() {
         return this.formBuilder.group({
             nome: [null, [FormValidations.onlyLetters, Validators.required, Validators.minLength(3), Validators.maxLength(12)]],
             sobrenome: [null, [FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)]],
-            tipo: [UCType.COMPRADOR, Validators.required],
+            tipo: [EntityType.COMPRADOR, Validators.required],
             admin: [false, Validators.required],
             username: [null, [FormValidations.notStartNumber, Validators.required, Validators.minLength(5), Validators.maxLength(10)], [this.validarUsername.bind(this)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
@@ -161,7 +173,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public reseteForm() {
         this.formulario.reset();
         this.formulario.get('admin').setValue(false);
-        this.formulario.get('tipo').setValue(UCType.COMPRADOR);
+        this.formulario.get('tipo').setValue(EntityType.COMPRADOR);
     }
 
     private validarEmail(formControl: FormControl) {
@@ -191,6 +203,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     private listAllCompradores(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
         return this.userCompradorService.listAllCompradoresPage(page, linesPerPage, direction, orderBy)
             .pipe(
+            //    tap(console.log),
                 tap((page: any) => this.PageCompradores = page),
                 tap((page: any) => this.lengthCompradores = page.totalElements),
                 map((page: any) => page.content),
@@ -206,6 +219,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     private listAllUsers(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<User[]> {
         return this.userCompradorService.listAllUsersPage(page, linesPerPage, direction, orderBy)
             .pipe(
+            //    tap(console.log),
                 tap((page: any) => this.PageUsuarios = page),
                 tap((page: any) => this.lengthUsuarios = page.totalElements),
                 map((page: any) => page.content),
@@ -215,23 +229,5 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                     return empty();
                 }
             ));
-    }
-
-    private create(entity: User | Comprador, msgSuccess: string, msgError: string) {
-        return this.userCompradorService.create(entity).subscribe(
-            success => {
-                this.reseteForm();
-                this.submitte = false
-                this.alertServiceService.ShowAlertSuccess(msgSuccess);
-            },
-            error => {
-                this.submitte = false;
-                this.alertServiceService.ShowAlertDanger(msgError);
-            },
-            () => {
-                this.compradores$ = this.listAllCompradores();
-                this.usuarios$ = this.listAllUsers();
-            }
-        );
     }
 }

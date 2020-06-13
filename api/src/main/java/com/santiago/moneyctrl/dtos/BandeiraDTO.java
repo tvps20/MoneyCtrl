@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.santiago.moneyctrl.domain.Bandeira;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 import com.santiago.moneyctrl.services.BandeiraService;
 import com.santiago.moneyctrl.services.validation.CustomUnique;
 
@@ -43,11 +44,14 @@ public class BandeiraDTO extends BaseDTO {
 
 	public BandeiraDTO(Bandeira bandeira) {
 		super(bandeira.getId());
+		
 		this.nome = bandeira.getNome();
+		this.cartoes = bandeira.getCartoes().stream().map(obj -> new CartaoDTO(obj.getId()))
+				.collect(Collectors.toList());
+		
 		this.createdAt = bandeira.getCreatedAt();
 		this.updatedAt = bandeira.getUpdatedAt();
 		this.ativo = bandeira.isAtivo();
-		this.cartoes = bandeira.getCartoes().stream().map(obj -> new CartaoDTO(obj.getId()))
-				.collect(Collectors.toList());
+		this.tipo = TipoEntity.BANDEIRA;
 	}
 }

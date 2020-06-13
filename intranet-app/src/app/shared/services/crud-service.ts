@@ -11,13 +11,16 @@ export abstract class CrudService<T> {
         // TODO: remover o delay
         return this.http.get<T[]>(this.API_URL)
         .pipe(
-            delay(2000),
         //    tap(console.log)
+            delay(2000),
         );
     }
 
     public listAllPage(page: number, linesPerPage: number, direction: string, orderBy: string){
-        return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
+        return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`).pipe(
+        //    tap(console.log)
+            delay(2000),
+        );
     }
 
     public findById(id: number) {

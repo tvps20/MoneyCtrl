@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.santiago.moneyctrl.domain.Comprador;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,13 +45,18 @@ public class CompradorDTO extends UsuarioDTO {
 
 	public CompradorDTO(Comprador comprador) {
 		super(comprador);
+		
 		this.devedor = false;
 		this.sobrenome = comprador.getSobrenome();
-		this.setTipo("Comprador");
 		this.dividas = comprador.getDividas().stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
 		this.creditos = comprador.getCreditos().stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
 		this.lancamentos = comprador.getLancamentos().stream().map(obj -> new CotaDTO(obj))
 				.collect(Collectors.toList());
+		
+		this.createdAt = comprador.getCreatedAt();
+		this.updatedAt = comprador.getUpdatedAt();
+		this.ativo = comprador.isAtivo();
+		this.tipo = TipoEntity.COMPRADOR;
 	}
 
 	// Getters and Setters

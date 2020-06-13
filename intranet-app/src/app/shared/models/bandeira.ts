@@ -1,5 +1,6 @@
 import { BaseEntity } from './baseEntity';
 import { Cartao } from './cartao';
+import { EntityType } from '../util/enuns-type.enum';
 
 export class Bandeira extends BaseEntity {
 
@@ -9,5 +10,6 @@ export class Bandeira extends BaseEntity {
     constructor(id: number, nome: string){
         super(id);
         this.nome = nome;
+        this.tipo = EntityType.BANDEIRA;
     }
 }

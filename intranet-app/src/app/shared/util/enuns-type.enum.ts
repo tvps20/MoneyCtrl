@@ -14,9 +14,11 @@ export enum IconsType {
     PRIMARY = 'add_alert'
 }
 
-export enum UCType {
-    USER = 'Usuario',
-    COMPRADOR = 'Comprador'
+export enum EntityType {
+    USER = 'USUARIO',
+    COMPRADOR = 'COMPRADOR',
+    CARTAO = 'CARTAO',
+    BANDEIRA = 'BANDEIRA'
 }
 
 export enum AcessoType {

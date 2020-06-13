@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,10 @@ public class BaseDTO implements Serializable {
 	@Getter
 	@Setter
 	protected boolean ativo;
+	
+	@Getter
+	@Setter
+	protected TipoEntity tipo;
 
 	// Construtores
 	public BaseDTO() {

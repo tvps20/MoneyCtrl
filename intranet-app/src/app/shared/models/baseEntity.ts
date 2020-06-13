@@ -4,6 +4,7 @@ export abstract class BaseEntity {
     public createdAt: Date;
     public updatedAt: Date;
     public ativo = true;
+    public tipo: string;
 
     constructor(id: number){
         this.id = id;

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import com.santiago.moneyctrl.domain.Cartao;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 import com.santiago.moneyctrl.services.CartaoService;
 import com.santiago.moneyctrl.services.validation.CustomUnique;
 
@@ -54,12 +55,15 @@ public class CartaoDTO extends BaseDTO {
 
 	public CartaoDTO(Cartao cartao) {
 		super(cartao.getId());
+		
 		this.nome = cartao.getNome();
 		this.bandeira = new BandeiraDTO(cartao.getBandeira());
 		this.bandeira.setCartoes(null);
+		this.faturas = cartao.getFaturas().stream().map(obj -> new FaturaDTO(obj)).collect(Collectors.toList());
+		
 		this.createdAt = cartao.getCreatedAt();
 		this.updatedAt = cartao.getUpdatedAt();
 		this.ativo = cartao.isAtivo();
-		this.faturas = cartao.getFaturas().stream().map(obj -> new FaturaDTO(obj)).collect(Collectors.toList());
+		this.tipo = TipoEntity.CARTAO;
 	}
 }

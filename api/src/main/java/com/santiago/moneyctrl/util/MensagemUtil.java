@@ -52,4 +52,8 @@ public final class MensagemUtil {
 	public static String erroEnumAcesso(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.acesso"), tipo);
 	}
+	
+	public static String erroEnumEntity(String tipo) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.entity"), tipo);
+	}
 }
