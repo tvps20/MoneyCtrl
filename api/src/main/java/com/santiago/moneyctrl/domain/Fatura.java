@@ -1,6 +1,6 @@
 package com.santiago.moneyctrl.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class Fatura extends BaseEntity {
 	@Getter
 	@Setter
 	@Column(nullable = false)
-	private LocalDate vencimento;
+	private LocalDateTime vencimento;
 
 	@Getter
 	@Setter
@@ -57,7 +57,7 @@ public class Fatura extends BaseEntity {
 		super(id);
 	}
 
-	public Fatura(Long id, LocalDate vencimento, String observacao, TipoMes mesReferente, Cartao cartao) {
+	public Fatura(Long id, LocalDateTime vencimento, String observacao, TipoMes mesReferente, Cartao cartao) {
 		super(id);
 		this.vencimento = vencimento;
 		this.observacao = observacao;

@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.domain.enuns.TipoMes;
 import com.santiago.moneyctrl.domain.enuns.TipoStatus;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +25,9 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private LocalDate vencimento;
+	private LocalDateTime vencimento;
 
 	@Getter
 	@Setter
@@ -36,6 +37,10 @@ public class FaturaDTO extends BaseDTO {
 	private TipoStatus status = TipoStatus.ABERTA;
 
 	private TipoMes mesReferente;
+	
+	@Getter
+	@Setter
+	private String cartaoNome;
 
 	@Getter
 	@Setter
@@ -50,7 +55,7 @@ public class FaturaDTO extends BaseDTO {
 	public FaturaDTO() {
 	}
 
-	public FaturaDTO(Long id, LocalDate vencimento, String observacao, Long cartaoId) {
+	public FaturaDTO(Long id, LocalDateTime vencimento, String observacao, Long cartaoId) {
 		super(id);
 		this.vencimento = vencimento;
 		this.observacao = observacao;
@@ -60,14 +65,19 @@ public class FaturaDTO extends BaseDTO {
 
 	public FaturaDTO(Fatura fatura) {
 		super(fatura.getId());
+		
 		this.vencimento = fatura.getVencimento();
 		this.observacao = fatura.getObservacao();
 		this.mesReferente = fatura.getMesReferente();
 		this.cartaoId = fatura.getCartao().getId();
-		this.createdAt = fatura.getCreatedAt();
-		this.updatedAt = fatura.getUpdatedAt();
+		this.cartaoNome = fatura.getCartao().getNome();
 		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj))
 				.collect(Collectors.toList());
+		
+		this.createdAt = fatura.getCreatedAt();
+		this.updatedAt = fatura.getUpdatedAt();
+		this.ativo = fatura.isAtivo();
+		this.tipo = TipoEntity.FATURA;
 	}
 
 	// Getters and Setters

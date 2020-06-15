@@ -63,7 +63,7 @@
                                                     <i *ngIf="usuario.email" class="material-icons" matTooltip="email"
                                                         matTooltipPosition="above">email</i>
                                                 </td>
-                                                <td>{{ usuario.createdAt }}</td>
+                                                <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
                                                 </td>
                                                 <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>

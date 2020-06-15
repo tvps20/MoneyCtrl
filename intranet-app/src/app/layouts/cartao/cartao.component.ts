@@ -185,7 +185,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     public listAllCartoes(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"){
         return this.cartaoService.listAllPage(page, linesPerPage, direction, orderBy)
             .pipe(
-                tap(console.log),
+            //    tap(console.log),
                 tap((page: any) => this.PageCartoes = page),
                 tap((page: any) => this.lengthCartoes = page.totalElements),
                 map((page: any) => page.content),
@@ -200,7 +200,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     public listAllBandeiras(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"){
         return this.bandeiraService.listAllPage(page, linesPerPage, direction, orderBy)
             .pipe(
-                tap(console.log),
+            //    tap(console.log),
                 tap((page: any) => this.PageBandeiras = page),
                 tap((page: any) => this.lengthBandeiras = page.totalElements),
                 map((page: any) => page.content),

@@ -1,0 +1,62 @@
+[
+	{
+		"abbreviation": "Jan",
+        "name": "Janeirto",
+        "value": "JANEIRO"
+	},
+	{
+		"abbreviation": "Fev",
+		"name": "Fevereiro",
+        "value": "FEVEREIRO"
+	},
+	{
+		"abbreviation": "Mar",
+		"name": "Março",
+        "value": "MARCO"
+	},
+	{
+		"abbreviation": "Abr",
+        "name": "Abril",
+        "value": "ABRIL"
+	},
+	{
+		"abbreviation": "Mai",
+		"name": "Maio",
+        "value": "MAIO"
+	},
+	{
+		"abbreviation": "Jun",
+		"name": "Junho",
+        "value": "JUNHO"
+	},
+	{
+		"abbreviation": "Jul",
+		"name": "Julho",
+        "value": "JULHO"
+	},
+	{
+		"abbreviation": "Ago",
+		"name": "Agosto",
+        "value": "AGOSTO"
+	},
+	{
+		"abbreviation": "Set",
+		"name": "Setembro",
+        "value": "SETEMBRO"
+	},
+	{
+		"abbreviation": "Out",
+		"name": "Outubro",
+        "value": "OUTUBRO"
+	},
+	{
+		"abbreviation": "Nov",
+		"name": "Novembro",
+        "value": "NOVEMBRO"
+	},
+	{
+		"abbreviation": "Dez",
+		"name": "Dezembro",
+        "value": "DEZEMBRO"
+	}
+]

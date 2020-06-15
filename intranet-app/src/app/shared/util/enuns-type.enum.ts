@@ -18,7 +18,15 @@ export enum EntityType {
     USER = 'USUARIO',
     COMPRADOR = 'COMPRADOR',
     CARTAO = 'CARTAO',
-    BANDEIRA = 'BANDEIRA'
+    BANDEIRA = 'BANDEIRA',
+    FARURA = 'FATURA'
+}
+
+export enum StatusType {
+    PROXIMA = 'PROXIMA',
+    ABERTA = 'ABERTA',
+    FECHADA = 'FECHADA',
+    PAGA = 'PAGA'
 }
 
 export enum AcessoType {

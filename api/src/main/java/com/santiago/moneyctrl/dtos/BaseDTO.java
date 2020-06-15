@@ -24,12 +24,12 @@ public class BaseDTO implements Serializable {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected LocalDateTime createdAt;
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected LocalDateTime updatedAt;
 	
 	@Getter

@@ -103,7 +103,7 @@
                                             <tr *ngFor="let bandeira of bandeiras">
                                                 <td>{{ bandeira.id }}</td>
                                                 <td>{{ bandeira.nome }}</td>
-                                                <td>{{ bandeira.createdAt }}</td>
+                                                <td>{{ bandeira.createdAt | date: 'dd/MM/yyyy' }}</td>
                                                 <td>{{ bandeira.cartoes.length }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
@@ -181,7 +181,6 @@
                 </div>
             </div>
         </div>
-        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
 

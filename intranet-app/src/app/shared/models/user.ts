@@ -8,8 +8,8 @@ export class User extends BaseEntity{
     public email: string;
     public verificaoEmail: Date;
     public password: string;
-    public acesso: string[] = [];
-    public roles: string[] = [];
+    public acesso: AcessoType[] = [];
+    public roles: RolesType[] = [];
 
     constructor(id: number, nome: string, username: string, password: string){
         super(id);

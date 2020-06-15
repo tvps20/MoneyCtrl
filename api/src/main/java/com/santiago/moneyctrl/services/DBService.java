@@ -2,6 +2,7 @@ package com.santiago.moneyctrl.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class DBService {
 		Cartao cartao2 = new Cartao(null, "nubank", bandeira1);
 		Cartao cartao3 = new Cartao(null, "digio", bandeira2);
 
-		Fatura fatura1 = new Fatura(null, LocalDate.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
+		Fatura fatura1 = new Fatura(null, LocalDateTime.now(), "fatura de janeiro", TipoMes.JANEIRO, cartao1);
 
 		Usuario user1 = new Usuario(null, "admin", "admin20", "123", TipoRoles.USUARIO, TipoRoles.ADMIN);
 		Comprador comprador1 = new Comprador(null, "thiago", "tvps20", "123");

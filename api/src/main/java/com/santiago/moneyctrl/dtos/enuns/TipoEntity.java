@@ -5,7 +5,7 @@ import com.santiago.moneyctrl.util.MensagemUtil;
 
 public enum TipoEntity {
 	
-	USUARIO(1, "Usuario"), COMPRADOR(2, "Comprador"), CARTAO(1, "Cartao"), BANDEIRA(1, "Bandeira");
+	USUARIO(1, "Usuario"), COMPRADOR(2, "Comprador"), CARTAO(3, "Cartao"), BANDEIRA(4, "Bandeira"), FATURA(5, "Fatura");
 
 	private int cod;
 	private String descricao;
