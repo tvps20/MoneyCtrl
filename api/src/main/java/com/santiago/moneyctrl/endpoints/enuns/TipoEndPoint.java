@@ -21,6 +21,8 @@ public class TipoEndPoint {
 	public static final String VALOR = "/{valor}";
 	public static final String UNIQUE = "/valor-unico";
 	public static final String EMAIL = "/email-unico";
+	public static final String FECHARFATURA = "/fechar-fatura";
+	public static final String PAGARFATURA = "/pagar-fatura";
 
 	public static final String DIVIDA_ID = "/{dividaId}";
 	public static final String COMPRADOR_ID = "/{compradorId}";

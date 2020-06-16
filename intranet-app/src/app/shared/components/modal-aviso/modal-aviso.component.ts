@@ -11,9 +11,10 @@ export class ModalAvisoComponent implements OnInit {
     @Input() obs = "Lembre-se que isso não é reversivel.";
     @Input() cancelTxt = "Não";
     @Input() okTxt = "Sim";
+    @Input() identificador = "detalhesModalAviso";
     @Output() confimaModal = new EventEmitter();
     // TODO: Remover
-    @ViewChild('modalAviso') modalAviso: any;
+    // @ViewChild('modalAviso') modalAviso: any;
 
     constructor() { }
 

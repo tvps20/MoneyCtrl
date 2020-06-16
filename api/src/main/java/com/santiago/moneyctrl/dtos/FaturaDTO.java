@@ -25,7 +25,7 @@ public class FaturaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private LocalDateTime vencimento;
 
@@ -69,6 +69,7 @@ public class FaturaDTO extends BaseDTO {
 		this.vencimento = fatura.getVencimento();
 		this.observacao = fatura.getObservacao();
 		this.mesReferente = fatura.getMesReferente();
+		this.status = fatura.getStatus();
 		this.cartaoId = fatura.getCartao().getId();
 		this.cartaoNome = fatura.getCartao().getNome();
 		this.lancamentos = fatura.getLancamentos().stream().map(obj -> new LancamentoDTO(obj))

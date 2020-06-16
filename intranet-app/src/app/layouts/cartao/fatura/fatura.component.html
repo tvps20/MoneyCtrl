@@ -9,7 +9,7 @@
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">
                                         <a mat-button class="nav-link active" href="#newFaturas" data-toggle="tab">
-                                            <i class="material-icons">picture_as_pdf</i> Faturas Abertas
+                                            <i class="material-icons">picture_as_pdf</i> Faturas Ativas
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
@@ -48,21 +48,25 @@
                                                 <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</td>
                                                 <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
-                                                <td>{{ fatura.status }}</td>
+                                                <td>
+                                                    <button *ngIf="fatura.status === 'ABERTA'"  type="button" matTooltip="Fechar Fatura" matTooltipPosition="above"
+                                                    (click)="onSelectedEntity(fatura)" data-toggle="modal" data-target="#modalFecharFatura"
+                                                    class="btn btn-primary btn-sm">{{ fatura.status + '...' }}</button>
+                                                    <button *ngIf="fatura.status === 'FECHADA'" type="button" matTooltip="Pagar Fatura" matTooltipPosition="above"
+                                                    data-toggle="modal" data-target="#modalPagarFatura"
+                                                    (click)="onSelectedEntity(fatura)"
+                                                    class="btn btn-warning btn-sm">{{ fatura.status }}</button>
+                                                </td>
                                                 <td>{{ fatura.cartaoNome }}</td>
                                                 <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Fechar Fatura" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">enhanced_encryption</i>
-                                                    </button>
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Editar" matTooltipPosition="above"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(fatura)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -109,7 +113,9 @@
                                                 <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</td>
                                                 <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
-                                                <td>{{ fatura.status }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-sm" disabled>{{ fatura.status + '...' }}</button>
+                                                </td>
                                                 <td>{{ fatura.cartaoNome }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button"
@@ -192,15 +198,19 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                <mat-form-field appearance="outline">
                                                     <mat-label>Observação</mat-label>
                                                     <textarea matInput placeholder="Observação" formControlName="observacao"></textarea>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <button mat-raised-button appearance="outline" type="submit"
+                                        <button  *ngIf="!submitte"  mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right">Salvar</button>
-                                        <div class="clearfix"></div>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -212,4 +222,21 @@
         <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso (confimaModal)="confirmModalExcluir($event)"></app-modal-aviso>
+
+<!-- Modal de aviso fechar fatura -->
+<app-modal-aviso identificador="modalFecharFatura"
+    (confimaModal)="confirmModalFecharFatura($event)"
+    msg="Deseja realmente fechar essa fatura?"
+    obs="Uma fatura fechada não pode receber novos lançamentos
+    e as dividas serão geradas para cada comprador."
+></app-modal-aviso>
+
+<!-- Modal de aviso Pagar fatura -->
+<app-modal-aviso identificador="modalPagarFatura"
+    (confimaModal)="confirmModalPagarFatura($event)"
+    msg="Deseja realmente pagar essa fatura?"
+></app-modal-aviso>
 

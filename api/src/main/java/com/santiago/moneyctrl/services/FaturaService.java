@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.santiago.moneyctrl.domain.Cartao;
 import com.santiago.moneyctrl.domain.Fatura;
+import com.santiago.moneyctrl.domain.enuns.TipoStatus;
 import com.santiago.moneyctrl.dtos.FaturaDTO;
 import com.santiago.moneyctrl.repositories.FaturaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
@@ -48,7 +49,39 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 					MensagemUtil.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
 		}
 	}
+	
+	public Fatura fecharFatura(Long id) {
+		log.info("[Fechar-Fatura] - Fechando fatura. Id: " + id);
+		try {
+			Fatura fatura = this.findById(id);
+			fatura.setStatus(TipoStatus.FECHADA);
+			return this.update(fatura);
+		} catch (ObjectNotFoundException ex) {
+			baseLog.error("[Fechar-Fatura] - Erro ao tentar buscar fatura. Id: " + id);
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
+					this.getClass());
+		} catch (DataIntegrityException ex) {
+			baseLog.error("[Fechar-Fatura] - Erro ao tentar atualizar status. Id: " + id);
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+		}
+	}
 
+	public Fatura pagarFatura(Long id) {
+		log.info("[Pagar-Fatura] - Pagando fatura. Id: " + id);
+		try {
+			Fatura fatura = this.findById(id);
+			fatura.setStatus(TipoStatus.PAGA);
+			return this.update(fatura);
+		} catch (ObjectNotFoundException ex) {
+			baseLog.error("[Pagar-Fatura] - Erro ao tentar buscar fatura. Id: " + id);
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
+					this.getClass());
+		} catch (DataIntegrityException ex) {
+			baseLog.error("[Pagar-Fatura] - Erro ao tentar atualizar status. Id: " + id);
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+		}
+	}
+	
 	@Override
 	public Fatura fromDTO(FaturaDTO dto) {
 		log.info("[Mapping] - 'FaturaDTO' to 'Fatura'. Id: " + dto.getId());

@@ -12,21 +12,19 @@ import { Bandeira } from 'src/app/shared/models/bandeira';
 })
 export class CartaoService extends CrudService<Cartao> {
 
-    private api_url = '/api/cartoes';
-
     constructor(protected http: HttpClient) {
         super(http, '/api/cartoes');
     }
 
     public verificaNomeUnico(nome: string){
-        return this.http.get(this.api_url + `/valida/valor-unico/${nome}`)
+        return this.http.get(this.API_URL + `/valida/valor-unico/${nome}`)
         .pipe(
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
             take(1)
         );
     }
 
-    public partoToEntity(form: FormGroup): Cartao {
+    public parseToEntity(form: FormGroup): Cartao {
         let cartao = new Cartao(null, form.get('nome').value);
         let bandeira = new Bandeira(null, form.get('bandeira').value);
 

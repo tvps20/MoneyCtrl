@@ -3,6 +3,13 @@
 json-server --watch src/assets/dados/db.json
 proxy - npm run start 
 
+# Git Gambiarra
+
+Desative a  verificação Git SSL no servidor que hospeda o Fisheye / Crucible com os seguintes comandos:
+
+git config --global http.sslVerify false
+A desativação da verificação SSL globalmente pode ser considerada um risco de segurança e deve ser implementada apenas temporariamente.
+
 # IntranetApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.

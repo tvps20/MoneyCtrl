@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 
 export abstract class CrudService<T> {
 
-    constructor(protected http: HttpClient, private  API_URL) { }
+    constructor(protected http: HttpClient, protected API_URL) { }
 
     public listAll() {
         // O '| Async' já se desinscrever do obsevable
@@ -12,14 +12,14 @@ export abstract class CrudService<T> {
         return this.http.get<T[]>(this.API_URL)
         .pipe(
         //    tap(console.log)
-            delay(2000),
+        //    delay(2000),
         );
     }
 
     public listAllPage(page: number, linesPerPage: number, direction: string, orderBy: string){
         return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`).pipe(
         //    tap(console.log)
-            delay(2000),
+        //    delay(2000),
         );
     }
 
@@ -41,5 +41,5 @@ export abstract class CrudService<T> {
         return this.http.delete(`${this.API_URL}/${id}`).pipe(take(1));
     }
 
-    public abstract partoToEntity(form: FormGroup): T;
+    public abstract parseToEntity(form: FormGroup): T;
 }

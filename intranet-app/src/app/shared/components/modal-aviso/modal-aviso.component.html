@@ -1,6 +1,5 @@
-<div class="card card-profile" #modalAviso>
-    <div class="modal fade" id="detalhesModalAviso" tabindex="-1" role="dialog"
-        aria-labelledby="lancamentoModalLabel" aria-hidden="true">
+<div class="card card-profile">
+    <div class="modal fade" [id]="identificador" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <!-- <div class="modal-header"> -->
@@ -14,8 +13,8 @@
                     <p class="card-description">{{ obs }}</p>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ cancelTxt }}</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="onConfirm()">{{ okTxt }}</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">{{ cancelTxt }}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onConfirm()">{{ okTxt }}</button>
                 </div>
             </div>
         </div>

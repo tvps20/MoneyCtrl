@@ -12,7 +12,7 @@ import { Fatura } from './../../../shared/models/fatura';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { PageEvent } from '@angular/material/paginator';
-import { StatusType } from 'src/app/shared/util/enuns-type.enum';
+import { StatusType, EntityType } from 'src/app/shared/util/enuns-type.enum';
 
 @Component({
     selector: 'app-fatura',
@@ -53,16 +53,16 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.faturas$ = this.listAllFaturasAbertas();
+        this.faturas$ = this.listAllFaturasAtivas();
         this.faturasOlds$ = this.listAllFaturasOlds();
         this.cartoes$ = this.listAllCartoes();
         this.months$ = this.listAllMonths();
+        console.log(this.formulario)
     }
 
     public submit() {
         this.submitte = true;
-        let newEntity = this.faturaSerive.partoToEntity(this.formulario);
-        console.log(newEntity)
+        let newEntity = this.faturaSerive.parseToEntity(this.formulario);
         this.create(newEntity, 'Fatura salva com sucesso.', 'Error ao tentar salvar fatura')
     }
 
@@ -72,21 +72,21 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
                 this.reseteForm();
                 this.submitte = false
                 this.alertServiceService.ShowAlertSuccess(msgSuccess);
+                console.log(this.formulario)
             },
             error => {
                 this.submitte = false;
                 this.alertServiceService.ShowAlertDanger(msgError);
             },
             () => {
-                this.faturas$ = this.listAllFaturasAbertas();
+                this.faturas$ = this.listAllFaturasAtivas();
                 this.faturasOlds$ = this.listAllFaturasOlds();
             }
         );
     }
 
     public reseteForm() {
-        this.formulario.reset();
-        this.formulario.get('vencimento').setValue(new Date());
+        this.formulario = this.createForm();
     }
 
     public createForm() {
@@ -98,9 +98,78 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         });
     }
 
+    public onSelectedEntity(entity: Fatura) {
+        this.entitySelecionada = entity;
+    }
+
+    public confirmModalExcluir(event: any) {
+        if (event === 'sim') {
+            if (this.entitySelecionada.tipo === EntityType.FARURA) {
+                this.faturaSerive.delete(this.entitySelecionada.id).subscribe(
+                    success => {
+                        this.alertServiceService.ShowAlertSuccess("Fatura apagada com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
+                            this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
+                        this.faturas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
+                        this.faturasOlds$ = this.listAllFaturasOlds();
+                    }
+                )
+            }
+        }
+
+        this.entitySelecionada = null;
+    }
+
+    public confirmModalFecharFatura(event: any){
+        if( event === 'sim') {
+            this.faturaSerive.fecharFatura(this.entitySelecionada.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Fatura fechada com sucesso.");
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger(error.error.message);
+                },
+                () => {
+                    this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
+                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
+                    this.faturas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
+                    this.faturasOlds$ = this.listAllFaturasOlds();
+                }
+            )
+        }
+
+        this.entitySelecionada = null;
+    }
+
+    public confirmModalPagarFatura(event: any){
+        if( event === 'sim') {
+            this.faturaSerive.pagarFatura(this.entitySelecionada.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Fatura paga com sucesso.");
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger(error.error.message);
+                },
+                () => {
+                    this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
+                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
+                    this.faturas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
+                    this.faturasOlds$ = this.listAllFaturasOlds();
+                }
+            )
+        }
+
+        this.entitySelecionada = null;
+    }
+
     public changeListFaturasAbertas(pageEvent: PageEvent){
         this.pageIndexFaturas = pageEvent.pageIndex;
-        this.faturas$ = this.listAllFaturasAbertas(pageEvent.pageIndex, pageEvent.pageSize);
+        this.faturas$ = this.listAllFaturasAtivas(pageEvent.pageIndex, pageEvent.pageSize);
     }
 
     public changeListFaturasOlds(pageEvent: PageEvent){
@@ -111,21 +180,21 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     public verificarValidControl(control: string): boolean {
         let controlForm = this.formulario.get(control);
         return !controlForm.valid &&
-            (controlForm.touched && controlForm.dirty);
+            (controlForm.touched || controlForm.dirty);
     }
 
     public errorMessage(control: string, label: string) {
         return this.validFormsService.errorMessage(this.formulario.get(control), label);
     }
 
-    public listAllFaturasAbertas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
+    public listAllFaturasAtivas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
         return this.faturaSerive.listAllPage(page, linesPerPage, direction, orderBy)
         .pipe(
-            tap(console.log),
+        //    tap(console.log),
             tap((page: any) => this.PageFaturas = page),
             tap((page: any) => this.lengthFaturas = page.totalElements),
             map((page: any) => page.content),
-            map((content: Fatura[]) => content.filter(fatura => fatura.status !== StatusType.FECHADA)),
+            map((content: Fatura[]) => content.filter(fatura => fatura.status !== StatusType.PAGA)),
             catchError(error => {
                 this.error$.next(true);
                 this.alertServiceService.ShowAlertDanger('Error ao carregar faturas atuais. Tente novamente mais tarde.')
@@ -140,7 +209,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
             tap((page: any) => this.PageFaturasOlds = page),
             tap((page: any) => this.lengthFaturasOlds = page.totalElements),
             map((page: any) => page.content),
-            map((content: Fatura[]) => content.filter(fatura => fatura.status === StatusType.FECHADA)),
+            map((content: Fatura[]) => content.filter(fatura => fatura.status === StatusType.PAGA)),
         //    tap(console.log),
             catchError(error => {
                 this.error$.next(true);

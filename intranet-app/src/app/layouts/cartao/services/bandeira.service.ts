@@ -11,21 +11,19 @@ import { Bandeira } from 'src/app/shared/models/bandeira';
 })
 export class BandeiraService extends CrudService<Bandeira> {
 
-    private api_url = '/api/bandeiras';
-
     constructor(protected http: HttpClient) {
         super(http, '/api/bandeiras');
     }
 
     public verificaNomeUnico(nome: string){
-        return this.http.get(this.api_url + `/valida/valor-unico/${nome}`)
+        return this.http.get(this.API_URL + `/valida/valor-unico/${nome}`)
         .pipe(
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
             take(1)
         );
     }
 
-    public partoToEntity(form: FormGroup): Bandeira {
+    public parseToEntity(form: FormGroup): Bandeira {
         let bandeira = new Bandeira(null, form.get('nome').value);
 
         return bandeira;

@@ -12,14 +12,12 @@ import { User } from 'src/app/shared/models/user';
 })
 export class UserService extends CrudService<User> {
 
-    private api_url = '/api/usuarios';
-
     constructor(protected http: HttpClient) {
         super(http, '/api/usuarios');
     }
 
     public verificaEmail(email: string){
-        return this.http.get(this.api_url + `/valida/email-unico/${email}`)
+        return this.http.get(this.API_URL + `/valida/email-unico/${email}`)
         .pipe(
         //    tap(console.log),
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
@@ -28,14 +26,14 @@ export class UserService extends CrudService<User> {
     }
 
     public verificaUsername(username: string){
-        return this.http.get(this.api_url + `/valida/valor-unico/${username}`)
+        return this.http.get(this.API_URL + `/valida/valor-unico/${username}`)
         .pipe(
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
             take(1)
         );
     }
 
-    public partoToEntity(form: FormGroup): User {
+    public parseToEntity(form: FormGroup): User {
         let user: User = new User(null, form.get('nome').value, form.get('username').value, form.get('password').value);
 
         if(form.get('admin').value){

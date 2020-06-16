@@ -16,7 +16,7 @@ export class CompradorService extends CrudService<Comprador> {
         super(http, '/api/compradores');
     }
 
-    public partoToEntity(form: FormGroup): Comprador {
+    public parseToEntity(form: FormGroup): Comprador {
         let comprador: Comprador = new Comprador(null, form.get('nome').value, form.get('username').value, form.get('password').value);
         comprador.sobrenome = form.get('sobrenome').value;
 

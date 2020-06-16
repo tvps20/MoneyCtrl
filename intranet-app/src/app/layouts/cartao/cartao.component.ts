@@ -58,7 +58,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
 
     public submit() {
         this.submitte = true;
-        let newEntity = this.cartaoService.partoToEntity(this.formulario);
+        let newEntity = this.cartaoService.parseToEntity(this.formulario);
         this.create(newEntity, 'Cartão salvo com sucesso.', 'Error ao tentar salvar cartão')
     }
 

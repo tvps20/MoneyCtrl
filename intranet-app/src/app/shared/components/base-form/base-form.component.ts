@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatPaginatorIntl } from '@angular/material/paginator';
 
 import { ValidFormsService } from '../../services/valid-forms.service';
 
@@ -20,15 +19,13 @@ export abstract class BaseFormComponent implements OnInit {
 
     public abstract createForm();
 
+    public abstract reseteForm();
+
     public onSubmit() {
         if (this.formulario.valid) {
             this.submit();
         } else {
             this.validFormsService.verificarValidacoesForm(this.formulario);
         }
-    }
-
-    public reseteForm() {
-        this.formulario.reset();
     }
 }
