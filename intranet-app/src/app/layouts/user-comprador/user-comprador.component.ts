@@ -203,7 +203,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     private listAllCompradores(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
         return this.userCompradorService.listAllCompradoresPage(page, linesPerPage, direction, orderBy)
             .pipe(
-                tap(console.log),
+            //    tap(console.log),
                 tap((page: any) => this.PageCompradores = page),
                 tap((page: any) => this.lengthCompradores = page.totalElements),
                 map((page: any) => page.content),
