@@ -127,30 +127,31 @@
                                             <th (click)="sortingTableComprador('creditoTotal')">Creditos
                                                 <i *ngIf="orderByCompradores === 'creditoTotal'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
                                             </th>
-                                            <th (click)="sortingTableComprador('id')">Id
+                                            <th (click)="sortingTableComprador('id')">Status
                                                 <i *ngIf="orderByCompradores === 'id'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
                                             </th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let comprador of compradores">
-                                                <td>{{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
+                                                <td>
+                                                    {{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
                                                 </td>
                                                 <td>{{ comprador.username }}</td>
                                                 <td>{{ comprador.email ? comprador.email : '-' }}</td>
-                                                <td>{{ comprador.dividaTotal | currency:'BRL' }}</td>
-                                                <td>{{ comprador.creditoTotal | currency:'BRL' }}</td>
-                                                <td>{{ comprador.id }}</td>
+                                                <td>{{ comprador.dividas.length }}</td>
+                                                <td>{{ comprador.creditos.length }}</td>
+                                                <td>
+                                                    <button *ngIf="!comprador.devedor"  type="button"
+                                                    class="btn btn-success btn-sm">Em dia...</button>
+                                                    <button *ngIf="comprador.devedor" type="button" matTooltip="Pagar" matTooltipPosition="above"
+                                                    class="btn btn-danger btn-sm">Devendo</button>
+                                                </td>
                                                 <td class="td-actions text-left">
                                                     <button mat-raised-button type="button" matTooltip="Detalhes"
                                                         matTooltipPosition="above" [routerLink]="['/user-comprador', comprador.id]"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">description</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Editar"
-                                                        matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
                                                         data-toggle="modal" data-target="#detalhesModalAviso"

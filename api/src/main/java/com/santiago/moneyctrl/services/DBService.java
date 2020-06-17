@@ -92,8 +92,8 @@ public class DBService {
 		Cota cota3 = new Cota(null, BigDecimal.valueOf(10.27), comprador3, lancamento3);
 		Cota cota4 = new Cota(null, BigDecimal.valueOf(6.27), comprador2, lancamento3);
 
-		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "", LocalDate.now(), fatura1, comprador3, false);
-		Divida divida2 = new Divida(null, BigDecimal.valueOf(25), "", LocalDate.now(), null, comprador3, true);
+		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "Divida da fatura de maio", LocalDateTime.now(), fatura1, comprador3, false);
+		Divida divida2 = new Divida(null, BigDecimal.valueOf(25), "Emprestado", LocalDateTime.now(), null, comprador3, true);
 
 		Credito credito = new Credito(null, BigDecimal.valueOf(20), LocalDate.now(), null, comprador2);
 		Pagamento pagamento1 = new Pagamento(null, BigDecimal.valueOf(10), LocalDate.now(), "fiquei devendo 5 de troco",

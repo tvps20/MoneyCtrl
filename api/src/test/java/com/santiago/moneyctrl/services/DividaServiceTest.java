@@ -67,7 +67,7 @@ public class DividaServiceTest extends BaseServiceTest<Divida, DividaDTO> {
 	@Override
 	public Divida getEntityUpdate() {
 		Divida dividaUp = this.entity;
-		dividaUp.setObservacao("Divida Paga");
+		dividaUp.setDescricao("Divida Paga");
 		return dividaUp;
 	}
 }

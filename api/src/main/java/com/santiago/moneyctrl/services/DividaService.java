@@ -68,7 +68,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		log.info("[Mapping] - 'DividaDTO' to 'Divida'. Id: " + dto.getId());
 		Fatura fatura = dto.getFaturaId() != null ? new Fatura(dto.getFaturaId()) : null;
 		Comprador comprador = new Comprador(dto.getCompradorId());
-		Divida divida = new Divida(dto.getId(), dto.getValor(), dto.getObservacao(), dto.getDataDivida(), fatura,
+		Divida divida = new Divida(dto.getId(), dto.getValorDivida(), dto.getDescricao(), dto.getDataDivida(), fatura,
 				comprador, dto.isPaga());
 
 		log.info("[Mapping] - Mapping finalizado com sucesso.");
@@ -78,8 +78,8 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 	@Override
 	public void updateData(Divida newObj, Divida obj) {
 		log.info("[Parse] - 'NewDivida' from 'Divida'. Id: " + newObj.getId());
-		newObj.setValor(obj.getValor());
-		newObj.setObservacao(obj.getObservacao());
+		newObj.setValorDivida(obj.getValorDivida());
+		newObj.setDescricao(obj.getDescricao());
 		newObj.setPaga(obj.isPaga());
 		log.info("[Parse] - Parse finalizado com sucesso.");
 	}

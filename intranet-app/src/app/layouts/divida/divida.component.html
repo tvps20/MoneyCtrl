@@ -8,7 +8,7 @@
                             <i class="material-icons">monetization_on</i>
                         </div>
                         <p class="card-category">Total a receber</p>
-                        <h3 class="card-title"><small>R$ </small>806,86</h3>
+                        <h3 class="card-title">{{ totalDividas | currency:'BRL' }}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -24,7 +24,7 @@
                             <i class="material-icons">monetization_on</i>
                         </div>
                         <p class="card-category">Total de pagamentos</p>
-                        <h3 class="card-title"><small>R$ </small>550,00</h3>
+                        <h3 class="card-title">{{ totalPagamentos | currency:'BRL' }}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -78,7 +78,7 @@
                                             <th>Comprador</th>
                                             <th>Valor Total</th>
                                             <th>Valor Pago</th>
-                                            <th>Credito Usado</th>
+                                            <th>Credito</th>
                                             <th>Restante</th>
                                         </thead>
                                         <tbody>
@@ -102,7 +102,8 @@
                             </div>
                             <div class="tab-pane" id="dividas">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                    *ngIf="dividasAtivas$ | async as dividas; else loadingDividasAtivas">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor Total</th>
@@ -113,19 +114,20 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Divida da fatura de janeiro</td>
-                                                <td>74,87 R$</td>
-                                                <td>0,00 R$</td>
-                                                <td><i class="material-icons">receipt_long</i></td>
-                                                <td>Gilson</td>
-                                                <td>Ativa</td>
+                                            <tr *ngFor="let divida of dividas">
+                                                <td>{{ divida.descricao }}</td>
+                                                <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                                <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                                <td>
+                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                                    <i *ngIf="!divida.faturaId"  class="material-icons">monetization_on</i>
+                                                </td>
+                                                <td>{{ divida.compradorNome }}</td>
+                                                <td>
+                                                    <button type="button" matTooltip="Pagar" matTooltipPosition="above"
+                                                    class="btn btn-warning btn-sm">Ativa</button>
+                                                </td>
                                                 <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Pagar" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Detalhes" matTooltipPosition="above"
                                                         data-toggle="modal" data-target="#detalhesModalDivida"
@@ -145,39 +147,28 @@
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Comprou a bicicleta</td>
-                                                <td>100,00 R$</td>
-                                                <td>50,00 R$</td>                                             
-                                                <td><i class="material-icons">monetization_on</i></td>
-                                                <td>Gilson</td>
-                                                <td>Ativa</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">description</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <ng-template #loadingDividasAtivas>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar dividas ativas. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="oldDividas">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                    *ngIf="dividasOlds$ | async as dividasOlds; else loadingDividasOlds">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor Total</th>
@@ -189,14 +180,19 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Comprou a bicicleta</td>
-                                                <td>700,00 R$</td>
-                                                <td>700,00 R$</td>                                             
-                                                <td><i class="material-icons">monetization_on</i></td>
-                                                <td>13/02/2020</td>
-                                                <td>Filipe</td>
-                                                <td>Paga</td>
+                                            <tr *ngFor="let divida of dividasOlds">
+                                                <td>{{ divida.descricao }}</td>
+                                                <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                                <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                                <td>
+                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                                    <i *ngIf="!divida.faturaId"  class="material-icons">monetization_on</i>
+                                                </td>
+                                                <td>{{ divida.dataDivida | date: 'dd/MM/yyyy'}}</td>
+                                                <td>{{ divida.compradorNome }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-sm" disabled>Paga</button>
+                                                </td>
                                                 <td>
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Detalhes" matTooltipPosition="above"
@@ -213,6 +209,20 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <ng-template #loadingDividasOlds>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar dividas antigas. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
@@ -243,13 +253,13 @@
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <div class="row">       
+                                        <div class="row">
                                             <div class="col-md-12">
                                                 <mat-form-field appearance="outline" class="example-full-width">
                                                     <mat-label>Breve descrição da divida a ser adicionada...</mat-label>
                                                     <textarea matInput placeholder="Observação"></textarea>
                                                 </mat-form-field>
-                                            </div>         
+                                            </div>
                                         </div>
                                         <button mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right">Salvar</button>

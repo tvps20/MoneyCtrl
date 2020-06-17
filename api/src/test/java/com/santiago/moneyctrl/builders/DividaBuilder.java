@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.builders;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class DividaBuilder {
 	// Metodos
 	public static DividaBuilder mockDividaBuilder() {
 		DividaBuilder builder = new DividaBuilder();
-		builder.divida = new Divida(1L, BigDecimal.valueOf(10), "Divida teste", LocalDate.of(2020, 1, 1), fatura,
+		builder.divida = new Divida(1L, BigDecimal.valueOf(10), "Divida teste", LocalDateTime.of(2020, 1, 1, 0, 0), fatura,
 				comprador, false);
 
 		return builder;
@@ -48,7 +48,7 @@ public class DividaBuilder {
 	public static DividaBuilder mockDividaDTOBuilder() {
 		DividaBuilder builder = new DividaBuilder();
 		builder.dividaDTO = new DividaDTO(1L, fatura.getId(), BigDecimal.valueOf(10), "DividaDTO teste",
-				LocalDate.of(2020, 1, 1), false, comprador.getId());
+				LocalDateTime.of(2020, 1, 1, 0, 0), false, comprador.getId());
 
 		return builder;
 	}
@@ -58,7 +58,7 @@ public class DividaBuilder {
 		builder.dividas = new ArrayList<Divida>();
 
 		for (long i = 1; i <= 10; i++) {
-			Divida divida = new Divida(i, BigDecimal.valueOf(i), "Divida teste " + i, LocalDate.of(2020, 1, 1), fatura,
+			Divida divida = new Divida(i, BigDecimal.valueOf(i), "Divida teste " + i, LocalDateTime.of(2020, 1, 1, 0, 0), fatura,
 					comprador, false);
 
 			builder.dividas.add(divida);
@@ -73,7 +73,7 @@ public class DividaBuilder {
 
 		for (long i = 1; i <= 10; i++) {
 			DividaDTO dividaDTO = new DividaDTO(i, fatura.getId(), BigDecimal.valueOf(i), "DividaDTO teste " + i,
-					LocalDate.of(2020, 1, 1), false, comprador.getId());
+					LocalDateTime.of(2020, 1, 1, 0, 0), false, comprador.getId());
 
 			builder.dividasDTO.add(dividaDTO);
 		}

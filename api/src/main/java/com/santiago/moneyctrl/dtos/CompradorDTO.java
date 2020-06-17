@@ -21,10 +21,6 @@ public class CompradorDTO extends UsuarioDTO {
 
 	@Getter
 	@Setter
-	private boolean devedor;
-
-	@Getter
-	@Setter
 	private List<CotaDTO> lancamentos = new ArrayList<>();
 
 	@Getter
@@ -40,13 +36,11 @@ public class CompradorDTO extends UsuarioDTO {
 
 	public CompradorDTO(Long id, String nome, String username, String password) {
 		super(id, nome, username, password);
-		this.devedor = false;
 	}
 
 	public CompradorDTO(Comprador comprador) {
 		super(comprador);
 		
-		this.devedor = false;
 		this.sobrenome = comprador.getSobrenome();
 		this.dividas = comprador.getDividas().stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
 		this.creditos = comprador.getCreditos().stream().map(obj -> new CreditoDTO(obj)).collect(Collectors.toList());
@@ -61,7 +55,7 @@ public class CompradorDTO extends UsuarioDTO {
 
 	// Getters and Setters
 	public BigDecimal getDividaTotal() {
-		double total = this.dividas.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+		double total = this.dividas.stream().mapToDouble(x -> x.getValorDivida().doubleValue()).sum();
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
@@ -70,5 +64,15 @@ public class CompradorDTO extends UsuarioDTO {
 		double total = this.creditos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+	}
+	
+	public boolean getDevedor() {
+		List<DividaDTO> dividas = this.dividas.stream().filter(x -> !x.isPaga()).collect(Collectors.toList());
+		
+		if(dividas.size() > 0) {
+			return true;
+		}
+		
+		return false;
 	}
 }

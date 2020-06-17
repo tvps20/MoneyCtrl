@@ -106,7 +106,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
                         this.alertServiceService.ShowAlertSuccess("Cartão apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar cartão.");
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
                     },
                     () => {
                         this.pageIndexCartoes = this.lengthCartoes - 1 < this.pageSizeCartoes ? 0 :
@@ -122,7 +122,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
                         this.alertServiceService.ShowAlertSuccess("Bandeira apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar bandeira.");
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
                     },
                     () => {
                         this.pageIndexBandeiras = this.lengthBandeiras - 1 < this.pageSizeBandeiras ? 0 :

@@ -1,4 +1,5 @@
 import { EntityType } from './../util/enuns-type.enum';
+
 export abstract class BaseEntity {
 
     public id: number;

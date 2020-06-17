@@ -127,7 +127,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                         this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar comprador.");
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
                     },
                     () => {
                         this.pageIndexCompradores = this.lengthCompradores - 1 < this.pageSizeCompradores ? 0 :
@@ -142,7 +142,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                         this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
                     },
                     error => {
-                        this.alertServiceService.ShowAlertDanger("Error ao tentar apagar usuário.");
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
                     },
                     () => {
                         this.pageIndexUsuarios = this.lengthUsuarios - 1 < this.pageSizeUsuarios ? 0 :
@@ -203,7 +203,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     private listAllCompradores(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
         return this.userCompradorService.listAllCompradoresPage(page, linesPerPage, direction, orderBy)
             .pipe(
-            //    tap(console.log),
+                tap(console.log),
                 tap((page: any) => this.PageCompradores = page),
                 tap((page: any) => this.lengthCompradores = page.totalElements),
                 map((page: any) => page.content),

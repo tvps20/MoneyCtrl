@@ -34,13 +34,13 @@
                             <div class="tab-pane active" id="newFaturas">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
-                                    *ngIf="faturas$ | async as faturas; else loadingFaturasAbertas">
+                                    *ngIf="faturasAtivas$ | async as faturas; else loadingFaturasAtivas">
                                         <thead class=" text-primary">
                                             <th>Referêcia</th>
                                             <th>Vencimento</th>
                                             <th>Valor</th>
-                                            <th>Status</th>
                                             <th>Cartão</th>
+                                            <th>Status</th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
@@ -48,6 +48,7 @@
                                                 <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</td>
                                                 <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
+                                                <td>{{ fatura.cartaoNome }}</td>
                                                 <td>
                                                     <button *ngIf="fatura.status === 'ABERTA'"  type="button" matTooltip="Fechar Fatura" matTooltipPosition="above"
                                                     (click)="onSelectedEntity(fatura)" data-toggle="modal" data-target="#modalFecharFatura"
@@ -57,7 +58,6 @@
                                                     (click)="onSelectedEntity(fatura)"
                                                     class="btn btn-warning btn-sm">{{ fatura.status }}</button>
                                                 </td>
-                                                <td>{{ fatura.cartaoNome }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button"
                                                         matTooltip="Editar" matTooltipPosition="above"
@@ -78,13 +78,13 @@
                                         [pageSize]="pageSizeFaturas"
                                         [pageSizeOptions]="[5, 10, 25, 100]"
                                         [pageIndex]="pageIndexFaturas"
-                                        (page)="changeListFaturasAbertas($event)">
+                                        (page)="changeListFaturasAtivas($event)">
                                     </mat-paginator>
                                 </div>
-                                <ng-template #loadingFaturasAbertas>
+                                <ng-template #loadingFaturasAtivas>
                                     <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar Faturas abertas. Tente novamente mais tarde.</p>
+                                            <p>Error ao carregar faturas ativas. Tente novamente mais tarde.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>
@@ -104,8 +104,8 @@
                                             <th>Referêcia</th>
                                             <th>Vencimento</th>
                                             <th>Valor</th>
-                                            <th>Status</th>
                                             <th>Cartão</th>
+                                            <th>Status</th>
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
@@ -113,10 +113,10 @@
                                                 <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</td>
                                                 <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
+                                                <td>{{ fatura.cartaoNome }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-success btn-sm" disabled>{{ fatura.status + '...' }}</button>
                                                 </td>
-                                                <td>{{ fatura.cartaoNome }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
@@ -142,7 +142,7 @@
                                 <ng-template #loadingFaturasOlds>
                                     <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar Cartões. Tente novamente mais tarde.</p>
+                                            <p>Error ao carregar faturas antigas. Tente novamente mais tarde.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>

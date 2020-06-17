@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +21,17 @@ public class Divida extends BaseEntity {
 
 	@Getter
 	@Setter
-	private BigDecimal valor;
-
-	@Getter
-	@Setter
-	private String observacao;
+	private BigDecimal valorDivida;
 
 	@Getter
 	@Setter
 	@Column(nullable = false)
-	private LocalDate dataDivida;
+	private String descricao;
+
+	@Getter
+	@Setter
+	@Column(nullable = false)
+	private LocalDateTime dataDivida;
 
 	@Getter
 	@Setter
@@ -61,11 +62,11 @@ public class Divida extends BaseEntity {
 		super(id);
 	}
 
-	public Divida(Long id, BigDecimal valor, String observacao, LocalDate dataDivida, Fatura fatura,
+	public Divida(Long id, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, Fatura fatura,
 			Comprador comprador, boolean paga) {
 		super(id);
-		this.valor = valor;
-		this.observacao = observacao;
+		this.valorDivida = valorDivida;
+		this.descricao = descricao;
 		this.dataDivida = dataDivida;
 		this.fatura = fatura;
 		this.comprador = comprador;
@@ -74,7 +75,7 @@ public class Divida extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Divida [" + super.toString() + ", valor=" + valor + ", observacao=" + observacao + ", dataDivida="
+		return "Divida [" + super.toString() + ", valor=" + valorDivida + ", descricao=" + descricao + ", dataDivida="
 				+ dataDivida + ", faturaId=" + fatura.getId() + ", compradorId=" + comprador.getId() + ", paga=" + paga
 				+ ", pagamentosEmpty=" + pagamentos.isEmpty() + "]";
 	}

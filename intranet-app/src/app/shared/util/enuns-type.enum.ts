@@ -19,7 +19,8 @@ export enum EntityType {
     COMPRADOR = 'COMPRADOR',
     CARTAO = 'CARTAO',
     BANDEIRA = 'BANDEIRA',
-    FARURA = 'FATURA'
+    FARURA = 'FATURA',
+    DIVIDA = 'DIVIDA'
 }
 
 export enum StatusType {

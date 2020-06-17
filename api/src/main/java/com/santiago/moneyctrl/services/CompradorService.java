@@ -35,7 +35,6 @@ public class CompradorService extends BaseService<Comprador, CompradorDTO> {
 		newObj.setEmail(obj.getEmail());
 		newObj.setSobrenome(obj.getSobrenome());
 		newObj.setPassword(obj.getPassword());
-		newObj.setDevedor(obj.isDevedor());
 		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

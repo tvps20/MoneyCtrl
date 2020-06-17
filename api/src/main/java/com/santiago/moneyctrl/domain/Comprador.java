@@ -20,10 +20,6 @@ public class Comprador extends Usuario {
 
 	@Getter
 	@Setter
-	private boolean devedor = false;
-
-	@Getter
-	@Setter
 	@OneToMany(mappedBy = "comprador")
 	private List<Cota> lancamentos = new ArrayList<>();
 
@@ -51,7 +47,7 @@ public class Comprador extends Usuario {
 
 	@Override
 	public String toString() {
-		return "Comprador [" + super.toString() + ", sobrenome=" + sobrenome + ", devedor=" + devedor + ", lancamentosEmpty=" + lancamentos.isEmpty()
+		return "Comprador [" + super.toString() + ", sobrenome=" + sobrenome + ", lancamentosEmpty=" + lancamentos.isEmpty()
 				+ ", dividasEmpty=" + dividas.isEmpty() + ", creditosEmpty=" + creditos.isEmpty() + "]";
 	}
 }

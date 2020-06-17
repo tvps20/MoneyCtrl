@@ -1,5 +1,6 @@
 import { EntityType } from './../util/enuns-type.enum';
 import { User } from './user';
+import { Divida } from './divida';
 
 export class Comprador extends User {
 
@@ -7,7 +8,7 @@ export class Comprador extends User {
     public devedor = false;
     public dividaTotal: number;
     public creditoTotal: number;
-    public dividas: any[] = [];
+    public dividas: Divida[] = [];
     public creditos: any[] = [];
 
     constructor(id: number, nome: string, username: string, senha: string){
