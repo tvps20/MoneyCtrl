@@ -148,19 +148,19 @@
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="bandeira" label="Bandeira" uniqueFiled="true"
-                                                    [control]="formulario.get('bandeira')">
-                                                </app-input-field>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
                                                     <mat-select formControlName="bandeiraSelect">
                                                         <mat-option *ngFor="let bandeira of bandeiras$ | async" [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <app-input-field formControlName="bandeira" label="Bandeira" uniqueFiled="true"
+                                                    [control]="formulario.get('bandeira')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <mat-checkbox formControlName="novaBandeira" (click)="disableFields()" >Nova Bandeira</mat-checkbox>

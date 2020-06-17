@@ -122,7 +122,9 @@
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(fatura)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>

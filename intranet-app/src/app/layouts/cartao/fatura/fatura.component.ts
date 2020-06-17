@@ -5,14 +5,14 @@ import { FaturaService } from './../services/fatura.service';
 import { Observable, Subject, empty } from 'rxjs';
 import { catchError, tap, take, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { Fatura } from './../../../shared/models/fatura';
 
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { PageEvent } from '@angular/material/paginator';
-import { StatusType, EntityType } from 'src/app/shared/util/enuns-type.enum';
+import { StatusType } from 'src/app/shared/util/enuns-type.enum';
 
 @Component({
     selector: 'app-fatura',
@@ -57,7 +57,6 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         this.faturasOlds$ = this.listAllFaturasOlds();
         this.cartoes$ = this.listAllCartoes();
         this.months$ = this.listAllMonths();
-        console.log(this.formulario)
     }
 
     public submit() {
@@ -104,22 +103,28 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public confirmModalExcluir(event: any) {
         if (event === 'sim') {
-            if (this.entitySelecionada.tipo === EntityType.FARURA) {
-                this.faturaSerive.delete(this.entitySelecionada.id).subscribe(
-                    success => {
-                        this.alertServiceService.ShowAlertSuccess("Fatura apagada com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
+            let status = this.entitySelecionada.status;
+            this.faturaSerive.delete(this.entitySelecionada.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Fatura apagada com sucesso.");
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger(error.error.message);
+                },
+                () => {
+                    if (status !== StatusType.PAGA) {
                         this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
-                            this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
+                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
                         this.faturas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
                         this.faturasOlds$ = this.listAllFaturasOlds();
+                    } else {
+                        this.pageIndexFaturasOlds = this.lengthFaturasOlds - 1 < this.pageSizeFaturasOlds ? 0 :
+                        this.PageFaturasOlds.content.length - 1 <= 0 ? this.pageIndexFaturasOlds - 1 : this.pageIndexFaturasOlds;
+                        this.faturasOlds$ = this.listAllFaturasOlds(this.pageIndexFaturasOlds, this.pageSizeFaturasOlds);
+                        this.faturas$ = this.listAllFaturasAtivas();
                     }
-                )
-            }
+                }
+            )
         }
 
         this.entitySelecionada = null;
