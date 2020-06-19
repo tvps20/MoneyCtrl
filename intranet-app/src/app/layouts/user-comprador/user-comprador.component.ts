@@ -93,6 +93,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public submit() {
         this.submitte = true;
         let newEntity: Comprador | User = this.userCompradorService.parseToUserComprador(this.formulario);
+        console.log(newEntity)
         newEntity.tipo === EntityType.COMPRADOR ? this.create(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
             this.create(newEntity, 'Usuário salvo com sucesso.', 'Error ao tentar salvar usuário');
     }

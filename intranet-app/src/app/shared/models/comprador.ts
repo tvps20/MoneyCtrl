@@ -5,9 +5,10 @@ import { Divida } from './divida';
 export class Comprador extends User {
 
     public sobrenome: string;
-    public devedor = false;
-    public dividaTotal: number;
-    public creditoTotal: number;
+    public devedor: boolean;
+    public totalDividas: number;
+    public totalCreditos: number;
+    public totalPagamentos: number;
     public dividas: Divida[] = [];
     public creditos: any[] = [];
 

@@ -76,7 +76,7 @@ public class Divida extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Divida [" + super.toString() + ", valor=" + valorDivida + ", descricao=" + descricao + ", dataDivida="
-				+ dataDivida + ", faturaId=" + fatura.getId() + ", compradorId=" + comprador.getId() + ", paga=" + paga
+				+ dataDivida + ", faturaId=" + (fatura != null ? fatura.getId() : "null") + ", compradorId=" + comprador.getId() + ", paga=" + paga
 				+ ", pagamentosEmpty=" + pagamentos.isEmpty() + "]";
 	}
 }

@@ -15,6 +15,17 @@ export class DividaService extends CrudService<Divida> {
     }
 
     public parseToEntity(form: FormGroup): Divida {
-        throw new Error("Method not implemented.");
+        let dataDivida = this.parseToDateFormat(form.get('dataDivida').value);
+        let divida = new Divida(null, form.get('valor').value,
+        form.get('descricao').value, dataDivida, form.get('compradorId').value);
+
+        return divida;
+    }
+
+    private parseToDateFormat(date: Date){
+        let aux = date.toISOString().slice(0,10) // yyyy-MM-dd
+        aux += " " + date.toLocaleTimeString() // HH:mm:ss
+
+        return aux;
     }
 }

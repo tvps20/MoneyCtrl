@@ -8,13 +8,13 @@ export class Divida extends BaseEntity {
     public faturaId: number
     public valorDivida: number;
     public descricao: string;
-    public dataDivida: Date;
+    public dataDivida: string;
     public paga = false;
     public compradorId: number;
     public pagamentos: any[] = [];
     public totalPagamentos: number;
 
-    constructor(id: number, valorDivida: number, descricao: string, dataDivida: Date, compradorId: number){
+    constructor(id: number, valorDivida: number, descricao: string, dataDivida: string, compradorId: number){
         super(id);
         this.valorDivida = valorDivida;
         this.descricao = descricao;

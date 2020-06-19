@@ -54,14 +54,20 @@ public class CompradorDTO extends UsuarioDTO {
 	}
 
 	// Getters and Setters
-	public BigDecimal getDividaTotal() {
-		double total = this.dividas.stream().mapToDouble(x -> x.getValorDivida().doubleValue()).sum();
+	public BigDecimal getTotalDividas() {
+		double total = this.dividas.stream().filter(x -> !x.isPaga()).mapToDouble(x -> x.getValorDivida().doubleValue()).sum();
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
+	
+	public BigDecimal getTotalPagamentos() {
+		double total = this.dividas.stream().filter(x -> !x.isPaga()).mapToDouble(x -> x.getTotalPagamentos().doubleValue()).sum();
+		
+		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
+	}
 
-	public BigDecimal getCreditoTotal() {
-		double total = this.creditos.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+	public BigDecimal getTotalCreditos() {
+		double total = this.creditos.stream().filter(x -> x.isDisponivel()).mapToDouble(x -> x.getValor().doubleValue()).sum();
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}

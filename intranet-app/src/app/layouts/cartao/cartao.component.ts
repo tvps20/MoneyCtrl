@@ -23,6 +23,7 @@ import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 export class CartaoComponent extends BaseFormComponent implements OnInit {
 
     public bandeiras$: Observable<Bandeira[]>;
+    public bandeirasSelect: Bandeira[];
     public cartoes$: Observable<Cartao[]>;
     public error$ = new Subject<boolean>();
     public submitte = false;
@@ -89,7 +90,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         return this.formBuilder.group({
             nome: [null, [FormValidations.onlyLetters, Validators.required, Validators.minLength(3), Validators.maxLength(12)], [this.validarNomeCartao.bind(this)]],
             bandeira: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)], [this.validarNomeBandeira.bind(this)]],
-            bandeiraSelect: [{value: null, disabled: true}, Validators.required],
+            bandeiraSelect: [{ value: null, disabled: true }, Validators.required],
             novaBandeira: [true, Validators.required]
         });
     }
@@ -139,7 +140,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
 
     public disableFields() {
         this.formulario.get('bandeira').markAsUntouched();
-        if(!this.formulario.get('novaBandeira').value){
+        if (!this.formulario.get('novaBandeira').value) {
             this.formulario.get('bandeira').enable();
             this.formulario.get('bandeiraSelect').disable();
         } else {
@@ -182,10 +183,10 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         this.bandeiras$ = this.listAllBandeiras(pageEvent.pageIndex, pageEvent.pageSize);
     }
 
-    public listAllCartoes(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"){
+    private listAllCartoes(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
         return this.cartaoService.listAllPage(page, linesPerPage, direction, orderBy)
             .pipe(
-            //    tap(console.log),
+                //    tap(console.log),
                 tap((page: any) => this.PageCartoes = page),
                 tap((page: any) => this.lengthCartoes = page.totalElements),
                 map((page: any) => page.content),
@@ -193,22 +194,23 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
                     this.error$.next(true);
                     this.alertServiceService.ShowAlertDanger('Error ao carregar cartoes. Tente novamente mais tarde.')
                     return empty();
-                }
-            ));
+                })
+            );
     }
 
-    public listAllBandeiras(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"){
+    private listAllBandeiras(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
         return this.bandeiraService.listAllPage(page, linesPerPage, direction, orderBy)
             .pipe(
-            //    tap(console.log),
+                //    tap(console.log),
                 tap((page: any) => this.PageBandeiras = page),
                 tap((page: any) => this.lengthBandeiras = page.totalElements),
                 map((page: any) => page.content),
+                tap((content: Bandeira[]) => this.bandeirasSelect = content),
                 catchError(error => {
                     this.error$.next(true);
                     this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
                     return empty();
-                }
-            ));
+                })
+            );
     }
 }

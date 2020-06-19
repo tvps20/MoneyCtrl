@@ -177,6 +177,8 @@
                                                     <mat-select formControlName="mesReferente">
                                                         <mat-option *ngFor="let mes of months$ | async" [value]="mes.value">{{ mes.name }}</mat-option>
                                                     </mat-select>
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('mesReferente')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('mesReferente')">done</mat-icon>
                                                     <mat-hint>
                                                         <div class="text-danger" *ngIf="verificarValidControl('mesReferente')">
                                                             {{ errorMessage('mesReferente', 'Mês Referente') }}
@@ -190,6 +192,8 @@
                                                     <mat-select formControlName="cartaoId">
                                                         <mat-option *ngFor="let cartao of cartoes$ | async" [value]="cartao.id">{{ cartao.nome }}</mat-option>
                                                     </mat-select>
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('cartaoId')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('cartaoId')">done</mat-icon>
                                                     <mat-hint>
                                                         <div class="text-danger" *ngIf="verificarValidControl('cartaoId')">
                                                             {{ errorMessage('cartaoId', 'Cartão') }}

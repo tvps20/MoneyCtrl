@@ -73,32 +73,45 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="devedores">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                    *ngIf="devedores$ | async as devedores; else loadingDevedores">
                                         <thead class=" text-primary">
                                             <th>Comprador</th>
-                                            <th>Valor Total</th>
-                                            <th>Valor Pago</th>
-                                            <th>Credito</th>
+                                            <th>Dividas Totais</th>
+                                            <th>Pagamentos</th>
+                                            <th>Creditos</th>
                                             <th>Restante</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Gilson</td>
-                                                <td>74,87 R$</td>
-                                                <td>0,00 R$</td>
-                                                <td>0,00 R$</td>
-                                                <td>74,87 R$</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Filipe</td>
-                                                <td>700,00 R$</td>
-                                                <td>700,00 R$</td>
-                                                <td>0, 00 R$</td>
-                                                <td>0, 00 R$</td>
+                                            <tr *ngFor="let devedor of devedores">
+                                                <td>{{ devedor.nome }}</td>
+                                                <td>{{ devedor.totalDividas | currency:'BRL' }}</td>
+                                                <td>{{ devedor.totalPagamentos | currency:'BRL' }}</td>
+                                                <td>{{ devedor.totalCreditos | currency:'BRL' }}</td>
+                                                <td>{{ (devedor.totalDividas - devedor.totalPagamentos)  | currency:'BRL' }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <mat-paginator [length]="lengthDevedores"
+                                                [pageSize]="pageSizeDevedores"
+                                                [pageSizeOptions]="[5, 10, 25, 100]"
+                                                (page)="changeListDevedores($event)">
+                                    </mat-paginator>
                                 </div>
+                                <ng-template #loadingDevedores>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar devedores. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="dividas">
                                 <div class="table-responsive">
@@ -226,38 +239,55 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form>
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Valor</mat-label>
-                                                    <input matInput [textMask]="{mask: valormask}" value="R$ 00,00">
+                                                    <input matInput mask="separator.2" thousandSeparator="." prefix="R$ " formControlName="valor">
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('valor')">
+                                                            {{ errorMessage('valor', 'Valor') }}
+                                                        </div>
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Data da Divida</mat-label>
-                                                    <input matInput [matDatepicker]="dp3" disabled>
+                                                    <input matInput [matDatepicker]="dp3" formControlName="dataDivida">
                                                     <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                                                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-4">
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline">
                                                     <mat-label>Comprador</mat-label>
-                                                    <mat-select>
-                                                        <mat-option value="option1">Thiago</mat-option>
-                                                        <mat-option value="option1">Gilson</mat-option>
-                                                        <mat-option value="option3">Filipe</mat-option>
+                                                    <mat-select formControlName="compradorId">
+                                                        <mat-option  *ngFor="let comprador of compradoresSelect" [value]="comprador.id">{{ comprador.nome }}</mat-option>
                                                     </mat-select>
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('compradorId')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('compradorId')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('compradorId')">
+                                                            {{ errorMessage('compradorId', 'Comprador') }}
+                                                        </div>
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Breve descrição da divida a ser adicionada...</mat-label>
-                                                    <textarea matInput placeholder="Observação"></textarea>
+                                                    <mat-label>Breve descrição da divida</mat-label>
+                                                    <textarea matInput formControlName="descricao"></textarea>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('descricao')">
+                                                            {{ errorMessage('descricao', 'Descrição') }}
+                                                        </div>
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -272,6 +302,7 @@
                 </div>
             </div>
         </div>
+        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
 

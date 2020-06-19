@@ -26,6 +26,10 @@ public class CreditoDTO extends BaseDTO {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private LocalDate data = LocalDate.now();
+	
+	@Getter
+	@Setter
+	private boolean disponivel = true;
 
 	@Getter
 	@Setter
@@ -56,8 +60,10 @@ public class CreditoDTO extends BaseDTO {
 
 	public CreditoDTO(Credito credito) {
 		super(credito.getId());
+		
 		this.valor = credito.getValor();
 		this.data = credito.getData();
 		this.observacao = credito.getObservacao();
+		this.disponivel = credito.isDisponivel();
 	}
 }

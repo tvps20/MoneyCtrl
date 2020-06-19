@@ -8,19 +8,11 @@ export abstract class CrudService<T> {
 
     public listAll() {
         // O '| Async' já se desinscrever do obsevable
-        // TODO: remover o delay
-        return this.http.get<T[]>(this.API_URL)
-        .pipe(
-        //    tap(console.log)
-        //    delay(2000),
-        );
+        return this.http.get<T[]>(this.API_URL);
     }
 
     public listAllPage(page: number, linesPerPage: number, direction: string, orderBy: string){
-        return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`).pipe(
-        //    tap(console.log)
-        //    delay(2000),
-        );
+        return this.http.get<T[]>(`${this.API_URL}/page?page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
     }
 
     public findById(id: number) {
@@ -30,7 +22,7 @@ export abstract class CrudService<T> {
 
     public create(entity: T) {
         // TODO: Remover dalay
-        return this.http.post(this.API_URL, entity).pipe(delay(3000),take(1));
+        return this.http.post(this.API_URL, entity).pipe(take(1));
     }
 
     public update(entity: T){

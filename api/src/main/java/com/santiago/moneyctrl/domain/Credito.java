@@ -24,6 +24,10 @@ public class Credito extends BaseEntity {
 	@Setter
 	@Column(nullable = false)
 	private LocalDate data;
+	
+	@Getter
+	@Setter
+	private boolean disponivel = true;
 
 	@Getter
 	@Setter

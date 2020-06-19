@@ -85,7 +85,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     }
 
     public reseteForm() {
-        this.formulario = this.createForm();
+        this.formulario.reset();
     }
 
     public createForm() {
@@ -188,6 +188,12 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
             (controlForm.touched || controlForm.dirty);
     }
 
+    public verificarValidControlSuccess(control: string): boolean {
+        let controlForm = this.formulario.get(control);
+        return controlForm.valid &&
+            (controlForm.value !== null && controlForm.value !== '');
+    }
+
     public errorMessage(control: string, label: string) {
         return this.validFormsService.errorMessage(this.formulario.get(control), label);
     }
@@ -204,7 +210,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         ));
     }
 
-    public listAllFaturasAtivas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
+    private listAllFaturasAtivas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
         return this.listaAllFaturas(page, linesPerPage, direction, orderBy)
         .pipe(
         //    tap(console.log),
@@ -215,7 +221,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         )
     }
 
-    public listAllFaturasOlds(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
+    private listAllFaturasOlds(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
         return this.listaAllFaturas(page, linesPerPage, direction, orderBy)
         .pipe(
             tap((page: any) => this.PageFaturasOlds = page),
@@ -225,7 +231,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         )
     }
 
-    public listAllCartoes(){
+    private listAllCartoes(){
         return this.cartaoService.listAll()
         .pipe(
         //    tap(console.log),
@@ -236,7 +242,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         ));
     }
 
-    public listAllMonths(): Observable<any[]>{
+    private listAllMonths(): Observable<any[]>{
         return this.faturaSerive.listAllMonths();
     }
 }

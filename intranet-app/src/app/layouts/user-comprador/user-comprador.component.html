@@ -140,7 +140,7 @@
                                                 <td>{{ comprador.username }}</td>
                                                 <td>{{ comprador.email ? comprador.email : '-' }}</td>
                                                 <td>{{ comprador.dividas.length }}</td>
-                                                <td>{{ comprador.creditos.length }}</td>
+                                                <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
                                                 <td>
                                                     <button *ngIf="!comprador.devedor"  type="button"
                                                     class="btn btn-success btn-sm">Em dia...</button>
