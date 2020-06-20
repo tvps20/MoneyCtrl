@@ -36,6 +36,11 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public pageSizeDevedores = 5;
     public pageIndexDevedores = 1;
 
+    // MatPaginator Dividas Ativas
+    public lengthDividasAtivas = 10;
+    public pageSizeDividasAtivas = 5;
+    public pageIndexDividasAtivas = 0;
+
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private dividaService: DividaService,
@@ -54,10 +59,10 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public submit() {
         this.submitte = true;
         let newEntity = this.dividaService.parseToEntity(this.formulario);
-        this.create(newEntity, 'Divida salvo com sucesso.', 'Error ao tentar salvar divida');
+        this.createEntity(newEntity, 'Divida salvo com sucesso.', 'Error ao tentar salvar divida');
     }
 
-    private create(entity: Divida, msgSuccess: string, msgError: string) {
+    public createEntity(entity: Divida, msgSuccess: string, msgError: string) {
         return this.dividaService.create(entity).subscribe(
             success => {
                 this.reseteForm();
@@ -89,47 +94,53 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         this.formulario.get('dataDivida').setValue(new Date());
     }
 
-    public verificarValidControl(control: string): boolean {
-        let controlForm = this.formulario.get(control);
-        return !controlForm.valid &&
-            (controlForm.touched || controlForm.dirty);
+    public onSelectedEntity(entity: Divida) {
+        this.entitySelecionada = entity;
     }
 
-    public verificarValidControlSuccess(control: string): boolean {
-        let controlForm = this.formulario.get(control);
-        return controlForm.valid &&
-            (controlForm.value !== null && controlForm.value !== '');
-    }
-
-    public errorMessage(control: string, label: string) {
-        return this.validFormsService.errorMessage(this.formulario.get(control), label);
-    }
-
-    private listAllDividas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.dividaService.listAllPage(page, linesPerPage, direction, orderBy)
-            .pipe(
-                catchError(error => {
-                    this.error$.next(true);
-                    this.alertServiceService.ShowAlertDanger('Error ao carregar dividas. Tente novamente mais tarde.')
-                    return empty();
+    public onDelete(event: any){
+        if(event === 'sim'){
+            this.dividaService.delete(this.entitySelecionada.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Divida apagada com sucesso.");
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger(error.error.message);
+                },
+                () => {
+                    if(!this.entitySelecionada.paga){
+                        this.dividasAtivas$ = this.listAllDividasAtivas();
+                        this.devedores$ = this.listAllDevedores();
+                    } else {
+                        this.dividasOlds$ = this.listAllDividasOlds();
+                    }
+                    this.entitySelecionada = null;
                 }
-                )
             );
+        }
     }
 
-    private listAllDividasAtivas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.listAllDividas(page, linesPerPage, direction, orderBy).pipe(
+    private listAllDividasAtivas(direction = "DESC", orderBy = "createdAt") {
+        return this.dividaService.listAllPageStatus(false, this.pageIndexDividasAtivas, this.pageSizeDividasAtivas, direction, orderBy).pipe(
+            tap((page: any) => this.lengthDividasAtivas = page.totalElements),
             map((page: any) => page.content),
-            map((content: Divida[]) => content.filter(divida => !divida.paga))
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar dividas ativas. Tente novamente mais tarde.')
+                return empty();
+            })
         );
     }
 
-    private listAllDividasOlds(page = 0, linesPerPage = 100, direction = "DESC", orderBy = "createdAt") {
-        return this.listAllDividas(page, linesPerPage, direction, orderBy).pipe(
+    private listAllDividasOlds(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
+        return this.dividaService.listAllPageStatus(true, page, linesPerPage, direction, orderBy).pipe(
             map((page: any) => page.content),
-            tap(console.log),
-            map((content: Divida[]) => content.filter(divida => divida.paga))
-        )
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar dividas antigas. Tente novamente mais tarde.')
+                return empty();
+            })
+        );
     }
 
     private listAllDevedores() {
@@ -162,8 +173,9 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         this.devedores$ = this.listAllDevedores();
     }
 
-    private paginate(array: any[], page_size, page_index) {
-        // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-        return array.slice((page_index - 1) * page_size, page_index * page_size);
+    public changeListDividasAtivas(event: PageEvent){
+        this.pageSizeDividasAtivas = event.pageSize;
+        this.pageIndexDividasAtivas = event.pageIndex;
+        this.dividasAtivas$ = this.listAllDividasAtivas();
     }
 }

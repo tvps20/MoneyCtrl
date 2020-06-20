@@ -23,6 +23,8 @@ public class TipoEndPoint {
 	public static final String EMAIL = "/email-unico";
 	public static final String FECHARFATURA = "/fechar-fatura";
 	public static final String PAGARFATURA = "/pagar-fatura";
+	public static final String STATUS = "/status";
+	public static final String NO_STATUS = "/no-status";
 
 	public static final String DIVIDA_ID = "/{dividaId}";
 	public static final String COMPRADOR_ID = "/{compradorId}";

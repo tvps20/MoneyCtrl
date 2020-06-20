@@ -30,8 +30,8 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 		return creditos;
 	}
 
-	public Page<Credito> findPageByCompradorId(Long compradorId, Integer page, Integer linesPerPage, String orderBy,
-			String direction) {
+	public Page<Credito> findPageByCompradorId(Long compradorId, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
 		log.info("[FindPageCota] - Buscando todas os creditos paginado: { compradorId: " + compradorId + ", Page: "
 				+ page + ", linesPerPage: " + linesPerPage + " }");
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);

@@ -18,20 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(TipoEndPoint.CARTAO)
 public class CartaoController extends BaseController<Cartao, CartaoDTO> {
-	
-	@Autowired
-	private CartaoService service;
 
 	@Autowired
 	public CartaoController(CartaoService service) {
 		super(service);
 		BaseController.baseLog = CartaoController.log;
 	}
-	
+
 	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
 	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor) {
 		log.info("[GET] - Verificando valor único: " + valor);
-		boolean result = this.service.verificarCampoUnico(valor);
+		boolean result = ((CartaoService) this.service).verificarCampoUnico(valor);
 
 		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");

@@ -57,8 +57,8 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir" matTooltipPosition="above"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
-                                                        matTooltipPosition="above" (click)="onDelete(cartao)"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(cartao)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -107,8 +107,8 @@
                                                 <td>{{ bandeira.cartoes.length }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
-                                                        matTooltipPosition="above" (click)="onDelete(bandeira)"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(bandeira)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -150,9 +150,16 @@
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
-                                                    <mat-select formControlName="bandeiraSelect">
-                                                        <mat-option *ngFor="let bandeira of bandeirasSelect" [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
+                                                    <mat-select formControlName="bandeiraId">
+                                                        <mat-option *ngFor="let bandeira of bandeirasSelect$ | async" [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
                                                     </mat-select>
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('bandeiraId')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('bandeiraId')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('bandeiraId')">
+                                                            {{ errorMessage('bandeiraId', 'Bandeira') }}
+                                                        </div>
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -163,7 +170,7 @@
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
-                                                <mat-checkbox formControlName="novaBandeira" (click)="disableFields()" >Nova Bandeira</mat-checkbox>
+                                                <mat-checkbox formControlName="novaBandeira" (click)="onDisableFields()" >Nova Bandeira</mat-checkbox>
                                             </div>
                                         </div>
                                         <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
@@ -184,5 +191,5 @@
     </div>
 </div>
 
-<!-- Modal de aviso -->
-<app-modal-aviso (confimaModal)="confirmModal($event)"></app-modal-aviso>
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

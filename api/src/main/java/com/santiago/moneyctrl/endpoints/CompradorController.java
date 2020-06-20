@@ -57,7 +57,7 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	public ResponseEntity<Page<CreditoDTO>> listarPageCreditos(@PathVariable Long compradorId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "orderBy", defaultValue = "createdAt") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		log.info("[GET PAGE] - Buscando todas os creditos paginado: {compradorId: " + compradorId + " Page: " + page
 				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");

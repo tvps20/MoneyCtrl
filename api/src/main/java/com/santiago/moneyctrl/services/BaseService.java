@@ -77,7 +77,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 */
 	@Override
 	public Page<T> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
-		baseLog.info("[FindPage] - Buscando todas as entidades paginada: { Page: " + page + ", linesPerPage: "
+		baseLog.info("[FindPage] - Buscando paginado todas as entidades: { Page: " + page + ", linesPerPage: "
 				+ linesPerPage + " }");
 		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);

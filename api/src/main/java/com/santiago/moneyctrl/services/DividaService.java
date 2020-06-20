@@ -2,6 +2,9 @@ package com.santiago.moneyctrl.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.santiago.moneyctrl.domain.Comprador;
@@ -57,10 +60,23 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 						entity.getFatura().getClass().getName()), FaturaService.class);
 			} else {
 				baseLog.error("[Insert] - Erro ao tentar buscar comprador.");
-				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(), "compradorId",
-						entity.getComprador().getClass().getName()), CompradorService.class);
+				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(),
+						"compradorId", entity.getComprador().getClass().getName()), CompradorService.class);
 			}
 		}
+	}
+
+	public Page<Divida> findPageByStatus(boolean paga, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
+		log.info("[FindPageStatus] - Buscando paginado todas as dividas por status: { paga: " + paga + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + " }");
+
+		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
+		Page<Divida> dividas = ((DividaRepository) this.repository).findByPaga(paga, pageRequest);
+
+		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
+		return dividas;
 	}
 
 	@Override

@@ -29,7 +29,7 @@ export class CartaoService extends CrudService<Cartao> {
         let bandeira = new Bandeira(null, form.get('bandeira').value);
 
         if(!form.get('novaBandeira').value) {
-            bandeira = new Bandeira(form.get('bandeiraSelect').value, null);
+            bandeira = new Bandeira(form.get('bandeiraId').value, null);
         }
 
         cartao.bandeira = bandeira;

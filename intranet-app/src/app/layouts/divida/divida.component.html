@@ -152,9 +152,9 @@
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
+                                                        data-toggle="modal" data-target="#modalExcluirDivida"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -162,6 +162,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <mat-paginator [length]="lengthDividasAtivas"
+                                                [pageSize]="pageSizeDividasAtivas"
+                                                [pageSizeOptions]="[5, 10, 25, 100]"
+                                                (page)="changeListDividasAtivas($event)">
+                                    </mat-paginator>
                                 </div>
                                 <ng-template #loadingDividasAtivas>
                                     <div *ngIf="error$ | async; else loadingNoError">
@@ -302,11 +307,11 @@
                 </div>
             </div>
         </div>
-        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
 
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirDivida" (confimaModal)="onDelete($event)"></app-modal-aviso>
+
 <!-- Modal de detalhes do Divida -->
 <app-modal-divida></app-modal-divida>
-<!-- Modal de aviso -->
-<app-modal-aviso></app-modal-aviso>

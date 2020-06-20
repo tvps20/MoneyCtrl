@@ -7,12 +7,12 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { Fatura } from './../../../shared/models/fatura';
 import { Cartao } from 'src/app/shared/models/cartao';
+import { StatusType } from 'src/app/shared/util/enuns-type.enum';
 
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { CartaoService } from './../services/cartao.service';
 import { FaturaService } from './../services/fatura.service';
-import { StatusType } from 'src/app/shared/util/enuns-type.enum';
 
 @Component({
     selector: 'app-fatura',
@@ -23,29 +23,25 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public faturasAtivas$: Observable<Fatura[]>;
     public faturasOlds$: Observable<Fatura[]>;
-    public cartoes$:  Observable<Cartao[]>;
+    public cartoesSelect$:  Observable<Cartao[]>;
     public months$: Observable<any[]>;
     public error$ = new Subject<boolean>();
     public submitte = false;
     public entitySelecionada: Fatura;
-    // MatPaginator Fatura Inputs
-    public lengthFaturas;
-    public pageSizeFaturas = 5;
-    public pageIndexFaturas = 0;
-    public PageFaturas: any;
-    public directionFaturas = false;
-    public orderByFaturas = "createdAt"
-        // MatPaginator Fatura Inputs
-    public lengthFaturasOlds;
+
+    // MatPaginator Faturas Ativas
+    public lengthFaturasAtivas = 10;
+    public pageSizeFaturasAtivas = 5;
+    public pageIndexFaturasAtivas = 0;
+
+    // MatPaginator Fatura Antigas
+    public lengthFaturasOlds = 10;
     public pageSizeFaturasOlds = 5;
     public pageIndexFaturasOlds = 0;
-    public PageFaturasOlds: any;
-    public directionFaturasOlds = false;
-    public orderByFaturasOlds = "createdAt"
 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
-        private faturaSerive: FaturaService,
+        private faturaSevice: FaturaService,
         private cartaoService: CartaoService,
         private alertServiceService: AlertServiceService) {
         super(validFormsService);
@@ -55,23 +51,22 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         this.formulario = this.createForm();
         this.faturasAtivas$ = this.listAllFaturasAtivas();
         this.faturasOlds$ = this.listAllFaturasOlds();
-        this.cartoes$ = this.listAllCartoes();
+        this.cartoesSelect$ = this.listAllCartoesSelect();
         this.months$ = this.listAllMonths();
     }
 
     public submit() {
         this.submitte = true;
-        let newEntity = this.faturaSerive.parseToEntity(this.formulario);
-        this.create(newEntity, 'Fatura salva com sucesso.', 'Error ao tentar salvar fatura')
+        let newEntity = this.faturaSevice.parseToEntity(this.formulario);
+        this.createEntity(newEntity, 'Fatura salva com sucesso.', 'Error ao tentar salvar fatura')
     }
 
-    private create(entity: Fatura, msgSuccess: string, msgError: string) {
-        return this.faturaSerive.create(entity).subscribe(
+    public createEntity(entity: Fatura, msgSuccess: string, msgError: string) {
+        return this.faturaSevice.create(entity).subscribe(
             success => {
                 this.reseteForm();
                 this.submitte = false
                 this.alertServiceService.ShowAlertSuccess(msgSuccess);
-                console.log(this.formulario)
             },
             error => {
                 this.submitte = false;
@@ -84,10 +79,6 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         );
     }
 
-    public reseteForm() {
-        this.formulario.reset();
-    }
-
     public createForm() {
         return this.formBuilder.group({
             vencimento: [{value: new Date(), disabled: true}, Validators.required],
@@ -97,14 +88,18 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         });
     }
 
+    public reseteForm() {
+        this.formulario.reset();
+        this.formulario.get('vencimento').setValue(new Date());
+    }
+
     public onSelectedEntity(entity: Fatura) {
         this.entitySelecionada = entity;
     }
 
-    public confirmModalExcluir(event: any) {
+    public onDelete(event: any) {
         if (event === 'sim') {
-            let status = this.entitySelecionada.status;
-            this.faturaSerive.delete(this.entitySelecionada.id).subscribe(
+            this.faturaSevice.delete(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura apagada com sucesso.");
                 },
@@ -112,27 +107,17 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
                     this.alertServiceService.ShowAlertDanger(error.error.message);
                 },
                 () => {
-                    if (status !== StatusType.PAGA) {
-                        this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
-                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
-                        this.faturasAtivas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
-                        this.faturasOlds$ = this.listAllFaturasOlds();
-                    } else {
-                        this.pageIndexFaturasOlds = this.lengthFaturasOlds - 1 < this.pageSizeFaturasOlds ? 0 :
-                        this.PageFaturasOlds.content.length - 1 <= 0 ? this.pageIndexFaturasOlds - 1 : this.pageIndexFaturasOlds;
-                        this.faturasOlds$ = this.listAllFaturasOlds(this.pageIndexFaturasOlds, this.pageSizeFaturasOlds);
-                        this.faturasAtivas$ = this.listAllFaturasAtivas();
-                    }
+                    this.faturasAtivas$ = this.listAllFaturasAtivas();
+                    this.faturasOlds$ = this.listAllFaturasOlds();
+                    this.entitySelecionada = null;
                 }
             )
         }
-
-        this.entitySelecionada = null;
     }
 
-    public confirmModalFecharFatura(event: any){
+    public onFecharFatura(event: any){
         if( event === 'sim') {
-            this.faturaSerive.fecharFatura(this.entitySelecionada.id).subscribe(
+            this.faturaSevice.fecharFatura(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura fechada com sucesso.");
                 },
@@ -140,20 +125,18 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
                     this.alertServiceService.ShowAlertDanger(error.error.message);
                 },
                 () => {
-                    this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
-                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
-                    this.faturasAtivas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
+                    this.faturasAtivas$ = this.listAllFaturasAtivas();
                     this.faturasOlds$ = this.listAllFaturasOlds();
+                    this.entitySelecionada = null;
                 }
             )
         }
 
-        this.entitySelecionada = null;
     }
 
-    public confirmModalPagarFatura(event: any){
+    public onPagarFatura(event: any){
         if( event === 'sim') {
-            this.faturaSerive.pagarFatura(this.entitySelecionada.id).subscribe(
+            this.faturaSevice.pagarFatura(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura paga com sucesso.");
                 },
@@ -161,80 +144,41 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
                     this.alertServiceService.ShowAlertDanger(error.error.message);
                 },
                 () => {
-                    this.pageIndexFaturas = this.lengthFaturas - 1 < this.pageSizeFaturas ? 0 :
-                        this.PageFaturas.content.length - 1 <= 0 ? this.pageIndexFaturas - 1 : this.pageIndexFaturas;
-                    this.faturasAtivas$ = this.listAllFaturasAtivas(this.pageIndexFaturas, this.pageSizeFaturas);
+                    this.faturasAtivas$ = this.listAllFaturasAtivas();
                     this.faturasOlds$ = this.listAllFaturasOlds();
+                    this.entitySelecionada = null;
                 }
             )
         }
-
-        this.entitySelecionada = null;
     }
 
-    public changeListFaturasAtivas(pageEvent: PageEvent){
-        this.pageIndexFaturas = pageEvent.pageIndex;
-        this.faturasAtivas$ = this.listAllFaturasAtivas(pageEvent.pageIndex, pageEvent.pageSize);
-    }
-
-    public changeListFaturasOlds(pageEvent: PageEvent){
-        this.pageIndexFaturasOlds = pageEvent.pageIndex;
-        this.faturasAtivas$ = this.listAllFaturasOlds(pageEvent.pageIndex, pageEvent.pageSize);
-    }
-
-    public verificarValidControl(control: string): boolean {
-        let controlForm = this.formulario.get(control);
-        return !controlForm.valid &&
-            (controlForm.touched || controlForm.dirty);
-    }
-
-    public verificarValidControlSuccess(control: string): boolean {
-        let controlForm = this.formulario.get(control);
-        return controlForm.valid &&
-            (controlForm.value !== null && controlForm.value !== '');
-    }
-
-    public errorMessage(control: string, label: string) {
-        return this.validFormsService.errorMessage(this.formulario.get(control), label);
-    }
-
-    private listaAllFaturas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"){
-        return this.faturaSerive.listAllPage(page, linesPerPage, direction, orderBy)
-        .pipe(
-        //    tap(console.log),
+    private listAllFaturasAtivas(direction = "DESC", orderBy = "createdAt") {
+        return this.faturaSevice.listAllPageNoStatus(StatusType.PAGA, this.pageIndexFaturasAtivas, this.pageSizeFaturasAtivas, direction, orderBy).pipe(
+            tap((page: any) => this.lengthFaturasAtivas = page.totalElements),
+            map((page: any) => page.content),
             catchError(error => {
                 this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar faturas. Tente novamente mais tarde.')
+                this.alertServiceService.ShowAlertDanger('Error ao carregar faturas ativas. Tente novamente mais tarde.')
                 return empty();
-            }
-        ));
+            })
+        );
     }
 
-    private listAllFaturasAtivas(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.listaAllFaturas(page, linesPerPage, direction, orderBy)
-        .pipe(
-        //    tap(console.log),
-            tap((page: any) => this.PageFaturas = page),
-            tap((page: any) => this.lengthFaturas = page.totalElements),
-            map((page: any) => page.content),
-            map((content: Fatura[]) => content.filter(fatura => fatura.status !== StatusType.PAGA))
-        )
-    }
-
-    private listAllFaturasOlds(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.listaAllFaturas(page, linesPerPage, direction, orderBy)
-        .pipe(
-            tap((page: any) => this.PageFaturasOlds = page),
+    private listAllFaturasOlds(direction = "DESC", orderBy = "createdAt") {
+        return this.faturaSevice.listAllPageStatus(StatusType.PAGA, this.pageIndexFaturasOlds, this.pageSizeFaturasOlds, direction, orderBy).pipe(
+            tap(console.log),
             tap((page: any) => this.lengthFaturasOlds = page.totalElements),
             map((page: any) => page.content),
-            map((content: Fatura[]) => content.filter(fatura => fatura.status === StatusType.PAGA))
-        )
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar faturas ativas. Tente novamente mais tarde.')
+                return empty();
+            })
+        );
     }
 
-    private listAllCartoes(){
-        return this.cartaoService.listAll()
-        .pipe(
-        //    tap(console.log),
+    private listAllCartoesSelect(){
+        return this.cartaoService.listAll().pipe(
             catchError(error => {
                 this.alertServiceService.ShowAlertDanger('Error ao carregar cartões. Tente novamente mais tarde.')
                 return empty();
@@ -243,6 +187,18 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     }
 
     private listAllMonths(): Observable<any[]>{
-        return this.faturaSerive.listAllMonths();
+        return this.faturaSevice.listAllMonths();
+    }
+
+    public changeListFaturasAtivas(event: PageEvent){
+        this.pageSizeFaturasAtivas = event.pageSize;
+        this.pageIndexFaturasAtivas = event.pageIndex;
+        this.faturasAtivas$ = this.listAllFaturasAtivas();
+    }
+
+    public changeListFaturasOlds(event: PageEvent){
+        this.pageSizeFaturasOlds = event.pageSize;
+        this.pageIndexFaturasOlds = event.pageIndex;
+        this.faturasOlds$ = this.listAllFaturasOlds();
     }
 }

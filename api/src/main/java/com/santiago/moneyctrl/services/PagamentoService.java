@@ -30,8 +30,8 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 		return pagamentos;
 	}
 
-	public Page<Pagamento> findPageByDividaId(Long dividaId, Integer page, Integer linesPerPage, String orderBy,
-			String direction) {
+	public Page<Pagamento> findPageByDividaId(Long dividaId, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
 		log.info("[FindPageCota] - Buscando todas os pagamentos paginado: { dividaId: " + dividaId + ", Page: " + page
 				+ ", linesPerPage: " + linesPerPage + " }");
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage);

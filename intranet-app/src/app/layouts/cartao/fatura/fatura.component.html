@@ -65,7 +65,7 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        data-toggle="modal" data-target="#modalExcluirFatura"
                                                         matTooltipPosition="above" (click)="onSelectedEntity(fatura)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
@@ -74,10 +74,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <mat-paginator [length]="lengthFaturas"
-                                        [pageSize]="pageSizeFaturas"
+                                    <mat-paginator [length]="lengthFaturasAtivas"
+                                        [pageSize]="pageSizeFaturasAtivas"
                                         [pageSizeOptions]="[5, 10, 25, 100]"
-                                        [pageIndex]="pageIndexFaturas"
+                                        [pageIndex]="pageIndexFaturasAtivas"
                                         (page)="changeListFaturasAtivas($event)">
                                     </mat-paginator>
                                 </div>
@@ -123,7 +123,7 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
+                                                        data-toggle="modal" data-target="#modalExcluirFatura"
                                                         matTooltipPosition="above" (click)="onSelectedEntity(fatura)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
@@ -190,7 +190,7 @@
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Cartao</mat-label>
                                                     <mat-select formControlName="cartaoId">
-                                                        <mat-option *ngFor="let cartao of cartoes$ | async" [value]="cartao.id">{{ cartao.nome }}</mat-option>
+                                                        <mat-option *ngFor="let cartao of cartoesSelect$ | async" [value]="cartao.id">{{ cartao.nome }}</mat-option>
                                                     </mat-select>
                                                     <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('cartaoId')">error</mat-icon>
                                                     <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('cartaoId')">done</mat-icon>
@@ -225,16 +225,15 @@
                 </div>
             </div>
         </div>
-        <app-form-debug [formulario]="formulario"></app-form-debug>
     </div>
 </div>
 
 <!-- Modal de aviso excluir -->
-<app-modal-aviso (confimaModal)="confirmModalExcluir($event)"></app-modal-aviso>
+<app-modal-aviso identificador="modalExcluirFatura" (confimaModal)="onDelete($event)"></app-modal-aviso>
 
 <!-- Modal de aviso fechar fatura -->
 <app-modal-aviso identificador="modalFecharFatura"
-    (confimaModal)="confirmModalFecharFatura($event)"
+    (confimaModal)="onFecharFatura($event)"
     msg="Deseja realmente fechar essa fatura?"
     obs="Uma fatura fechada não pode receber novos lançamentos
     e as dividas serão geradas para cada comprador."
@@ -242,7 +241,7 @@
 
 <!-- Modal de aviso Pagar fatura -->
 <app-modal-aviso identificador="modalPagarFatura"
-    (confimaModal)="confirmModalPagarFatura($event)"
+    (confimaModal)="onPagarFatura($event)"
     msg="Deseja realmente pagar essa fatura?"
 ></app-modal-aviso>
 

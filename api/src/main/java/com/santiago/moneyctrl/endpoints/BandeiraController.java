@@ -18,20 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(TipoEndPoint.BANDEIRA)
 public class BandeiraController extends BaseController<Bandeira, BandeiraDTO> {
-	
-	@Autowired
-	private BandeiraService service;
 
 	@Autowired
 	public BandeiraController(BandeiraService service) {
 		super(service);
 		BaseController.baseLog = BandeiraController.log;
 	}
-	
+
 	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)
 	public ResponseEntity<String> verificaUsernameUnico(@PathVariable String valor) {
 		log.info("[GET] - Verificando valor único: " + valor);
-		boolean result = this.service.verificarCampoUnico(valor);
+		boolean result = ((BandeiraService) this.service).verificarCampoUnico(valor);
 
 		log.info("[GET] - Busca finalizada com sucesso.");
 		return ResponseEntity.ok().body("{ \"alreadySaved\": " + result + " }");

@@ -2,6 +2,9 @@ package com.santiago.moneyctrl.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.santiago.moneyctrl.domain.Cartao;
@@ -48,6 +51,34 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 			throw new ObjectNotFoundException(
 					MensagemUtil.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
 		}
+	}
+	
+	public Page<Fatura> findPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
+		log.info("[FindPageStatus] - Buscando paginado todas as faturas por status: { status: " + status + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + " }");
+
+		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
+		TipoStatus statusType = TipoStatus.toEnum(status);
+		Page<Fatura> faturas = ((FaturaRepository) this.repository).findByStatus(statusType, pageRequest);
+
+		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
+		return faturas;
+	}
+	
+	public Page<Fatura> noFindPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
+		log.info("[FindPageStatus] - Buscando paginado todas as faturas sem status: { status: " + status + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + " }");
+
+		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
+		TipoStatus statusType = TipoStatus.toEnum(status);
+		Page<Fatura> faturas = ((FaturaRepository) this.repository).noFindByStatus(statusType, pageRequest);
+
+		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
+		return faturas;
 	}
 	
 	public Fatura fecharFatura(Long id) {

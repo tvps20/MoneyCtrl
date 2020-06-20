@@ -23,25 +23,21 @@ import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 export class CartaoComponent extends BaseFormComponent implements OnInit {
 
     public bandeiras$: Observable<Bandeira[]>;
-    public bandeirasSelect: Bandeira[];
+    public bandeirasSelect$: Observable<Bandeira[]>;
     public cartoes$: Observable<Cartao[]>;
     public error$ = new Subject<boolean>();
     public submitte = false;
     public entitySelecionada: Cartao | Bandeira;
-    // MatPaginator Cartao Inputs
-    public lengthCartoes;
+
+    // MatPaginator Cartões
+    public lengthCartoes = 10;
     public pageSizeCartoes = 5;
     public pageIndexCartoes = 0;
-    public PageCartoes: any;
-    public directionCartoes = false;
-    public orderByCartoes = "nome"
-    // MatPaginator Bandeira Inputs
-    public lengthBandeiras;
+
+    // MatPaginator Bandeiras
+    public lengthBandeiras = 10;
     public pageSizeBandeiras = 5;
     public pageIndexBandeiras = 0;
-    public PageBandeiras: any;
-    public directionBandeiras = false;
-    public orderByBandeiras = "createdAt"
 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
@@ -53,17 +49,18 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.formulario = this.createForm();
-        this.bandeiras$ = this.listAllBandeiras();
         this.cartoes$ = this.listAllCartoes();
+        this.bandeiras$ = this.listAllBandeiras();
+        this.bandeirasSelect$ = this.ListAllBandeirasSelect();
     }
 
     public submit() {
         this.submitte = true;
         let newEntity = this.cartaoService.parseToEntity(this.formulario);
-        this.create(newEntity, 'Cartão salvo com sucesso.', 'Error ao tentar salvar cartão')
+        this.createEntity(newEntity, 'Cartão salvo com sucesso.', 'Error ao tentar salvar cartão')
     }
 
-    private create(entity: Cartao, msgSuccess: string, msgError: string) {
+    public createEntity(entity: Cartao, msgSuccess: string, msgError: string) {
         return this.cartaoService.create(entity).subscribe(
             success => {
                 this.reseteForm();
@@ -81,71 +78,29 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         );
     }
 
-    public reseteForm() {
-        this.formulario.reset();
-        this.formulario.get('novaBandeira').setValue(true);
-    }
-
     public createForm() {
         return this.formBuilder.group({
             nome: [null, [FormValidations.onlyLetters, Validators.required, Validators.minLength(3), Validators.maxLength(12)], [this.validarNomeCartao.bind(this)]],
-            bandeira: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)], [this.validarNomeBandeira.bind(this)]],
-            bandeiraSelect: [{ value: null, disabled: true }, Validators.required],
-            novaBandeira: [true, Validators.required]
+            bandeira: [{ value: null, disabled: true }, [Validators.required, FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)], [this.validarNomeBandeira.bind(this)]],
+            bandeiraId: [null, Validators.required],
+            novaBandeira: [false, Validators.required]
         });
     }
 
-    public onDelete(entity: Cartao | Bandeira) {
-        this.entitySelecionada = entity;
+    public reseteForm() {
+        this.formulario.reset();
+        this.formulario.get('novaBandeira').setValue(false);
     }
 
-    public confirmModal(event: any) {
-        if (event === 'sim') {
-            if (this.entitySelecionada.tipo === EntityType.CARTAO) {
-                this.cartaoService.delete(this.entitySelecionada.id).subscribe(
-                    success => {
-                        this.alertServiceService.ShowAlertSuccess("Cartão apagado com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
-                        this.pageIndexCartoes = this.lengthCartoes - 1 < this.pageSizeCartoes ? 0 :
-                            this.PageCartoes.content.length - 1 <= 0 ? this.pageIndexCartoes - 1 : this.pageIndexCartoes;
-                        this.cartoes$ = this.listAllCartoes(this.pageIndexCartoes, this.pageSizeCartoes);
-                        this.bandeiras$ = this.listAllBandeiras();
-                    }
-                )
-            } else {
-                this.bandeiraService.delete(this.entitySelecionada.id).subscribe(
-                    success => {
-
-                        this.alertServiceService.ShowAlertSuccess("Bandeira apagado com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
-                        this.pageIndexBandeiras = this.lengthBandeiras - 1 < this.pageSizeBandeiras ? 0 :
-                            this.PageBandeiras.content.length - 1 <= 0 ? this.pageIndexBandeiras - 1 : this.pageIndexBandeiras;
-                        this.bandeiras$ = this.listAllBandeiras(this.pageIndexBandeiras, this.pageSizeBandeiras);
-                        this.cartoes$ = this.listAllCartoes();
-                    }
-                )
-            }
-        }
-
-        this.entitySelecionada = null;
-    }
-
-    public disableFields() {
-        this.formulario.get('bandeira').markAsUntouched();
+    public onDisableFields() {
         if (!this.formulario.get('novaBandeira').value) {
             this.formulario.get('bandeira').enable();
-            this.formulario.get('bandeiraSelect').disable();
+            this.formulario.get('bandeiraId').disable();
+            this.formulario.get('bandeiraId').setValue(null);
         } else {
+            this.formulario.get('bandeiraId').enable();
             this.formulario.get('bandeira').disable();
-            this.formulario.get('bandeiraSelect').enable();
+            this.formulario.get('bandeira').setValue(null);
         }
     }
 
@@ -173,44 +128,87 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         return of({});
     }
 
-    public changeListCartoes(pageEvent: PageEvent) {
-        this.pageIndexCartoes = pageEvent.pageIndex;
-        this.cartoes$ = this.listAllCartoes(pageEvent.pageIndex, pageEvent.pageSize);
+    public onSelectedEntity(entity: Cartao | Bandeira) {
+        this.entitySelecionada = entity;
     }
 
-    public changeListBandeiras(pageEvent: PageEvent) {
-        this.pageIndexBandeiras = pageEvent.pageIndex;
-        this.bandeiras$ = this.listAllBandeiras(pageEvent.pageIndex, pageEvent.pageSize);
+    public onDelete(event: any) {
+        if (event === 'sim') {
+            if (this.entitySelecionada.tipo === EntityType.CARTAO) {
+                this.cartaoService.delete(this.entitySelecionada.id).subscribe(
+                    success => {
+                        this.alertServiceService.ShowAlertSuccess("Cartão apagado com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.cartoes$ = this.listAllCartoes();
+                        this.bandeiras$ = this.listAllBandeiras();
+                        this.entitySelecionada = null;
+                    }
+                )
+            } else {
+                this.bandeiraService.delete(this.entitySelecionada.id).subscribe(
+                    success => {
+
+                        this.alertServiceService.ShowAlertSuccess("Bandeira apagado com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.bandeiras$ = this.listAllBandeiras();
+                        this.cartoes$ = this.listAllCartoes();
+                        this.entitySelecionada = null;
+                    }
+                )
+            }
+        }
     }
 
-    private listAllCartoes(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.cartaoService.listAllPage(page, linesPerPage, direction, orderBy)
-            .pipe(
-                //    tap(console.log),
-                tap((page: any) => this.PageCartoes = page),
-                tap((page: any) => this.lengthCartoes = page.totalElements),
-                map((page: any) => page.content),
-                catchError(error => {
-                    this.error$.next(true);
-                    this.alertServiceService.ShowAlertDanger('Error ao carregar cartoes. Tente novamente mais tarde.')
-                    return empty();
-                })
-            );
+    private listAllCartoes(direction = "DESC", orderBy = "createdAt") {
+        return this.cartaoService.listAllPage(this.pageIndexCartoes, this.pageSizeCartoes, direction, orderBy).pipe(
+            tap((page: any) => this.lengthCartoes = page.totalElements),
+            map((page: any) => page.content),
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar cartoes. Tente novamente mais tarde.')
+                return empty();
+            })
+        );
     }
 
-    private listAllBandeiras(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.bandeiraService.listAllPage(page, linesPerPage, direction, orderBy)
-            .pipe(
-                //    tap(console.log),
-                tap((page: any) => this.PageBandeiras = page),
-                tap((page: any) => this.lengthBandeiras = page.totalElements),
-                map((page: any) => page.content),
-                tap((content: Bandeira[]) => this.bandeirasSelect = content),
-                catchError(error => {
-                    this.error$.next(true);
-                    this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
-                    return empty();
-                })
-            );
+    private listAllBandeiras(direction = "DESC", orderBy = "createdAt") {
+        return this.bandeiraService.listAllPage(this.pageIndexBandeiras, this.pageSizeBandeiras, direction, orderBy).pipe(
+            tap((page: any) => this.lengthBandeiras = page.totalElements),
+            map((page: any) => page.content),
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
+                return empty();
+            })
+        );
+    }
+
+    private ListAllBandeirasSelect(){
+        return this.bandeiraService.listAll().pipe(
+            catchError(error => {
+                this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
+                return empty();
+            }
+        ));
+    }
+
+    public changeListCartoes(event: PageEvent) {
+        this.pageSizeCartoes = event.pageSize;
+        this.pageIndexCartoes = event.pageIndex;
+        this.cartoes$ = this.listAllCartoes();
+    }
+
+    public changeListBandeiras(event: PageEvent) {
+        this.pageSizeBandeiras = event.pageSize;
+        this.pageIndexBandeiras = event.pageIndex;
+        this.bandeiras$ = this.listAllBandeiras();
     }
 }

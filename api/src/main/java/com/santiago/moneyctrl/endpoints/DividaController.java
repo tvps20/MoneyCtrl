@@ -53,11 +53,27 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@GetMapping(TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO + TipoEndPoint.PAGE)
+	@GetMapping(TipoEndPoint.PAGE + TipoEndPoint.STATUS)
+	public ResponseEntity<Page<DividaDTO>> listarPageDividasStatus(@RequestParam Boolean paga,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "createdAt") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		log.info("[GET PAGE] - Buscando paginado todos as dividas por status: {paga: " + paga + ", Page: " + page
+				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
+		Page<Divida> list = ((DividaService) this.service).findPageByStatus(paga, page, linesPerPage, direction,
+				orderBy);
+		Page<DividaDTO> listDTO = list.map(obj -> new DividaDTO(obj));
+
+		log.info("[GET PAGE] - GetPage realizado com sucesso.");
+		return ResponseEntity.ok().body(listDTO);
+	}
+
+	@GetMapping(TipoEndPoint.PAGE + TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO + TipoEndPoint.PAGE)
 	public ResponseEntity<Page<PagamentoDTO>> listarPagePagamentos(@PathVariable Long dividaId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "orderBy", defaultValue = "createdAt") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		log.info("[GET PAGE] - Buscando todos os pagamentos paginado: {dividaId: " + dividaId + ", Page: " + page
 				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");

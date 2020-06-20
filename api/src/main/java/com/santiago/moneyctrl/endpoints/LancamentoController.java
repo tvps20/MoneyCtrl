@@ -57,7 +57,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	public ResponseEntity<Page<CotaDTO>> listarPageCotas(@PathVariable Long lancamentoId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "orderBy", defaultValue = "createdAt") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		log.info("[GET PAGE] - Buscando todos as cotas paginado: {lancamentoId: " + lancamentoId + ", Page: " + page
 				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");

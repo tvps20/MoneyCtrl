@@ -26,21 +26,20 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public error$ = new Subject<boolean>();
     public submitte = false;
     public entitySelecionada: Comprador | User;
-    // MatPaginator Comprador Inputs
+
+    // MatPaginator Compradores
     public lengthCompradores;
     public pageSizeCompradores = 5;
     public pageIndexCompradores = 0;
-    public PageCompradores: any;
     public directionCompradores = false;
     public orderByCompradores = "nome"
-    // MatPaginator Usuario Inputs
+
+    // MatPaginator Usuarios
     public lengthUsuarios;
     public pageSizeUsuarios = 5;
     public pageIndexUsuarios = 0;
-    public PageUsuarios: any;
     public directionUsuarios = false;
     public orderByUsuarios = "createdAt"
-
 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
@@ -55,50 +54,15 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         this.usuarios$ = this.listAllUsers();
     }
 
-    public sortingTableUsuario(orderBy: string) {
-        this.directionUsuarios = !this.directionUsuarios;
-        this.orderByUsuarios = orderBy;
-        let direction = this.directionUsuarios ? "ASC" : "DESC";
-        this.usuarios$ = this.listAllUsers(this.pageIndexUsuarios, this.pageSizeUsuarios, direction, orderBy);
-    }
-
-    public sortingTableComprador(orderBy: string) {
-        this.directionCompradores = !this.directionCompradores;
-        this.orderByCompradores = orderBy;
-        let direction = this.directionCompradores ? "ASC" : "DESC";
-        if (orderBy === 'dividaTotal' || orderBy === 'creditoTotal') {
-            this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores)
-                .pipe(map(result => {
-                    if (this.directionCompradores) {
-                        return result.sort((a, b) => a[orderBy] < b[orderBy] ? -1 : 1)
-                    } else {
-                        return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
-                    }
-                }));
-        } else {
-            this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores, direction, orderBy);
-        }
-    }
-
-    public changeListComprador(pageEvent: PageEvent) {
-        this.pageIndexCompradores = pageEvent.pageIndex;
-        this.compradores$ = this.listAllCompradores(pageEvent.pageIndex, pageEvent.pageSize);
-    }
-
-    public changeListUsuario(pageEvent: PageEvent) {
-        this.pageIndexUsuarios = pageEvent.pageIndex;
-        this.usuarios$ = this.listAllUsers(pageEvent.pageIndex, pageEvent.pageSize);
-    }
-
     public submit() {
         this.submitte = true;
         let newEntity: Comprador | User = this.userCompradorService.parseToUserComprador(this.formulario);
         console.log(newEntity)
-        newEntity.tipo === EntityType.COMPRADOR ? this.create(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
-            this.create(newEntity, 'Usuário salvo com sucesso.', 'Error ao tentar salvar usuário');
+        newEntity.tipo === EntityType.COMPRADOR ? this.createEntity(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
+            this.createEntity(newEntity, 'Usuário salvo com sucesso.', 'Error ao tentar salvar usuário');
     }
 
-    private create(entity: User | Comprador, msgSuccess: string, msgError: string) {
+    public createEntity(entity: User | Comprador, msgSuccess: string, msgError: string) {
         return this.userCompradorService.create(entity).subscribe(
             success => {
                 this.reseteForm();
@@ -114,48 +78,6 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
                 this.usuarios$ = this.listAllUsers();
             }
         );
-    }
-
-    public onDelete(entity: Comprador | User) {
-        this.entitySelecionada = entity;
-    }
-
-    public confirmModal(event: any) {
-        if (event === 'sim') {
-            if (this.entitySelecionada.tipo === EntityType.COMPRADOR) {
-                this.userCompradorService.deleteComprador(this.entitySelecionada.id).subscribe(
-                    success => {
-                        this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
-                        this.pageIndexCompradores = this.lengthCompradores - 1 < this.pageSizeCompradores ? 0 :
-                            this.PageCompradores.content.length - 1 <= 0 ? this.pageIndexCompradores - 1 : this.pageIndexCompradores;
-                        this.compradores$ = this.listAllCompradores(this.pageIndexCompradores, this.pageSizeCompradores);
-                        this.usuarios$ = this.listAllUsers();
-                    }
-                )
-            } else {
-                this.userCompradorService.deleteUser(this.entitySelecionada.id).subscribe(
-                    success => {
-                        this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
-                        this.pageIndexUsuarios = this.lengthUsuarios - 1 < this.pageSizeUsuarios ? 0 :
-                            this.PageUsuarios.content.length - 1 <= 0 ? this.pageIndexUsuarios - 1 : this.pageIndexUsuarios;
-                        this.usuarios$ = this.listAllUsers(this.pageIndexUsuarios, this.pageSizeUsuarios);
-                        this.compradores$ = this.listAllCompradores();
-                    }
-                )
-            }
-        }
-
-        this.entitySelecionada = null;
     }
 
     public createForm() {
@@ -175,6 +97,44 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         this.formulario.reset();
         this.formulario.get('admin').setValue(false);
         this.formulario.get('tipo').setValue(EntityType.COMPRADOR);
+    }
+
+    public onSelectedEntity(entity: User | Comprador) {
+        this.entitySelecionada = entity;
+    }
+
+    public onDelete(event: any) {
+        if (event === 'sim') {
+            if (this.entitySelecionada.tipo === EntityType.COMPRADOR) {
+                this.userCompradorService.deleteComprador(this.entitySelecionada.id).subscribe(
+                    success => {
+                        this.alertServiceService.ShowAlertSuccess("Comprador apagado com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.compradores$ = this.listAllCompradores();
+                        this.usuarios$ = this.listAllUsers();
+                        this.entitySelecionada = null;
+                    }
+                )
+            } else {
+                this.userCompradorService.deleteUser(this.entitySelecionada.id).subscribe(
+                    success => {
+                        this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.usuarios$ = this.listAllUsers();
+                        this.compradores$ = this.listAllCompradores();
+                        this.entitySelecionada = null;
+                    }
+                )
+            }
+        }
     }
 
     private validarEmail(formControl: FormControl) {
@@ -201,34 +161,63 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         return of({});
     }
 
-    private listAllCompradores(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
-        return this.userCompradorService.listAllCompradoresPage(page, linesPerPage, direction, orderBy)
-            .pipe(
-            //    tap(console.log),
-                tap((page: any) => this.PageCompradores = page),
-                tap((page: any) => this.lengthCompradores = page.totalElements),
-                map((page: any) => page.content),
-                catchError(error => {
-                    this.error$.next(true);
-                    this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
-                    return empty();
-                }
-                )
-            );
+    private listAllCompradores(direction = "DESC", orderBy = "createdAt"): Observable<Comprador[]> {
+        return this.userCompradorService.listAllCompradoresPage(this.pageIndexCompradores, this.pageSizeCompradores, direction, orderBy).pipe(
+            tap((page: any) => this.lengthCompradores = page.totalElements),
+            map((page: any) => page.content),
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
+                return empty();
+            })
+        );
     }
 
-    private listAllUsers(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt"): Observable<User[]> {
-        return this.userCompradorService.listAllUsersPage(page, linesPerPage, direction, orderBy)
-            .pipe(
-            //    tap(console.log),
-                tap((page: any) => this.PageUsuarios = page),
-                tap((page: any) => this.lengthUsuarios = page.totalElements),
-                map((page: any) => page.content),
-                catchError(error => {
-                    this.error$.next(true);
-                    this.alertServiceService.ShowAlertDanger('Error ao carregar usuários. Tente novamente mais tarde.')
-                    return empty();
+    private listAllUsers(direction = "DESC", orderBy = "createdAt"): Observable<User[]> {
+        return this.userCompradorService.listAllUsersPage(this.pageIndexUsuarios, this.pageSizeUsuarios, direction, orderBy).pipe(
+            tap((page: any) => this.lengthUsuarios = page.totalElements),
+            map((page: any) => page.content),
+            catchError(error => {
+                this.error$.next(true);
+                this.alertServiceService.ShowAlertDanger('Error ao carregar usuários. Tente novamente mais tarde.')
+                return empty();
+            }
+        ));
+    }
+
+    public sortingTableUsuario(orderBy: string) {
+        this.directionUsuarios = !this.directionUsuarios;
+        this.orderByUsuarios = orderBy;
+        let direction = this.directionUsuarios ? "ASC" : "DESC";
+        this.usuarios$ = this.listAllUsers(direction, orderBy);
+    }
+
+    public sortingTableComprador(orderBy: string) {
+        this.directionCompradores = !this.directionCompradores;
+        this.orderByCompradores = orderBy;
+        let direction = this.directionCompradores ? "ASC" : "DESC";
+        if (orderBy === 'dividaTotal' || orderBy === 'creditoTotal') {
+            this.compradores$ = this.listAllCompradores().pipe(map(result => {
+                if (this.directionCompradores) {
+                    return result.sort((a, b) => a[orderBy] < b[orderBy] ? -1 : 1)
+                } else {
+                    return result.sort((a, b) => a[orderBy] > b[orderBy] ? -1 : 1)
                 }
-            ));
+            }));
+        } else {
+            this.compradores$ = this.listAllCompradores(direction, orderBy);
+        }
+    }
+
+    public changeListComprador(event: PageEvent) {
+        this.pageSizeCompradores = event.pageSize;
+        this.pageIndexCompradores = event.pageIndex;
+        this.compradores$ = this.listAllCompradores();
+    }
+
+    public changeListUsuario(event: PageEvent) {
+        this.pageSizeUsuarios = event.pageSize;
+        this.pageIndexUsuarios = event.pageIndex;
+        this.usuarios$ = this.listAllUsers();
     }
 }

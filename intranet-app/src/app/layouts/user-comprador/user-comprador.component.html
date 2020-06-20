@@ -75,8 +75,8 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
-                                                        matTooltipPosition="above" (click)="onDelete(usuario)"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(usuario)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -154,8 +154,8 @@
                                                         <i class="material-icons">description</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#detalhesModalAviso"
-                                                        matTooltipPosition="above" (click)="onDelete(comprador)"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(comprador)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -252,5 +252,5 @@
     </div>
 </div>
 
-<!-- Modal de aviso -->
-<app-modal-aviso (confimaModal)="confirmModal($event)"></app-modal-aviso>
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

@@ -1,3 +1,4 @@
+import { StatusType } from './../../../shared/util/enuns-type.enum';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
@@ -15,11 +16,16 @@ export class FaturaService extends CrudService<Fatura>{
         super(http, '/api/faturas');
     }
 
+    public listAllPageStatus(status: StatusType, page: number, linesPerPage: number, direction: string, orderBy: string){
+        return this.http.get<Fatura[]>(`${this.API_URL}/page/status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
+    }
+
+    public listAllPageNoStatus(status: StatusType, page: number, linesPerPage: number, direction: string, orderBy: string){
+        return this.http.get<Fatura[]>(`${this.API_URL}/page/no-status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
+    }
+
     public listAllMonths() {
-        return this.http.get('assets/dados/months.json').pipe(
-            map((dados: any[]) => dados),
-            take(1)
-        );
+        return this.http.get('assets/dados/months.json').pipe(map((dados: any[]) => dados),take(1));
     }
 
     public fecharFatura(id: number){
