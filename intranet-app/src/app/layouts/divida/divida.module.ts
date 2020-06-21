@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { DividaComponent } from './divida.component';
+import { ModalDividaComponent } from './modal-divida/modal-divida.component';
 
 import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
@@ -10,7 +11,8 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [
-    DividaComponent
+    DividaComponent,
+    ModalDividaComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     ComponentsModule
   ],
   exports: [
-    DividaComponent
+    DividaComponent,
+    ModalDividaComponent
   ]
 })
 export class DividaModule { }
