@@ -285,20 +285,18 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Breve descrição da divida</mat-label>
-                                                    <textarea matInput formControlName="descricao"></textarea>
-                                                    <mat-hint>
-                                                        <div class="text-danger" *ngIf="verificarValidControl('descricao')">
-                                                            {{ errorMessage('descricao', 'Descrição') }}
-                                                        </div>
-                                                    </mat-hint>
-                                                </mat-form-field>
+                                                <app-input-field formControlName="descricao" label="Descrição"
+                                                    [control]="formulario.get('descricao')">
+                                                </app-input-field>
                                             </div>
                                         </div>
-                                        <button mat-raised-button appearance="outline" type="submit"
-                                            class="btn btn-info pull-right">Salvar</button>
-                                        <div class="clearfix"></div>
+                                        <button *ngIf="!submitte" type="submit"
+                                        class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>

@@ -58,7 +58,7 @@ export class FormValidations {
             'valorUnique': `${fieldName} já cadastrado.`,
             'equalsTo': `As senhas são diferentes.`,
             'pattern': `${fieldName} não atende ao regex.`,
-            'OnlyLetters': `${fieldName} não pode conter números.`,
+            'OnlyLetters': `${fieldName} deve conter apenas letras.`,
             'startNumber': `${fieldName} não pode começar com números.`,
         }
 

@@ -11,6 +11,7 @@ import { DividaService } from './services/divida.service';
 import { AlertServiceService } from './../../shared/services/alert-service.service';
 import { UserCompradorService } from './../user-comprador/services/user-comprador.service';
 import { ValidFormsService } from './../../shared/services/valid-forms.service';
+import { FormValidations } from './../../shared/util/form-validations';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 
 @Component({
@@ -40,6 +41,11 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public lengthDividasAtivas = 10;
     public pageSizeDividasAtivas = 5;
     public pageIndexDividasAtivas = 0;
+
+    // MatPaginator Dividas Antigas
+    public lengthDividasOlds = 10;
+    public pageSizeDividasOlds = 5;
+    public pageIndexDividasOlds = 0;
 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
@@ -85,7 +91,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             valor: [null, Validators.required],
             dataDivida: [{ value: new Date(), disabled: true }, Validators.required],
             compradorId: [null, Validators.required],
-            descricao: [null, Validators.required]
+            descricao: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)]]
         });
     }
 

@@ -34,7 +34,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     public pageSizeFaturasAtivas = 5;
     public pageIndexFaturasAtivas = 0;
 
-    // MatPaginator Fatura Antigas
+    // MatPaginator Faturas Antigas
     public lengthFaturasOlds = 10;
     public pageSizeFaturasOlds = 5;
     public pageIndexFaturasOlds = 0;
