@@ -138,6 +138,8 @@
                                                 <td>{{ divida.compradorNome }}</td>
                                                 <td>
                                                     <button type="button" matTooltip="Pagar" matTooltipPosition="above"
+                                                    (click)="onSelectedEntity(divida)"
+                                                    data-toggle="modal" data-target="#modalPagamentoDivida"
                                                     class="btn btn-warning btn-sm">Ativa</button>
                                                 </td>
                                                 <td class="text-primary">
@@ -293,8 +295,7 @@
                                         <button *ngIf="!submitte" type="submit"
                                         class="btn btn-info pull-right">Salvar</button>
                                         <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
-                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                aria-hidden="true"></span>
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Salvando
                                         </button>
                                     </form>
@@ -313,3 +314,6 @@
 
 <!-- Modal de detalhes do Divida -->
 <app-modal-divida></app-modal-divida>
+
+<!-- Modal de pagamentos -->
+<app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)" [divida]="entitySelecionada"></app-modal-pagamento>

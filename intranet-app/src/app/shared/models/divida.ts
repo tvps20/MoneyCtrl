@@ -1,5 +1,4 @@
-import { Comprador } from './comprador';
-import { Fatura } from './fatura';
+import { Pagamento } from './pagamento';
 import { BaseEntity } from './baseEntity';
 import { EntityType } from '../util/enuns-type.enum';
 
@@ -11,8 +10,9 @@ export class Divida extends BaseEntity {
     public dataDivida: string;
     public paga = false;
     public compradorId: number;
-    public pagamentos: any[] = [];
+    public pagamentos: Pagamento[] = [];
     public totalPagamentos: number;
+    public compradorNome: string;
 
     constructor(id: number, valorDivida: number, descricao: string, dataDivida: string, compradorId: number){
         super(id);

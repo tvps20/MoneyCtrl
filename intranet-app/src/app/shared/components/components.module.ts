@@ -10,6 +10,7 @@ import { ModalAvisoComponent } from './modal-aviso/modal-aviso.component';
 import { FormDebugComponent } from './form-debug/form-debug.component';
 import { InputFieldComponent } from './input-field/input-field.component';
 import { SharedImportModule } from './../imports/shared-import.module';
+import { ModalPagamentoComponent } from './modal-pagamento/modal-pagamento.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SharedImportModule } from './../imports/shared-import.module';
     ModalLancamentoComponent,
     ModalAvisoComponent,
     FormDebugComponent,
-    InputFieldComponent
+    InputFieldComponent,
+    ModalPagamentoComponent
   ],
   exports: [
     FooterComponent,
@@ -34,7 +36,8 @@ import { SharedImportModule } from './../imports/shared-import.module';
     ModalLancamentoComponent,
     ModalAvisoComponent,
     FormDebugComponent,
-    InputFieldComponent
+    InputFieldComponent,
+    ModalPagamentoComponent
   ]
 })
 export class ComponentsModule { }

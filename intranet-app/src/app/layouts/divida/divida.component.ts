@@ -65,7 +65,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public submit() {
         this.submitte = true;
         let newEntity = this.dividaService.parseToEntity(this.formulario);
-        this.createEntity(newEntity, 'Divida salvo com sucesso.', 'Error ao tentar salvar divida');
+        this.createEntity(newEntity, 'Divida salvo com sucesso.', 'Error ao tentar salvar divida.');
     }
 
     public createEntity(entity: Divida, msgSuccess: string, msgError: string) {
@@ -91,7 +91,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             valor: [null, Validators.required],
             dataDivida: [{ value: new Date(), disabled: true }, Validators.required],
             compradorId: [null, Validators.required],
-            descricao: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(3), Validators.maxLength(12)]]
+            descricao: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(5), Validators.maxLength(20)]]
         });
     }
 
@@ -123,6 +123,14 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
                     this.entitySelecionada = null;
                 }
             );
+        }
+    }
+
+    public onRefreshList(event: boolean){
+        if(event){
+            this.dividasAtivas$ = this.listAllDividasAtivas();
+            this.dividasOlds$ = this.listAllDividasOlds();
+            this.devedores$ = this.listAllDevedores();
         }
     }
 

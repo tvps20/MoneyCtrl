@@ -32,7 +32,7 @@ export class FormValidations {
     static onlyLetters(control: FormControl){
         const valor: string = control.value;
         if(valor && valor !== ''){
-            const regex = new RegExp("^[aA-zZ]+((\s[aA-zZ]+)+)?$");
+            const regex = new RegExp("^[aA-zZ ]+((\s[aA-zZ]+)+)?$");
             return regex.test(valor) ? null : { OnlyLetters: false };
         }
 

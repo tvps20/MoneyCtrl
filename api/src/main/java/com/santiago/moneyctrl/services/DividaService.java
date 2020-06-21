@@ -13,7 +13,6 @@ import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.dtos.DividaDTO;
 import com.santiago.moneyctrl.repositories.DividaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
-import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
 import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,17 +52,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar divida.");
 			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} catch (ObjectNotFoundException ex) {
-			if (ex.getClassTipo().equals(FaturaService.class)) {
-				baseLog.error("[Insert] - Erro ao tentar buscar fatura.");
-				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(), "faturaId",
-						entity.getFatura().getClass().getName()), FaturaService.class);
-			} else {
-				baseLog.error("[Insert] - Erro ao tentar buscar comprador.");
-				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(),
-						"compradorId", entity.getComprador().getClass().getName()), CompradorService.class);
-			}
-		}
+		} 
 	}
 
 	public Page<Divida> findPageByStatus(boolean paga, Integer page, Integer linesPerPage, String direction,

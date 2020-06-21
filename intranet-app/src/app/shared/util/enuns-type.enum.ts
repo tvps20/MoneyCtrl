@@ -20,7 +20,8 @@ export enum EntityType {
     CARTAO = 'CARTAO',
     BANDEIRA = 'BANDEIRA',
     FARURA = 'FATURA',
-    DIVIDA = 'DIVIDA'
+    DIVIDA = 'DIVIDA',
+    PAGAMENTO = 'PAGAMENTO'
 }
 
 export enum StatusType {

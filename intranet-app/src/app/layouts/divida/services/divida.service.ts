@@ -1,8 +1,10 @@
+import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
 import { Divida } from 'src/app/shared/models/divida';
+import { Pagamento } from './../../../shared/models/pagamento';
 import { CrudService } from 'src/app/shared/services/crud-service';
 
 @Injectable({
@@ -12,6 +14,10 @@ export class DividaService extends CrudService<Divida> {
 
     constructor(protected http: HttpClient) {
         super(http, '/api/dividas');
+    }
+
+    public createPagamento(pagamento: Pagamento){
+        return this.http.post(this.API_URL + `/${pagamento.dividaId}/pagamentos`, pagamento).pipe(take(1));
     }
 
     public listAllPageStatus(paga: boolean, page: number, linesPerPage: number, direction: string, orderBy: string){
@@ -24,6 +30,12 @@ export class DividaService extends CrudService<Divida> {
         form.get('descricao').value, dataDivida, form.get('compradorId').value);
 
         return divida;
+    }
+
+    public parteToPagamento(form: FormGroup): Pagamento {
+        let pagamento = new Pagamento(null, form.get('valor').value, form.get('dividaId').value);
+
+        return pagamento;
     }
 
     private parseToDateFormat(date: Date){

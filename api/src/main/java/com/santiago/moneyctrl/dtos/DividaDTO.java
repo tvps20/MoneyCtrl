@@ -34,7 +34,7 @@ public class DividaDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
+	@Length(min = 5, max = 20, message = "{validation.erro.model.length.nome}")
 	private String descricao;
 
 	@Getter

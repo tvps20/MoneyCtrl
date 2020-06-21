@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
     selector: 'app-modal-aviso',
@@ -13,8 +13,6 @@ export class ModalAvisoComponent implements OnInit {
     @Input() okTxt = "Sim";
     @Input() identificador = "detalhesModalAviso";
     @Output() confimaModal = new EventEmitter();
-    // TODO: Remover
-    // @ViewChild('modalAviso') modalAviso: any;
 
     constructor() { }
 

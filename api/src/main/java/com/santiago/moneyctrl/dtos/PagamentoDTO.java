@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.santiago.moneyctrl.domain.Pagamento;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -62,5 +63,6 @@ public class PagamentoDTO extends BaseDTO {
 		this.valor = pagamento.getValor();
 		this.data = pagamento.getData();
 		this.observacao = pagamento.getObservacao();
+		this.tipo = TipoEntity.PAGAMENTO;
 	}
 }
