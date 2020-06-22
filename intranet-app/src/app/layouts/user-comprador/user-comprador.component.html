@@ -8,14 +8,14 @@
                             <div class="nav-tabs-wrapper">
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">
-                                        <a mat-button class="nav-link active" href="#users" data-toggle="tab">
-                                            <i class="material-icons">security</i> Users
+                                        <a mat-button class="nav-link" href="#compradores" data-toggle="tab">
+                                            <i class="material-icons">people_alt</i> Compradores
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a mat-button class="nav-link" href="#compradores" data-toggle="tab">
-                                            <i class="material-icons">people_alt</i> Compradores
+                                        <a mat-button class="nav-link active" href="#users" data-toggle="tab">
+                                            <i class="material-icons">security</i> Users
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
@@ -31,82 +31,6 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="users">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="usuarios$ | async as users; else loadingUsers">
-                                        <thead class="text-primary">
-                                            <th (click)="sortingTableUsuario('username')">Login
-                                                <i *ngIf="orderByUsuarios === 'username'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>Acesso</th>
-                                            <th (click)="sortingTableUsuario('createdAt')">Criado
-                                                <i *ngIf="orderByUsuarios === 'createdAt'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
-                                                <i *ngIf="orderByUsuarios === 'verificaoEmail'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>roles</th>
-                                            <th (click)="sortingTableUsuario('id')">Id
-                                                <i *ngIf="orderByUsuarios === 'id'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>Ação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let usuario of users">
-                                                <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
-                                                </td>
-                                                <td>
-                                                    <i *ngIf="usuario.username" class="material-icons"
-                                                        matTooltip="Username"
-                                                        matTooltipPosition="above">account_circle</i>
-                                                    <i *ngIf="usuario.email" class="material-icons" matTooltip="Email"
-                                                        matTooltipPosition="above">email</i>
-                                                </td>
-                                                <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
-                                                <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
-                                                </td>
-                                                <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
-                                                <td>{{ usuario.id }}</td>
-                                                <td class="td-actions text-left">
-                                                    <button mat-raised-button type="button" matTooltip="Editar"
-                                                        matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#modalExcluirEntity"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(usuario)"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator
-                                        [length]="lengthUsuarios"
-                                        [pageSize]="pageSizeUsuarios"
-                                        [pageSizeOptions]="[5, 10, 25, 100]"
-                                        [pageIndex]="pageIndexUsuarios"
-                                        (page)="changeListUsuario($event)">
-                                    </mat-paginator>
-                                </div>
-                                <ng-template #loadingUsers>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar usuários. Tente novamente mais tarde.</p>
-                                        </div>
-                                    </div>
-                                    <ng-template #loadingNoError>
-                                        <div class="text-center">
-                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                aria-hidden="true"></span>
-                                            Carregando...
-                                        </div>
-                                    </ng-template>
-                                </ng-template>
-                            </div>
                             <div class="tab-pane" id="compradores">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
@@ -174,6 +98,82 @@
                                     <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
                                             <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
+                                        </div>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane active" id="users">
+                                <div class="table-responsive">
+                                    <table class="table table-hover"
+                                        *ngIf="usuarios$ | async as users; else loadingUsers">
+                                        <thead class="text-primary">
+                                            <th (click)="sortingTableUsuario('username')">Login
+                                                <i *ngIf="orderByUsuarios === 'username'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th>Acesso</th>
+                                            <th (click)="sortingTableUsuario('createdAt')">Criado
+                                                <i *ngIf="orderByUsuarios === 'createdAt'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
+                                                <i *ngIf="orderByUsuarios === 'verificaoEmail'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th>roles</th>
+                                            <th (click)="sortingTableUsuario('id')">Id
+                                                <i *ngIf="orderByUsuarios === 'id'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                            </th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let usuario of users">
+                                                <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
+                                                </td>
+                                                <td>
+                                                    <i *ngIf="usuario.username" class="material-icons"
+                                                        matTooltip="Username"
+                                                        matTooltipPosition="above">account_circle</i>
+                                                    <i *ngIf="usuario.email" class="material-icons" matTooltip="Email"
+                                                        matTooltipPosition="above">email</i>
+                                                </td>
+                                                <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
+                                                <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
+                                                </td>
+                                                <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
+                                                <td>{{ usuario.id }}</td>
+                                                <td class="td-actions text-left">
+                                                    <button mat-raised-button type="button" matTooltip="Editar"
+                                                        matTooltipPosition="above"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(usuario)"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <mat-paginator
+                                        [length]="lengthUsuarios"
+                                        [pageSize]="pageSizeUsuarios"
+                                        [pageSizeOptions]="[5, 10, 25, 100]"
+                                        [pageIndex]="pageIndexUsuarios"
+                                        (page)="changeListUsuario($event)">
+                                    </mat-paginator>
+                                </div>
+                                <ng-template #loadingUsers>
+                                    <div *ngIf="error$ | async; else loadingNoError">
+                                        <div class="row justify-content-center text-danger">
+                                            <p>Error ao carregar usuários. Tente novamente mais tarde.</p>
                                         </div>
                                     </div>
                                     <ng-template #loadingNoError>
