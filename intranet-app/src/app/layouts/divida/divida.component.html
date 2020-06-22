@@ -219,8 +219,9 @@
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">description</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
+                                                        data-toggle="modal" data-target="#modalExcluirDivida"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -228,6 +229,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <mat-paginator [length]="lengthDividasOlds"
+                                                [pageSize]="pageSizeDividasOlds"
+                                                [pageSizeOptions]="[5, 10, 25, 100]"
+                                                (page)="changeListDividasOlds($event)">
+                                    </mat-paginator>
                                 </div>
                                 <ng-template #loadingDividasOlds>
                                     <div *ngIf="error$ | async; else loadingNoError">

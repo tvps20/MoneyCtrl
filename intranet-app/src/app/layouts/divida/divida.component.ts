@@ -147,7 +147,8 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     }
 
     private listAllDividasOlds(page = 0, linesPerPage = 5, direction = "DESC", orderBy = "createdAt") {
-        return this.dividaService.listAllPageStatus(true, page, linesPerPage, direction, orderBy).pipe(
+        return this.dividaService.listAllPageStatus(true, this.pageIndexDividasOlds, this.pageSizeDividasOlds, direction, orderBy).pipe(
+            tap((page: any) => this.lengthDividasOlds = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
                 this.error$.next(true);
@@ -191,5 +192,11 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         this.pageSizeDividasAtivas = event.pageSize;
         this.pageIndexDividasAtivas = event.pageIndex;
         this.dividasAtivas$ = this.listAllDividasAtivas();
+    }
+
+    public changeListDividasOlds(event: PageEvent){
+        this.pageSizeDividasOlds = event.pageSize;
+        this.pageIndexDividasOlds = event.pageIndex;
+        this.dividasOlds$ = this.listAllDividasOlds();
     }
 }
