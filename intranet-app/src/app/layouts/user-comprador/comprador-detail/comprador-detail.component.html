@@ -45,7 +45,8 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="compras">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                        *ngIf="comprador.lancamentos.length > 0; else loadingListEmptyLancamentos">
                                         <thead class="text-primary">
                                             <th>Descrição</th>
                                             <th>valor</th>
@@ -59,25 +60,18 @@
                                                 <td>Assinatura</td>
                                                 <td>Cartao Nubank</td>
                                             </tr>
-                                            <tr>
-                                                <td>Ssd</td>
-                                                <td>R$ 20,00</td>
-                                                <td>08/10</td>
-                                                <td>Cartao Master</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shop</td>
-                                                <td>R$ 14,71</td>
-                                                <td>-</td>
-                                                <td>Emprestimo</td>
-                                            </tr>
                                         </tbody>
                                     </table>
+                                    <ng-template #loadingListEmptyLancamentos>
+                                        <p class="text-muted text-center">Nenhuma compra disponivel para esse comprador.
+                                        </p>
+                                    </ng-template>
                                 </div>
                             </div>
                             <div class="tab-pane" id="dividas">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                        *ngIf="comprador.dividas.length > 0; else loadingListEmptyDividas">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor Total</th>
@@ -87,28 +81,22 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Divida da fatura de janeiro</td>
-                                                <td>74,87 R$</td>
-                                                <td>0,00 R$</td>
-                                                <td><i class="material-icons">description</i></td>
-                                                <td>Ativa</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Pagar" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
+                                            <tr *ngFor="let divida of comprador.dividas">
+                                                <td>{{ divida.descricao }}</td>
+                                                <td>{{ divida.valorDivida }}</td>
+                                                <td>{{ divida.totalPagamentos }}</td>
+                                                <td>
+                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                                    <i *ngIf="!divida.faturaId"
+                                                        class="material-icons">monetization_on</i>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Comprou a bicicleta</td>
-                                                <td>100,00 R$</td>
-                                                <td>50,00 R$</td>
-                                                <td><i class="material-icons">monetization_on</i></td>
-                                                <td>Ativa</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        disabled>{{ divida.paga }}</button>
+                                                </td>
                                                 <td class="text-primary">
-                                                    <button mat-raised-button type="button"
+                                                    <button mat-raised-button type="button" matTooltip="Pagar"
+                                                        matTooltipPosition="above"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">done</i>
                                                     </button>
@@ -116,11 +104,16 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <ng-template #loadingListEmptyDividas>
+                                        <p class="text-muted text-center">Nenhuma dívida disponivel para esse comprador.
+                                        </p>
+                                    </ng-template>
                                 </div>
                             </div>
                             <div class="tab-pane" id="creditos">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover"
+                                        *ngIf="comprador.creditos.length > 0; else loadingListEmptyCreditos">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor</th>
@@ -129,26 +122,15 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Credito da fatura de janeiro</td>
-                                                <td>4,87 R$</td>
-                                                <td>27/01/2020</td>
-                                                <td>Usado</td>
+                                            <tr *ngFor="let credito of comprador.creditos">
+                                                <td>{{ credito.descricao }}</td>
+                                                <td>{{ credito.valor | currency:'BRL' }}</td>
+                                                <td>{{ credito.data | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ credito.disponivel }}</td>
                                                 <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cartas vendidas</td>
-                                                <td>50,00 R$</td>
-                                                <td>01/02/2020</td>
-                                                <td>Ativa</td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(credito)"
+                                                        data-toggle="modal" data-target="#modalExcluirCredito"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -156,28 +138,44 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <ng-template #loadingListEmptyCreditos>
+                                        <p class="text-muted text-center">Nenhum crédito disponivel para esse comprador.
+                                        </p>
+                                    </ng-template>
                                 </div>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form>
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-8">
-                                                <mat-form-field appearance="outline" class="example-full-width">
-                                                    <mat-label>Motivo do crédito</mat-label>
-                                                    <input matInput placeholder="Descrição" type="text">
-                                                </mat-form-field>
+                                                <app-input-field formControlName="descricao" label="Descrição"
+                                                    [control]="formulario.get('descricao')">
+                                                </app-input-field>
                                             </div>
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Valor</mat-label>
-                                                    <input matInput value="R$ 00,00">
+                                                    <input matInput mask="separator.2" thousandSeparator="."
+                                                        prefix="R$ " formControlName="valor">
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('valor')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('valor')">
+                                                            {{ errorMessage('valor', 'Valor') }}
+                                                        </div>
+                                                    </mat-hint>
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <button mat-raised-button appearance="outline" type="submit"
-                                            class="btn btn-info pull-right">Salvar</button>
-                                        <div class="clearfix"></div>
+                                        <button *ngIf="!submitte" type="submit"
+                                        class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -253,12 +251,13 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h6 class="card-category text-gray">Comprador/User</h6>
-                        <h4 class="card-title">Gilson Santiago</h4>
+                        <h6 class="card-category text-gray">{{ comprador.tipo }}</h6>
+                        <h4 class="card-title">
+                            {{ comprador.nome + ' ' + (comprador.sobrenome ? comprador.sobrenome : '') }}</h4>
                         <p class="card-description">
-                            Total de compras: 5<br/>
-                            Dividas Ativas: 174,87 R$<br/>
-                            Credito Disponível: 50,00 R$
+                            Total de compras: {{ comprador.lancamentos.length }}<br />
+                            Dividas Ativas: {{ comprador.totalDividas | currency:'BRL' }}<br />
+                            Credito Disponível: {{ comprador.totalCreditos | currency:'BRL' }}
                         </p>
                         <a href="javascript:void(0)" class="btn btn-info btn-round">Imprimir</a>
                     </div>
@@ -266,4 +265,7 @@
             </div>
         </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirCredito" (confimaModal)="onDelete($event)"></app-modal-aviso>

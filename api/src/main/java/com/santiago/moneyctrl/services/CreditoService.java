@@ -44,7 +44,7 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 	@Override
 	public Credito fromDTO(CreditoDTO dto) {
 		log.info("[Mapping] - 'CreditoDTO' to 'Credito'. Id: " + dto.getId());
-		Credito credito = new Credito(dto.getId(), dto.getValor(), dto.getData(), dto.getObservacao(),
+		Credito credito = new Credito(dto.getId(), dto.getValor(), dto.getData(), dto.getDescricao(),
 				new Comprador(dto.getCompradorId()));
 
 		log.info("[Mapping] - Mapping finalizado com sucesso.");
@@ -55,7 +55,7 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 	public void updateData(Credito newObj, Credito obj) {
 		log.info("[Parse] - 'NewCredito' from 'Credito'. Id: " + newObj.getId());
 		newObj.setValor(obj.getValor());
-		newObj.setObservacao(obj.getObservacao());
+		newObj.setDescricao(obj.getDescricao());
 		log.info("[Parse] - Parse finalizado com sucesso.");
 	}
 }

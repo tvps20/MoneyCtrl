@@ -166,7 +166,6 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     private listAllFaturasOlds(direction = "DESC", orderBy = "createdAt") {
         return this.faturaSevice.listAllPageStatus(StatusType.PAGA, this.pageIndexFaturasOlds, this.pageSizeFaturasOlds, direction, orderBy).pipe(
-            tap(console.log),
             tap((page: any) => this.lengthFaturasOlds = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {

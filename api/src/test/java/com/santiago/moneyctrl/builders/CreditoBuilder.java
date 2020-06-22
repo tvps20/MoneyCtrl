@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.builders;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,14 +36,14 @@ public class CreditoBuilder {
 	// Metodos
 	public static CreditoBuilder mockCreditoBuilder() {
 		CreditoBuilder builder = new CreditoBuilder();
-		builder.credito = new Credito(1L, BigDecimal.valueOf(10), LocalDate.of(2020, 1, 1), "Credito teste", comprador);
+		builder.credito = new Credito(1L, BigDecimal.valueOf(10), LocalDateTime.of(2020, 1, 1, 0, 0), "Credito teste", comprador);
 
 		return builder;
 	}
 
 	public static CreditoBuilder mockCreditoDTOBuilder() {
 		CreditoBuilder builder = new CreditoBuilder();
-		builder.creditoDTO = new CreditoDTO(1L, BigDecimal.valueOf(10), LocalDate.of(2020, 1, 1), "CreditoDTO teste",
+		builder.creditoDTO = new CreditoDTO(1L, BigDecimal.valueOf(10), LocalDateTime.of(2020, 1, 1, 0, 0), "CreditoDTO teste",
 				comprador.getId());
 
 		return builder;
@@ -54,7 +54,7 @@ public class CreditoBuilder {
 		builder.creditos = new ArrayList<Credito>();
 
 		for (long i = 1; i <= 10; i++) {
-			Credito credito = new Credito(i, BigDecimal.valueOf(i), LocalDate.of(2020, 1, 1), "Credito teste " + i,
+			Credito credito = new Credito(i, BigDecimal.valueOf(i), LocalDateTime.of(2020, 1, 1, 0, 0), "Credito teste " + i,
 					comprador);
 
 			builder.creditos.add(credito);
@@ -68,7 +68,7 @@ public class CreditoBuilder {
 		builder.creditosDTO = new ArrayList<CreditoDTO>();
 
 		for (long i = 1; i <= 10; i++) {
-			CreditoDTO creditoDTO = new CreditoDTO(i, BigDecimal.valueOf(i), LocalDate.of(2020, 1, 1),
+			CreditoDTO creditoDTO = new CreditoDTO(i, BigDecimal.valueOf(i),LocalDateTime.of(2020, 1, 1, 0, 0),
 					"CreditoDTO teste " + i, comprador.getId());
 
 			builder.creditosDTO.add(creditoDTO);

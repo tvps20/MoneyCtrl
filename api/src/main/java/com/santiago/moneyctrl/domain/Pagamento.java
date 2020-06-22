@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Pagamento extends BaseEntity {
 	@Getter
 	@Setter
 	@Column(nullable = false)
-	private LocalDate data;
+	private LocalDateTime data;
 
 	@Getter
 	@Setter
@@ -43,7 +43,7 @@ public class Pagamento extends BaseEntity {
 		super(id);
 	}
 
-	public Pagamento(Long id, BigDecimal valor, LocalDate data, String observacao, Divida divida) {
+	public Pagamento(Long id, BigDecimal valor, LocalDateTime data, String observacao, Divida divida) {
 		super(id);
 		this.valor = valor;
 		this.data = data;

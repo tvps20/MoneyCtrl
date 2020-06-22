@@ -8,13 +8,13 @@
                             <div class="nav-tabs-wrapper">
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="nav-item">
-                                        <a mat-button class="nav-link" href="#compradores" data-toggle="tab">
+                                        <a mat-button class="nav-link active" href="#compradores" data-toggle="tab">
                                             <i class="material-icons">people_alt</i> Compradores
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a mat-button class="nav-link active" href="#users" data-toggle="tab">
+                                        <a mat-button class="nav-link" href="#users" data-toggle="tab">
                                             <i class="material-icons">security</i> Users
                                             <div class="ripple-container"></div>
                                         </a>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane" id="compradores">
+                            <div class="tab-pane active" id="compradores">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
                                         *ngIf="compradores$ | async as compradores; else loadingCompradores">
@@ -109,7 +109,7 @@
                                     </ng-template>
                                 </ng-template>
                             </div>
-                            <div class="tab-pane active" id="users">
+                            <div class="tab-pane" id="users">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
                                         *ngIf="usuarios$ | async as users; else loadingUsers">

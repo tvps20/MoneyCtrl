@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Credito extends BaseEntity {
 	@Getter
 	@Setter
 	@Column(nullable = false)
-	private LocalDate data;
+	private LocalDateTime data;
 	
 	@Getter
 	@Setter
@@ -31,7 +31,8 @@ public class Credito extends BaseEntity {
 
 	@Getter
 	@Setter
-	private String observacao;
+	@Column(nullable = false)
+	private String descricao;
 
 	@Getter
 	@Setter
@@ -47,17 +48,17 @@ public class Credito extends BaseEntity {
 		super(id);
 	}
 
-	public Credito(Long id, BigDecimal valor, LocalDate data, String observacao, Comprador comprador) {
+	public Credito(Long id, BigDecimal valor, LocalDateTime data, String descricao, Comprador comprador) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
-		this.observacao = observacao;
+		this.descricao = descricao;
 		this.comprador = comprador;
 	}
 
 	@Override
 	public String toString() {
-		return "Credito [" + super.toString() + ", valor=" + valor + ", data=" + data + ", observacao=" + observacao
+		return "Credito [" + super.toString() + ", valor=" + valor + ", data=" + data + ", descricao=" + descricao
 				+ ", compradorId=" + comprador.getId() + "]";
 	}
 }

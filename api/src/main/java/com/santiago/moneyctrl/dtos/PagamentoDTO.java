@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,9 +27,9 @@ public class PagamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private LocalDate data = LocalDate.now();
+	private LocalDateTime data = LocalDateTime.now();
 
 	@Getter
 	@Setter
@@ -43,14 +43,14 @@ public class PagamentoDTO extends BaseDTO {
 	public PagamentoDTO() {
 	}
 
-	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, String observacao) {
+	public PagamentoDTO(Long id, BigDecimal valor, LocalDateTime data, String observacao) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
 		this.observacao = observacao;
 	}
 
-	public PagamentoDTO(Long id, BigDecimal valor, LocalDate data, String observacao, Long dividaId) {
+	public PagamentoDTO(Long id, BigDecimal valor, LocalDateTime data, String observacao, Long dividaId) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
@@ -60,6 +60,7 @@ public class PagamentoDTO extends BaseDTO {
 
 	public PagamentoDTO(Pagamento pagamento) {
 		super(pagamento.getId());
+		
 		this.valor = pagamento.getValor();
 		this.data = pagamento.getData();
 		this.observacao = pagamento.getObservacao();

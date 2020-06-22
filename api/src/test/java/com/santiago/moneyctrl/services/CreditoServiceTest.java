@@ -89,7 +89,7 @@ public class CreditoServiceTest extends BaseServiceTest<Credito, CreditoDTO> {
 	@Override
 	public Credito getEntityUpdate() {
 		Credito creditoUp = this.entity;
-		creditoUp.setObservacao("Credito Atualizado");
+		creditoUp.setDescricao("Credito Atualizado");
 		return creditoUp;
 	}
 }

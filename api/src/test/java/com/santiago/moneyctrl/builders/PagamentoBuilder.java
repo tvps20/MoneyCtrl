@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.builders;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class PagamentoBuilder {
 	// Metodos
 	public static PagamentoBuilder mockPagamentoBuilder() {
 		PagamentoBuilder builder = new PagamentoBuilder();
-		builder.pagamento = new Pagamento(1L, BigDecimal.valueOf(10), LocalDate.of(2020, 1, 1), "Pagamento teste",
+		builder.pagamento = new Pagamento(1L, BigDecimal.valueOf(10), LocalDateTime.of(2020, 1, 1, 0, 0), "Pagamento teste",
 				divida);
 
 		return builder;
@@ -44,7 +44,7 @@ public class PagamentoBuilder {
 
 	public static PagamentoBuilder mockPagamentoDTOBuilder() {
 		PagamentoBuilder builder = new PagamentoBuilder();
-		builder.pagamentoDTO = new PagamentoDTO(1L, BigDecimal.valueOf(10), LocalDate.of(2020, 1, 1),
+		builder.pagamentoDTO = new PagamentoDTO(1L, BigDecimal.valueOf(10), LocalDateTime.of(2020, 1, 1, 0, 0),
 				"PagamentoDTO teste", divida.getId());
 
 		return builder;
@@ -55,7 +55,7 @@ public class PagamentoBuilder {
 		builder.pagamentos = new ArrayList<Pagamento>();
 
 		for (long i = 1; i <= 10; i++) {
-			Pagamento pagamento = new Pagamento(i, BigDecimal.valueOf(i), LocalDate.of(2020, 1, 1),
+			Pagamento pagamento = new Pagamento(i, BigDecimal.valueOf(i), LocalDateTime.of(2020, 1, 1, 0, 0),
 					"Pagamento teste " + i, divida);
 
 			builder.pagamentos.add(pagamento);
@@ -69,7 +69,7 @@ public class PagamentoBuilder {
 		builder.pagamentosDTO = new ArrayList<PagamentoDTO>();
 
 		for (long i = 1; i <= 10; i++) {
-			PagamentoDTO pagamentoDTO = new PagamentoDTO(i, BigDecimal.valueOf(i), LocalDate.of(2020, 1, 1),
+			PagamentoDTO pagamentoDTO = new PagamentoDTO(i, BigDecimal.valueOf(i), LocalDateTime.of(2020, 1, 1, 0, 0),
 					"PagamentoDTO teste " + i, divida.getId());
 
 			builder.pagamentosDTO.add(pagamentoDTO);

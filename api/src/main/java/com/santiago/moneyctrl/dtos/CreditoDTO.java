@@ -1,12 +1,16 @@
 package com.santiago.moneyctrl.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.moneyctrl.domain.Credito;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +27,9 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private LocalDate data = LocalDate.now();
+	private LocalDateTime data = LocalDateTime.now();
 	
 	@Getter
 	@Setter
@@ -33,7 +37,9 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	private String observacao;
+	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@Length(min = 5, max = 20, message = "{validation.erro.model.length.nome}")
+	private String descricao;
 
 	@Getter
 	@Setter
@@ -43,18 +49,18 @@ public class CreditoDTO extends BaseDTO {
 	public CreditoDTO() {
 	}
 
-	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, String observacao) {
+	public CreditoDTO(Long id, BigDecimal valor, LocalDateTime data, String descricao) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
-		this.observacao = observacao;
+		this.descricao = descricao;
 	}
 
-	public CreditoDTO(Long id, BigDecimal valor, LocalDate data, String observacao, Long compradorId) {
+	public CreditoDTO(Long id, BigDecimal valor, LocalDateTime data, String descricao, Long compradorId) {
 		super(id);
 		this.valor = valor;
 		this.data = data;
-		this.observacao = observacao;
+		this.descricao = descricao;
 		this.compradorId = compradorId;
 	}
 
@@ -63,7 +69,8 @@ public class CreditoDTO extends BaseDTO {
 		
 		this.valor = credito.getValor();
 		this.data = credito.getData();
-		this.observacao = credito.getObservacao();
+		this.descricao = credito.getDescricao();
 		this.disponivel = credito.isDisponivel();
+		this.tipo = TipoEntity.CREDITO;
 	}
 }

@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.services;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +94,7 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 		Credito novoCredito = new Credito();
 		if (saldo.doubleValue() >= 0) {
 			divida.setPaga(true);
-			novoCredito = new Credito(null, saldo, LocalDate.now(),
+			novoCredito = new Credito(null, saldo, LocalDateTime.now(),
 					"Credito referente a divida " + divida.getDescricao(), divida.getComprador());
 			log.info("[Insert] - Gerando novo credito e mudando status da divida. Credito" + novoCredito.toString());
 		}

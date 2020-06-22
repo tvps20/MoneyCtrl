@@ -4,9 +4,10 @@ import com.santiago.moneyctrl.domain.exceptions.IllegalEnumException;
 import com.santiago.moneyctrl.util.MensagemUtil;
 
 public enum TipoEntity {
-	
+
 	USUARIO(1, "Usuario"), COMPRADOR(2, "Comprador"), CARTAO(3, "Cartao"), BANDEIRA(4, "Bandeira"), FATURA(5, "Fatura"),
-	DIVIDA(6, "Divida"), PAGAMENTO(7, "Pagamento");
+	DIVIDA(6, "Divida"), PAGAMENTO(7, "Pagamento"), CREDITO(8, "Crédito"), LANCAMENTO(9, "Lançamento"),
+	COTA(10, "Cota");
 
 	private int cod;
 	private String descricao;

@@ -17,11 +17,11 @@ export abstract class BaseFormComponent implements OnInit {
 
     public abstract submit();
 
+    public abstract createEntity(entity: any, msgSuccess: string, msgError: string);
+
     public abstract createForm();
 
     public abstract reseteForm();
-
-    public abstract createEntity(entity: any, msgSuccess: string, msgError: string);
 
     public abstract onSelectedEntity(entity: any);
 
