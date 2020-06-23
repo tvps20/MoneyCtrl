@@ -1,7 +1,6 @@
 package com.santiago.moneyctrl.services;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -81,24 +80,27 @@ public class DBService {
 		Comprador comprador3 = new Comprador(null, "gilson", "gilson20", "123");
 
 		Lancamento lancamento1 = new Lancamento(null, "Itens para o chachorro", "Comprei tambem uma resistencia",
-				LocalDate.now(), fatura1, false, null, null);
-		Lancamento lancamento2 = new Lancamento(null, "CardsofParadise", "cartas de magic", LocalDate.now(), fatura1,
-				false, null, null);
-		Lancamento lancamento3 = new Lancamento(null, "Aliexpress", "itens de magic", LocalDate.now(), fatura1, true, 6,
-				1);
+				LocalDateTime.now(), fatura1, false, null, null);
+		Lancamento lancamento2 = new Lancamento(null, "CardsofParadise", "cartas de magic", LocalDateTime.now(),
+				fatura1, false, null, null);
+		Lancamento lancamento3 = new Lancamento(null, "Aliexpress", "itens de magic", LocalDateTime.now(), fatura1,
+				true, 6, 1);
 
 		Cota cota1 = new Cota(null, BigDecimal.valueOf(23.53), comprador2, lancamento1);
 		Cota cota2 = new Cota(null, BigDecimal.valueOf(47.27), comprador3, lancamento2);
 		Cota cota3 = new Cota(null, BigDecimal.valueOf(10.27), comprador3, lancamento3);
 		Cota cota4 = new Cota(null, BigDecimal.valueOf(6.27), comprador2, lancamento3);
 
-		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "Divida da fatura de maio", LocalDateTime.now(), fatura1, comprador3, false);
-		Divida divida2 = new Divida(null, BigDecimal.valueOf(25), "Emprestado", LocalDateTime.now(), null, comprador3, true);
+		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "Divida da fatura de maio", LocalDateTime.now(),
+				fatura1, comprador3, false);
+		Divida divida2 = new Divida(null, BigDecimal.valueOf(25), "Emprestado", LocalDateTime.now(), null, comprador3,
+				true);
 
 		Credito credito = new Credito(null, BigDecimal.valueOf(20), LocalDateTime.now(), "fatura de maio", comprador2);
-		Pagamento pagamento1 = new Pagamento(null, BigDecimal.valueOf(10), LocalDateTime.now(), "fiquei devendo 5 de troco",
+		Pagamento pagamento1 = new Pagamento(null, BigDecimal.valueOf(10), LocalDateTime.now(),
+				"fiquei devendo 5 de troco", divida1);
+		Pagamento pagamento2 = new Pagamento(null, BigDecimal.valueOf(60), LocalDateTime.now(), "pagou adiantado",
 				divida1);
-		Pagamento pagamento2 = new Pagamento(null, BigDecimal.valueOf(60), LocalDateTime.now(), "pagou adiantado", divida1);
 
 		this.bandeiraRepository.saveAll(Arrays.asList(bandeira1, bandeira2));
 		this.cartaoRepository.saveAll(Arrays.asList(cartao1, cartao2, cartao3));

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
 import com.santiago.moneyctrl.domain.Cota;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,10 +24,14 @@ public class CotaDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long compradorId;
-
+	
 	@Getter
 	@Setter
 	private Long lancamentoId;
+
+	@Getter
+	@Setter
+	private LancamentoDTO lancamento;
 
 	// Construtores
 	public CotaDTO() {
@@ -47,7 +52,12 @@ public class CotaDTO extends BaseDTO {
 
 	public CotaDTO(Cota cota) {
 		super(cota.getId());
+		
 		this.valor = cota.getValor();
 		this.compradorId = cota.getComprador().getId();
+		this.lancamentoId = cota.getLancamento().getId();
+		
+		this.ativo = cota.isAtivo();
+		this.tipo = TipoEntity.COTA;
 	}
 }

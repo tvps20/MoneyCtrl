@@ -8,7 +8,8 @@ export class Fatura extends BaseEntity {
     public status: StatusType;
     public mesReferente: string;
     public cartaoId: number;
-    public lancamentos: any[];
+    public lancamentos: any[] = [];
+    public valorTotal: number;
 
     constructor(id: number, vencimento: string, cartaoId: number, observacao: string){
         super(id);

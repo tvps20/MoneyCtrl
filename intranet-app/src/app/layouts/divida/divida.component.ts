@@ -1,6 +1,6 @@
 import { PageEvent } from '@angular/material/paginator';
 import { Observable, Subject, empty } from 'rxjs';
-import { catchError, tap, debounceTime, switchMap, take, map, count } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +9,7 @@ import { Comprador } from './../../shared/models/comprador';
 
 import { DividaService } from './services/divida.service';
 import { AlertServiceService } from './../../shared/services/alert-service.service';
-import { UserCompradorService } from './../user-comprador/services/user-comprador.service';
+import { CompradorService } from './../user-comprador/services/comprador.service';
 import { ValidFormsService } from './../../shared/services/valid-forms.service';
 import { FormValidations } from './../../shared/util/form-validations';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
@@ -51,7 +51,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         protected validFormsService: ValidFormsService,
         private dividaService: DividaService,
         private alertServiceService: AlertServiceService,
-        private userCompradorService: UserCompradorService) {
+        private compradorService: CompradorService) {
         super(validFormsService);
     }
 
@@ -161,7 +161,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     private listAllDevedores() {
         let auxDividas = 0;
         let auxPagamentos = 0;
-        return this.userCompradorService.listAllCompradores().pipe(
+        return this.compradorService.listAll().pipe(
             tap((content: Comprador[]) => this.compradoresSelect = content),
             map((content: Comprador[]) => content.filter(comprador => comprador.devedor)),
             tap((content: Comprador[]) => content.map(comprador => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { UserCompradorService } from '../user-comprador/services/user-comprador.service';
@@ -18,6 +18,6 @@ export class CompradorResolverGuard implements Resolve<Comprador> {
         }
 
         // caso use a mesma tela de criar e editar
-        return of(new Comprador(null, "", "", ""))
+        return of(new Comprador(null, "", "", ""));
     }
 }

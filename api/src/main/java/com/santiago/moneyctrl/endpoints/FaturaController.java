@@ -1,5 +1,7 @@
 package com.santiago.moneyctrl.endpoints;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.moneyctrl.domain.Fatura;
+import com.santiago.moneyctrl.dtos.CotaFaturaDTO;
 import com.santiago.moneyctrl.dtos.FaturaDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.FaturaService;
@@ -57,6 +60,15 @@ public class FaturaController extends BaseController<Fatura, FaturaDTO> {
 
 		log.info("[GET PAGE] - GetPage realizado com sucesso.");
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@GetMapping(TipoEndPoint.ID + TipoEndPoint.COTA)
+	public ResponseEntity<List<CotaFaturaDTO>> gerarCotas(@PathVariable Long id){
+		baseLog.info("[GET COTAS] - Buscando todas as entidades.");
+		List<CotaFaturaDTO> list = ((FaturaService) this.service).GerarCotasByIdFatura(id);
+
+		baseLog.info("[GET COTAS] - Get cotas realizado com sucesso.");
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(TipoEndPoint.FECHARFATURA + TipoEndPoint.ID)

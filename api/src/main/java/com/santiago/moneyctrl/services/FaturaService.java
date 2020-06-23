@@ -1,5 +1,10 @@
 package com.santiago.moneyctrl.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -8,9 +13,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.santiago.moneyctrl.domain.Cartao;
+import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Fatura;
+import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.domain.enuns.TipoStatus;
+import com.santiago.moneyctrl.dtos.CotaDTO;
+import com.santiago.moneyctrl.dtos.CotaFaturaDTO;
 import com.santiago.moneyctrl.dtos.FaturaDTO;
+import com.santiago.moneyctrl.dtos.LancamentoDTO;
 import com.santiago.moneyctrl.repositories.FaturaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
@@ -48,15 +58,15 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			baseLog.error("[Insert] - Erro ao tentar buscar cartao.");
-			throw new ObjectNotFoundException(
-					MensagemUtil.erroObjNotFount(entity.getCartao().getId(), "cartaoId", CartaoService.class.getName()));
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getCartao().getId(), "cartaoId",
+					CartaoService.class.getName()));
 		}
 	}
-	
+
 	public Page<Fatura> findPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
 			String orderBy) {
-		log.info("[FindPageStatus] - Buscando paginado todas as faturas por status: { status: " + status + ", Page: " + page
-				+ ", linesPerPage: " + linesPerPage + " }");
+		log.info("[FindPageStatus] - Buscando paginado todas as faturas por status: { status: " + status + ", Page: "
+				+ page + ", linesPerPage: " + linesPerPage + " }");
 
 		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
@@ -66,11 +76,35 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
 		return faturas;
 	}
-	
+
+	public List<CotaFaturaDTO> GerarCotasByIdFatura(Long faturaId) {
+		log.info("[GerarCotasById] - Buscando fatura. FaturaId: " + faturaId);
+		Fatura fatura = this.findById(faturaId);
+		Map<Comprador, CotaFaturaDTO> mapCotas = new HashMap<>();
+
+		log.info("[GerarCotasById] - Gerando cotas");
+		for (Lancamento lancamento : fatura.getLancamentos()) {
+			lancamento.getCotas().stream().forEach(c -> {
+				if (!mapCotas.keySet().contains(c.getComprador())) {
+					// Se não encontrar criar um item novo.
+					CotaFaturaDTO cotaFatura = new CotaFaturaDTO(c.getComprador());
+					mapCotas.put(c.getComprador(), cotaFatura);
+				}
+				CotaDTO dto = new CotaDTO(c.getId(), c.getValor(), null);
+				dto.setLancamento(new LancamentoDTO(c.getLancamento()));
+				
+				mapCotas.get(c.getComprador()).getCotas().add(dto);
+			});
+		}
+
+		log.info("[GerarCotasById] - Cotas geradas com sucesso.");
+		return new ArrayList<CotaFaturaDTO>(mapCotas.values());
+	}
+
 	public Page<Fatura> noFindPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
 			String orderBy) {
-		log.info("[FindPageStatus] - Buscando paginado todas as faturas sem status: { status: " + status + ", Page: " + page
-				+ ", linesPerPage: " + linesPerPage + " }");
+		log.info("[FindPageStatus] - Buscando paginado todas as faturas sem status: { status: " + status + ", Page: "
+				+ page + ", linesPerPage: " + linesPerPage + " }");
 
 		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
@@ -80,7 +114,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
 		return faturas;
 	}
-	
+
 	public Fatura fecharFatura(Long id) {
 		log.info("[Fechar-Fatura] - Fechando fatura. Id: " + id);
 		try {
@@ -112,7 +146,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		}
 	}
-	
+
 	@Override
 	public Fatura fromDTO(FaturaDTO dto) {
 		log.info("[Mapping] - 'FaturaDTO' to 'Fatura'. Id: " + dto.getId());

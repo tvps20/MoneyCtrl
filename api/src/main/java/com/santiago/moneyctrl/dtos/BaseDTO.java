@@ -34,7 +34,7 @@ public class BaseDTO implements Serializable {
 	
 	@Getter
 	@Setter
-	protected boolean ativo;
+	protected boolean ativo = true;
 	
 	@Getter
 	@Setter
@@ -48,7 +48,7 @@ public class BaseDTO implements Serializable {
 		this.id = id;
 	}
 
-	// Metodos de Comparacao por valor
+	// Metodos de Comparação por valor
 	@Override
 	public int hashCode() {
 		final int prime = 31;

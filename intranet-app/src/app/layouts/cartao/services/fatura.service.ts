@@ -1,8 +1,10 @@
+import { CotaFatura } from './../../../shared/models/cota';
 import { StatusType } from './../../../shared/util/enuns-type.enum';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { tap, take, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { Fatura } from 'src/app/shared/models/fatura';
 import { CrudService } from 'src/app/shared/services/crud-service';
@@ -14,6 +16,10 @@ export class FaturaService extends CrudService<Fatura>{
 
     constructor(protected http: HttpClient) {
         super(http, '/api/faturas');
+    }
+
+    public listAllCotas(faturaId: number) {
+        return this.http.get<CotaFatura>(`${this.API_URL}/${faturaId}/cotas`).pipe(take(1));
     }
 
     public listAllPageStatus(status: StatusType, page: number, linesPerPage: number, direction: string, orderBy: string){

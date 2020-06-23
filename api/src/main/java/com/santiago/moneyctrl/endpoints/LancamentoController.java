@@ -73,7 +73,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 		log.info("[GET ID] - Buscando cota pelo Id: " + id);
 		Cota obj = this.cotaService.findById(id);
 		CotaDTO objDTO = new CotaDTO(obj);
-		objDTO.setLancamentoId(obj.getLancamento().getId());
+		objDTO.setLancamento(new LancamentoDTO(obj.getLancamento()));
 
 		log.info("[GET ID] - GetById realizado com sucesso.");
 		return ResponseEntity.ok().body(objDTO);
@@ -83,7 +83,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	public ResponseEntity<CotaDTO> inserirCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
 		log.info("[POST] - Salvando uma nova Cota. Dto: " + objDTO.toString());
 		this.service.findById(lancamentoId);
-		objDTO.setLancamentoId(lancamentoId);
+		objDTO.setLancamento(new LancamentoDTO(lancamentoId));
 		Cota obj = this.cotaService.fromDTO(objDTO);
 		obj = this.cotaService.insert(obj);
 

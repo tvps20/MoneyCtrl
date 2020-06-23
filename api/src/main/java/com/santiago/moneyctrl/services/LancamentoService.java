@@ -45,14 +45,14 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 			log.info("[Insert] - Buscando fatura.");
 			this.faturaService.findById(entity.getFatura().getId());
 			log.info("[Insert] - Buscando compradores.");
-			entity.getCompradores().forEach(x -> {
+			entity.getCotas().forEach(x -> {
 				this.compradorService.findById(x.getComprador().getId());
 			});
 
 			log.info("[Insert] - Salvando lancamento.");
 			Lancamento lancamentoSalvo = this.repository.save(entity);
 			log.info("[Insert] - Salvando compradores.");
-			this.cotaService.saveAllCotas(lancamentoSalvo.getCompradores());
+			this.cotaService.saveAllCotas(lancamentoSalvo.getCotas());
 
 			log.info("[Insert] - Lacamento salvo no bando de dados.");
 			return lancamentoSalvo;
@@ -83,15 +83,15 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 		if (dto.isParcelado()) {
 			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObservacao(), dto.getDataCompra(),
-					fatura, dto.isParcelado(), dto.getQtdParcela(), dto.getParcelaAtual());
+					fatura, dto.isParcelado(), dto.getQtdParcelas(), dto.getParcelaAtual());
 		} else {
 			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObservacao(), dto.getDataCompra(),
 					fatura, dto.isParcelado(), null, null);
 		}
 
-		dto.getCompradores().forEach(x -> {
+		dto.getCotas().forEach(x -> {
 			Cota cota = new Cota(null, x.getValor(), new Comprador(x.getCompradorId()), lancamento);
-			lancamento.getCompradores().add(cota);
+			lancamento.getCotas().add(cota);
 		});
 
 		log.info("[Mapping] - Mapping finalizado com sucesso.");

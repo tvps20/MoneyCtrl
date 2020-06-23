@@ -1,6 +1,6 @@
 package com.santiago.moneyctrl.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class Lancamento extends BaseEntity {
 	@Getter
 	@Setter
 	@Column(nullable = false)
-	private LocalDate dataCompra;
+	private LocalDateTime dataCompra;
 
 	@Getter
 	@Setter
@@ -44,7 +44,7 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	private Integer qtdParcela = 2;
+	private Integer qtdParcelas = 2;
 
 	@Getter
 	@Setter
@@ -53,7 +53,7 @@ public class Lancamento extends BaseEntity {
 	@Getter
 	@Setter
 	@OneToMany(mappedBy = "lancamento")
-	private List<Cota> compradores = new ArrayList<>();
+	private List<Cota> cotas = new ArrayList<>();
 
 	// Construtores
 	public Lancamento() {
@@ -63,15 +63,15 @@ public class Lancamento extends BaseEntity {
 		super(id);
 	}
 
-	public Lancamento(Long id, String descricao, String obsrvacao, LocalDate dataCompra, Fatura fatura,
-			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
+	public Lancamento(Long id, String descricao, String obsrvacao, LocalDateTime dataCompra, Fatura fatura,
+			boolean parcelado, Integer qtdParcelas, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.fatura = fatura;
 		this.parcelado = parcelado;
-		this.qtdParcela = qtdParcela;
+		this.qtdParcelas = qtdParcelas;
 		this.parcelaAtual = parcelaAtual;
 	}
 
@@ -79,7 +79,7 @@ public class Lancamento extends BaseEntity {
 	public String toString() {
 		return "Lancamento [" + super.toString() + ", descricao=" + descricao + ", observacao=" + observacao
 				+ ", dataCompra=" + dataCompra + ", faturaId=" + fatura.getId() + ", parcelado=" + parcelado
-				+ ", qtdParcela=" + qtdParcela + ", parcelaAtual=" + parcelaAtual + ", compradoresEmpty="
-				+ compradores.isEmpty() + "]";
+				+ ", qtdParcelas=" + qtdParcelas + ", parcelaAtual=" + parcelaAtual + ", cotassEmpty="
+				+ cotas.isEmpty() + "]";
 	}
 }

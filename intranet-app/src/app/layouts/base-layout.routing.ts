@@ -1,3 +1,4 @@
+import { FaturaCotaResolveGuard } from './guards/fatura-cota-resolve.guard';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -8,7 +9,9 @@ import { FaturaDetailComponent } from './cartao/fatura/fatura-detail/fatura-deta
 import { DividaComponent } from './divida/divida.component';
 import { UserCompradorComponent } from './user-comprador/user-comprador.component';
 import { CompradorDetailComponent } from './user-comprador/comprador-detail/comprador-detail.component';
+
 import { CompradorResolverGuard } from './guards/comprador-resolver.guard';
+import { FaturaResolveGuard } from './guards/fatura-resolve.guard';
 
 
 export const BaseLayoutRoutes: Routes = [
@@ -37,7 +40,7 @@ export const BaseLayoutRoutes: Routes = [
         path: 'faturas',
         children: [
             { path: '', component: FaturaComponent },
-            { path: ':id', component: FaturaDetailComponent }
+            { path: ':id', component: FaturaDetailComponent, resolve: { fatura: FaturaResolveGuard, cotas: FaturaCotaResolveGuard } }
         ]
     },
     { path: 'dividas', component: DividaComponent }

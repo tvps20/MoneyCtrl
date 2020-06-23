@@ -1,7 +1,7 @@
 package com.santiago.moneyctrl.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.moneyctrl.domain.Lancamento;
+import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,9 +34,9 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message = "{validation.erro.model.notEmpty}")
-	private LocalDate dataCompra = LocalDate.now();
+	private LocalDateTime dataCompra = LocalDateTime.now();
 
 	@Getter
 	@Setter
@@ -47,7 +48,7 @@ public class LancamentoDTO extends BaseDTO {
 	protected boolean parcelado;
 
 	@Setter
-	private Integer qtdParcela;
+	private Integer qtdParcelas;
 
 	@Setter
 	private Integer parcelaAtual;
@@ -56,14 +57,18 @@ public class LancamentoDTO extends BaseDTO {
 	@Setter
 	@Valid
 	@NotEmpty(message = "{validation.erro.model.notEmpty.list}")
-	private List<CotaDTO> compradores = new ArrayList<>();
+	private List<CotaDTO> cotas = new ArrayList<>();
 
 	// Construtores
 	public LancamentoDTO() {
 	}
 
-	public LancamentoDTO(Long id, String descricao, String obsrvacao, LocalDate dataCompra, Long faturaId,
-			boolean parcelado, Integer qtdParcela, Integer parcelaAtual) {
+	public LancamentoDTO(Long id) {
+		super(id);
+	}
+
+	public LancamentoDTO(Long id, String descricao, String obsrvacao, LocalDateTime dataCompra, Long faturaId,
+			boolean parcelado, Integer qtdParcelas, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
@@ -72,45 +77,51 @@ public class LancamentoDTO extends BaseDTO {
 		this.parcelado = parcelado;
 
 		if (parcelado) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
+			this.qtdParcelas = qtdParcelas != null ? qtdParcelas : 2;
 			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
 		}
 	}
 
 	public LancamentoDTO(Lancamento lancamento) {
 		super(lancamento.getId());
+
 		this.descricao = lancamento.getDescricao();
 		this.observacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
 		this.faturaId = lancamento.getFatura().getId();
-		this.createdAt = lancamento.getCreatedAt();
-		this.updatedAt = lancamento.getUpdatedAt();
 		this.parcelado = lancamento.isParcelado();
-		this.compradores = lancamento.getCompradores().stream().map(obj -> new CotaDTO(obj))
-				.collect(Collectors.toList());
-
+		this.cotas = lancamento.getCotas().stream().map(obj -> {
+			CotaDTO dto = new CotaDTO(obj);
+			dto.setLancamentoId(null);
+			return dto;
+		}).collect(Collectors.toList());
 		if (lancamento.isParcelado()) {
-			this.qtdParcela = lancamento.getQtdParcela();
+			this.qtdParcelas = lancamento.getQtdParcelas();
 			this.parcelaAtual = lancamento.getParcelaAtual();
 		}
+
+		this.createdAt = lancamento.getCreatedAt();
+		this.updatedAt = lancamento.getUpdatedAt();
+		this.ativo = lancamento.isAtivo();
+		this.tipo = TipoEntity.LANCAMENTO;
 	}
 
 	// Getters and Setters
-	public Integer getQtdParcela() {
+	public Integer getQtdParcelas() {
 
 		if (this.parcelado) {
-			this.qtdParcela = qtdParcela != null ? qtdParcela : 2;
+			this.qtdParcelas = qtdParcelas != null ? qtdParcelas : 2;
 		}
 
-		return qtdParcela;
+		return qtdParcelas;
 	}
 
 	public Integer getParcelaAtual() {
 
 		if (this.parcelado) {
 			if (this.parcelaAtual != null) {
-				if (this.parcelaAtual > this.qtdParcela) {
-					this.parcelaAtual = this.qtdParcela;
+				if (this.parcelaAtual > this.qtdParcelas) {
+					this.parcelaAtual = this.qtdParcelas;
 				}
 			} else {
 				this.parcelaAtual = 1;
@@ -121,7 +132,7 @@ public class LancamentoDTO extends BaseDTO {
 	}
 
 	public BigDecimal getValorTotal() {
-		double total = this.compradores.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
+		double total = this.cotas.stream().mapToDouble(x -> x.getValor().doubleValue()).sum();
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
