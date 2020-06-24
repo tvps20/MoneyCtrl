@@ -17,6 +17,7 @@ import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.domain.Pagamento;
 import com.santiago.moneyctrl.domain.Usuario;
+import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 import com.santiago.moneyctrl.domain.enuns.TipoMes;
 import com.santiago.moneyctrl.domain.enuns.TipoRoles;
 import com.santiago.moneyctrl.repositories.BandeiraRepository;
@@ -80,11 +81,11 @@ public class DBService {
 		Comprador comprador3 = new Comprador(null, "gilson", "gilson20", "123");
 
 		Lancamento lancamento1 = new Lancamento(null, "Itens para o chachorro", "Comprei tambem uma resistencia",
-				LocalDateTime.now(), fatura1, false, null, null);
+				LocalDateTime.now(), fatura1, TipoLancamento.AVISTA, null, null);
 		Lancamento lancamento2 = new Lancamento(null, "CardsofParadise", "cartas de magic", LocalDateTime.now(),
-				fatura1, false, null, null);
+				fatura1, TipoLancamento.AVISTA, null, null);
 		Lancamento lancamento3 = new Lancamento(null, "Aliexpress", "itens de magic", LocalDateTime.now(), fatura1,
-				true, 6, 1);
+				TipoLancamento.PARCELADO, 6, 1);
 
 		Cota cota1 = new Cota(null, BigDecimal.valueOf(23.53), comprador2, lancamento1);
 		Cota cota2 = new Cota(null, BigDecimal.valueOf(47.27), comprador3, lancamento2);

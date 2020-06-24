@@ -9,6 +9,7 @@ import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Cota;
 import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.domain.Lancamento;
+import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 import com.santiago.moneyctrl.dtos.LancamentoDTO;
 import com.santiago.moneyctrl.repositories.LancamentoRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
@@ -81,12 +82,12 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		Lancamento lancamento;
 		Fatura fatura = new Fatura(dto.getFaturaId());
 
-		if (dto.isParcelado()) {
+		if (dto.getTipoLancamento() == TipoLancamento.PARCELADO) {
 			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObservacao(), dto.getDataCompra(),
-					fatura, dto.isParcelado(), dto.getQtdParcelas(), dto.getParcelaAtual());
+					fatura, TipoLancamento.PARCELADO, dto.getQtdParcelas(), dto.getParcelaAtual());
 		} else {
 			lancamento = new Lancamento(dto.getId(), dto.getDescricao(), dto.getObservacao(), dto.getDataCompra(),
-					fatura, dto.isParcelado(), null, null);
+					fatura, TipoLancamento.AVISTA, null, null);
 		}
 
 		dto.getCotas().forEach(x -> {
@@ -103,7 +104,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setObservacao(obj.getObservacao());
 
-		if (obj.isParcelado()) {
+		if (obj.getTipoLancamento() == TipoLancamento.PARCELADO) {
 			newObj.setParcelaAtual(obj.getParcelaAtual());
 		}
 

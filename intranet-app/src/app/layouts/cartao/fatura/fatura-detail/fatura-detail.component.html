@@ -12,7 +12,8 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">monetization_on</i> Valores para o mês de {{ fatura.mesReferente }}
+                            <i class="material-icons">monetization_on</i> Valores para o mês de
+                            {{ fatura.mesReferente }}
                         </div>
                     </div>
                 </div>
@@ -141,7 +142,8 @@
                                                         <h5 class="card-title">{{ cotaFatura.compradorNome }}</h5>
                                                     </div>
                                                     <div class="col-md-4 text-right">
-                                                        <p class="card-category">Total: {{ cotaFatura.valorTotal | currency:'BRL' }}</p>
+                                                        <p class="card-category">Total:
+                                                            {{ cotaFatura.valorTotal | currency:'BRL' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,10 +155,11 @@
                                                         <th>Parcela</th>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let cota of cotaFatura.cotas" >
+                                                        <tr *ngFor="let cota of cotaFatura.cotas">
                                                             <td>{{ cota.lancamento.descricao }}</td>
                                                             <td>{{ cota.valor | currency:'BRL' }}</td>
-                                                            <td>{{ cota.lancamento.parcelado ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}</td>
+                                                            <td>{{ cota.lancamento.parcelado ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -171,7 +174,7 @@
                             <div class="tab-pane" id="lancamentos">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
-                                    *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyLancamentos">
+                                        *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyLancamentos">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Data da Compra</th>
@@ -185,22 +188,23 @@
                                                 <td>{{ lancamento.descricao }}</td>
                                                 <td>{{ lancamento.dataCompra | date: 'dd/MM/yyyy' }}</td>
                                                 <td>{{ lancamento.valorTotal | currency:'BRL' }}</td>
-                                                <td>{{ lancamento.parcelado ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : '-'}}</td>
+                                                <td>{{ lancamento.parcelado ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : '-'}}
+                                                </td>
                                                 <td>{{ lancamento.cotas.length }}</td>
                                                 <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Detalhes" matTooltipPosition="above"
-                                                        data-toggle="modal" data-target="#detalhesModalLancamento"
+                                                    <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                        matTooltipPosition="above" data-toggle="modal"
+                                                        data-target="#detalhesModalLancamento"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">description</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Editar" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Editar"
+                                                        matTooltipPosition="above"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Excluir" matTooltipPosition="above"
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -209,47 +213,47 @@
                                         </tbody>
                                     </table>
                                     <ng-template #loadingListEmptyLancamentos>
-                                        <p class="text-muted text-center">Nenhum lançamento disponivel para essa fatura.</p>
+                                        <p class="text-muted text-center">Nenhum lançamento disponivel para essa fatura.
+                                        </p>
                                     </ng-template>
                                 </div>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form>
+                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <mat-accordion class="example-headers-align">
                                                     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)"
                                                         hideToggle>
                                                         <mat-expansion-panel-header>
-                                                            <mat-panel-title>
-                                                                Dados do lançamento
-                                                            </mat-panel-title>
-                                                            <mat-panel-description>
-                                                                Data da compra, valor, compradores...
+                                                            <mat-panel-title>Dados do lançamento</mat-panel-title>
+                                                            <mat-panel-description>Data da compra, valor, compradores...
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
 
                                                         <div class="row">
-                                                            <div class="col-md-8">
-                                                                <mat-form-field appearance="outline"
-                                                                    class="example-full-width">
-                                                                    <mat-label>Descrição</mat-label>
-                                                                    <input matInput
-                                                                        placeholder="Breve descrição da compra...">
-                                                                </mat-form-field>
+                                                            <div class="col-md-6">
+                                                                <app-input-field formControlName="descricao"
+                                                                    label="Descrição"
+                                                                    [control]="formulario.get('descricao')">
+                                                                </app-input-field>
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                <p>
-                                                                    <mat-checkbox class="m-1" [formControl]="disableSelect">Parcelado</mat-checkbox>
-                                                                    <mat-checkbox class="m-1" [formControl]="disableSelect">Assinatura</mat-checkbox>
-                                                                </p>
+                                                            <div class="col-md-4">
+                                                                <mat-radio-group formControlName="tipoLancamento">
+                                                                    <mat-radio-button class="m-1" value="AVISTA">A Vista
+                                                                    </mat-radio-button>
+                                                                    <mat-radio-button class="m-1" value="PARCELADO">
+                                                                        Parcelado</mat-radio-button>
+                                                                    <mat-radio-button class="m-1" value="ASSINATURA">
+                                                                        Assinatura</mat-radio-button>
+                                                                </mat-radio-group>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Parcelas</mat-label>
-                                                                    <input matInput [disabled]="disableSelect.value"
-                                                                         value="01/10">
+                                                                    <input matInput mask="00/00"
+                                                                        formControlName="parcelas">
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -257,33 +261,58 @@
                                                             <div class="col-md-4">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Data da Compra</mat-label>
-                                                                    <input matInput [matDatepicker]="dp3" disabled>
+                                                                    <input matInput [matDatepicker]="dp3"
+                                                                        formControlName="dataCompra">
                                                                     <mat-datepicker-toggle matSuffix [for]="dp3">
                                                                     </mat-datepicker-toggle>
                                                                     <mat-datepicker #dp3 disabled="false">
                                                                     </mat-datepicker>
                                                                 </mat-form-field>
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <mat-form-field>
-                                                                    <mat-label>Comprador</mat-label>
-                                                                    <mat-select>
-                                                                        <mat-option *ngFor="let comprador of compradorSelect$ | async" value="comprador.id">{{ comprador.nome }}</mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <mat-form-field appearance="outline">
-                                                                    <mat-label>Valor</mat-label>
-                                                                    <input matInput
-                                                                        value="R$ 00,00">
-                                                                </mat-form-field>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <button type="button" mat-button class="nav-link">
-                                                                    <i class="material-icons">library_add</i> Adicionar
-                                                                    <div class="ripple-container"></div>
-                                                                </button>
+                                                            <div class="col-md-8">
+                                                                <div class="row" formGroupName="comprador">
+                                                                    <div class="col-md-5">
+                                                                        <mat-form-field>
+                                                                            <mat-label>Comprador</mat-label>
+                                                                            <mat-select formControlName="compradorId">
+                                                                                <mat-option
+                                                                                    *ngFor="let comprador of compradorSelect$ | async"
+                                                                                    [value]="comprador.id+'/'+comprador.nome">
+                                                                                    {{ comprador.nome }}</mat-option>
+                                                                            </mat-select>
+                                                                            <!-- <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('compradorId')">error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('compradorId')">done</mat-icon>
+                                                                            <mat-hint>
+                                                                                <div class="text-danger" *ngIf="verificarValidControl('compradorId')">
+                                                                                    {{ errorMessage('compradorId', 'Comprador') }}
+                                                                                </div>
+                                                                            </mat-hint> -->
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field appearance="outline">
+                                                                            <mat-label>Valor</mat-label>
+                                                                            <input matInput mask="separator.2"
+                                                                                thousandSeparator="." prefix="R$ "
+                                                                                formControlName="valor">
+                                                                            <!-- <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                                            <mat-hint>
+                                                                                <div class="text-danger" *ngIf="verificarValidControl('valor')">
+                                                                                    {{ errorMessage('valor', 'Valor') }}
+                                                                                </div>
+                                                                            </mat-hint> -->
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button type="button" mat-button
+                                                                            class="nav-link" (click)="AddCotaInLancamento()">
+                                                                            <i class="material-icons">library_add</i>
+                                                                            Adicionar
+                                                                            <div class="ripple-container"></div>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -296,51 +325,38 @@
                                                     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
                                                         hideToggle>
                                                         <mat-expansion-panel-header>
-                                                            <mat-panel-title>
-                                                                Compradores: 2
-                                                            </mat-panel-title>
-                                                            <mat-panel-description>
-                                                                Total: 47,44 R$
+                                                            <mat-panel-title>Compradores: {{ compradoresForm.controls.length }}</mat-panel-title>
+                                                            <mat-panel-description>Valor do lançamento: {{ valorTotalCompradores | currency:'BRL' }}
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
 
                                                         <div class="row">
                                                             <div class="card-body">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover">
+                                                                <div class="table-responsive" *ngIf="lancamentoCotas.length > 0; else loadingListEmptyCompradores">
+                                                                    <table class="table table-sm table-hover">
                                                                         <thead class=" text-primary">
                                                                             <th>Comprador</th>
                                                                             <th>Valor</th>
                                                                             <th>Ação</th>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr>
-                                                                                <td>Thiago</td>
-                                                                                <td>R$ 18,89</td>
+                                                                            <tr *ngFor="let cota of lancamentoCotas" >
+                                                                                <td>{{ cota.compradorNome }}</td>
+                                                                                <td>{{ cota.valor | currency:'BRL' }}</td>
                                                                                 <td class="text-primary">
                                                                                     <button mat-raised-button
                                                                                         type="button"
                                                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                                        <i
-                                                                                            class="material-icons">close</i>
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>Gilson</td>
-                                                                                <td>R$ 28,55</td>
-                                                                                <td class="text-primary">
-                                                                                    <button mat-raised-button
-                                                                                        type="button"
-                                                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                                        <i
-                                                                                            class="material-icons">close</i>
+                                                                                        <i class="material-icons" (click)="revomeCotaInLancamento(cota)" >close</i>
                                                                                     </button>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
+                                                                <ng-template #loadingListEmptyCompradores>
+                                                                    <p class="text-muted text-center">Nenhum comprador adicionado para esse lançamento.</p>
+                                                                </ng-template>
                                                             </div>
                                                         </div>
 
@@ -355,11 +371,8 @@
                                                     <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)"
                                                         hideToggle>
                                                         <mat-expansion-panel-header>
-                                                            <mat-panel-title>
-                                                                Observação
-                                                            </mat-panel-title>
-                                                            <mat-panel-description>
-                                                                Alguma informação relevante...
+                                                            <mat-panel-title> Observação</mat-panel-title>
+                                                            <mat-panel-description> Alguma informação relevante...
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
 
@@ -368,9 +381,9 @@
                                                                 <mat-form-field appearance="outline"
                                                                     class="example-full-width">
                                                                     <mat-label>Lembrou de algo? Deixa aqui para não
-                                                                        esquecer...</mat-label>
-                                                                    <textarea matInput
-                                                                        placeholder="Observação"></textarea>
+                                                                        esquecer...
+                                                                    </mat-label>
+                                                                    <textarea matInput formControlName="observacao"></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -382,7 +395,6 @@
                                                                 (click)="nextStep()">End</button>
                                                         </mat-action-row>
                                                     </mat-expansion-panel>
-
                                                 </mat-accordion>
                                             </div>
                                         </div>
@@ -400,6 +412,6 @@
         </div>
     </div>
 </div>
-
+<app-form-debug [formulario]="formulario"></app-form-debug>
 <!-- Modal de detalhes do lançamento -->
 <app-modal-lancamento></app-modal-lancamento>

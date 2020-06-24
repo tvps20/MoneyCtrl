@@ -40,6 +40,10 @@ public final class MensagemUtil {
 	public static String erroEnumMes(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.mes"), tipo);
 	}
+	
+	public static String erroEnumLancamento(String tipo) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.lancamento"), tipo);
+	}
 
 	public static String erroEnumStatus(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.status"), tipo);

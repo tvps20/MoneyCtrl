@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,7 +42,7 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	protected boolean parcelado;
+	private TipoLancamento tipoLancamento;
 
 	@Getter
 	@Setter
@@ -64,13 +66,13 @@ public class Lancamento extends BaseEntity {
 	}
 
 	public Lancamento(Long id, String descricao, String obsrvacao, LocalDateTime dataCompra, Fatura fatura,
-			boolean parcelado, Integer qtdParcelas, Integer parcelaAtual) {
+			TipoLancamento tipoLancamento, Integer qtdParcelas, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.fatura = fatura;
-		this.parcelado = parcelado;
+		this.tipoLancamento = tipoLancamento;
 		this.qtdParcelas = qtdParcelas;
 		this.parcelaAtual = parcelaAtual;
 	}
@@ -78,7 +80,7 @@ public class Lancamento extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Lancamento [" + super.toString() + ", descricao=" + descricao + ", observacao=" + observacao
-				+ ", dataCompra=" + dataCompra + ", faturaId=" + fatura.getId() + ", parcelado=" + parcelado
+				+ ", dataCompra=" + dataCompra + ", faturaId=" + fatura.getId() + ", tipoLancamento=" + tipoLancamento
 				+ ", qtdParcelas=" + qtdParcelas + ", parcelaAtual=" + parcelaAtual + ", cotassEmpty="
 				+ cotas.isEmpty() + "]";
 	}

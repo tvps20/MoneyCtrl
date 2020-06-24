@@ -43,3 +43,9 @@ export enum RolesType {
     USER = 'USUARIO',
     ADMIN = 'ADMIN',
 }
+
+export enum LancamentoType {
+    AVISTA = 'AVISTA',
+    PARCELADO = 'PARCELADO',
+    ASSINATURA = 'ASSINATURA'
+}

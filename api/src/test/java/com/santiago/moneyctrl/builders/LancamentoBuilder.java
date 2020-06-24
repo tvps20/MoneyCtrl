@@ -10,6 +10,7 @@ import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Cota;
 import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.domain.Lancamento;
+import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 import com.santiago.moneyctrl.dtos.CotaDTO;
 import com.santiago.moneyctrl.dtos.LancamentoDTO;
 
@@ -42,7 +43,7 @@ public class LancamentoBuilder {
 	public static LancamentoBuilder mockLancamentoBuilder() {
 		LancamentoBuilder builder = new LancamentoBuilder();
 		builder.lancamento = new Lancamento(1L, "Lancamento teste", "Compra teste", LocalDateTime.of(2020, 1, 1, 0, 0), fatura,
-				true, 6, 1);
+				TipoLancamento.PARCELADO, 6, 1);
 
 		builder.lancamento.getCotas().add(new Cota(1L, BigDecimal.valueOf(10), comprador, builder.lancamento));
 
@@ -52,7 +53,7 @@ public class LancamentoBuilder {
 	public static LancamentoBuilder mockLancamentoDTOBuilder() {
 		LancamentoBuilder builder = new LancamentoBuilder();
 		builder.lancamentoDTO = new LancamentoDTO(1L, "LancamentoDTO teste", "Compra teste", LocalDateTime.of(2020, 1, 1, 0, 0),
-				fatura.getId(), true, 6, 1);
+				fatura.getId(), TipoLancamento.PARCELADO, 6, 1);
 
 		builder.lancamentoDTO.getCotas()
 				.add(new CotaDTO(1L, BigDecimal.valueOf(10), comprador.getId()));
@@ -66,7 +67,7 @@ public class LancamentoBuilder {
 
 		for (long i = 1; i <= 10; i++) {
 			Lancamento lancamento = new Lancamento(i, "Lancamento teste " + i, "Compra teste " + i,
-					LocalDateTime.of(2020, 1, 1, 0, 0), fatura, true, 6, 1);
+					LocalDateTime.of(2020, 1, 1, 0, 0), fatura, TipoLancamento.PARCELADO, 6, 1);
 
 			builder.lancamentos.add(lancamento);
 		}
@@ -80,7 +81,7 @@ public class LancamentoBuilder {
 
 		for (long i = 1; i <= 10; i++) {
 			LancamentoDTO LancamentoDTO = new LancamentoDTO(i, "LancamentoDTO teste " + i, "Compra teste " + i,
-					LocalDateTime.of(2020, 1, 1, 0, 0), fatura.getId(), true, 6, 1);
+					LocalDateTime.of(2020, 1, 1, 0, 0), fatura.getId(), TipoLancamento.PARCELADO, 6, 1);
 
 			builder.lancamentosDTO.add(LancamentoDTO);
 		}

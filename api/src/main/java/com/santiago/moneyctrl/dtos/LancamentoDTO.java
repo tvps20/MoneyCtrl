@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.moneyctrl.domain.Lancamento;
+import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 import com.santiago.moneyctrl.dtos.enuns.TipoEntity;
 
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class LancamentoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	protected boolean parcelado;
+	protected TipoLancamento tipoLancamento;
 
 	@Setter
 	private Integer qtdParcelas;
@@ -68,15 +69,15 @@ public class LancamentoDTO extends BaseDTO {
 	}
 
 	public LancamentoDTO(Long id, String descricao, String obsrvacao, LocalDateTime dataCompra, Long faturaId,
-			boolean parcelado, Integer qtdParcelas, Integer parcelaAtual) {
+			TipoLancamento tipoLancamento, Integer qtdParcelas, Integer parcelaAtual) {
 		super(id);
 		this.descricao = descricao;
 		this.observacao = obsrvacao;
 		this.dataCompra = dataCompra;
 		this.faturaId = faturaId;
-		this.parcelado = parcelado;
+		this.tipoLancamento = tipoLancamento;
 
-		if (parcelado) {
+		if (tipoLancamento == TipoLancamento.PARCELADO) {
 			this.qtdParcelas = qtdParcelas != null ? qtdParcelas : 2;
 			this.parcelaAtual = parcelaAtual != null ? parcelaAtual : 1;
 		}
@@ -89,13 +90,13 @@ public class LancamentoDTO extends BaseDTO {
 		this.observacao = lancamento.getObservacao();
 		this.dataCompra = lancamento.getDataCompra();
 		this.faturaId = lancamento.getFatura().getId();
-		this.parcelado = lancamento.isParcelado();
+		this.tipoLancamento = lancamento.getTipoLancamento();
 		this.cotas = lancamento.getCotas().stream().map(obj -> {
 			CotaDTO dto = new CotaDTO(obj);
 			dto.setLancamentoId(null);
 			return dto;
 		}).collect(Collectors.toList());
-		if (lancamento.isParcelado()) {
+		if (lancamento.getTipoLancamento() == TipoLancamento.PARCELADO) {
 			this.qtdParcelas = lancamento.getQtdParcelas();
 			this.parcelaAtual = lancamento.getParcelaAtual();
 		}
@@ -109,7 +110,7 @@ public class LancamentoDTO extends BaseDTO {
 	// Getters and Setters
 	public Integer getQtdParcelas() {
 
-		if (this.parcelado) {
+		if (this.tipoLancamento == TipoLancamento.PARCELADO) {
 			this.qtdParcelas = qtdParcelas != null ? qtdParcelas : 2;
 		}
 
@@ -118,7 +119,7 @@ public class LancamentoDTO extends BaseDTO {
 
 	public Integer getParcelaAtual() {
 
-		if (this.parcelado) {
+		if (this.tipoLancamento == TipoLancamento.PARCELADO) {
 			if (this.parcelaAtual != null) {
 				if (this.parcelaAtual > this.qtdParcelas) {
 					this.parcelaAtual = this.qtdParcelas;
