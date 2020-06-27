@@ -1,16 +1,18 @@
+import { FaturaService } from './../../services/fatura.service';
+import { LancamentoService } from './../../services/lancamento.service';
 import { LancamentoType } from './../../../../shared/util/enuns-type.enum';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
 import { CotaFatura } from './../../../../shared/models/cota';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 
 import { Fatura } from './../../../../shared/models/fatura';
 import { Comprador } from './../../../../shared/models/comprador';
 import { Lancamento } from './../../../../shared/models/lancamento';
 
-import { AlertServiceService } from './../../../../shared/services/alert-service.service';
+import { AlertService } from './../../../../shared/services/alert-service.service';
 import { ValidFormsService } from './../../../../shared/services/valid-forms.service';
 import { CompradorService } from './../../../user-comprador/services/comprador.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
@@ -22,7 +24,6 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 })
 export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
-    public error$ = new Subject<boolean>();
     public submitte = false;
     public step = 0;
     public panelOpenState = false;
@@ -36,31 +37,53 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private route: ActivatedRoute,
-        private alertServiceService: AlertServiceService,
-        private compradorService: CompradorService) {
+        private compradorService: CompradorService,
+        private lancamentoService: LancamentoService,
+        private faturaService: FaturaService,
+        private alertServiceService: AlertService) {
         super(validFormsService);
     }
 
     ngOnInit(): void {
         this.fatura = this.route.snapshot.data['fatura'];
         this.cotas = this.route.snapshot.data['cotas'];
-        this.compradorSelect$ = this.listAllCompradores();
+        this.compradorSelect$ = this.compradorService.listAll();
         this.formulario = this.createForm();
     }
 
     public submit() {
         this.formulario.setControl('compradores', this.formBuilder.array(this.lancamentoCotas));
+        let newEntity = this.lancamentoService.parseToEntity(this.formulario);
+        this.createEntity(newEntity, 'Lançamento salvo com sucesso.', 'Error ao tentar salvar lançamento')
     }
 
     public createEntity(entity: any, msgSuccess: string, msgError: string) {
-        throw new Error("Method not implemented.");
+        return this.lancamentoService.create(entity).subscribe(
+            success => {
+                this.reseteForm();
+                this.submitte = false;
+                this.alertServiceService.ShowAlertSuccess(msgSuccess);
+            },
+            error => {
+                this.submitte = false;
+                this.alertServiceService.ShowAlertDanger(msgError);
+            },
+            () => {
+                this.faturaService.findById(this.fatura.id).subscribe(
+                    success => this.fatura = success
+                );
+                this.faturaService.listAllCotas(this.fatura.id).subscribe(
+                    success => this.cotas = success
+                );
+            }
+        );
     }
 
     public createForm() {
         return this.formBuilder.group({
             descricao: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
             tipoLancamento: [LancamentoType.AVISTA, Validators.required],
-            parcelas: [{ value: null, disabled: true }, Validators.required],
+            parcelas: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4)]],
             dataCompra: [{ value: new Date(), disabled: true }, Validators.required],
             comprador: this.formBuilder.group({
                 compradorId: [null],
@@ -72,11 +95,20 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         });
     }
 
+    public onDisableFieldParcela(){
+        this.formulario.get('parcelas').disable();
+        this.formulario.get('parcelas').setValue(null);
+    }
+
+    public onEnableFieldParcela(){
+        this.formulario.get('parcelas').enable();
+    }
+
     get compradoresForm(): FormArray {
         return this.formulario.get("compradores") as FormArray;
     }
 
-    public AddCotaInLancamento() {
+    public onAddCotaInLancamento() {
         if (this.formulario.get('comprador').valid) {
             let novoComprador = this.createCota();
             let comprador = this.searchCompradorInCotas(novoComprador.compradorId);
@@ -95,7 +127,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         return this.lancamentoCotas.filter(x => x.compradorId === compradorId);
     }
 
-    public revomeCotaInLancamento(compradorControl: any){
+    public onRevomeCotaInLancamento(compradorControl: any){
         let index = this.lancamentoCotas.indexOf(compradorControl);
         if(index > -1){
             let comprador: any = this.lancamentoCotas.splice(index, 1);
@@ -137,15 +169,23 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
     }
 
     public onDelete(event: any) {
-        throw new Error("Method not implemented.");
-    }
-
-    public listAllCompradores() {
-        return this.compradorService.listAll().pipe(
-            catchError(error => {
-                this.alertServiceService.ShowAlertDanger('Error ao carregar dividas antigas. Tente novamente mais tarde.')
-                return empty();
-            })
-        );
+        if (event === 'sim') {
+            this.lancamentoService.delete(this.entitySelecionada.id).subscribe(
+                success => {
+                    this.alertServiceService.ShowAlertSuccess("Lançamento apagado com sucesso.");
+                },
+                error => {
+                    this.alertServiceService.ShowAlertDanger(error.error.message);
+                },
+                () => {
+                    this.faturaService.findById(this.fatura.id).subscribe(
+                        success => this.fatura = success
+                    );
+                    this.faturaService.listAllCotas(this.fatura.id).subscribe(
+                        success => this.cotas = success
+                    );
+                }
+            )
+        }
     }
 }

@@ -8,11 +8,10 @@ export class Cota extends BaseEntity {
     public lancamentoId: number;
     public lancamento: StatusType;
 
-    constructor(id: number, valor: number, compradorId: number, lancamentoId: number){
+    constructor(id: number, valor: number, compradorId: number){
         super(id);
         this.valor = valor;
         this.compradorId = compradorId;
-        this.lancamentoId = lancamentoId;
         this.tipo = EntityType.COTA;
     }
 }

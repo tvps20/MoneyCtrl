@@ -1,4 +1,4 @@
-import { AlertServiceService } from './../../../shared/services/alert-service.service';
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { Observable, Subject, empty } from 'rxjs';
 import { catchError, tap, take, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
@@ -25,7 +25,6 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     public faturasOlds$: Observable<Fatura[]>;
     public cartoesSelect$:  Observable<Cartao[]>;
     public months$: Observable<any[]>;
-    public error$ = new Subject<boolean>();
     public submitte = false;
     public entitySelecionada: Fatura;
 
@@ -43,7 +42,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         protected validFormsService: ValidFormsService,
         private faturaSevice: FaturaService,
         private cartaoService: CartaoService,
-        private alertServiceService: AlertServiceService) {
+        private alertServiceService: AlertService) {
         super(validFormsService);
     }
 
@@ -155,34 +154,19 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     private listAllFaturasAtivas(direction = "DESC", orderBy = "createdAt") {
         return this.faturaSevice.listAllPageNoStatus(StatusType.PAGA, this.pageIndexFaturasAtivas, this.pageSizeFaturasAtivas, direction, orderBy).pipe(
             tap((page: any) => this.lengthFaturasAtivas = page.totalElements),
-            map((page: any) => page.content),
-            catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar faturas ativas. Tente novamente mais tarde.')
-                return empty();
-            })
+            map((page: any) => page.content)
         );
     }
 
     private listAllFaturasOlds(direction = "DESC", orderBy = "createdAt") {
         return this.faturaSevice.listAllPageStatus(StatusType.PAGA, this.pageIndexFaturasOlds, this.pageSizeFaturasOlds, direction, orderBy).pipe(
             tap((page: any) => this.lengthFaturasOlds = page.totalElements),
-            map((page: any) => page.content),
-            catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar faturas ativas. Tente novamente mais tarde.')
-                return empty();
-            })
+            map((page: any) => page.content)
         );
     }
 
     private listAllCartoesSelect(){
-        return this.cartaoService.listAll().pipe(
-            catchError(error => {
-                this.alertServiceService.ShowAlertDanger('Error ao carregar cartões. Tente novamente mais tarde.')
-                return empty();
-            }
-        ));
+        return this.cartaoService.listAll();
     }
 
     private listAllMonths(): Observable<any[]>{

@@ -8,7 +8,7 @@ import { Credito } from './../../../shared/models/credito';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { CompradorService } from './../services/comprador.service';
 import { ValidFormsService } from './../../../shared/services/valid-forms.service';
-import { AlertServiceService } from './../../../shared/services/alert-service.service';
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { FormValidations } from './../../../shared/util/form-validations';
 
 @Component({
@@ -25,7 +25,7 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private compradroService: CompradorService,
-        private alertServiceService: AlertServiceService,
+        private alertServiceService: AlertService,
         private route: ActivatedRoute) {
             super(validFormsService)
          }

@@ -9,7 +9,7 @@ import { Comprador } from './../../shared/models/comprador';
 import { EntityType } from './../../shared/util/enuns-type.enum';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
-import { AlertServiceService } from './../../shared/services/alert-service.service';
+import { AlertService } from './../../shared/services/alert-service.service';
 import { UserCompradorService } from './services/user-comprador.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
@@ -44,7 +44,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private userCompradorService: UserCompradorService,
-        private alertServiceService: AlertServiceService) {
+        private alertServiceService: AlertService) {
         super(validFormsService);
     }
 

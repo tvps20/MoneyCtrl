@@ -6,7 +6,7 @@ declare var $: any;
 @Injectable({
     providedIn: 'root'
 })
-export class AlertServiceService {
+export class AlertService {
 
     constructor() { }
 

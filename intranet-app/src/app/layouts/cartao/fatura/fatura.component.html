@@ -87,18 +87,18 @@
                                     </mat-paginator>
                                 </div>
                                 <ng-template #loadingFaturasAtivas>
-                                    <div *ngIf="error$ | async; else loadingNoError">
+                                    <!-- <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
                                             <p>Error ao carregar faturas ativas. Tente novamente mais tarde.</p>
                                         </div>
-                                    </div>
-                                    <ng-template #loadingNoError>
+                                    </div> -->
+                                    <!-- <ng-template #loadingNoError> -->
                                         <div class="text-center">
                                             <span class="spinner-border spinner-border-sm" role="status"
                                                 aria-hidden="true"></span>
                                             Carregando...
                                         </div>
-                                    </ng-template>
+                                    <!-- </ng-template> -->
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="oldFaturas">
@@ -146,18 +146,18 @@
                                     </mat-paginator>
                                 </div>
                                 <ng-template #loadingFaturasOlds>
-                                    <div *ngIf="error$ | async; else loadingNoError">
+                                    <!-- <div *ngIf="error$ | async; else loadingNoError">
                                         <div class="row justify-content-center text-danger">
                                             <p>Error ao carregar faturas antigas. Tente novamente mais tarde.</p>
                                         </div>
-                                    </div>
-                                    <ng-template #loadingNoError>
+                                    </div> -->
+                                    <!-- <ng-template #loadingNoError> -->
                                         <div class="text-center">
                                             <span class="spinner-border spinner-border-sm" role="status"
                                                 aria-hidden="true"></span>
                                             Carregando...
                                         </div>
-                                    </ng-template>
+                                    <!-- </ng-template> -->
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">

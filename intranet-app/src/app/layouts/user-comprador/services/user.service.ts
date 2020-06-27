@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { take, map, tap } from 'rxjs/operators';
 
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { CrudService } from 'src/app/shared/services/crud-service';
 import { User } from 'src/app/shared/models/user';
 
@@ -12,8 +13,8 @@ import { User } from 'src/app/shared/models/user';
 })
 export class UserService extends CrudService<User> {
 
-    constructor(protected http: HttpClient) {
-        super(http, '/api/usuarios');
+    constructor(protected http: HttpClient, protected alertService: AlertService) {
+        super(http, '/api/usuarios', alertService);
     }
 
     public verificaEmail(email: string){

@@ -6,7 +6,7 @@ import { Pagamento } from './../../models/pagamento';
 
 import { ValidFormsService } from './../../services/valid-forms.service';
 import { DividaService } from './../../../layouts/divida/services/divida.service';
-import { AlertServiceService } from './../../services/alert-service.service';
+import { AlertService } from './../../services/alert-service.service';
 declare var $: any;
 
 @Component({
@@ -25,7 +25,7 @@ export class ModalPagamentoComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
         private dividaService: DividaService,
-        private alertServiceService: AlertServiceService,
+        private alertServiceService: AlertService,
         private validFormsService: ValidFormsService) { }
 
     ngOnInit(): void {

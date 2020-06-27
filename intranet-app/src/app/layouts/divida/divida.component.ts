@@ -8,7 +8,7 @@ import { Divida } from './../../shared/models/divida';
 import { Comprador } from './../../shared/models/comprador';
 
 import { DividaService } from './services/divida.service';
-import { AlertServiceService } from './../../shared/services/alert-service.service';
+import { AlertService } from './../../shared/services/alert-service.service';
 import { CompradorService } from './../user-comprador/services/comprador.service';
 import { ValidFormsService } from './../../shared/services/valid-forms.service';
 import { FormValidations } from './../../shared/util/form-validations';
@@ -50,7 +50,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
         private dividaService: DividaService,
-        private alertServiceService: AlertServiceService,
+        private alertServiceService: AlertService,
         private compradorService: CompradorService) {
         super(validFormsService);
     }

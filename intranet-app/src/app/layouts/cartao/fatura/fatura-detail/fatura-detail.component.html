@@ -133,39 +133,35 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="cotas">
                                 <div class="row" *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyCotas">
-                                    <div [class]="cotas.length > 1 ? 'col-lg-6 col-md-6 col-sm-12' : 'col-lg-6 col-md-12 col-sm-12'"
-                                        *ngFor="let cotaFatura of cotas">
-                                        <div class="card">
-                                            <div class="card-header card-header-primary">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <h5 class="card-title">{{ cotaFatura.compradorNome }}</h5>
-                                                    </div>
-                                                    <div class="col-md-4 text-right">
-                                                        <p class="card-category">Total:
-                                                            {{ cotaFatura.valorTotal | currency:'BRL' }}</p>
+                                    <!-- <div [class]="cotas.length > 1 ? 'col-lg-6 col-md-6 col-sm-12' : 'col-lg-6 col-md-12 col-sm-12'"
+                                       > -->
+                                       <div class="card-columns">
+                                            <div class="card" *ngFor="let cotaFatura of cotas">
+                                                <div class="card-header card-header-primary">
+                                                    <div class="row">
+                                                        <h5 class="card-title ml-3">{{ cotaFatura.compradorNome }} - {{ cotaFatura.valorTotal | currency:'BRL' }}</h5>
                                                     </div>
                                                 </div>
+                                                <div class="card-body table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead class="text-primary">
+                                                            <th>Descrição</th>
+                                                            <th>valor</th>
+                                                            <th>Parcela</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let cota of cotaFatura.cotas">
+                                                                <td>{{ cota.lancamento.descricao }}</td>
+                                                                <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                                <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                            <div class="card-body table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead class="text-primary">
-                                                        <th>Descrição</th>
-                                                        <th>valor</th>
-                                                        <th>Parcela</th>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let cota of cotaFatura.cotas">
-                                                            <td>{{ cota.lancamento.descricao }}</td>
-                                                            <td>{{ cota.valor | currency:'BRL' }}</td>
-                                                            <td>{{ cota.lancamento.parcelado ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                                       </div>
+                                    <!-- </div> -->
                                 </div>
                                 <ng-template #loadingListEmptyCotas>
                                     <p class="text-muted text-center">Nenhuma cota disponivel para essa fatura.</p>
@@ -204,7 +200,8 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        matTooltipPosition="above"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(lancamento)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -220,7 +217,7 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                    <form [formGroup]="formulario" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <mat-accordion class="example-headers-align">
@@ -239,17 +236,17 @@
                                                                     [control]="formulario.get('descricao')">
                                                                 </app-input-field>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-3">
                                                                 <mat-radio-group formControlName="tipoLancamento">
-                                                                    <mat-radio-button class="m-1" value="AVISTA">A Vista
-                                                                    </mat-radio-button>
-                                                                    <mat-radio-button class="m-1" value="PARCELADO">
+                                                                    <mat-radio-button class="m-1" value="AVISTA" (click)="onDisableFieldParcela()">
+                                                                        A Vista</mat-radio-button>
+                                                                    <mat-radio-button class="m-1" value="PARCELADO" (click)="onEnableFieldParcela()">
                                                                         Parcelado</mat-radio-button>
-                                                                    <mat-radio-button class="m-1" value="ASSINATURA">
+                                                                    <mat-radio-button class="m-1" value="ASSINATURA" (click)="onDisableFieldParcela()">
                                                                         Assinatura</mat-radio-button>
                                                                 </mat-radio-group>
                                                             </div>
-                                                            <div class="col-md-2">
+                                                            <div class="col-md-3">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Parcelas</mat-label>
                                                                     <input matInput mask="00/00"
@@ -306,7 +303,8 @@
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <button type="button" mat-button
-                                                                            class="nav-link" (click)="AddCotaInLancamento()">
+                                                                            class="nav-link"
+                                                                            (click)="onAddCotaInLancamento()">
                                                                             <i class="material-icons">library_add</i>
                                                                             Adicionar
                                                                             <div class="ripple-container"></div>
@@ -325,14 +323,17 @@
                                                     <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
                                                         hideToggle>
                                                         <mat-expansion-panel-header>
-                                                            <mat-panel-title>Compradores: {{ compradoresForm.controls.length }}</mat-panel-title>
-                                                            <mat-panel-description>Valor do lançamento: {{ valorTotalCompradores | currency:'BRL' }}
+                                                            <mat-panel-title>Compradores: {{ lancamentoCotas.length }}
+                                                            </mat-panel-title>
+                                                            <mat-panel-description>Valor do lançamento:
+                                                                {{ valorTotalCompradores | currency:'BRL' }}
                                                             </mat-panel-description>
                                                         </mat-expansion-panel-header>
 
                                                         <div class="row">
                                                             <div class="card-body">
-                                                                <div class="table-responsive" *ngIf="lancamentoCotas.length > 0; else loadingListEmptyCompradores">
+                                                                <div class="table-responsive"
+                                                                    *ngIf="lancamentoCotas.length > 0; else loadingListEmptyCompradores">
                                                                     <table class="table table-sm table-hover">
                                                                         <thead class=" text-primary">
                                                                             <th>Comprador</th>
@@ -340,14 +341,16 @@
                                                                             <th>Ação</th>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr *ngFor="let cota of lancamentoCotas" >
+                                                                            <tr *ngFor="let cota of lancamentoCotas">
                                                                                 <td>{{ cota.compradorNome }}</td>
-                                                                                <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                                                <td>{{ cota.valor | currency:'BRL' }}
+                                                                                </td>
                                                                                 <td class="text-primary">
                                                                                     <button mat-raised-button
                                                                                         type="button"
                                                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                                                        <i class="material-icons" (click)="revomeCotaInLancamento(cota)" >close</i>
+                                                                                        <i class="material-icons"
+                                                                                            (click)="onRevomeCotaInLancamento(cota)">close</i>
                                                                                     </button>
                                                                                 </td>
                                                                             </tr>
@@ -355,7 +358,8 @@
                                                                     </table>
                                                                 </div>
                                                                 <ng-template #loadingListEmptyCompradores>
-                                                                    <p class="text-muted text-center">Nenhum comprador adicionado para esse lançamento.</p>
+                                                                    <p class="text-muted text-center">Nenhum comprador
+                                                                        adicionado para esse lançamento.</p>
                                                                 </ng-template>
                                                             </div>
                                                         </div>
@@ -383,7 +387,8 @@
                                                                     <mat-label>Lembrou de algo? Deixa aqui para não
                                                                         esquecer...
                                                                     </mat-label>
-                                                                    <textarea matInput formControlName="observacao"></textarea>
+                                                                    <textarea matInput
+                                                                        formControlName="observacao"></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -400,7 +405,7 @@
                                         </div>
                                         <br />
                                         <button mat-raised-button appearance="outline" type="submit"
-                                            class="btn btn-info pull-right">Salvar</button>
+                                            class="btn btn-info pull-right" (click)="onSubmit()" >Salvar</button>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>
@@ -413,5 +418,8 @@
     </div>
 </div>
 <app-form-debug [formulario]="formulario"></app-form-debug>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>
 <!-- Modal de detalhes do lançamento -->
 <app-modal-lancamento></app-modal-lancamento>

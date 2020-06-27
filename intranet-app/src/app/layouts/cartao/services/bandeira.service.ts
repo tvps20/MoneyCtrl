@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { take, map, tap } from 'rxjs/operators';
 
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { CrudService } from 'src/app/shared/services/crud-service';
 import { Bandeira } from 'src/app/shared/models/bandeira';
 
@@ -11,13 +12,12 @@ import { Bandeira } from 'src/app/shared/models/bandeira';
 })
 export class BandeiraService extends CrudService<Bandeira> {
 
-    constructor(protected http: HttpClient) {
-        super(http, '/api/bandeiras');
+    constructor(protected http: HttpClient, protected alertService: AlertService) {
+        super(http, '/api/bandeiras', alertService);
     }
 
-    public verificaNomeUnico(nome: string){
-        return this.http.get(this.API_URL + `/valida/valor-unico/${nome}`)
-        .pipe(
+    public verificaNomeUnico(nome: string) {
+        return this.http.get(this.API_URL + `/valida/valor-unico/${nome}`).pipe(
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
             take(1)
         );

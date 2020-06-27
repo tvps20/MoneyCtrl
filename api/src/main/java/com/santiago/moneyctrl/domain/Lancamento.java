@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 
@@ -54,7 +58,8 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	@OneToMany(mappedBy = "lancamento")
+	@OneToMany(cascade = {CascadeType.REMOVE }, mappedBy = "lancamento") 
+	@OnDelete(action = OnDeleteAction.CASCADE) // Gera o “cascade delete” na constraint no banco de dados evitando várias querys para delete
 	private List<Cota> cotas = new ArrayList<>();
 
 	// Construtores

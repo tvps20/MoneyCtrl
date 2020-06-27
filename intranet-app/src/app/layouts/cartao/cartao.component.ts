@@ -12,7 +12,7 @@ import { FormValidations } from 'src/app/shared/util/form-validations';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { CartaoService } from './services/cartao.service';
 import { BandeiraService } from './services/bandeira.service';
-import { AlertServiceService } from './../../shared/services/alert-service.service';
+import { AlertService } from './../../shared/services/alert-service.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         protected validFormsService: ValidFormsService,
         private bandeiraService: BandeiraService,
         private cartaoService: CartaoService,
-        private alertServiceService: AlertServiceService) {
+        private alertServiceService: AlertService) {
         super(validFormsService);
     }
 
@@ -64,7 +64,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         return this.cartaoService.create(entity).subscribe(
             success => {
                 this.reseteForm();
-                this.submitte = false
+                this.submitte = false;
                 this.alertServiceService.ShowAlertSuccess(msgSuccess);
             },
             error => {
@@ -93,6 +93,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     }
 
     public onDisableFields() {
+        console.log(this.formulario.get('novaBandeira').value)
         if (!this.formulario.get('novaBandeira').value) {
             this.formulario.get('bandeira').enable();
             this.formulario.get('bandeiraId').disable();

@@ -13,8 +13,7 @@ import { User } from 'src/app/shared/models/user';
 })
 export class UserCompradorService {
 
-    constructor(protected http: HttpClient,
-        private userService: UserService,
+    constructor(private userService: UserService,
         private compradorService: CompradorService) { }
 
 

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
 import { CrudService } from 'src/app/shared/services/crud-service';
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { Comprador } from 'src/app/shared/models/comprador';
 import { Credito } from './../../../shared/models/credito';
 import { AcessoType } from 'src/app/shared/util/enuns-type.enum';
@@ -14,15 +15,15 @@ import { RolesType } from './../../../shared/util/enuns-type.enum';
 })
 export class CompradorService extends CrudService<Comprador> {
 
-    constructor(protected http: HttpClient) {
-        super(http, '/api/compradores');
+    constructor(protected http: HttpClient, protected alertService: AlertService) {
+        super(http, '/api/compradores', alertService);
     }
 
-    public createCredito(credito: Credito){
+    public createCredito(credito: Credito) {
         return this.http.post(this.API_URL + `/${credito.compradorId}/creditos`, credito).pipe(take(1));
     }
 
-    public deleteCredito(id: number){
+    public deleteCredito(id: number) {
         return this.http.delete(`${this.API_URL}/creditos/${id}`).pipe(take(1));
     }
 
@@ -36,11 +37,11 @@ export class CompradorService extends CrudService<Comprador> {
         let comprador: Comprador = new Comprador(null, form.get('nome').value, form.get('username').value, form.get('password').value);
         comprador.sobrenome = form.get('sobrenome').value;
 
-        if(form.get('admin').value){
+        if (form.get('admin').value) {
             comprador.roles.push(RolesType.ADMIN);
         }
 
-        if(form.get('email') !== null && form.get('email').value !== ''){
+        if (form.get('email') !== null && form.get('email').value !== '') {
             comprador.email = form.get('email').value;
             comprador.acesso.push(AcessoType.EMAIL);
         }
