@@ -403,10 +403,14 @@
                                                 </mat-accordion>
                                             </div>
                                         </div>
-                                        <br />
-                                        <button mat-raised-button appearance="outline" type="submit"
-                                            class="btn btn-info pull-right" (click)="onSubmit()" >Salvar</button>
-                                        <div class="clearfix"></div>
+                                        <br/>
+                                        <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right" (click)="onSubmit()">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
                                     </form>
                                 </div>
                             </div>

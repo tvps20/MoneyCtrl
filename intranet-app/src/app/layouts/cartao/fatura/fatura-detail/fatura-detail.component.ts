@@ -52,6 +52,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
     }
 
     public submit() {
+        this.submitte = true;
         this.formulario.setControl('compradores', this.formBuilder.array(this.lancamentoCotas));
         let newEntity = this.lancamentoService.parseToEntity(this.formulario);
         this.createEntity(newEntity, 'Lançamento salvo com sucesso.', 'Error ao tentar salvar lançamento')
