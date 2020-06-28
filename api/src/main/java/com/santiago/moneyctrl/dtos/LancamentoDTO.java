@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
@@ -27,6 +29,7 @@ public class LancamentoDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@Length(min = 5, max = 20, message = "{validation.erro.model.length.nome}")
 	private String descricao;
 
 	@Getter
