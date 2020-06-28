@@ -1,21 +1,23 @@
-import { FaturaService } from './../../services/fatura.service';
-import { LancamentoService } from './../../services/lancamento.service';
-import { LancamentoType } from './../../../../shared/util/enuns-type.enum';
+import { PageEvent } from '@angular/material/paginator';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
 import { CotaFatura } from './../../../../shared/models/cota';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl, FormGroup } from '@angular/forms';
 
 import { Fatura } from './../../../../shared/models/fatura';
 import { Comprador } from './../../../../shared/models/comprador';
 import { Lancamento } from './../../../../shared/models/lancamento';
 
 import { AlertService } from './../../../../shared/services/alert-service.service';
+import { FaturaService } from './../../services/fatura.service';
+import { LancamentoService } from './../../services/lancamento.service';
+import { LancamentoType } from './../../../../shared/util/enuns-type.enum';
 import { ValidFormsService } from './../../../../shared/services/valid-forms.service';
 import { CompradorService } from './../../../user-comprador/services/comprador.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { FormValidations } from 'src/app/shared/util/form-validations';
 
 @Component({
     selector: 'app-fatura-detail',
@@ -24,15 +26,21 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 })
 export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
-    public submitte = false;
-    public step = 0;
-    public panelOpenState = false;
-    public fatura: Fatura;
-    public cotas: CotaFatura[];
     public compradorSelect$: Observable<Comprador[]>;
     public lancamentoCotas: any[] = [];
-    public entitySelecionada: Lancamento;
+    public lancamentos: Lancamento[] = [];
+    public cotas: CotaFatura[];
+    public fatura: Fatura;
+    public panelOpenState = false;
+    public submitte = false;
+    public step = 0;
     public valorTotalCompradores = 0;
+    public entitySelecionada: Lancamento;
+
+    // MatPaginator Lançamentos
+    public lengthLancamentos = 10;
+    public pageSizeLancamentos = 5;
+    public pageIndexLancamentos = 1;
 
     constructor(private formBuilder: FormBuilder,
         protected validFormsService: ValidFormsService,
@@ -48,12 +56,13 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         this.fatura = this.route.snapshot.data['fatura'];
         this.cotas = this.route.snapshot.data['cotas'];
         this.compradorSelect$ = this.compradorService.listAll();
+        this.lancamentos = this.paginate(this.fatura.lancamentos, this.pageSizeLancamentos, this.pageIndexLancamentos);
         this.formulario = this.createForm();
+        this.lengthLancamentos = this.fatura.lancamentos.length;
     }
 
     public submit() {
         this.submitte = true;
-        this.formulario.setControl('compradores', this.formBuilder.array(this.lancamentoCotas));
         let newEntity = this.lancamentoService.parseToEntity(this.formulario);
         this.createEntity(newEntity, 'Lançamento salvo com sucesso.', 'Error ao tentar salvar lançamento')
     }
@@ -70,25 +79,21 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
                 this.alertServiceService.ShowAlertDanger(msgError);
             },
             () => {
-                this.faturaService.findById(this.fatura.id).subscribe(
-                    success => this.fatura = success
-                );
-                this.faturaService.listAllCotas(this.fatura.id).subscribe(
-                    success => this.cotas = success
-                );
+                this.getFaturas();
+                this.getCotasFatura();
             }
         );
     }
 
     public createForm() {
         return this.formBuilder.group({
-            descricao: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+            descricao: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20), FormValidations.notStartNumber]],
             tipoLancamento: [LancamentoType.AVISTA, Validators.required],
             parcelas: [{ value: null, disabled: true }, [Validators.required, Validators.minLength(4)]],
             dataCompra: [{ value: new Date(), disabled: true }, Validators.required],
             comprador: this.formBuilder.group({
-                compradorId: [null],
-                valor: [null]
+                compradorId: [null, FormValidations.validaArray('compradores')],
+                valor: [null, FormValidations.validaArray('compradores')]
             }),
             faturaId: [this.fatura.id],
             observacao: [null],
@@ -110,9 +115,12 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
     }
 
     public onAddCotaInLancamento() {
-        if (this.formulario.get('comprador').valid) {
+        if ((this.formulario.get('comprador.compradorId').value != null && this.formulario.get('comprador.compradorId').value != '')
+            && (this.formulario.get('comprador.valor').value != null && this.formulario.get('comprador.valor').value != '')) {
+
             let novoComprador = this.createCota();
             let comprador = this.searchCompradorInCotas(novoComprador.compradorId);
+
             if(comprador.length > 0){
                 comprador[0].valor = parseFloat(comprador[0].valor) + parseFloat(novoComprador.valor);
             } else {
@@ -120,6 +128,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
             }
 
             this.valorTotalCompradores += parseFloat(novoComprador.valor);
+            this.formulario.setControl('compradores', this.formBuilder.array(this.lancamentoCotas));
             this.formulario.get('comprador').reset();
         }
     }
@@ -133,6 +142,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         if(index > -1){
             let comprador: any = this.lancamentoCotas.splice(index, 1);
             this.valorTotalCompradores -= comprador[0].valor;
+            this.formulario.setControl('compradores', this.formBuilder.array(this.lancamentoCotas));
         }
     }
 
@@ -151,18 +161,8 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
     public reseteForm() {
         this.formulario.reset();
-    }
-
-    public setStep(index: number) {
-        this.step = index;
-    }
-
-    public nextStep() {
-        this.step++;
-    }
-
-    public prevStep() {
-        this.step--;
+        this.formulario.get('tipoLancamento').setValue(LancamentoType.AVISTA);
+        this.formulario.get('dataCompra').setValue(new Date());
     }
 
     public onSelectedEntity(entity: any) {
@@ -179,14 +179,44 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
                     this.alertServiceService.ShowAlertDanger(error.error.message);
                 },
                 () => {
-                    this.faturaService.findById(this.fatura.id).subscribe(
-                        success => this.fatura = success
-                    );
-                    this.faturaService.listAllCotas(this.fatura.id).subscribe(
-                        success => this.cotas = success
-                    );
+                    this.getFaturas();
+                    this.getCotasFatura();
                 }
             )
         }
+    }
+
+    private getFaturas(){
+        this.faturaService.findById(this.fatura.id).subscribe(
+            success => {
+                this.fatura = success;
+                //this.lengthLancamentos = this.fatura.lancamentos.length;
+                this.lancamentos = this.paginate(this.fatura.lancamentos, this.pageSizeLancamentos, this.pageIndexLancamentos);
+            }
+        );
+    }
+
+    private getCotasFatura(){
+        this.faturaService.listAllCotas(this.fatura.id).subscribe(
+            success => this.cotas = success
+        );
+    }
+
+    public setStep(index: number) {
+        this.step = index;
+    }
+
+    public nextStep() {
+        this.step++;
+    }
+
+    public prevStep() {
+        this.step--;
+    }
+
+    public changeListLancamentos(event: PageEvent) {
+        this.pageSizeLancamentos = event.pageSize;
+        this.pageIndexLancamentos = event.pageIndex +1;
+        this.getFaturas();
     }
 }

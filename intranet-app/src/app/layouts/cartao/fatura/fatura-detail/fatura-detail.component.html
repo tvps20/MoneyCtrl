@@ -133,35 +133,33 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="cotas">
                                 <div class="row" *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyCotas">
-                                    <!-- <div [class]="cotas.length > 1 ? 'col-lg-6 col-md-6 col-sm-12' : 'col-lg-6 col-md-12 col-sm-12'"
-                                       > -->
-                                       <div class="card-columns">
-                                            <div class="card" *ngFor="let cotaFatura of cotas">
-                                                <div class="card-header card-header-primary">
-                                                    <div class="row">
-                                                        <h5 class="card-title ml-3">{{ cotaFatura.compradorNome }} - {{ cotaFatura.valorTotal | currency:'BRL' }}</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead class="text-primary">
-                                                            <th>Descrição</th>
-                                                            <th>valor</th>
-                                                            <th>Parcela</th>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr *ngFor="let cota of cotaFatura.cotas">
-                                                                <td>{{ cota.lancamento.descricao }}</td>
-                                                                <td>{{ cota.valor | currency:'BRL' }}</td>
-                                                                <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                    <div class="card-columns">
+                                        <div class="card" *ngFor="let cotaFatura of cotas">
+                                            <div class="card-header card-header-primary">
+                                                <div class="row">
+                                                    <h5 class="card-title ml-3">{{ cotaFatura.compradorNome }} -
+                                                        {{ cotaFatura.valorTotal | currency:'BRL' }}</h5>
                                                 </div>
                                             </div>
-                                       </div>
-                                    <!-- </div> -->
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="text-primary">
+                                                        <th>Descrição</th>
+                                                        <th>valor</th>
+                                                        <th>Parcela</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let cota of cotaFatura.cotas">
+                                                            <td>{{ cota.lancamento.descricao }}</td>
+                                                            <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <ng-template #loadingListEmptyCotas>
                                     <p class="text-muted text-center">Nenhuma cota disponivel para essa fatura.</p>
@@ -170,7 +168,7 @@
                             <div class="tab-pane" id="lancamentos">
                                 <div class="table-responsive">
                                     <table class="table table-hover"
-                                        *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyLancamentos">
+                                        *ngIf="lancamentos.length > 0; else loadingListEmptyLancamentos">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Data da Compra</th>
@@ -180,7 +178,7 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let lancamento of fatura.lancamentos">
+                                            <tr *ngFor="let lancamento of lancamentos">
                                                 <td>{{ lancamento.descricao }}</td>
                                                 <td>{{ lancamento.dataCompra | date: 'dd/MM/yyyy' }}</td>
                                                 <td>{{ lancamento.valorTotal | currency:'BRL' }}</td>
@@ -201,7 +199,8 @@
                                                     </button>
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
                                                         data-toggle="modal" data-target="#modalExcluirEntity"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(lancamento)"
+                                                        matTooltipPosition="above"
+                                                        (click)="onSelectedEntity(lancamento)"
                                                         class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">close</i>
                                                     </button>
@@ -209,11 +208,16 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ng-template #loadingListEmptyLancamentos>
-                                        <p class="text-muted text-center">Nenhum lançamento disponivel para essa fatura.
-                                        </p>
-                                    </ng-template>
+                                    <mat-paginator [length]="lengthLancamentos"
+                                                [pageSize]="pageSizeLancamentos"
+                                                [pageSizeOptions]="[5, 10, 25, 100]"
+                                                (page)="changeListLancamentos($event)">
+                                    </mat-paginator>
                                 </div>
+                                <ng-template #loadingListEmptyLancamentos>
+                                    <p class="text-muted text-center">Nenhum lançamento disponivel para essa fatura.
+                                    </p>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
@@ -238,11 +242,14 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <mat-radio-group formControlName="tipoLancamento">
-                                                                    <mat-radio-button class="m-1" value="AVISTA" (click)="onDisableFieldParcela()">
+                                                                    <mat-radio-button class="m-1" value="AVISTA"
+                                                                        (click)="onDisableFieldParcela()">
                                                                         A Vista</mat-radio-button>
-                                                                    <mat-radio-button class="m-1" value="PARCELADO" (click)="onEnableFieldParcela()">
+                                                                    <mat-radio-button class="m-1" value="PARCELADO"
+                                                                        (click)="onEnableFieldParcela()">
                                                                         Parcelado</mat-radio-button>
-                                                                    <mat-radio-button class="m-1" value="ASSINATURA" (click)="onDisableFieldParcela()">
+                                                                    <mat-radio-button class="m-1" value="ASSINATURA"
+                                                                        (click)="onDisableFieldParcela()">
                                                                         Assinatura</mat-radio-button>
                                                                 </mat-radio-group>
                                                             </div>
@@ -251,6 +258,18 @@
                                                                     <mat-label>Parcelas</mat-label>
                                                                     <input matInput mask="00/00"
                                                                         formControlName="parcelas">
+                                                                    <mat-icon matSuffix class="text-danger"
+                                                                        *ngIf="verificarValidControl('parcelas') && formulario.get('parcelas').enabled">
+                                                                        error</mat-icon>
+                                                                    <mat-icon matSuffix class="text-success"
+                                                                        *ngIf="verificarValidControlSuccess('parcelas') && formulario.get('parcelas').enabled">
+                                                                        done</mat-icon>
+                                                                    <mat-hint>
+                                                                        <div class="text-danger"
+                                                                            *ngIf="verificarValidControl('parcelas')">
+                                                                            {{ errorMessage('parcelas', 'Parcelas') }}
+                                                                        </div>
+                                                                    </mat-hint>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -269,7 +288,7 @@
                                                             <div class="col-md-8">
                                                                 <div class="row" formGroupName="comprador">
                                                                     <div class="col-md-5">
-                                                                        <mat-form-field>
+                                                                        <mat-form-field appearance="outline">
                                                                             <mat-label>Comprador</mat-label>
                                                                             <mat-select formControlName="compradorId">
                                                                                 <mat-option
@@ -277,13 +296,18 @@
                                                                                     [value]="comprador.id+'/'+comprador.nome">
                                                                                     {{ comprador.nome }}</mat-option>
                                                                             </mat-select>
-                                                                            <!-- <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('compradorId')">error</mat-icon>
-                                                                            <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('compradorId')">done</mat-icon>
+                                                                            <mat-icon matSuffix class="text-danger"
+                                                                                *ngIf="verificarValidControl('comprador.compradorId')">
+                                                                                error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success"
+                                                                                *ngIf="verificarValidControlSuccess('comprador.compradorId')">
+                                                                                done</mat-icon>
                                                                             <mat-hint>
-                                                                                <div class="text-danger" *ngIf="verificarValidControl('compradorId')">
-                                                                                    {{ errorMessage('compradorId', 'Comprador') }}
+                                                                                <div class="text-danger"
+                                                                                    *ngIf="verificarValidControl('comprador.compradorId')">
+                                                                                    {{ errorMessage('comprador.compradorId', 'Compradores') }}
                                                                                 </div>
-                                                                            </mat-hint> -->
+                                                                            </mat-hint>
                                                                         </mat-form-field>
                                                                     </div>
                                                                     <div class="col-md-3">
@@ -292,13 +316,18 @@
                                                                             <input matInput mask="separator.2"
                                                                                 thousandSeparator="." prefix="R$ "
                                                                                 formControlName="valor">
-                                                                            <!-- <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error</mat-icon>
-                                                                            <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                                            <mat-icon matSuffix class="text-danger"
+                                                                                *ngIf="verificarValidControl('comprador.valor')">
+                                                                                error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success"
+                                                                                *ngIf="verificarValidControlSuccess('comprador.valor')">
+                                                                                done</mat-icon>
                                                                             <mat-hint>
-                                                                                <div class="text-danger" *ngIf="verificarValidControl('valor')">
-                                                                                    {{ errorMessage('valor', 'Valor') }}
+                                                                                <div class="text-danger"
+                                                                                    *ngIf="verificarValidControl('comprador.valor')">
+                                                                                    {{ errorMessage('comprador.valor', 'Compradores') }}
                                                                                 </div>
-                                                                            </mat-hint> -->
+                                                                            </mat-hint>
                                                                         </mat-form-field>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -403,7 +432,7 @@
                                                 </mat-accordion>
                                             </div>
                                         </div>
-                                        <br/>
+                                        <br />
                                         <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
                                             class="btn btn-info pull-right" (click)="onSubmit()">Salvar</button>
                                         <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
@@ -421,7 +450,6 @@
         </div>
     </div>
 </div>
-<app-form-debug [formulario]="formulario"></app-form-debug>
 
 <!-- Modal de aviso excluir -->
 <app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

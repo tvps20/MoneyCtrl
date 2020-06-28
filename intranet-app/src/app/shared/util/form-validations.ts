@@ -1,5 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
-
+import { FormControl, FormGroup, FormArray } from '@angular/forms';
 
 export class FormValidations {
 
@@ -49,6 +48,28 @@ export class FormValidations {
         return null;
     }
 
+    static validaArray(olderArrayField: string){
+        const validator = (formControl: FormControl) => {
+            if(olderArrayField == null){
+                throw new Error('É necessário informar um campo.');
+            }
+
+            if(!formControl.root || !(<FormGroup>formControl.root).controls){
+                return null;
+            }
+
+            const field = (<FormArray>formControl.root).get(olderArrayField);
+
+            if(field.value.length <= 0){
+                return { isEmpty: true }
+            }
+
+            return null;
+        }
+
+        return validator;
+    }
+
     static getErrorMsg(fieldName: string, validatorName: string, validatorValue?: any){
         const config = {
             'required': `${fieldName} é origatório.`,
@@ -60,6 +81,7 @@ export class FormValidations {
             'pattern': `${fieldName} não atende ao regex.`,
             'OnlyLetters': `${fieldName} deve conter apenas letras.`,
             'startNumber': `${fieldName} não pode começar com números.`,
+            'isEmpty': `Precisa ter um ou mais ${fieldName}.`
         }
 
         return config[validatorName];

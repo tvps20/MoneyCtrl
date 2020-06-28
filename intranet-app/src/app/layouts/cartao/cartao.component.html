@@ -153,8 +153,8 @@
                                                     <mat-select formControlName="bandeiraId">
                                                         <mat-option *ngFor="let bandeira of bandeirasSelect$ | async" [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
                                                     </mat-select>
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('bandeiraId')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('bandeiraId')">done</mat-icon>
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('bandeiraId') && formulario.get('bandeiraId').enabled">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('bandeiraId') && formulario.get('bandeiraId').enabled">done</mat-icon>
                                                     <mat-hint>
                                                         <div class="text-danger" *ngIf="verificarValidControl('bandeiraId')">
                                                             {{ errorMessage('bandeiraId', 'Bandeira') }}
@@ -165,9 +165,20 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="bandeira" label="Bandeira" uniqueFiled="true"
-                                                    [control]="formulario.get('bandeira')">
-                                                </app-input-field>
+                                                <mat-form-field  appearance="outline">
+                                                    <mat-label>Bandeira</mat-label>
+                                                    <input matInput formControlName="bandeira">
+                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('bandeira') && formulario.get('bandeira').enabled">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('bandeira') && formulario.get('bandeira').enabled">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-warning" *ngIf="formulario.get('bandeira').status === 'PENDING'">
+                                                            Validando Bandeira...
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('bandeira')">
+                                                            {{ errorMessage('bandeira', 'Bandeira') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <mat-checkbox formControlName="novaBandeira" (click)="onDisableFields()" >Nova Bandeira</mat-checkbox>

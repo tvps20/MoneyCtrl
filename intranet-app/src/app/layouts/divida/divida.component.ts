@@ -91,7 +91,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             valor: [null, Validators.required],
             dataDivida: [{ value: new Date(), disabled: true }, Validators.required],
             compradorId: [null, Validators.required],
-            descricao: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(5), Validators.maxLength(20)]]
+            descricao: [null, [Validators.required, FormValidations.notStartNumber, Validators.minLength(5), Validators.maxLength(20)]]
         });
     }
 

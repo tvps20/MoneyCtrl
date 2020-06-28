@@ -1,4 +1,3 @@
-import { AlertService } from './../../../shared/services/alert-service.service';
 import { Observable, Subject, empty } from 'rxjs';
 import { catchError, tap, take, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +8,7 @@ import { Fatura } from './../../../shared/models/fatura';
 import { Cartao } from 'src/app/shared/models/cartao';
 import { StatusType } from 'src/app/shared/util/enuns-type.enum';
 
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { CartaoService } from './../services/cartao.service';

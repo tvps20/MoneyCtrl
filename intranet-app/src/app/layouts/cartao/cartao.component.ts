@@ -93,7 +93,6 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     }
 
     public onDisableFields() {
-        console.log(this.formulario.get('novaBandeira').value)
         if (!this.formulario.get('novaBandeira').value) {
             this.formulario.get('bandeira').enable();
             this.formulario.get('bandeiraId').disable();

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { take, catchError, tap } from 'rxjs/operators';
-import { empty } from 'rxjs';
+import { empty, throwError } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
 import { AlertService } from './alert-service.service';
@@ -35,7 +35,7 @@ export abstract class CrudService<T> {
         return this.http.get<T>(`${this.API_URL}/${id}`).pipe(take(1)).pipe(
             catchError(error => {
                 this.alertService.ShowAlertDanger(this.msgErro)
-                return empty();
+                return throwError('Error ao tentar buscar entitdade.');
             })
         );
     }
