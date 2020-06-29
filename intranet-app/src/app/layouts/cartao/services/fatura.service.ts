@@ -17,43 +17,22 @@ export class FaturaService extends CrudService<Fatura>{
 
     constructor(protected http: HttpClient, protected alertService: AlertService) {
         super(http, '/api/faturas', alertService);
-        this.msgErro = 'Erro ao tentar carregar informações das faturas.'
     }
 
     public listAllCotas(faturaId: number) {
-        return this.http.get<CotaFatura[]>(`${this.API_URL}/${faturaId}/cotas`).pipe(take(1)).pipe(
-            catchError(error => {
-                this.alertService.ShowAlertDanger('Erro ao tentar carregar informações das cotas.')
-                return empty();
-            })
-        );
+        return this.http.get<CotaFatura[]>(`${this.API_URL}/${faturaId}/cotas`);
     }
 
     public listAllPageStatus(status: StatusType, page: number, linesPerPage: number, direction: string, orderBy: string) {
-        return this.http.get<Fatura[]>(`${this.API_URL}/page/status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`).pipe(
-            catchError(error => {
-                this.alertService.ShowAlertDanger(this.msgErro)
-                return empty();
-            })
-        );
+        return this.http.get<Fatura[]>(`${this.API_URL}/page/status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
     }
 
     public listAllPageNoStatus(status: StatusType, page: number, linesPerPage: number, direction: string, orderBy: string) {
-        return this.http.get<Fatura[]>(`${this.API_URL}/page/no-status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`).pipe(
-            catchError(error => {
-                this.alertService.ShowAlertDanger(this.msgErro)
-                return empty();
-            })
-        );
+        return this.http.get<Fatura[]>(`${this.API_URL}/page/no-status?status=${status}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
     }
 
     public listAllMonths() {
-        return this.http.get('assets/dados/months.json').pipe(map((dados: any[]) => dados), take(1)).pipe(
-            catchError(error => {
-                this.alertService.ShowAlertDanger('Erro ao tentar carregar informações dos meses.')
-                return empty();
-            })
-        );
+        return this.http.get('assets/dados/months.json').pipe(map((dados: any[]) => dados), take(1));
     }
 
     public fecharFatura(id: number) {

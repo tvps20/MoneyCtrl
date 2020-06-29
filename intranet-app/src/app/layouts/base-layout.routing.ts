@@ -40,7 +40,7 @@ export const BaseLayoutRoutes: Routes = [
         path: 'faturas',
         children: [
             { path: '', component: FaturaComponent },
-            { path: ':id', component: FaturaDetailComponent, resolve: { fatura: FaturaResolveGuard, cotas: FaturaCotaResolveGuard } }
+            { path: ':id', component: FaturaDetailComponent, resolve: { fatura: FaturaResolveGuard } }
         ]
     },
     { path: 'dividas', component: DividaComponent }

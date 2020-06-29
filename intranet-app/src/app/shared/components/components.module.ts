@@ -11,6 +11,7 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
 import { InputFieldComponent } from './input-field/input-field.component';
 import { SharedImportModule } from './../imports/shared-import.module';
 import { ModalPagamentoComponent } from './modal-pagamento/modal-pagamento.component';
+import { NotificationStateComponent } from './notification-state/notification-state.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ModalPagamentoComponent } from './modal-pagamento/modal-pagamento.compo
     ModalAvisoComponent,
     FormDebugComponent,
     InputFieldComponent,
-    ModalPagamentoComponent
+    ModalPagamentoComponent,
+    NotificationStateComponent
   ],
   exports: [
     FooterComponent,
@@ -37,7 +39,8 @@ import { ModalPagamentoComponent } from './modal-pagamento/modal-pagamento.compo
     ModalAvisoComponent,
     FormDebugComponent,
     InputFieldComponent,
-    ModalPagamentoComponent
+    ModalPagamentoComponent,
+    NotificationStateComponent
   ]
 })
 export class ComponentsModule { }

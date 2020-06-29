@@ -1,18 +1,18 @@
 import { PageEvent } from '@angular/material/paginator';
-import { Observable, Subject, empty } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { catchError, tap, map } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Observable, Subject, empty } from 'rxjs';
 
 import { Divida } from './../../shared/models/divida';
 import { Comprador } from './../../shared/models/comprador';
 
-import { DividaService } from './services/divida.service';
 import { AlertService } from './../../shared/services/alert-service.service';
-import { CompradorService } from './../user-comprador/services/comprador.service';
-import { ValidFormsService } from './../../shared/services/valid-forms.service';
+import { DividaService } from './services/divida.service';
 import { FormValidations } from './../../shared/util/form-validations';
+import { CompradorService } from './../user-comprador/services/comprador.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { ValidFormsService } from './../../shared/services/valid-forms.service';
 
 @Component({
     selector: 'app-divida',
@@ -21,16 +21,18 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 })
 export class DividaComponent extends BaseFormComponent implements OnInit {
 
-    public totalDividas = 0;
-    public totalPagamentos = 0;
-    public dividasAtivas$: Observable<Divida[]>;
-    public dividasOlds$: Observable<Divida[]>;
-    public devedores$: Observable<Comprador[]>;
     public devedores: Comprador[];
-    public compradoresSelect: Comprador[];
-    public error$ = new Subject<boolean>();
     public submitte = false;
+    public devedores$: Observable<Comprador[]>;
+    public totalDividas = 0;
+    public dividasOlds$: Observable<Divida[]>;
+    public dividasAtivas$: Observable<Divida[]>;
+    public totalPagamentos = 0;
+    public errorDevedores$ = new Subject<boolean>();
+    public errorDividasOlds$ = new Subject<boolean>();
+    public compradoresSelect: Comprador[];
     public entitySelecionada: Divida;
+    public errorDividasAtivas$ = new Subject<boolean>();
 
     // MatPaginator Devedores
     public lengthDevedores = 10;
@@ -47,19 +49,19 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public pageSizeDividasOlds = 5;
     public pageIndexDividasOlds = 0;
 
-    constructor(private formBuilder: FormBuilder,
-        protected validFormsService: ValidFormsService,
-        private dividaService: DividaService,
+    constructor(protected validFormsService: ValidFormsService,
         private alertServiceService: AlertService,
-        private compradorService: CompradorService) {
+        private compradorService: CompradorService,
+        private dividaService: DividaService,
+        private formBuilder: FormBuilder) {
         super(validFormsService);
     }
 
     ngOnInit(): void {
-        this.formulario = this.createForm();
         this.dividasAtivas$ = this.listAllDividasAtivas();
         this.dividasOlds$ = this.listAllDividasOlds();
         this.devedores$ = this.listAllDevedores();
+        this.formulario = this.createForm();
     }
 
     public submit() {
@@ -104,8 +106,8 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         this.entitySelecionada = entity;
     }
 
-    public onDelete(event: any){
-        if(event === 'sim'){
+    public onDelete(event: any) {
+        if (event === 'sim') {
             this.dividaService.delete(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Divida apagada com sucesso.");
@@ -114,7 +116,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
                     this.alertServiceService.ShowAlertDanger(error.error.message);
                 },
                 () => {
-                    if(!this.entitySelecionada.paga){
+                    if (!this.entitySelecionada.paga) {
                         this.dividasAtivas$ = this.listAllDividasAtivas();
                         this.devedores$ = this.listAllDevedores();
                     } else {
@@ -126,8 +128,8 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         }
     }
 
-    public onRefreshList(event: boolean){
-        if(event){
+    public onRefreshList(event: boolean) {
+        if (event) {
             this.dividasAtivas$ = this.listAllDividasAtivas();
             this.dividasOlds$ = this.listAllDividasOlds();
             this.devedores$ = this.listAllDevedores();
@@ -139,8 +141,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             tap((page: any) => this.lengthDividasAtivas = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar dividas ativas. Tente novamente mais tarde.')
+                this.errorDividasAtivas$.next(true);
                 return empty();
             })
         );
@@ -151,8 +152,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             tap((page: any) => this.lengthDividasOlds = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar dividas antigas. Tente novamente mais tarde.')
+                this.errorDividasOlds$.next(true);
                 return empty();
             })
         );
@@ -175,26 +175,25 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
             }),
             map((content: Comprador[]) => this.paginate(content, this.pageSizeDevedores, this.pageIndexDevedores)),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar devedores. Tente novamente mais tarde.')
+                this.errorDevedores$.next(true);
                 return empty();
             })
         );
     }
 
-    public changeListDevedores(event: PageEvent){
+    public changeListDevedores(event: PageEvent) {
         this.pageSizeDevedores = event.pageSize;
-        this.pageIndexDevedores = event.pageIndex +1;
+        this.pageIndexDevedores = event.pageIndex + 1;
         this.devedores$ = this.listAllDevedores();
     }
 
-    public changeListDividasAtivas(event: PageEvent){
+    public changeListDividasAtivas(event: PageEvent) {
         this.pageSizeDividasAtivas = event.pageSize;
         this.pageIndexDividasAtivas = event.pageIndex;
         this.dividasAtivas$ = this.listAllDividasAtivas();
     }
 
-    public changeListDividasOlds(event: PageEvent){
+    public changeListDividasOlds(event: PageEvent) {
         this.pageSizeDividasOlds = event.pageSize;
         this.pageIndexDividasOlds = event.pageIndex;
         this.dividasOlds$ = this.listAllDividasOlds();

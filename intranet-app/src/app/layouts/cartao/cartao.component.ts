@@ -1,18 +1,18 @@
-import { Observable, Subject, empty, of } from 'rxjs';
-import { catchError, tap, debounceTime, switchMap, take, map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subject, empty, of } from 'rxjs';
+import { Validators, FormBuilder, FormControl } from '@angular/forms';
+import { catchError, tap, debounceTime, switchMap, take, map } from 'rxjs/operators';
 
-import { Bandeira } from './../../shared/models/bandeira';
 import { Cartao } from 'src/app/shared/models/cartao';
+import { Bandeira } from './../../shared/models/bandeira';
 import { EntityType } from 'src/app/shared/util/enuns-type.enum';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { AlertService } from './../../shared/services/alert-service.service';
 import { CartaoService } from './services/cartao.service';
 import { BandeiraService } from './services/bandeira.service';
-import { AlertService } from './../../shared/services/alert-service.service';
+import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 
 @Component({
@@ -22,11 +22,12 @@ import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 })
 export class CartaoComponent extends BaseFormComponent implements OnInit {
 
-    public bandeiras$: Observable<Bandeira[]>;
-    public bandeirasSelect$: Observable<Bandeira[]>;
-    public cartoes$: Observable<Cartao[]>;
-    public error$ = new Subject<boolean>();
     public submitte = false;
+    public cartoes$: Observable<Cartao[]>;
+    public bandeiras$: Observable<Bandeira[]>;
+    public errorCartoes$ = new Subject<boolean>();
+    public errorBandeiras$ = new Subject<boolean>();
+    public bandeirasSelect$: Observable<Bandeira[]>;
     public entitySelecionada: Cartao | Bandeira;
 
     // MatPaginator Cartões
@@ -39,18 +40,18 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     public pageSizeBandeiras = 5;
     public pageIndexBandeiras = 0;
 
-    constructor(private formBuilder: FormBuilder,
-        protected validFormsService: ValidFormsService,
+    constructor(protected validFormsService: ValidFormsService,
+        private alertServiceService: AlertService,
         private bandeiraService: BandeiraService,
         private cartaoService: CartaoService,
-        private alertServiceService: AlertService) {
+        private formBuilder: FormBuilder) {
         super(validFormsService);
     }
 
     ngOnInit(): void {
-        this.formulario = this.createForm();
         this.cartoes$ = this.listAllCartoes();
         this.bandeiras$ = this.listAllBandeiras();
+        this.formulario = this.createForm();
         this.bandeirasSelect$ = this.ListAllBandeirasSelect();
     }
 
@@ -172,8 +173,7 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
             tap((page: any) => this.lengthCartoes = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar cartoes. Tente novamente mais tarde.')
+                this.errorCartoes$.next(true);
                 return empty();
             })
         );
@@ -184,20 +184,19 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
             tap((page: any) => this.lengthBandeiras = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
+                this.errorBandeiras$.next(true);
                 return empty();
             })
         );
     }
 
-    private ListAllBandeirasSelect(){
+    private ListAllBandeirasSelect() {
         return this.bandeiraService.listAll().pipe(
             catchError(error => {
-                this.alertServiceService.ShowAlertDanger('Error ao carregar bandeiras. Tente novamente mais tarde.')
+                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações das bandeiras no servidor.')
                 return empty();
-            }
-        ));
+            })
+        );
     }
 
     public changeListCartoes(event: PageEvent) {

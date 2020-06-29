@@ -72,37 +72,41 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="devedores">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
+                                <div class="table-responsive"
                                     *ngIf="devedores$ | async as devedores; else loadingDevedores">
-                                        <thead class=" text-primary">
-                                            <th>Comprador</th>
-                                            <th>Dividas Totais</th>
-                                            <th>Pagamentos</th>
-                                            <th>Creditos</th>
-                                            <th>Restante</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let devedor of devedores">
-                                                <td>{{ devedor.nome }}</td>
-                                                <td>{{ devedor.totalDividas | currency:'BRL' }}</td>
-                                                <td>{{ devedor.totalPagamentos | currency:'BRL' }}</td>
-                                                <td>{{ devedor.totalCreditos | currency:'BRL' }}</td>
-                                                <td>{{ (devedor.totalDividas - devedor.totalPagamentos)  | currency:'BRL' }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator [length]="lengthDevedores"
-                                                [pageSize]="pageSizeDevedores"
-                                                [pageSizeOptions]="[5, 10, 25, 100]"
-                                                (page)="changeListDevedores($event)">
-                                    </mat-paginator>
+                                    <div *ngIf="devedores.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>Comprador</th>
+                                                <th>Dividas Totais</th>
+                                                <th>Pagamentos</th>
+                                                <th>Creditos</th>
+                                                <th>Restante</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let devedor of devedores">
+                                                    <td>{{ devedor.nome }}</td>
+                                                    <td>{{ devedor.totalDividas | currency:'BRL' }}</td>
+                                                    <td>{{ devedor.totalPagamentos | currency:'BRL' }}</td>
+                                                    <td>{{ devedor.totalCreditos | currency:'BRL' }}</td>
+                                                    <td>{{ (devedor.totalDividas - devedor.totalPagamentos)  | currency:'BRL' }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthDevedores" [pageSize]="pageSizeDevedores"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDevedores($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="devedores.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhum devedor disponivel.'>
+                                        </app-notification-state>
+                                    </div>
                                 </div>
                                 <ng-template #loadingDevedores>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar devedores. Tente novamente mais tarde.</p>
-                                        </div>
+                                    <div *ngIf="errorDevedores$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos devedores no
+                                        servidor.'></app-notification-state>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
@@ -114,67 +118,75 @@
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="dividas">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
+                                <div class="table-responsive"
                                     *ngIf="dividasAtivas$ | async as dividas; else loadingDividasAtivas">
-                                        <thead class=" text-primary">
-                                            <th>Descrição</th>
-                                            <th>Valor Total</th>
-                                            <th>Valor Pago</th>
-                                            <th>Tipo</th>
-                                            <th>Comprador</th>
-                                            <th>Status</th>
-                                            <th>Ação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let divida of dividas">
-                                                <td>{{ divida.descricao }}</td>
-                                                <td>{{ divida.valorDivida | currency:'BRL' }}</td>
-                                                <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
-                                                <td>
-                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
-                                                    <i *ngIf="!divida.faturaId"  class="material-icons">monetization_on</i>
-                                                </td>
-                                                <td>{{ divida.compradorNome }}</td>
-                                                <td>
-                                                    <button type="button" matTooltip="Pagar" matTooltipPosition="above"
-                                                    (click)="onSelectedEntity(divida)"
-                                                    data-toggle="modal" data-target="#modalPagamentoDivida"
-                                                    class="btn btn-warning btn-sm">Ativa</button>
-                                                </td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Detalhes" matTooltipPosition="above"
-                                                        data-toggle="modal" data-target="#detalhesModalDivida"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">description</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Editar" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
-                                                        data-toggle="modal" data-target="#modalExcluirDivida"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator [length]="lengthDividasAtivas"
-                                                [pageSize]="pageSizeDividasAtivas"
-                                                [pageSizeOptions]="[5, 10, 25, 100]"
-                                                (page)="changeListDividasAtivas($event)">
-                                    </mat-paginator>
+                                    <div *ngIf="dividas.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>Descrição</th>
+                                                <th>Valor Total</th>
+                                                <th>Valor Pago</th>
+                                                <th>Tipo</th>
+                                                <th>Comprador</th>
+                                                <th>Status</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let divida of dividas">
+                                                    <td>{{ divida.descricao }}</td>
+                                                    <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                                    <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                                    <td>
+                                                        <i *ngIf="divida.faturaId"
+                                                            class="material-icons">receipt_long</i>
+                                                        <i *ngIf="!divida.faturaId"
+                                                            class="material-icons">monetization_on</i>
+                                                    </td>
+                                                    <td>{{ divida.compradorNome }}</td>
+                                                    <td>
+                                                        <button type="button" matTooltip="Pagar"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(divida)" data-toggle="modal"
+                                                            data-target="#modalPagamentoDivida"
+                                                            class="btn btn-warning btn-sm">Ativa</button>
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above" data-toggle="modal"
+                                                            data-target="#detalhesModalDivida"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Editar"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(divida)" data-toggle="modal"
+                                                            data-target="#modalExcluirDivida"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
+                                            [pageSizeOptions]="[5, 10, 25, 100]"
+                                            (page)="changeListDividasAtivas($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="dividas.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma divida disponivel.'>
+                                        </app-notification-state>
+                                    </div>
                                 </div>
                                 <ng-template #loadingDividasAtivas>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar dividas ativas. Tente novamente mais tarde.</p>
-                                        </div>
+                                    <div *ngIf="errorDividasAtivas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das dividas no
+                                        servidor.'></app-notification-state>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
@@ -186,60 +198,67 @@
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="oldDividas">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
+                                <div class="table-responsive"
                                     *ngIf="dividasOlds$ | async as dividasOlds; else loadingDividasOlds">
-                                        <thead class=" text-primary">
-                                            <th>Descrição</th>
-                                            <th>Valor Total</th>
-                                            <th>Valor Pago</th>
-                                            <th>Tipo</th>
-                                            <th>Data da Divida</th>
-                                            <th>Comprador</th>
-                                            <th>Status</th>
-                                            <th>Ação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let divida of dividasOlds">
-                                                <td>{{ divida.descricao }}</td>
-                                                <td>{{ divida.valorDivida | currency:'BRL' }}</td>
-                                                <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
-                                                <td>
-                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
-                                                    <i *ngIf="!divida.faturaId"  class="material-icons">monetization_on</i>
-                                                </td>
-                                                <td>{{ divida.dataDivida | date: 'dd/MM/yyyy'}}</td>
-                                                <td>{{ divida.compradorNome }}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-success btn-sm" disabled>Paga</button>
-                                                </td>
-                                                <td>
-                                                    <button mat-raised-button type="button"
-                                                        matTooltip="Detalhes" matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">description</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
-                                                        data-toggle="modal" data-target="#modalExcluirDivida"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator [length]="lengthDividasOlds"
-                                                [pageSize]="pageSizeDividasOlds"
-                                                [pageSizeOptions]="[5, 10, 25, 100]"
-                                                (page)="changeListDividasOlds($event)">
-                                    </mat-paginator>
+                                    <div *ngIf="dividasOlds.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>Descrição</th>
+                                                <th>Valor Total</th>
+                                                <th>Valor Pago</th>
+                                                <th>Tipo</th>
+                                                <th>Data da Divida</th>
+                                                <th>Comprador</th>
+                                                <th>Status</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let divida of dividasOlds">
+                                                    <td>{{ divida.descricao }}</td>
+                                                    <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                                    <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                                    <td>
+                                                        <i *ngIf="divida.faturaId"
+                                                            class="material-icons">receipt_long</i>
+                                                        <i *ngIf="!divida.faturaId"
+                                                            class="material-icons">monetization_on</i>
+                                                    </td>
+                                                    <td>{{ divida.dataDivida | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ divida.compradorNome }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success btn-sm"
+                                                            disabled>Paga</button>
+                                                    </td>
+                                                    <td>
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(divida)" data-toggle="modal"
+                                                            data-target="#modalExcluirDivida"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthDividasOlds" [pageSize]="pageSizeDividasOlds"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividasOlds($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="dividasOlds.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma histórico disponivel.'>
+                                        </app-notification-state>
+                                    </div>
                                 </div>
                                 <ng-template #loadingDividasOlds>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar dividas antigas. Tente novamente mais tarde.</p>
-                                        </div>
+                                    <div *ngIf="errorDividasOlds$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações do histórico no
+                                        servidor.'></app-notification-state>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
@@ -257,9 +276,12 @@
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Valor</mat-label>
-                                                    <input matInput mask="separator.2" thousandSeparator="." prefix="R$ " formControlName="valor">
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                    <input matInput mask="separator.2" thousandSeparator="."
+                                                        prefix="R$ " formControlName="valor">
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('valor')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
                                                     <mat-hint>
                                                         <div class="text-danger" *ngIf="verificarValidControl('valor')">
                                                             {{ errorMessage('valor', 'Valor') }}
@@ -271,7 +293,8 @@
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Data da Divida</mat-label>
                                                     <input matInput [matDatepicker]="dp3" formControlName="dataDivida">
-                                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                    </mat-datepicker-toggle>
                                                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                                 </mat-form-field>
                                             </div>
@@ -279,12 +302,17 @@
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Comprador</mat-label>
                                                     <mat-select formControlName="compradorId">
-                                                        <mat-option  *ngFor="let comprador of compradoresSelect" [value]="comprador.id">{{ comprador.nome }}</mat-option>
+                                                        <mat-option *ngFor="let comprador of compradoresSelect"
+                                                            [value]="comprador.id">{{ comprador.nome }}</mat-option>
                                                     </mat-select>
-                                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('compradorId')">error</mat-icon>
-                                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('compradorId')">done</mat-icon>
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('compradorId')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('compradorId')">done
+                                                    </mat-icon>
                                                     <mat-hint>
-                                                        <div class="text-danger" *ngIf="verificarValidControl('compradorId')">
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('compradorId')">
                                                             {{ errorMessage('compradorId', 'Comprador') }}
                                                         </div>
                                                     </mat-hint>
@@ -299,9 +327,10 @@
                                             </div>
                                         </div>
                                         <button *ngIf="!submitte" type="submit"
-                                        class="btn btn-info pull-right">Salvar</button>
+                                            class="btn btn-info pull-right">Salvar</button>
                                         <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
                                             Salvando
                                         </button>
                                     </form>
@@ -322,4 +351,5 @@
 <app-modal-divida></app-modal-divida>
 
 <!-- Modal de pagamentos -->
-<app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)" [divida]="entitySelecionada"></app-modal-pagamento>
+<app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"
+    [divida]="entitySelecionada"></app-modal-pagamento>

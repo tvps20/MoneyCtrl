@@ -132,8 +132,8 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="cotas">
-                                <div class="row" *ngIf="fatura.lancamentos.length > 0; else loadingListEmptyCotas">
-                                    <div class="card-columns">
+                                <div *ngIf="faturaCotas$ | async as cotas; else loadingFaturaCotas">
+                                    <div *ngIf="cotas.length > 0" class="card-columns">
                                         <div class="card" *ngFor="let cotaFatura of cotas">
                                             <div class="card-header card-header-primary">
                                                 <div class="row">
@@ -160,15 +160,29 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="cotas.length < 1">
+                                        <app-notification-state tipo='warning'
+                                            msg='Nenhuma cota disponivel para essa fatura.'></app-notification-state>
+                                    </div>
                                 </div>
-                                <ng-template #loadingListEmptyCotas>
-                                    <p class="text-muted text-center">Nenhuma cota disponivel para essa fatura.</p>
+                                <ng-template #loadingFaturaCotas>
+                                    <div *ngIf="errorCotas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das cotas no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="lancamentos">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="lancamentos.length > 0; else loadingListEmptyLancamentos">
+                                <div class="table-responsive"
+                                    *ngIf="lancamentos.length > 0; else loadingListEmptyLancamentos">
+                                    <table class="table table-hover">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Data da Compra</th>
@@ -208,15 +222,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <mat-paginator [length]="lengthLancamentos"
-                                                [pageSize]="pageSizeLancamentos"
-                                                [pageSizeOptions]="[5, 10, 25, 100]"
-                                                (page)="changeListLancamentos($event)">
+                                    <mat-paginator [length]="lengthLancamentos" [pageSize]="pageSizeLancamentos"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListLancamentos($event)">
                                     </mat-paginator>
                                 </div>
                                 <ng-template #loadingListEmptyLancamentos>
-                                    <p class="text-muted text-center">Nenhum lançamento disponivel para essa fatura.
-                                    </p>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhum lançamento disponivel para essa fatura.'></app-notification-state>
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
