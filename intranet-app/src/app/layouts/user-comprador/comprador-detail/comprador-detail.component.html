@@ -44,43 +44,65 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="compras">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="comprador.lancamentos.length > 0; else loadingListEmptyLancamentos">
-                                        <thead class="text-primary">
-                                            <th>Descrição</th>
-                                            <th>valor</th>
-                                            <th>Parcela</th>
-                                            <th>Especificação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Amazon Prime</td>
-                                                <td>R$ 9,90</td>
-                                                <td>Assinatura</td>
-                                                <td>Cartao Nubank</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <ng-template #loadingListEmptyLancamentos>
-                                        <p class="text-muted text-center">Nenhuma compra disponivel para esse comprador.</p>
-                                    </ng-template>
+                                <div *ngIf="compradorCotas$ | async as cotas; else loadingCompradorCotas">
+                                    <div *ngIf="cotas.length > 0" class="card-columns">
+                                        <div class="card" *ngFor="let cotaComprador of cotas">
+                                            <div class="card-header card-header-primary">
+                                                <div class="row">
+                                                    <h5 class="card-title ml-3">Cartão {{ cotaComprador.cartaoNome }} -
+                                                        {{ cotaComprador.valorTotal | currency:'BRL' }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="text-primary">
+                                                        <th>Descrição</th>
+                                                        <th>valor</th>
+                                                        <th>Parcela</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let cota of cotaComprador.cotas">
+                                                            <td>{{ cota.lancamento.descricao }}</td>
+                                                            <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="cotas.length < 1">
+                                        <app-notification-state tipo='warning'
+                                            msg='Nenhuma cota disponivel para esse comprador.'></app-notification-state>
+                                    </div>
                                 </div>
+                                <ng-template #loadingCompradorCotas>
+                                    <div *ngIf="errorCotas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das cotas no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="dividas">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="comprador.dividas.length > 0; else loadingListEmptyDividas">
+                                <div class="table-responsive" *ngIf="dividas.length > 0; else loadingListEmptyDividas">
+                                    <table class="table table-hover">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor Total</th>
                                             <th>Valor Pago</th>
                                             <th>Tipo</th>
                                             <th>Status</th>
-                                            <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let divida of comprador.dividas">
+                                            <tr *ngFor="let divida of dividas">
                                                 <td>{{ divida.descricao }}</td>
                                                 <td>{{ divida.valorDivida }}</td>
                                                 <td>{{ divida.totalPagamentos }}</td>
@@ -90,28 +112,28 @@
                                                         class="material-icons">monetization_on</i>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-success btn-sm"
-                                                        disabled>{{ divida.paga }}</button>
-                                                </td>
-                                                <td class="text-primary">
-                                                    <button mat-raised-button type="button" matTooltip="Pagar"
-                                                        matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">done</i>
-                                                    </button>
+                                                    <button *ngIf="!divida.paga"  type="button" matTooltip="Pagar" matTooltipPosition="above"
+                                                        (click)="onSelectedEntity(divida)"
+                                                        class="btn btn-warning btn-sm">Ativa</button>
+                                                    <button *ngIf="divida.paga" type="button" class="btn btn-success btn-sm"
+                                                        disabled>Paga</button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ng-template #loadingListEmptyDividas>
-                                        <p class="text-muted text-center">Nenhuma dívida disponivel para esse comprador.</p>
-                                    </ng-template>
+                                    <mat-paginator [length]="lengthDividas" [pageSize]="pageSizeDividas"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividas($event)">
+                                    </mat-paginator>
                                 </div>
+                                <ng-template #loadingListEmptyDividas>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhuma divida disponivel para esse comprador.'></app-notification-state>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="creditos">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="comprador.creditos.length > 0; else loadingListEmptyCreditos">
+                                <div class="table-responsive"
+                                    *ngIf="creditos.length > 0; else loadingListEmptyCreditos">
+                                    <table class="table table-hover">
                                         <thead class=" text-primary">
                                             <th>Descrição</th>
                                             <th>Valor</th>
@@ -120,11 +142,15 @@
                                             <th>Ação</th>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let credito of comprador.creditos">
+                                            <tr *ngFor="let credito of creditos">
                                                 <td>{{ credito.descricao }}</td>
                                                 <td>{{ credito.valor | currency:'BRL' }}</td>
                                                 <td>{{ credito.data | date: 'dd/MM/yyyy' }}</td>
-                                                <td>{{ credito.disponivel }}</td>
+                                                <td>
+                                                    <button type="button" disabled
+                                                        [class]="credito.disponivel ? 'btn btn-success btn-sm' : 'btn btn-warning btn-sm'">{{ credito.disponivel ? 'Ativo' : 'Usado' }}
+                                                    </button>
+                                                </td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button" matTooltip="Excluir"
                                                         matTooltipPosition="above" (click)="onSelectedEntity(credito)"
@@ -136,10 +162,14 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <ng-template #loadingListEmptyCreditos>
-                                        <p class="text-muted text-center">Nenhum crédito disponivel para esse comprador.</p>
-                                    </ng-template>
+                                    <mat-paginator [length]="lengthCreditos" [pageSize]="pageSizeCreditos"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListCreditos($event)">
+                                    </mat-paginator>
                                 </div>
+                                <ng-template #loadingListEmptyCreditos>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhum credito disponivel para esse comprador.'></app-notification-state>
+                                </ng-template>
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
@@ -168,9 +198,10 @@
                                             </div>
                                         </div>
                                         <button *ngIf="!submitte" type="submit"
-                                        class="btn btn-info pull-right">Salvar</button>
+                                            class="btn btn-info pull-right">Salvar</button>
                                         <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
                                             Salvando
                                         </button>
                                     </form>

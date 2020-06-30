@@ -32,73 +32,85 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="compradores">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="compradores$ | async as compradores; else loadingCompradores">
-                                        <thead class="text-primary">
-                                            <th (click)="sortingTableComprador('nome')">Nome Completo
-                                                <i *ngIf="orderByCompradores === 'nome'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableComprador('username')">Username
-                                                <i *ngIf="orderByCompradores === 'username'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableComprador('email')">Email
-                                                <i *ngIf="orderByCompradores === 'email'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableComprador('dividaTotal')">Dividas
-                                                <i *ngIf="orderByCompradores === 'dividaTotal'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableComprador('creditoTotal')">Creditos
-                                                <i *ngIf="orderByCompradores === 'creditoTotal'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableComprador('id')">Status
-                                                <i *ngIf="orderByCompradores === 'id'"  [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>Ação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let comprador of compradores">
-                                                <td>
-                                                    {{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
-                                                </td>
-                                                <td>{{ comprador.username }}</td>
-                                                <td>{{ comprador.email ? comprador.email : '-' }}</td>
-                                                <td>{{ comprador.dividas.length }}</td>
-                                                <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
-                                                <td>
-                                                    <button *ngIf="!comprador.devedor"  type="button"
-                                                    class="btn btn-success btn-sm">Em dia...</button>
-                                                    <button *ngIf="comprador.devedor" type="button" matTooltip="Pagar" matTooltipPosition="above"
-                                                    class="btn btn-danger btn-sm">Devendo</button>
-                                                </td>
-                                                <td class="td-actions text-left">
-                                                    <button mat-raised-button type="button" matTooltip="Detalhes"
-                                                        matTooltipPosition="above" [routerLink]="['/user-comprador', comprador.id]"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">description</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#modalExcluirEntity"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(comprador)"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator [length]="lengthCompradores"
-                                        [pageSize]="pageSizeCompradores"
-                                        [pageSizeOptions]="[5, 10, 25, 100]"
-                                        [pageIndex]="pageIndexCompradores"
-                                        (page)="changeListComprador($event)">
-                                    </mat-paginator>
+                                <div class="table-responsive"
+                                    *ngIf="compradores$ | async as compradores; else loadingCompradores">
+                                    <div *ngIf="compradores.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class="text-primary">
+                                                <th (click)="sortingTableComprador('nome')">Nome Completo
+                                                    <i *ngIf="orderByCompradores === 'nome'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('username')">Username
+                                                    <i *ngIf="orderByCompradores === 'username'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('email')">Email
+                                                    <i *ngIf="orderByCompradores === 'email'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('dividaTotal')">Dividas
+                                                    <i *ngIf="orderByCompradores === 'dividaTotal'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('creditoTotal')">Creditos
+                                                    <i *ngIf="orderByCompradores === 'creditoTotal'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('id')">Status
+                                                    <i *ngIf="orderByCompradores === 'id'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let comprador of compradores">
+                                                    <td>
+                                                        {{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
+                                                    </td>
+                                                    <td>{{ comprador.username }}</td>
+                                                    <td>{{ comprador.email ? comprador.email : '-' }}</td>
+                                                    <td>{{ comprador.dividas.length }}</td>
+                                                    <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
+                                                    <td>
+                                                        <button *ngIf="!comprador.devedor" type="button"
+                                                            class="btn btn-success btn-sm">Em dia...</button>
+                                                        <button *ngIf="comprador.devedor" type="button"
+                                                            matTooltip="Pagar" matTooltipPosition="above"
+                                                            class="btn btn-danger btn-sm">Devendo</button>
+                                                    </td>
+                                                    <td class="td-actions text-left">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            [routerLink]="['/user-comprador', comprador.id]"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(comprador)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthCompradores" [pageSize]="pageSizeCompradores"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexCompradores"
+                                            (page)="changeListComprador($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="compradores.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhum comprador disponivel.'>
+                                        </app-notification-state>
+                                    </div>
                                 </div>
                                 <ng-template #loadingCompradores>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar compradores. Tente novamente mais tarde.</p>
-                                        </div>
+                                    <div *ngIf="errorCompradores$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos compradores no
+                                        servidor.'></app-notification-state>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
@@ -110,71 +122,73 @@
                                 </ng-template>
                             </div>
                             <div class="tab-pane" id="users">
-                                <div class="table-responsive">
-                                    <table class="table table-hover"
-                                        *ngIf="usuarios$ | async as users; else loadingUsers">
-                                        <thead class="text-primary">
-                                            <th (click)="sortingTableUsuario('username')">Login
-                                                <i *ngIf="orderByUsuarios === 'username'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>Acesso</th>
-                                            <th (click)="sortingTableUsuario('createdAt')">Criado
-                                                <i *ngIf="orderByUsuarios === 'createdAt'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
-                                                <i *ngIf="orderByUsuarios === 'verificaoEmail'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>roles</th>
-                                            <th (click)="sortingTableUsuario('id')">Id
-                                                <i *ngIf="orderByUsuarios === 'id'"  [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
-                                            </th>
-                                            <th>Ação</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let usuario of users">
-                                                <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
-                                                </td>
-                                                <td>
-                                                    <i *ngIf="usuario.username" class="material-icons"
-                                                        matTooltip="Username"
-                                                        matTooltipPosition="above">account_circle</i>
-                                                    <i *ngIf="usuario.email" class="material-icons" matTooltip="Email"
-                                                        matTooltipPosition="above">email</i>
-                                                </td>
-                                                <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
-                                                <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
-                                                </td>
-                                                <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}</td>
-                                                <td>{{ usuario.id }}</td>
-                                                <td class="td-actions text-left">
-                                                    <button mat-raised-button type="button" matTooltip="Editar"
-                                                        matTooltipPosition="above"
-                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button mat-raised-button type="button" matTooltip="Excluir"
-                                                        data-toggle="modal" data-target="#modalExcluirEntity"
-                                                        matTooltipPosition="above" (click)="onSelectedEntity(usuario)"
-                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <mat-paginator
-                                        [length]="lengthUsuarios"
-                                        [pageSize]="pageSizeUsuarios"
-                                        [pageSizeOptions]="[5, 10, 25, 100]"
-                                        [pageIndex]="pageIndexUsuarios"
-                                        (page)="changeListUsuario($event)">
-                                    </mat-paginator>
+                                <div class="table-responsive" *ngIf="usuarios$ | async as users; else loadingUsers">
+                                    <div *ngIf="users.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class="text-primary">
+                                                <th (click)="sortingTableUsuario('username')">Login
+                                                    <i *ngIf="orderByUsuarios === 'username'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>Acesso</th>
+                                                <th (click)="sortingTableUsuario('createdAt')">Criado
+                                                    <i *ngIf="orderByUsuarios === 'createdAt'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
+                                                    <i *ngIf="orderByUsuarios === 'verificaoEmail'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>roles</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let usuario of users">
+                                                    <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
+                                                    </td>
+                                                    <td>
+                                                        <i *ngIf="usuario.username" class="material-icons"
+                                                            matTooltip="Username"
+                                                            matTooltipPosition="above">account_circle</i>
+                                                        <i *ngIf="usuario.email" class="material-icons"
+                                                            matTooltip="Email" matTooltipPosition="above">email</i>
+                                                    </td>
+                                                    <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
+                                                    </td>
+                                                    <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}
+                                                    </td>
+                                                    <td class="td-actions text-left">
+                                                        <button mat-raised-button type="button" matTooltip="Editar"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(usuario)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthUsuarios" [pageSize]="pageSizeUsuarios"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexUsuarios"
+                                            (page)="changeListUsuario($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="users.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma usuário disponivel.'>
+                                        </app-notification-state>
+                                    </div>
                                 </div>
                                 <ng-template #loadingUsers>
-                                    <div *ngIf="error$ | async; else loadingNoError">
-                                        <div class="row justify-content-center text-danger">
-                                            <p>Error ao carregar usuários. Tente novamente mais tarde.</p>
-                                        </div>
+                                    <div *ngIf="errorUsuarios$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos usuários no
+                                        servidor.'></app-notification-state>
                                     </div>
                                     <ng-template #loadingNoError>
                                         <div class="text-center">
@@ -223,8 +237,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <app-input-field formControlName="password" label="Password" tipo="password"
-                                                    [control]="formulario.get('password')">
+                                                <app-input-field formControlName="password" label="Password"
+                                                    tipo="password" [control]="formulario.get('password')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">

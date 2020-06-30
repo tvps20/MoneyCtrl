@@ -35,17 +35,17 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
     public errorDividasAtivas$ = new Subject<boolean>();
 
     // MatPaginator Devedores
-    public lengthDevedores = 10;
+    public lengthDevedores = 0;
     public pageSizeDevedores = 5;
     public pageIndexDevedores = 1;
 
     // MatPaginator Dividas Ativas
-    public lengthDividasAtivas = 10;
+    public lengthDividasAtivas = 0;
     public pageSizeDividasAtivas = 5;
     public pageIndexDividasAtivas = 0;
 
     // MatPaginator Dividas Antigas
-    public lengthDividasOlds = 10;
+    public lengthDividasOlds = 0;
     public pageSizeDividasOlds = 5;
     public pageIndexDividasOlds = 0;
 

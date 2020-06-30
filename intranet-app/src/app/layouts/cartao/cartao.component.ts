@@ -31,12 +31,12 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
     public entitySelecionada: Cartao | Bandeira;
 
     // MatPaginator Cartões
-    public lengthCartoes = 10;
+    public lengthCartoes = 0;
     public pageSizeCartoes = 5;
     public pageIndexCartoes = 0;
 
     // MatPaginator Bandeiras
-    public lengthBandeiras = 10;
+    public lengthBandeiras = 0;
     public pageSizeBandeiras = 5;
     public pageIndexBandeiras = 0;
 

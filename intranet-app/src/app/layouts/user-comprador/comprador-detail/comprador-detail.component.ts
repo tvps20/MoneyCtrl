@@ -1,15 +1,21 @@
-import { FormBuilder, Validators } from '@angular/forms';
+import { catchError, tap } from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
+import { Observable, Subject, empty } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
 
-import { Comprador } from './../../../shared/models/comprador';
+import { Divida } from './../../../shared/models/divida';
 import { Credito } from './../../../shared/models/credito';
+import { Comprador } from './../../../shared/models/comprador';
+import { CotaComprador } from './../../../shared/models/cota';
+import { FormValidations } from './../../../shared/util/form-validations';
 
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { AlertService } from './../../../shared/services/alert-service.service';
 import { CompradorService } from './../services/comprador.service';
 import { ValidFormsService } from './../../../shared/services/valid-forms.service';
-import { AlertService } from './../../../shared/services/alert-service.service';
-import { FormValidations } from './../../../shared/util/form-validations';
+import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { EntityType } from 'src/app/shared/util/enuns-type.enum';
 
 @Component({
     selector: 'app-comprador-detail',
@@ -18,21 +24,42 @@ import { FormValidations } from './../../../shared/util/form-validations';
 })
 export class CompradorDetailComponent extends BaseFormComponent implements OnInit {
 
-    public comprador: Comprador;
-    public entitySelecionada: Credito;
+    public dividas: Divida[];
     public submitte = false;
+    public creditos: Credito[];
+    public comprador: Comprador;
+    public errorCotas$ = new Subject<boolean>();
+    public compradorCotas$: Observable<CotaComprador[]>;
+    public entitySelecionada: Credito | Divida;
 
-    constructor(private formBuilder: FormBuilder,
-        protected validFormsService: ValidFormsService,
-        private compradroService: CompradorService,
+    // MatPaginator Dividas
+    public lengthDividas = 0;
+    public pageSizeDividas = 5;
+    public pageIndexDividas = 1;
+
+    // MatPaginator Creditos
+    public lengthCreditos = 0;
+    public pageSizeCreditos = 5;
+    public pageIndexCreditos = 1;
+
+    constructor(protected validFormsService: ValidFormsService,
         private alertServiceService: AlertService,
-        private route: ActivatedRoute) {
-            super(validFormsService)
-         }
+        private compradroService: CompradorService,
+        private formBuilder: FormBuilder,
+        private route: ActivatedRoute,
+        private router: Router) {
+        super(validFormsService)
+    }
 
     ngOnInit(): void {
         this.comprador = this.route.snapshot.data['comprador'];
         this.formulario = this.createForm();
+        this.lengthDividas = this.comprador.dividas.length;
+        this.lengthCreditos = this.comprador.creditos.length;
+        this.compradorCotas$ = this.listAllCompradorCotas();
+        this.dividas = this.paginate(this.comprador.dividas, this.pageSizeDividas, this.pageIndexDividas);
+        this.creditos = this.paginate(this.comprador.creditos, this.pageSizeCreditos, this.pageIndexCreditos);
+        console.log(this.comprador)
     }
 
     public submit() {
@@ -53,9 +80,7 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
                 this.alertServiceService.ShowAlertDanger(error);
             },
             () => {
-                this.compradroService.findById(this.comprador.id).subscribe(
-                    comprador => this.comprador = comprador
-                );
+                this.buscarComprador();
             }
         );
     }
@@ -63,13 +88,14 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
     public createForm() {
         return this.formBuilder.group({
             valor: [null, Validators.required],
-            descricao: [null, [Validators.required, FormValidations.onlyLetters, Validators.minLength(5), Validators.maxLength(20)]],
+            descricao: [null, [Validators.required, FormValidations.notStartNumber, Validators.minLength(5), Validators.maxLength(20)]],
             compradorId: [this.comprador.id]
         });
     }
 
     public reseteForm() {
         this.formulario.reset();
+        this.formulario.get('compradorId').setValue(this.comprador.id);
     }
 
     public onSelectedEntity(entity: any) {
@@ -77,20 +103,59 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
     }
 
     public onDelete(event: any) {
-        if(event === 'sim'){
-            this.compradroService.deleteCredito(this.entitySelecionada.id).subscribe(
-                success => {
-                    this.alertServiceService.ShowAlertSuccess("Crédito apagado com sucesso.");
-                },
-                error => {
-                    this.alertServiceService.ShowAlertDanger(error.error.message);
-                },
-                () => {
-                    this.compradroService.findById(this.comprador.id).subscribe(
-                        comprador => this.comprador = comprador
-                    );
-                }
-            );
+        if (event === 'sim') {
+            if(this.entitySelecionada.tipo === EntityType.CREDITO){
+                this.compradroService.deleteCredito(this.entitySelecionada.id).subscribe(
+                    success => {
+                        this.alertServiceService.ShowAlertSuccess("Crédito apagado com sucesso.");
+                    },
+                    error => {
+                        this.alertServiceService.ShowAlertDanger(error.error.message);
+                    },
+                    () => {
+                        this.buscarComprador();
+                        this.entitySelecionada = null;
+                    }
+                );
+            }
         }
+    }
+
+    private buscarComprador() {
+        this.compradroService.findById(this.comprador.id).subscribe(
+            success => {
+                this.comprador = success;
+                this.lengthDividas = this.comprador.dividas.length;
+                this.lengthCreditos = this.comprador.creditos.length;
+                this.dividas = this.paginate(this.comprador.dividas, this.pageSizeDividas, this.pageIndexDividas);
+                this.creditos = this.paginate(this.comprador.creditos, this.pageSizeCreditos, this.pageIndexCreditos);
+            },
+            error => {
+                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações do comprador.');
+                this.router.navigate(['/user-comprador']);
+            }
+        );
+    }
+
+    private listAllCompradorCotas(){
+        return this.compradroService.listAllCotas(this.comprador.id).pipe(
+            tap(console.log),
+            catchError(error => {
+                this.errorCotas$.next(true);
+                return empty();
+            })
+        )
+    }
+
+    public changeListDividas(event: PageEvent){
+        this.pageSizeDividas = event.pageSize;
+        this.pageIndexDividas = event.pageIndex +1;
+        this.buscarComprador();
+    }
+
+    public changeListCreditos(event: PageEvent){
+        this.pageSizeCreditos = event.pageSize;
+        this.pageIndexCreditos = event.pageIndex +1;
+        this.buscarComprador();
     }
 }

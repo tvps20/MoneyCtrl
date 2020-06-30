@@ -29,17 +29,17 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
     public step = 0;
     public fatura: Fatura;
     public submitte = false;
-    public panelOpenState = false;
-    public valorTotalCompradores = 0;
-    public lancamentoCotas: any[] = [];
-    public entitySelecionada: Lancamento;
-    public lancamentos: Lancamento[] = [];
     public errorCotas$ = new Subject<boolean>();
+    public lancamentos: Lancamento[] = [];
     public faturaCotas$: Observable<CotaFatura[]>;
+    public panelOpenState = false;
+    public lancamentoCotas: any[] = [];
     public compradorSelect$: Observable<Comprador[]>;
+    public entitySelecionada: Lancamento;
+    public valorTotalCompradores = 0;
 
     // MatPaginator Lançamentos
-    public lengthLancamentos = 10;
+    public lengthLancamentos = 0;
     public pageSizeLancamentos = 5;
     public pageIndexLancamentos = 1;
 
@@ -49,8 +49,8 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         private compradorService: CompradorService,
         private faturaService: FaturaService,
         private formBuilder: FormBuilder,
-        private router: Router,
-        private route: ActivatedRoute) {
+        private route: ActivatedRoute,
+        private router: Router) {
         super(validFormsService);
     }
 
@@ -197,7 +197,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
                 this.lancamentos = this.paginate(this.fatura.lancamentos, this.pageSizeLancamentos, this.pageIndexLancamentos);
             },
             error => {
-                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações da futura.')
+                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações da futura.');
                 this.router.navigate(['/faturas']);
             }
         );

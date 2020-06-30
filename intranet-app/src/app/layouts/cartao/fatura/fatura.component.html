@@ -56,12 +56,12 @@
                                                             matTooltip="Fechar Fatura" matTooltipPosition="above"
                                                             (click)="onSelectedEntity(fatura)" data-toggle="modal"
                                                             data-target="#modalFecharFatura"
-                                                            class="btn btn-primary btn-sm">{{ fatura.status + '...' }}</button>
+                                                            class="btn btn-warning btn-sm">{{ fatura.status + '...' }}</button>
                                                         <button *ngIf="fatura.status === 'FECHADA'" type="button"
                                                             matTooltip="Pagar Fatura" matTooltipPosition="above"
                                                             data-toggle="modal" data-target="#modalPagarFatura"
                                                             (click)="onSelectedEntity(fatura)"
-                                                            class="btn btn-warning btn-sm">{{ fatura.status }}</button>
+                                                            class="btn btn-danger btn-sm">{{ fatura.status }}</button>
                                                     </td>
                                                     <td class="text-primary">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"

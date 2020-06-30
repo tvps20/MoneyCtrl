@@ -51,7 +51,7 @@ public class DividaDTO extends BaseDTO {
 	@Setter
 	@NotNull(message = "{validation.erro.model.notEmpty}")
 	private Long compradorId;
-	
+
 	@Getter
 	@Setter
 	private String compradorNome;
@@ -64,14 +64,13 @@ public class DividaDTO extends BaseDTO {
 	public DividaDTO() {
 	}
 
-	public DividaDTO(Long id, Long faturaId, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, boolean paga,
+	public DividaDTO(Long id, Long faturaId, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida,
 			Long compradorId) {
 		super(id);
 		this.faturaId = faturaId;
 		this.valorDivida = valorDivida;
 		this.descricao = descricao;
 		this.dataDivida = dataDivida;
-		this.paga = paga;
 		this.compradorId = compradorId;
 	}
 
@@ -89,7 +88,7 @@ public class DividaDTO extends BaseDTO {
 		this.compradorNome = divida.getComprador().getNome();
 		this.pagamentos = divida.getPagamentos().stream().map(obj -> new PagamentoDTO(obj))
 				.collect(Collectors.toList());
-		
+
 		this.createdAt = divida.getCreatedAt();
 		this.updatedAt = divida.getUpdatedAt();
 		this.ativo = divida.isAtivo();

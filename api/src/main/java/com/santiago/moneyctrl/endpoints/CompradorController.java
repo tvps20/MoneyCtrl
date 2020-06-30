@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Credito;
 import com.santiago.moneyctrl.dtos.CompradorDTO;
+import com.santiago.moneyctrl.dtos.CotaCompradorDTO;
 import com.santiago.moneyctrl.dtos.CreditoDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.CompradorService;
@@ -41,6 +42,15 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	public CompradorController(CompradorService service) {
 		super(service);
 		BaseController.baseLog = CompradorController.log;
+	}
+	
+	@GetMapping(TipoEndPoint.ID + TipoEndPoint.COTA)
+	public ResponseEntity<List<CotaCompradorDTO>> gerarCotas(@PathVariable Long id){
+		baseLog.info("[GET COTAS] - Buscando todas as entidades.");
+		List<CotaCompradorDTO> list = ((CompradorService) this.service).GerarCotasByIdComprador(id);
+
+		baseLog.info("[GET COTAS] - Get cotas realizado com sucesso.");
+		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(TipoEndPoint.COMPRADOR_ID + TipoEndPoint.CREDITO)

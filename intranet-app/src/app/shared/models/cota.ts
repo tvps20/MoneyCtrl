@@ -16,16 +16,26 @@ export class Cota extends BaseEntity {
     }
 }
 
-export class CotaFatura extends BaseEntity {
+export class CotaFatura {
     public valorTotal: number;
     public compradorId: number;
     public compradorNome: string;
     public cotas: Cota[] = [];
 
-    constructor(id: number, compradorId: number, compradorNome: string){
-        super(id);
+    constructor(compradorId: number, compradorNome: string){
         this.compradorId = compradorId;
         this.compradorNome = compradorNome;
-        this.tipo = EntityType.COTA;
+    }
+}
+
+export class CotaComprador {
+    public valorTotal: number;
+    public cartaoId: number;
+    public cartaoNome: string;
+    public cotas: Cota[] = [];
+
+    constructor(cartaoId: number, cartaoNome: string){
+        this.cartaoId = cartaoId;
+        this.cartaoNome = cartaoNome;
     }
 }

@@ -48,7 +48,7 @@ public class DividaBuilder {
 	public static DividaBuilder mockDividaDTOBuilder() {
 		DividaBuilder builder = new DividaBuilder();
 		builder.dividaDTO = new DividaDTO(1L, fatura.getId(), BigDecimal.valueOf(10), "DividaDTO teste",
-				LocalDateTime.of(2020, 1, 1, 0, 0), false, comprador.getId());
+				LocalDateTime.of(2020, 1, 1, 0, 0), comprador.getId());
 
 		return builder;
 	}
@@ -73,7 +73,7 @@ public class DividaBuilder {
 
 		for (long i = 1; i <= 10; i++) {
 			DividaDTO dividaDTO = new DividaDTO(i, fatura.getId(), BigDecimal.valueOf(i), "DividaDTO teste " + i,
-					LocalDateTime.of(2020, 1, 1, 0, 0), false, comprador.getId());
+					LocalDateTime.of(2020, 1, 1, 0, 0), comprador.getId());
 
 			builder.dividasDTO.add(dividaDTO);
 		}

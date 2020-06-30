@@ -1,8 +1,8 @@
+import { PageEvent } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
+import { Observable, empty, Subject, of } from 'rxjs';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { map, catchError, switchMap, debounceTime, take, tap } from 'rxjs/operators';
-import { Observable, empty, Subject, of } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
 
 import { User } from './../../shared/models/user';
 import { Comprador } from './../../shared/models/comprador';
@@ -10,9 +10,9 @@ import { EntityType } from './../../shared/util/enuns-type.enum';
 import { FormValidations } from 'src/app/shared/util/form-validations';
 
 import { AlertService } from './../../shared/services/alert-service.service';
-import { UserCompradorService } from './services/user-comprador.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { UserCompradorService } from './services/user-comprador.service';
 
 @Component({
     selector: 'app-user-comprador',
@@ -21,37 +21,38 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 })
 export class UserCompradorComponent extends BaseFormComponent implements OnInit {
 
-    public compradores$: Observable<Comprador[]>;
-    public usuarios$: Observable<User[]>;
-    public error$ = new Subject<boolean>();
     public submitte = false;
+    public usuarios$: Observable<User[]>;
+    public compradores$: Observable<Comprador[]>;
+    public errorUsuarios$ = new Subject<boolean>();
     public entitySelecionada: Comprador | User;
+    public errorCompradores$ = new Subject<boolean>();
 
     // MatPaginator Compradores
-    public lengthCompradores;
+    public lengthCompradores = 0;
     public pageSizeCompradores = 5;
     public pageIndexCompradores = 0;
     public directionCompradores = false;
     public orderByCompradores = "nome"
 
     // MatPaginator Usuarios
-    public lengthUsuarios;
+    public lengthUsuarios = 0;
     public pageSizeUsuarios = 5;
     public pageIndexUsuarios = 0;
     public directionUsuarios = false;
     public orderByUsuarios = "createdAt"
 
-    constructor(private formBuilder: FormBuilder,
-        protected validFormsService: ValidFormsService,
+    constructor(protected validFormsService: ValidFormsService,
         private userCompradorService: UserCompradorService,
-        private alertServiceService: AlertService) {
+        private alertServiceService: AlertService,
+        private formBuilder: FormBuilder) {
         super(validFormsService);
     }
 
     ngOnInit(): void {
+        this.usuarios$ = this.listAllUsers();
         this.formulario = this.createForm();
         this.compradores$ = this.listAllCompradores();
-        this.usuarios$ = this.listAllUsers();
     }
 
     public submit() {
@@ -166,8 +167,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             tap((page: any) => this.lengthCompradores = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar compradores. Tente novamente mais tarde.')
+                this.errorCompradores$.next(true);
                 return empty();
             })
         );
@@ -178,8 +178,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             tap((page: any) => this.lengthUsuarios = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
-                this.error$.next(true);
-                this.alertServiceService.ShowAlertDanger('Error ao carregar usuários. Tente novamente mais tarde.')
+                this.errorUsuarios$.next(true);
                 return empty();
             }
         ));
