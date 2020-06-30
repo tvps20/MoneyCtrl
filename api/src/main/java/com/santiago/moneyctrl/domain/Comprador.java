@@ -44,6 +44,10 @@ public class Comprador extends Usuario {
 	public Comprador(Long id, String nome, String username, String password) {
 		super(id, nome, username, password);
 	}
+	
+	public Comprador(Long id, String nome, String username, String password, String email) {
+		super(id, nome, username, password, email);
+	}
 
 	@Override
 	public String toString() {

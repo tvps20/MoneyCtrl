@@ -18,6 +18,7 @@ public class Pagamento extends BaseEntity {
 
 	@Getter
 	@Setter
+	@Column(nullable = false)
 	private BigDecimal valor;
 
 	@Getter
@@ -43,6 +44,13 @@ public class Pagamento extends BaseEntity {
 		super(id);
 	}
 
+	public Pagamento(Long id, BigDecimal valor, LocalDateTime data, Divida divida) {
+		super(id);
+		this.valor = valor;
+		this.data = data;
+		this.divida = divida;
+	}
+	
 	public Pagamento(Long id, BigDecimal valor, LocalDateTime data, String observacao, Divida divida) {
 		super(id);
 		this.valor = valor;

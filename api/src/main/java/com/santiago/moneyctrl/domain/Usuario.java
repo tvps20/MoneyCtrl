@@ -25,11 +25,12 @@ public class Usuario extends BaseEntity {
 
 	@Getter
 	@Setter
+	@Column(nullable = false)
 	private String nome;
 	
 	@Getter
 	@Setter
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String username;
 
 	@Getter
@@ -75,6 +76,17 @@ public class Usuario extends BaseEntity {
 		this.password = password;
 		this.roles.add(TipoRoles.USUARIO);
 		this.acesso.add(TipoAcesso.USERNAME);
+	}
+	
+	public Usuario(Long id, String nome, String username, String password, String email) {
+		super(id);
+		this.nome = nome;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.roles.add(TipoRoles.USUARIO);
+		this.acesso.add(TipoAcesso.USERNAME);
+		this.acesso.add(TipoAcesso.EMAIL);
 	}
 
 	public Usuario(Long id, String nome, String username, String password, TipoRoles... perfis) {

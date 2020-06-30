@@ -36,6 +36,7 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
+	@Column(nullable = false)
 	private TipoMes mesReferente;
 
 	@Getter
@@ -57,6 +58,13 @@ public class Fatura extends BaseEntity {
 		super(id);
 	}
 
+	public Fatura(Long id, LocalDateTime vencimento, TipoMes mesReferente, Cartao cartao) {
+		super(id);
+		this.vencimento = vencimento;
+		this.mesReferente = mesReferente;
+		this.cartao = cartao;
+	}
+	
 	public Fatura(Long id, LocalDateTime vencimento, String observacao, TipoMes mesReferente, Cartao cartao) {
 		super(id);
 		this.vencimento = vencimento;

@@ -46,15 +46,16 @@ public class Lancamento extends BaseEntity {
 
 	@Getter
 	@Setter
-	private TipoLancamento tipoLancamento;
+	@Column(nullable = false)
+	private TipoLancamento tipoLancamento = TipoLancamento.AVISTA;
 
 	@Getter
 	@Setter
-	private Integer qtdParcelas = 2;
+	private Integer qtdParcelas;
 
 	@Getter
 	@Setter
-	private Integer parcelaAtual = 1;
+	private Integer parcelaAtual;
 
 	@Getter
 	@Setter
@@ -70,6 +71,25 @@ public class Lancamento extends BaseEntity {
 		super(id);
 	}
 
+	public Lancamento(Long id, String descricao, LocalDateTime dataCompra, Fatura fatura, TipoLancamento tipoLancamento) {
+		super(id);
+		this.descricao = descricao;
+		this.dataCompra = dataCompra;
+		this.fatura = fatura;
+		this.tipoLancamento = tipoLancamento;
+	}
+	
+	public Lancamento(Long id, String descricao, LocalDateTime dataCompra, Fatura fatura,
+			TipoLancamento tipoLancamento, Integer qtdParcelas, Integer parcelaAtual) {
+		super(id);
+		this.descricao = descricao;
+		this.dataCompra = dataCompra;
+		this.fatura = fatura;
+		this.tipoLancamento = tipoLancamento;
+		this.qtdParcelas = qtdParcelas;
+		this.parcelaAtual = parcelaAtual;
+	}
+	
 	public Lancamento(Long id, String descricao, String obsrvacao, LocalDateTime dataCompra, Fatura fatura,
 			TipoLancamento tipoLancamento, Integer qtdParcelas, Integer parcelaAtual) {
 		super(id);

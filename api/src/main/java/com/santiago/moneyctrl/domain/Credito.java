@@ -18,6 +18,7 @@ public class Credito extends BaseEntity {
 
 	@Getter
 	@Setter
+	@Column(nullable = false)
 	private BigDecimal valor;
 
 	@Getter
