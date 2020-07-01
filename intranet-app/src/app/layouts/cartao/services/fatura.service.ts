@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
-import { tap, take, map, catchError } from 'rxjs/operators';
-import { empty } from 'rxjs';
+import { tap, take, map } from 'rxjs/operators';
 
 import { AlertService } from './../../../shared/services/alert-service.service';
 import { CotaFatura } from './../../../shared/models/cota';

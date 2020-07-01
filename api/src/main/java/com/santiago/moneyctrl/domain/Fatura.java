@@ -41,6 +41,10 @@ public class Fatura extends BaseEntity {
 
 	@Getter
 	@Setter
+	private boolean via2 = false;
+	
+	@Getter
+	@Setter
 	@ManyToOne
 	@JoinColumn(name = "cartao_id", nullable = false)
 	private Cartao cartao;

@@ -5,7 +5,7 @@ import com.santiago.moneyctrl.util.MensagemUtil;
 
 public enum TipoStatus {
 
-	PROXIMA(1, "Próxima"), ABERTA(2, "Aberta"), FECHADA(3, "Fechada"), PAGA(4, "Paga");
+	PROXIMA(1, "Próxima"), ABERTA(2, "Aberta"), FECHADA(3, "Fechada"), PAGA(4, "Paga"), INVALIDA(6, "Inválida");
 
 	private int cod;
 	private String descricao;

@@ -28,6 +28,19 @@ export class CotaFatura {
     }
 }
 
+export class CotaCartao {
+    public valorTotal: number;
+    public cartaoId: number;
+    public cartaoNome: string;
+    public faturaMes: string;
+    public cotas: CotaFatura[] = [];
+
+    constructor(cartaoId: number, cartaoNome: string){
+        this.cartaoId = cartaoId;
+        this.cartaoNome = cartaoNome;
+    }
+}
+
 export class CotaComprador {
     public valorTotal: number;
     public cartaoId: number;

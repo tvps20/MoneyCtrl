@@ -1,5 +1,10 @@
 package com.santiago.moneyctrl.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -7,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.santiago.moneyctrl.domain.Bandeira;
 import com.santiago.moneyctrl.domain.Cartao;
+import com.santiago.moneyctrl.domain.Fatura;
+import com.santiago.moneyctrl.domain.enuns.TipoStatus;
 import com.santiago.moneyctrl.dtos.CartaoDTO;
+import com.santiago.moneyctrl.dtos.CotaCartaoDTO;
+import com.santiago.moneyctrl.dtos.CotaFaturaDTO;
 import com.santiago.moneyctrl.repositories.CartaoRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
@@ -22,6 +31,8 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	@Autowired
 	private BandeiraService bandeiraService;
+	@Autowired
+	private FaturaService faturaService;
 
 	public CartaoService(CartaoRepository repository) {
 		super(repository);
@@ -57,6 +68,26 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getBandeira().getId(), "bandeiraId",
 					BandeiraService.class.getName()));
 		}
+	}
+	
+	public List<CotaCartaoDTO> GerarAllCotasCartao(){
+		log.info("[GerarCotasCartao] - Buscando faturas.");
+		List<Fatura> faturas = this.faturaService.noFindPageByStatus(TipoStatus.ABERTA.toString());
+		Map<Cartao, CotaCartaoDTO> mapCotas = new HashMap<>();
+		
+		log.info("[GerarCotasCartao] - Gerando cotas");
+		faturas.forEach(f -> {
+			if (!mapCotas.keySet().contains(f.getCartao())) {
+				// Se não encontrar criar um item novo.
+				CotaCartaoDTO cotaCartao = new CotaCartaoDTO(f.getCartao(), f);
+				mapCotas.put(f.getCartao(), cotaCartao);
+			}
+			List<CotaFaturaDTO> cotasFatura = this.faturaService.GerarCotasByIdFatura(f.getId());
+			mapCotas.get(f.getCartao()).setCotas(cotasFatura);
+		});
+		
+		log.info("[GerarCotasCartao] - Cotas geradas com sucesso.");
+		return new ArrayList<CotaCartaoDTO>(mapCotas.values());
 	}
 
 	@Override

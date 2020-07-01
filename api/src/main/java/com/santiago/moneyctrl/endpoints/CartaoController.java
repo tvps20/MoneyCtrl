@@ -1,5 +1,7 @@
 package com.santiago.moneyctrl.endpoints;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.santiago.moneyctrl.domain.Cartao;
 import com.santiago.moneyctrl.dtos.CartaoDTO;
+import com.santiago.moneyctrl.dtos.CotaCartaoDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
 import com.santiago.moneyctrl.services.CartaoService;
 
@@ -23,6 +26,15 @@ public class CartaoController extends BaseController<Cartao, CartaoDTO> {
 	public CartaoController(CartaoService service) {
 		super(service);
 		BaseController.baseLog = CartaoController.log;
+	}
+
+	@GetMapping(TipoEndPoint.COTA)
+	public ResponseEntity<List<CotaCartaoDTO>> gerarCotas() {
+		baseLog.info("[GET COTAS] - Buscando todas as cotas.");
+		List<CotaCartaoDTO> list = ((CartaoService) this.service).GerarAllCotasCartao();
+
+		baseLog.info("[GET COTAS] - Get cotas realizado com sucesso.");
+		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(TipoEndPoint.VALIDA + TipoEndPoint.UNIQUE + TipoEndPoint.VALOR)

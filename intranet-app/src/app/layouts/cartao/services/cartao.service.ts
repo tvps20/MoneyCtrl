@@ -1,3 +1,4 @@
+import { CotaCartao } from './../../../shared/models/cota';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
@@ -15,6 +16,10 @@ export class CartaoService extends CrudService<Cartao> {
 
     constructor(protected http: HttpClient, protected alertService: AlertService) {
         super(http, '/api/cartoes', alertService);
+    }
+
+    public listAllCotas() {
+        return this.http.get<CotaCartao[]>(`${this.API_URL}/cotas`);
     }
 
     public verificaNomeUnico(nome: string) {

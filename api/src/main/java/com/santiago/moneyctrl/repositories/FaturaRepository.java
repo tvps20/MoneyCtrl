@@ -17,6 +17,8 @@ public interface FaturaRepository extends JpaRepository<Fatura, Long> {
 	@Query("SELECT f FROM Fatura f WHERE f.status = :status")
 	List<Fatura> noFindByStatus(TipoStatus status);
 
+	List<Fatura> findByStatus(TipoStatus status);
+	
 	Page<Fatura> findByStatus(TipoStatus status, Pageable pageable);
 
 	@Query("SELECT f FROM Fatura f WHERE f.status != :status")

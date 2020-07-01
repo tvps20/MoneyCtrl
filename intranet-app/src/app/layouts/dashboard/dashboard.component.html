@@ -8,7 +8,7 @@
                             <i class="material-icons">monetization_on</i>
                         </div>
                         <p class="card-category">Total</p>
-                        <h3 class="card-title"><small>R$ </small>1345,0</h3>
+                        <h3 class="card-title">{{ totalFaturas | currency:'BRL' }}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -24,7 +24,7 @@
                             <i class="material-icons">monetization_on</i>
                         </div>
                         <p class="card-category">Pagamentos</p>
-                        <h3 class="card-title"><small>R$ </small>700,0</h3>
+                        <h3 class="card-title">{{ totalPagamentos | currency:'BRL' }}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -58,72 +58,114 @@
                             <i class="material-icons">picture_as_pdf</i>
                         </div>
                         <p class="card-category">Faturas Ativas</p>
-                        <h3 class="card-title">3</h3>
+                        <h3 class="card-title">{{ faturaAtivasLength }}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">date_range</i> Janeiro/2020
+                            <i class="material-icons">date_range</i> {{ mesReferente }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 col-md-12">
+            <div class="col-lg-12 col-md-12 col-sm-6">
                 <div class="card">
-                    <div class="card-header card-header-info">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 class="card-title">Cartão nubank</h4>
-                                <p class="card-category">Dividas da fatura de Janeiro/2020</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="card-category">Total: 135,00 R$</p>
-                                <p class="card-category">Recebido: 0,00 R$</p>
-                            </div>
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title">Dividas Ativias - {{ totalDividas | currency:'BRL' }}</h4>
+                        <p class="card-category">Novas dividas até {{ dataAtual | date: 'fullDate' }}</p>
+                    </div>
+                    <div class="card-body table-responsive"
+                        *ngIf="dividasAtivas$ | async as dividas; else loadingDividasAtivas">
+                        <div *ngIf="dividas.length > 0">
+                            <table class="table table-hover">
+                                <thead class="text-warning">
+                                    <th>Descrição</th>
+                                    <th>Valor Total</th>
+                                    <th>Valor Pago</th>
+                                    <th>Tipo</th>
+                                    <th>Comprador</th>
+                                    <th>Ação</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let divida of dividas">
+                                        <td>{{ divida.descricao }}</td>
+                                        <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                        <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                        <td>
+                                            <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                            <i *ngIf="!divida.faturaId" class="material-icons">monetization_on</i>
+                                        </td>
+                                        <td>{{ divida.compradorNome }}</td>
+                                        <td>
+                                            <button type="button" style="color: white;"
+                                                (click)="onSelectedEntity(divida)" data-toggle="modal"
+                                                data-target="#modalPagamentoDivida"
+                                                class="btn btn-success btn-sm">Pagar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
+                                [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividasAtivas($event)">
+                            </mat-paginator>
+                        </div>
+                        <div *ngIf="dividas.length < 1">
+                            <app-notification-state tipo='warning' msg='Nenhuma divida disponivel.'>
+                            </app-notification-state>
                         </div>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover">
-                            <thead class="text-primary">
-                                <th>Comprador</th>
-                                <th>Total</th>
-                                <th>Pago</th>
-                                <th>Restante</th>
-                                <th>Ação</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Gilson</td>
-                                    <td>R$ 74,87</td>
-                                    <td>R$ 74,88</td>
-                                    <td>R$ 00,01</td>
-                                    <td>
-                                        <button mat-raised-button type="button"
-                                            matTooltip="Pagar" matTooltipPosition="above"
-                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">done</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Filipe</td>
-                                    <td>R$ 26,35</td>
-                                    <td>R$ 00,00</td>
-                                    <td>R$ 26,35</td>
-                                    <td>
-                                        <button mat-raised-button type="button"
-                                            matTooltip="Pagar" matTooltipPosition="above"
-                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                            <i class="material-icons">done</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <ng-template #loadingDividasAtivas>
+                        <div *ngIf="errorDividasAtivas$ | async; else loadingNoError">
+                            <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das dividas no
+                            servidor.'></app-notification-state>
+                        </div>
+                        <ng-template #loadingNoError>
+                            <div class="text-center">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Carregando...
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="cartaoCotas$ | async as cotasCartao">
+            <div class="card-columns">
+                <div class="card" *ngFor="let cotaCartao of cotasCartao">
+                    <div *ngIf="cotaCartao.cotas.length > 0">
+                        <div class="card-header card-header-info">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="card-title">{{ cotaCartao.cartaoNome }} -
+                                        {{ cotaCartao.valorTotal | currency:'BRL' }}</h4>
+                                    <p class="card-category">Compras da fatura de {{ cotaCartao.faturaMes }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-primary">
+                                    <th>Comprador</th>
+                                    <th>Total</th>
+                                    <th>Compras</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cota of cotaCartao.cotas">
+                                        <td>{{ cota.compradorNome }}</td>
+                                        <td>{{ cota.valorTotal  | currency:'BRL' }}</td>
+                                        <td>{{ cota.cotas.length }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>        
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Modal de pagamentos -->
+<app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"
+    [divida]="entitySelecionada"></app-modal-pagamento>

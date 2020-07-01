@@ -40,6 +40,10 @@ public class FaturaDTO extends BaseDTO {
 	
 	@Getter
 	@Setter
+	private boolean via2 = false;
+	
+	@Getter
+	@Setter
 	private String cartaoNome;
 
 	@Getter
@@ -69,6 +73,7 @@ public class FaturaDTO extends BaseDTO {
 		this.vencimento = fatura.getVencimento();
 		this.observacao = fatura.getObservacao();
 		this.mesReferente = fatura.getMesReferente();
+		this.via2 = fatura.isVia2();
 		this.status = fatura.getStatus();
 		this.cartaoId = fatura.getCartao().getId();
 		this.cartaoNome = fatura.getCartao().getNome();

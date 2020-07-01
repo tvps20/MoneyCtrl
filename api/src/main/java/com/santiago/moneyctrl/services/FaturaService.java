@@ -76,6 +76,38 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
 		return faturas;
 	}
+	
+	public Page<Fatura> noFindPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
+			String orderBy) {
+		log.info("[FindPageStatus] - Buscando paginado todas as faturas sem status: { status: " + status + ", Page: "
+				+ page + ", linesPerPage: " + linesPerPage + " }");
+
+		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
+		TipoStatus statusType = TipoStatus.toEnum(status);
+		Page<Fatura> faturas = ((FaturaRepository) this.repository).noFindByStatus(statusType, pageRequest);
+
+		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
+		return faturas;
+	}
+	
+	public List<Fatura> noFindPageByStatus(String status){
+		log.info("[FindAllStatus] - Buscando paginado todas as faturas sem status. Status: " + status);
+		TipoStatus statusType = TipoStatus.toEnum(status);
+		List<Fatura> list = ((FaturaRepository) this.repository).noFindByStatus(statusType);
+
+		log.info("[FindAllStatus] - Busca finalizada com sucesso.");
+		return list;
+	}
+	
+	public List<Fatura> findPageByStatus(String status){
+		log.info("[FindAllStatus] - Buscando paginado todas as faturas por status. Status: " + status);
+		TipoStatus statusType = TipoStatus.toEnum(status);
+		List<Fatura> list = ((FaturaRepository) this.repository).findByStatus(statusType);
+
+		log.info("[FindAllStatus] - Busca finalizada com sucesso.");
+		return list;
+	}
 
 	public List<CotaFaturaDTO> GerarCotasByIdFatura(Long faturaId) {
 		log.info("[GerarCotasById] - Buscando fatura. FaturaId: " + faturaId);
@@ -99,20 +131,6 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 		log.info("[GerarCotasById] - Cotas geradas com sucesso.");
 		return new ArrayList<CotaFaturaDTO>(mapCotas.values());
-	}
-
-	public Page<Fatura> noFindPageByStatus(String status, Integer page, Integer linesPerPage, String direction,
-			String orderBy) {
-		log.info("[FindPageStatus] - Buscando paginado todas as faturas sem status: { status: " + status + ", Page: "
-				+ page + ", linesPerPage: " + linesPerPage + " }");
-
-		Direction directionParse = direction.equals("ASC") ? Direction.ASC : Direction.DESC;
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, directionParse, orderBy);
-		TipoStatus statusType = TipoStatus.toEnum(status);
-		Page<Fatura> faturas = ((FaturaRepository) this.repository).noFindByStatus(statusType, pageRequest);
-
-		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
-		return faturas;
 	}
 
 	public Fatura fecharFatura(Long id) {
