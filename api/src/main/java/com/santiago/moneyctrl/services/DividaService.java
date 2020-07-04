@@ -1,5 +1,7 @@
 package com.santiago.moneyctrl.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -52,7 +54,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[Insert] - Erro ao tentar salvar divida.");
 			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} 
+		}
 	}
 
 	public Page<Divida> findPageByStatus(boolean paga, Integer page, Integer linesPerPage, String direction,
@@ -65,6 +67,15 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 		Page<Divida> dividas = ((DividaRepository) this.repository).findByPaga(paga, pageRequest);
 
 		log.info("[FindPageStatus] - Busca paginada finalizada com sucesso.");
+		return dividas;
+	}
+
+	public List<Divida> findByStatus(boolean paga) {
+		log.info("[FindStatus] - Buscando todas as dividas por status: " + paga);
+
+		List<Divida> dividas = ((DividaRepository) this.repository).findByPaga(paga);
+
+		log.info("[FindPageStatus] - Busca finalizada com sucesso.");
 		return dividas;
 	}
 

@@ -69,6 +69,16 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@GetMapping(TipoEndPoint.STATUS)
+	public ResponseEntity<List<DividaDTO>> listarDividasStatus(@RequestParam Boolean paga) {
+		log.info("[GET PAGE] - Buscando paginado todos as dividas por status: " + paga);
+		List<Divida> list = ((DividaService) this.service).findByStatus(paga);
+		List<DividaDTO> listDTO = list.stream().map(obj -> new DividaDTO(obj)).collect(Collectors.toList());
+
+		log.info("[GET PAGE] - GetPage realizado com sucesso.");
+		return ResponseEntity.ok().body(listDTO);
+	}
+
 	@GetMapping(TipoEndPoint.PAGE + TipoEndPoint.DIVIDA_ID + TipoEndPoint.PAGAMENTO + TipoEndPoint.PAGE)
 	public ResponseEntity<Page<PagamentoDTO>> listarPagePagamentos(@PathVariable Long dividaId,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,

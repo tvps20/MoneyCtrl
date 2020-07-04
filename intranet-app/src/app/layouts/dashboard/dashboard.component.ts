@@ -1,3 +1,4 @@
+import { UtilService } from './../../shared/util/util.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Divida } from './../../shared/models/divida';
 import { Component, OnInit } from '@angular/core';
@@ -26,14 +27,16 @@ export class DashboardComponent implements OnInit {
     public totalPagamentos = 0;
     public entitySelecionada: Divida;
     public faturaAtivasLength = 0;
+    public DividasAtivasLength = 0;
     public errorDividasAtivas$ = new Subject<boolean>();
 
     // MatPaginator Dividas Ativas
     public lengthDividasAtivas = 0;
     public pageSizeDividasAtivas = 5;
-    public pageIndexDividasAtivas = 0;
+    public pageIndexDividasAtivas = 1;
 
     constructor(private cartaoService: CartaoService,
+        private utilService: UtilService,
         private alertServiceService: AlertService,
         private dividaService: DividaService) { }
 
@@ -53,10 +56,13 @@ export class DashboardComponent implements OnInit {
     }
 
     private listAllCartaoCotas(){
+        let auxValorTotalCotas = 0;
         return this.cartaoService.listAllCotas().pipe(
             map((dados: CotaCartao[]) => dados.sort((a, b) => a.cotas.length < b.cotas.length ? 1 : -1)),
             tap((dados: CotaCartao[]) => this.faturaAtivasLength = dados.length),
+            tap((dados: CotaCartao[]) => dados.map(cotaCartao => auxValorTotalCotas += cotaCartao.valorTotal )),
             tap((dados: CotaCartao[]) => dados.length > 0 ? this.mesReferente = dados[0].faturaMes : this.mesReferente = 'Sem fatura ativas.'),
+            tap(() => this.totalFaturas = auxValorTotalCotas),
             catchError(error => {
                 this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações dos cartões no servidor.')
                 return empty();
@@ -64,11 +70,21 @@ export class DashboardComponent implements OnInit {
         )
     }
 
-    private listAllDividasAtivas(direction = "DESC", orderBy = "createdAt") {
-        return this.dividaService.listAllPageStatus(false, this.pageIndexDividasAtivas, this.pageSizeDividasAtivas, direction, orderBy).pipe(
-            tap((page: any) => this.lengthDividasAtivas = page.totalElements),
-            map((page: any) => page.content),
-            tap(console.log),
+    private listAllDividasAtivas() {
+        let auxValorPagamentos = 0;
+        let auxValorDivida = 0;
+        return this.dividaService.listAllStatus(false).pipe(
+            tap((content: Divida[]) => content.map( divida => {
+                auxValorPagamentos += divida.totalPagamentos;
+                auxValorDivida += divida.valorDivida;
+            } )),
+            tap((content: Divida[]) => {
+                this.lengthDividasAtivas = content.length;
+                this.DividasAtivasLength = content.length;
+                this.totalPagamentos = auxValorPagamentos;
+                this.totalDividas = auxValorDivida;
+            }),
+            map((content: Divida[]) => this.utilService.paginate(content, this.pageSizeDividasAtivas, this.pageIndexDividasAtivas)),
             catchError(error => {
                 this.errorDividasAtivas$.next(true);
                 return empty();

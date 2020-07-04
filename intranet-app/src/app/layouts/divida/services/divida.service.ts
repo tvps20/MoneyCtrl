@@ -25,6 +25,10 @@ export class DividaService extends CrudService<Divida> {
         return this.http.get<Divida[]>(`${this.API_URL}/page/status?paga=${paga}&page=${page}&linesPerPage=${linesPerPage}&direction=${direction}&orderBy=${orderBy}`);
     }
 
+    public listAllStatus(paga: boolean) {
+        return this.http.get<Divida[]>(`${this.API_URL}/status?paga=${paga}`);
+    }
+
     public parseToEntity(form: FormGroup): Divida {
         let dataDivida = this.parseToDateFormat(form.get('dataDivida').value);
         let divida = new Divida(null, form.get('valor').value,
