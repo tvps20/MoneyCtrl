@@ -1,5 +1,5 @@
 import { PageEvent } from '@angular/material/paginator';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Observable, empty, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -205,6 +205,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
     private listAllFaturaCotas(){
         return this.faturaService.listAllCotas(this.fatura.id).pipe(
+            map((dados: CotaFatura[]) => dados.sort((a, b) => a.cotas.length < b.cotas.length ? 1 : -1)),
             catchError(error => {
                 this.errorCotas$.next(true);
                 return empty();

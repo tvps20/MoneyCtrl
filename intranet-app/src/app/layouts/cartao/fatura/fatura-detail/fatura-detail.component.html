@@ -8,7 +8,7 @@
                             <i class="material-icons">monetization_on</i>
                         </div>
                         <p class="card-category">Total</p>
-                        <h3 class="card-title">{{ fatura.valorTotal | currency:'BRL' }}</h3>
+                        <h4 class="card-title">{{ fatura.valorTotal | currency:'BRL' }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -25,7 +25,7 @@
                             <i class="material-icons">event</i>
                         </div>
                         <p class="card-category">Vencimento</p>
-                        <h3 class="card-title">{{ fatura.vencimento | date: 'dd/MM/yyyy' }}</h3>
+                        <h4 class="card-title">{{ fatura.vencimento | date: 'dd/MM/yyyy' }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -41,7 +41,7 @@
                             <i class="material-icons">event_available</i>
                         </div>
                         <p class="card-category">Referência</p>
-                        <h3 class="card-title">{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</h3>
+                        <h4 class="card-title">{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -57,7 +57,7 @@
                             <i class="material-icons">help</i>
                         </div>
                         <p class="card-category">Situação</p>
-                        <h3 class="card-title">{{ fatura.status }}</h3>
+                        <h4 class="card-title">{{ fatura.status }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -73,12 +73,12 @@
                             <i class="material-icons">info</i>
                         </div>
                         <p class="card-category">Observação</p>
-                        <h3 class="card-title">Nenhuma</h3>
+                        <h4 class="card-title">Nenhuma</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons text-primary">more_horiz</i>
-                            <a href="javascript:void(0)">Detalhes</a>
+                            <i class="material-icons text-primary">more</i>
+                            <a href="javascript:void(0)">Mais informações</a>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                             <i class="material-icons">receipt</i>
                         </div>
                         <p class="card-category">Lançamentos</p>
-                        <h3 class="card-title">{{ fatura.lancamentos.length }}</h3>
+                        <h4 class="card-title">{{ fatura.lancamentos.length }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -196,13 +196,14 @@
                                                 <td>{{ lancamento.descricao }}</td>
                                                 <td>{{ lancamento.dataCompra | date: 'dd/MM/yyyy' }}</td>
                                                 <td>{{ lancamento.valorTotal | currency:'BRL' }}</td>
-                                                <td>{{ lancamento.parcelado ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : '-'}}
+                                                <td>{{ lancamento.tipoLancamento === 'PARCELADO' ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : (lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
                                                 </td>
                                                 <td>{{ lancamento.cotas.length }}</td>
                                                 <td class="text-primary">
                                                     <button mat-raised-button type="button" matTooltip="Detalhes"
                                                         matTooltipPosition="above" data-toggle="modal"
                                                         data-target="#detalhesModalLancamento"
+                                                        (click)="onSelectedEntity(lancamento)"
                                                         class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                         <i class="material-icons">description</i>
                                                     </button>
@@ -248,7 +249,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <app-input-field formControlName="descricao"
-                                                                    label="Descrição"
+                                                                    label="Descrição" maxLengthInput="20"
                                                                     [control]="formulario.get('descricao')">
                                                                 </app-input-field>
                                                             </div>
@@ -465,5 +466,6 @@
 
 <!-- Modal de aviso excluir -->
 <app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>
+
 <!-- Modal de detalhes do lançamento -->
-<app-modal-lancamento></app-modal-lancamento>
+<app-modal-lancamento [lancamento]="entitySelecionada"></app-modal-lancamento>

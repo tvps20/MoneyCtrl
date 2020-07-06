@@ -5,6 +5,7 @@ export class Cota extends BaseEntity {
 
     public valor: number;
     public compradorId: number;
+    public compradorNome: string;
     public lancamentoId: number;
     public lancamento: StatusType;
 

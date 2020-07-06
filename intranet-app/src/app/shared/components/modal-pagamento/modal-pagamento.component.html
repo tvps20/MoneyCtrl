@@ -11,14 +11,20 @@
                     <div class="modal-body">
                         <h6 class="card-category" style="font-size: 11px;">{{ divida?.dataDivida }}</h6>
                         <h2 class="card-title">{{ divida?.descricao }} - {{ divida?.valorDivida | currency:'BRL' }}</h2>
-                        <h5 class="text-warning" style="font-size: 14px; margin-top: -25px;">{{ divida?.compradorNome }}</h5>
+                        <h5 class="text-warning" style="font-size: 14px; margin-top: -25px;">{{ divida?.compradorNome }}
+                        </h5>
+                        <hr>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <br />
                                 <mat-form-field appearance="outline">
                                     <mat-label>Pagamento</mat-label>
-                                    <input matInput mask="separator.2" thousandSeparator="." prefix="R$ " formControlName="valor">
-                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error</mat-icon>
-                                    <mat-icon matSuffix class="text-success" *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                    <input matInput mask="separator.2" thousandSeparator="." prefix="R$ "
+                                        formControlName="valor">
+                                    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl('valor')">error
+                                    </mat-icon>
+                                    <mat-icon matSuffix class="text-success"
+                                        *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
                                     <mat-hint>
                                         <div class="text-danger" *ngIf="verificarValidControl('valor')">
                                             {{ errorMessage('valor', 'Valor') }}
@@ -26,32 +32,21 @@
                                     </mat-hint>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Valor Pago</mat-label>
-                                    <input matInput [value]="divida?.totalPagamentos | currency:'BRL'" disabled>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field appearance="outline">
-                                    <mat-label>Créditos</mat-label>
-                                    <input matInput [value]="divida?.totalPagamentos | currency:'BRL'" disabled>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <mat-checkbox>Usar Créditos</mat-checkbox>
+                            <div class="col-md-6">
+                                <p>Pago: {{ divida?.totalPagamentos | currency:'BRL' }}<br />
+                                    Creditos: {{ 0 | currency:'BRL' }}
+                                </p>
+                                <mat-checkbox>Usar creditos</mat-checkbox>
                             </div>
                         </div>
                         <hr>
                         <p class="card-description">Valores acima do total resultam em créditos para o comprador.</p>
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-info" (click)="onClosedModal()" >Fechar</button>
-                        <button *ngIf="!submitte"  type="submit" class="btn btn-default">Pagar</button>
+                        <button type="button" class="btn btn-info" (click)="onClosedModal()">Fechar</button>
+                        <button *ngIf="!submitte" type="submit" class="btn btn-default">Pagar</button>
                         <button *ngIf="submitte" type="button" class="btn btn-default pull-right" disabled>
-                            <span class="spinner-border spinner-border-sm" role="status"aria-hidden="true"></span>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Salvando
                         </button>
                     </div>

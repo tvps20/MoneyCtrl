@@ -204,13 +204,13 @@
                                     <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <app-input-field formControlName="nome" label="Nome"
+                                                <app-input-field formControlName="nome" label="Nome" maxLengthInput="12"
                                                     [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="sobrenome" label="Sobrenome"
-                                                    [control]="formulario.get('sobrenome')">
+                                                    maxLengthInput="12" [control]="formulario.get('sobrenome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-2">
@@ -226,7 +226,8 @@
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <app-input-field formControlName="username" uniqueFiled="true"
-                                                    label="Username" [control]="formulario.get('username')">
+                                                    maxLengthInput="10" label="Username"
+                                                    [control]="formulario.get('username')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-7">
@@ -238,12 +239,13 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="password" label="Password"
-                                                    tipo="password" [control]="formulario.get('password')">
+                                                    [showMaxLength]="false" tipo="password"
+                                                    [control]="formulario.get('password')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="confirmarPassword"
-                                                    label="Confirmar Password" tipo="password"
+                                                    label="Confirmar Password" tipo="password" [showMaxLength]="false"
                                                     [control]="formulario.get('confirmarPassword')">
                                                 </app-input-field>
                                             </div>

@@ -59,7 +59,6 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
         this.compradorCotas$ = this.listAllCompradorCotas();
         this.dividas = this.paginate(this.comprador.dividas, this.pageSizeDividas, this.pageIndexDividas);
         this.creditos = this.paginate(this.comprador.creditos, this.pageSizeCreditos, this.pageIndexCreditos);
-        console.log(this.comprador)
     }
 
     public submit() {
@@ -139,7 +138,6 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
 
     private listAllCompradorCotas(){
         return this.compradroService.listAllCotas(this.comprador.id).pipe(
-            tap(console.log),
             catchError(error => {
                 this.errorCotas$.next(true);
                 return empty();

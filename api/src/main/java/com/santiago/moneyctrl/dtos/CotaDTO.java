@@ -27,6 +27,10 @@ public class CotaDTO extends BaseDTO {
 	
 	@Getter
 	@Setter
+	private String compradorNome;
+	
+	@Getter
+	@Setter
 	private Long lancamentoId;
 
 	@Getter

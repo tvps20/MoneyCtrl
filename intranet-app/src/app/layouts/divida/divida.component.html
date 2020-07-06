@@ -154,6 +154,7 @@
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above" data-toggle="modal"
                                                             data-target="#detalhesModalDivida"
+                                                            (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
                                                         </button>
@@ -223,7 +224,7 @@
                                                         <i *ngIf="!divida.faturaId"
                                                             class="material-icons">monetization_on</i>
                                                     </td>
-                                                    <td>{{ divida.dataDivida | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ divida.dataDivida | date:'dd/MM/yyyy' }}</td>
                                                     <td>{{ divida.compradorNome }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-success btn-sm"
@@ -231,7 +232,9 @@
                                                     </td>
                                                     <td>
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
-                                                            matTooltipPosition="above"
+                                                            matTooltipPosition="above" data-toggle="modal"
+                                                            data-target="#detalhesModalDivida"
+                                                            (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
                                                         </button>
@@ -322,7 +325,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <app-input-field formControlName="descricao" label="Descrição"
-                                                    [control]="formulario.get('descricao')">
+                                                    maxLengthInput="20" [control]="formulario.get('descricao')">
                                                 </app-input-field>
                                             </div>
                                         </div>
@@ -348,7 +351,7 @@
 <app-modal-aviso identificador="modalExcluirDivida" (confimaModal)="onDelete($event)"></app-modal-aviso>
 
 <!-- Modal de detalhes do Divida -->
-<app-modal-divida></app-modal-divida>
+<app-modal-divida [divida]="entitySelecionada"></app-modal-divida>
 
 <!-- Modal de pagamentos -->
 <app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"

@@ -10,6 +10,7 @@ export class Lancamento extends BaseEntity {
     public faturaId: number;
     public tipoLancamento: LancamentoType;
     public qtdParcelas: number;
+    public valorTotal: number;
     public parcelaAtual: number;
     public cotas: Cota[] = [];
 

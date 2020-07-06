@@ -49,7 +49,7 @@ public class UsuarioDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 6, max = 20, message = "{validation.erro.model.length.nome}")
+	@Length(min = 6, max = 60, message = "{validation.erro.model.length.nome}")
 	private String password;
 	
 	@Getter

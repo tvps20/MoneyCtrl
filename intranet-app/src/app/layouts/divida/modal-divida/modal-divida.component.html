@@ -9,31 +9,23 @@
                     </div>
                 <!-- </div> -->
                 <div class="modal-body">
-                    <h6 class="card-category" style="font-size: 11px">12 de Janeiro de 2020, 10:55</h6>
-                    <h2 class="card-title">Gilson - R$ 74,87</h2>
-                    <h5 class="text-success" style="font-size: 14px; margin-top: -25px;">Paga</h5>
-                    <table class="table table-sm table-hover table-bordered">
-                        <thead class=" text-primary">
-                            <th>
-                                Pagamentos
-                            </th>
-                            <th>
-                                Data
-                            </th>
+                    <h6 class="card-category" style="font-size: 11px">{{ divida?.dataDivida | date: 'medium' }}</h6>
+                    <h2 class="card-title">{{ divida?.compradorNome }} - {{ divida?.valorDivida | currency:'BRL' }}</h2>
+                    <h5 [ngClass]="{'text-success': divida?.paga, 'text-warning': !divida?.paga }" style="font-size: 14px; margin-top: -25px;">{{ divida?.paga ? 'Paga' : 'Ativa'}}</h5>
+                    <table class="table table-sm table-hover table-bordered" *ngIf="divida?.pagamentos.length > 0">
+                        <thead class="text-primary">
+                            <th>Pagamentos - {{ divida?.totalPagamentos | currency:'BRL' }}</th>
+                            <th>Data</th>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>14,87 R$</td>
-                            <td>22/02/2020</td>
-                          </tr>
-                          <tr>
-                            <td>60,00 R$</td>
-                            <td>28/02/2020</td>
+                          <tr *ngFor="let pagamento of divida?.pagamentos">
+                            <td>{{ pagamento.valor | currency:'BRL' }}</td>
+                            <td>{{ pagamento.data | date:'dd/MM/yyyy' }}</td>
                           </tr>
                         </tbody>
                       </table>
                     <hr>
-                    <p class="card-description">Divida da fatura de Janeiro</p>
+                    <p class="card-description">{{ divida?.descricao }}</p>
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>

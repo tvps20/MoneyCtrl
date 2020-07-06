@@ -23,6 +23,8 @@ export class InputFieldComponent implements ControlValueAccessor {
     @Input() isReadOnly = false;
     @Input() submitted = false;
     @Input() uniqueFiled= false;
+    @Input() maxLengthInput = 256;
+    @Input() showMaxLength = true;
 
     private innerValue: any;
 

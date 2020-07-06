@@ -20,7 +20,6 @@ export class UserService extends CrudService<User> {
     public verificaEmail(email: string){
         return this.http.get(this.API_URL + `/valida/email-unico/${email}`)
         .pipe(
-        //    tap(console.log),
             map((dados: { alreadySaved: boolean }) => dados.alreadySaved),
             take(1)
         );

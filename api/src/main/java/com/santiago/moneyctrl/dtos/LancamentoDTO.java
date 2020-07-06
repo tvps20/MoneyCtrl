@@ -96,6 +96,7 @@ public class LancamentoDTO extends BaseDTO {
 		this.tipoLancamento = lancamento.getTipoLancamento();
 		this.cotas = lancamento.getCotas().stream().map(obj -> {
 			CotaDTO dto = new CotaDTO(obj);
+			dto.setCompradorNome(obj.getComprador().getNome());
 			dto.setLancamentoId(null);
 			return dto;
 		}).collect(Collectors.toList());

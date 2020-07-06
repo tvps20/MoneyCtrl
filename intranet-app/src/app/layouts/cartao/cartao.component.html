@@ -151,7 +151,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="nome" label="Nome" uniqueFiled="true"
-                                                    [control]="formulario.get('nome')">
+                                                    maxLengthInput="12" [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-6">
@@ -180,7 +180,7 @@
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
-                                                    <input matInput formControlName="bandeira">
+                                                    <input matInput formControlName="bandeira" #message maxlength="12">
                                                     <mat-icon matSuffix class="text-danger"
                                                         *ngIf="verificarValidControl('bandeira') && formulario.get('bandeira').enabled">
                                                         error</mat-icon>
@@ -197,6 +197,7 @@
                                                             {{ errorMessage('bandeira', 'Bandeira') }}
                                                         </div>
                                                     </mat-hint>
+                                                    <mat-hint align="end">{{message.value.length}} / 12</mat-hint>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-md-6">

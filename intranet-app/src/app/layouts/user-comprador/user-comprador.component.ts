@@ -58,7 +58,6 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
     public submit() {
         this.submitte = true;
         let newEntity: Comprador | User = this.userCompradorService.parseToUserComprador(this.formulario);
-        console.log(newEntity)
         newEntity.tipo === EntityType.COMPRADOR ? this.createEntity(newEntity, 'Comprador salvo com sucesso.', 'Error ao tentar salvar comprador') :
             this.createEntity(newEntity, 'Usuário salvo com sucesso.', 'Error ao tentar salvar usuário');
     }
@@ -89,7 +88,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
             admin: [false, Validators.required],
             username: [null, [FormValidations.notStartNumber, Validators.required, Validators.minLength(5), Validators.maxLength(10)], [this.validarUsername.bind(this)]],
             email: [null, Validators.email, [this.validarEmail.bind(this)]],
-            password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+            password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(60)]],
             confirmarPassword: [null, [FormValidations.equalsTo('password'), Validators.required]]
         });
     }
