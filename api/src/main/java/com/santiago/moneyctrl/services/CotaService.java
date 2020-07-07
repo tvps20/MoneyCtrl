@@ -1,5 +1,6 @@
 package com.santiago.moneyctrl.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.dtos.CotaDTO;
 import com.santiago.moneyctrl.repositories.CotaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
-import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
 import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 		return cotas;
 	}
 
-	public Page<Cota> findPageByLancamentoId(Long lancamentoId, Integer page, Integer linesPerPage, String orderBy,
+	public Page<Cota> findPageCotaByLancamentoId(Long lancamentoId, Integer page, Integer linesPerPage, String orderBy,
 			String direction) {
 		log.info("[FindPageCota] - Buscando todas as cotas paginada: { lancamentoId: " + lancamentoId + ", Page: "
 				+ page + ", linesPerPage: " + linesPerPage + " }");
@@ -66,25 +66,40 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 
 	@Override
 	public Cota insert(Cota entity) {
-		entity.setId(null);
-		log.info("[Insert] - Salvando uma nova cota. Entity: " + entity.toString());
+		log.info("[InsertCota] - Salvando uma nova cota.");
 
-		try {
-			log.info("[Insert] - Buscando comprador.");
-			this.compradorService.findById(entity.getComprador().getId());
-			Cota cota = this.repository.save(entity);
+		this.compradorService.findById(entity.getComprador().getId());
+		Cota cota = super.insert(entity);
 
-			log.info("[Insert] - Cota salva no bando de dados.");
-			return cota;
+		log.info("[InsertCota] - Cota salva no bando de dados.");
+		return cota;
+	}
 
-		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Insert] - Erro ao tentar salvar cota.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} catch (ObjectNotFoundException ex) {
-			baseLog.error("[Insert] - Erro ao tentar buscar comprador.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getComprador().getId(), "compradorId",
-					CompradorService.class.getName()));
+	public List<Cota> gerarCotasFuturas(List<Cota> cotas, Lancamento novoLancamento) {
+		log.info("[GerarCotasFuturas] - Gerando cotas futuas.");
+		List<Cota> cotasFuturas = new ArrayList<>();
+
+		for (Cota cota : cotas) {
+			Cota novaCota = new Cota(null, cota.getValor(), cota.getComprador(), novoLancamento);
+			cotasFuturas.add(novaCota);
 		}
+
+		log.info("[GerarCotasFuturas] - Cotas futuras geradas com sucesso.");
+		return cotasFuturas;
+	}
+
+	public List<Cota> mergeCotasOfLancamentos(List<Lancamento> lancamentos) {
+		log.info("[MergeCotasLancamento] - Mesclando todas as cotas dos lancamentos.");
+		List<Cota> cotas = new ArrayList<>();
+
+		for (Lancamento lancamento : lancamentos) {
+			for (Cota cota : lancamento.getCotas()) {
+				cotas.add(cota);
+			}
+		}
+
+		log.info("[MergeCotasLancamento] - Merge realizado com sucesso.");
+		return cotas;
 	}
 
 	@Override

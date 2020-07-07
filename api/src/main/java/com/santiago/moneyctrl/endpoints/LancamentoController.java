@@ -61,7 +61,7 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		log.info("[GET PAGE] - Buscando todos as cotas paginado: {lancamentoId: " + lancamentoId + ", Page: " + page
 				+ ", linesPerPage: " + linesPerPage + ", direction: " + direction + ", orderBy: " + orderBy + "}");
-		Page<Cota> list = cotaService.findPageByLancamentoId(lancamentoId, page, linesPerPage, direction, orderBy);
+		Page<Cota> list = cotaService.findPageCotaByLancamentoId(lancamentoId, page, linesPerPage, direction, orderBy);
 		Page<CotaDTO> listDTO = list.map(obj -> new CotaDTO(obj));
 
 		log.info("[GET PAGE] - GetPage realizado com sucesso.");

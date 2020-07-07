@@ -78,7 +78,7 @@ public class LancamentoControllerTest extends BaseControllerTest<Lancamento, Lan
 	public void deveRetornarSucesso_QuandoBuscarAllPagePagamentos() throws Exception {
 		Page<Cota> entityPage = new PageImpl<>(this.cotas);
 
-		when(this.cotaService.findPageByLancamentoId(1L, 0, 24, "ASC", "nome")).thenReturn(entityPage);
+		when(this.cotaService.findPageCotaByLancamentoId(1L, 0, 24, "ASC", "nome")).thenReturn(entityPage);
 
 		ResultActions result = mockMvc.perform(MockMvcRequestBuilders
 				.get(TipoEndPoint.LANCAMENTO + TipoEndPoint.LANCAMENTO_ID + TipoEndPoint.COTA + TipoEndPoint.PAGE, 1L)

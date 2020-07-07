@@ -1,5 +1,7 @@
 package com.santiago.moneyctrl.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Divida;
 import com.santiago.moneyctrl.domain.Fatura;
+import com.santiago.moneyctrl.dtos.CotaFaturaDTO;
 import com.santiago.moneyctrl.dtos.DividaDTO;
 import com.santiago.moneyctrl.repositories.DividaRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
@@ -36,25 +39,16 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 
 	@Override
 	public Divida insert(Divida entity) {
-		entity.setId(null);
-		log.info("[Insert] - Salvando uma nova divida. Entity: " + entity.toString());
+		log.info("[InsertDivida] - Salvando uma nova divida.");
 
-		try {
-			if (entity.getFatura() != null) {
-				log.info("[Insert] - Buscando fatura.");
-				this.faturaService.findById(entity.getFatura().getId());
-			}
-			log.info("[Insert] - Buscando comprador.");
-			this.compradorService.findById(entity.getComprador().getId());
-			Divida divida = this.repository.save(entity);
-
-			log.info("[Insert] - Divida salva no bando de dados.");
-			return divida;
-
-		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Insert] - Erro ao tentar salvar divida.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+		if (entity.getFatura() != null) {
+			this.faturaService.findById(entity.getFatura().getId());
 		}
+		this.compradorService.findById(entity.getComprador().getId());
+		Divida divida = super.insert(entity);
+
+		log.info("[InsertDivida] - Divida salva no bando de dados.");
+		return divida;
 	}
 
 	public Page<Divida> findPageByStatus(boolean paga, Integer page, Integer linesPerPage, String direction,
@@ -75,7 +69,37 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 
 		List<Divida> dividas = ((DividaRepository) this.repository).findByPaga(paga);
 
-		log.info("[FindPageStatus] - Busca finalizada com sucesso.");
+		log.info("[FindStatus] - Busca finalizada com sucesso.");
+		return dividas;
+	}
+
+	public List<Divida> saveAllDividas(List<Divida> dividas) {
+		log.info("[SaveAll] - Salvando todas as dividas. Dividas: " + dividas);
+		try {
+			List<Divida> dividasSalvas = this.repository.saveAll(dividas);
+
+			log.info("[SaveAll] - Dividas salvas no bando de dados.");
+			return dividasSalvas;
+
+		} catch (DataIntegrityViolationException ex) {
+			baseLog.error("[SaveAll] - Erro ao tentar salvar dividas.");
+			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+		}
+	}
+
+	public List<Divida> gerarDividas(List<CotaFaturaDTO> cotasFatura, Fatura fatura) {
+		log.info("[GerarDividas] - Gerando dividas.");
+		List<Divida> dividas = new ArrayList<>();
+
+		for (CotaFaturaDTO cotaFatura : cotasFatura) {
+			Comprador comprador = new Comprador(cotaFatura.getCompradorId());
+			String descricao = "Fatura de " + fatura.getMesReferente() + "/" + fatura.getVencimento().getYear();
+			Divida novaDivida = new Divida(null, cotaFatura.getValorTotal(), descricao, LocalDateTime.now(), comprador,
+					fatura);
+			dividas.add(novaDivida);
+		}
+
+		log.info("[GerarDividas] - Dividas geradas com sucesso.");
 		return dividas;
 	}
 

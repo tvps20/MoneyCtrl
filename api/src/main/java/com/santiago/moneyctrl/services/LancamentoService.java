@@ -1,5 +1,8 @@
 package com.santiago.moneyctrl.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,6 @@ import com.santiago.moneyctrl.domain.enuns.TipoLancamento;
 import com.santiago.moneyctrl.dtos.LancamentoDTO;
 import com.santiago.moneyctrl.repositories.LancamentoRepository;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
-import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
 import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	@Autowired
+	private CotaService cotaService;
+
+	@Autowired
 	private FaturaService faturaService;
 
 	@Autowired
 	private CompradorService compradorService;
-
-	@Autowired
-	private CotaService cotaService;
 
 	public LancamentoService(LancamentoRepository repository) {
 		super(repository);
@@ -39,41 +41,68 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 	@Override
 	@Transactional
 	public Lancamento insert(Lancamento entity) {
-		entity.setId(null);
-		log.info("[Insert] - Salvando um novo lancamento. Entity: " + entity.toString());
+		log.info("[InsertLancamento] - Salvando um novo lancamento.");
 
+		this.faturaService.findById(entity.getFatura().getId());
+		log.info("[InsertLancamento] - Buscando compradores.");
+		entity.getCotas().forEach(x -> {
+			this.compradorService.findById(x.getComprador().getId());
+		});
+
+		Lancamento lancamentoSalvo = super.insert(entity);
+		this.cotaService.saveAllCotas(lancamentoSalvo.getCotas());
+
+		log.info("[InsertLancamento] - Lacamento salvo no bando de dados.");
+		return lancamentoSalvo;
+	}
+
+	public List<Lancamento> saveAllLancamentos(List<Lancamento> lancamentos) {
+		log.info("[SaveAll] - Salvando todas os lancamentos. Lancamentos: " + lancamentos);
 		try {
-			log.info("[Insert] - Buscando fatura.");
-			this.faturaService.findById(entity.getFatura().getId());
-			log.info("[Insert] - Buscando compradores.");
-			entity.getCotas().forEach(x -> {
-				this.compradorService.findById(x.getComprador().getId());
-			});
-
-			log.info("[Insert] - Salvando lancamento.");
-			Lancamento lancamentoSalvo = this.repository.save(entity);
-			log.info("[Insert] - Salvando compradores.");
-			this.cotaService.saveAllCotas(lancamentoSalvo.getCotas());
-
-			log.info("[Insert] - Lacamento salvo no bando de dados.");
-			return lancamentoSalvo;
+			List<Lancamento> lancametnosSalvos = this.repository.saveAll(lancamentos);
+			List<Cota> cotas = this.cotaService.mergeCotasOfLancamentos(lancamentos);
+			this.cotaService.saveAllCotas(cotas);
+			
+			log.info("[SaveAll] - Lancamentos salvos no bando de dados.");
+			return lancametnosSalvos;
 
 		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Insert] - Erro ao tentar salvar lancamento.");
+			baseLog.error("[SaveAll] - Erro ao tentar salvar lancamentos.");
 			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} catch (DataIntegrityException ex) {
-			baseLog.error("[Insert] - Erro ao tentar salvar compradores.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} catch (ObjectNotFoundException ex) {
-			if (ex.getClassTipo().equals(this.faturaService.getClass())) {
-				baseLog.error("[Insert] - Erro ao tentar buscar fatura.");
-				throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getFatura().getId(), "faturaId",
-						entity.getFatura().getClass().getName()), FaturaService.class);
-			} else {
-				baseLog.error("[Insert] - Erro ao tentar comprador fatura.");
-				throw new ObjectNotFoundException(ex.getMessage(), CompradorService.class);
+		}
+	}
+
+	public List<Lancamento> gerarLancamentosFuturos(List<Lancamento> lancamentos, Fatura novaFatura) {
+		log.info("[GerarLancamentosFuturos] - Gerando lancamentos futuros.");
+		List<Lancamento> lancamentosFuturos = new ArrayList<>();
+
+		for (Lancamento lancamento : lancamentos) {
+			if (lancamento.getTipoLancamento() == TipoLancamento.PARCELADO) {
+				if (lancamento.getParcelaAtual() < lancamento.getQtdParcelas()) {
+					lancamentosFuturos.add(this.gerarProximoLancamento(lancamento, novaFatura));
+				}
+			} else if (lancamento.getTipoLancamento() == TipoLancamento.ASSINATURA) {
+				lancamentosFuturos.add(this.gerarProximoLancamento(lancamento, novaFatura));
 			}
 		}
+
+		log.info("[GerarLancamentosFuturos] - Lancamentos futuros gerados com sucesso.");
+		return lancamentosFuturos;
+	}
+
+	private Lancamento gerarProximoLancamento(Lancamento lancamento, Fatura novaFatura) {
+		log.info("[GerarProximoLancamento] - Gerando proximo lancamento.");
+		Lancamento novoLancamento = new Lancamento(null, lancamento.getDescricao(), lancamento.getObservacao(),
+				lancamento.getDataCompra(), novaFatura, lancamento.getTipoLancamento(),
+				lancamento.getQtdParcelas(), lancamento.getParcelaAtual());
+		
+		if(lancamento.getTipoLancamento() == TipoLancamento.PARCELADO) {
+			novoLancamento.setParcelaAtual(lancamento.getParcelaAtual() + 1);
+		}
+
+		novoLancamento.setCotas(this.cotaService.gerarCotasFuturas(lancamento.getCotas(), novoLancamento));
+		log.error("[GerarProximoLancamento] - Lancamento gerado com sucesso.");
+		return novoLancamento;
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class Fatura extends BaseEntity {
 	@Getter
 	@Setter
 	private boolean via2 = false;
-	
+
 	@Getter
 	@Setter
 	@ManyToOne
@@ -62,6 +62,13 @@ public class Fatura extends BaseEntity {
 		super(id);
 	}
 
+	public Fatura(Long id, LocalDateTime vencimento, Cartao cartao) {
+		super(id);
+		this.vencimento = vencimento;
+		this.cartao = cartao;
+		this.gerarMesReferente();
+	}
+
 	public Fatura(Long id, LocalDateTime vencimento, TipoMes mesReferente, Cartao cartao) {
 		super(id);
 		this.vencimento = vencimento;
@@ -77,10 +84,14 @@ public class Fatura extends BaseEntity {
 		this.cartao = cartao;
 	}
 
+	private void gerarMesReferente() {
+		this.mesReferente = TipoMes.toEnum(this.vencimento.getMonth().getValue());
+	}
+
 	@Override
 	public String toString() {
 		return "Fatura [" + super.toString() + ", vencimento=" + vencimento + ", observacao=" + observacao + ", status="
-				+ status + ", mesReferente=" + mesReferente + ", cartaoId=" + cartao.getId() + ", lancamentosEmpty="
-				+ lancamentos.isEmpty() + "]";
+				+ status + ", mesReferente=" + mesReferente + ", cartaoId=" + cartao.getId() + ", lancamentosSize="
+				+ lancamentos.size() + "]";
 	}
 }

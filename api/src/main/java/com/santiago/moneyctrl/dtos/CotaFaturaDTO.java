@@ -11,13 +11,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class CotaFaturaDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Getter
 	@Setter
 	private Long compradorId;
-	
+
 	@Getter
 	@Setter
 	private String compradorNome;
@@ -25,11 +25,11 @@ public class CotaFaturaDTO implements Serializable {
 	@Getter
 	@Setter
 	private List<CotaDTO> cotas = new ArrayList<>();
-	
+
 	// Construtores
 	public CotaFaturaDTO() {
 	}
-	
+
 	public CotaFaturaDTO(Comprador comprador) {
 		this.compradorId = comprador.getId();
 		this.compradorNome = comprador.getNome();
@@ -41,7 +41,7 @@ public class CotaFaturaDTO implements Serializable {
 
 		return BigDecimal.valueOf(total).setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
-	
+
 	// Metodos de Comparação por valor
 	@Override
 	public int hashCode() {

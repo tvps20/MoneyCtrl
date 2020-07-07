@@ -62,7 +62,7 @@ public class Divida extends BaseEntity {
 	public Divida(Long id) {
 		super(id);
 	}
-	
+
 	public Divida(Long id, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, Comprador comprador) {
 		super(id);
 		this.valorDivida = valorDivida;
@@ -70,14 +70,15 @@ public class Divida extends BaseEntity {
 		this.dataDivida = dataDivida;
 		this.comprador = comprador;
 	}
-	
-	public Divida(Long id, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, Comprador comprador, boolean paga) {
+
+	public Divida(Long id, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, Comprador comprador,
+			Fatura fatura) {
 		super(id);
 		this.valorDivida = valorDivida;
 		this.descricao = descricao;
 		this.dataDivida = dataDivida;
 		this.comprador = comprador;
-		this.paga = paga;
+		this.fatura = fatura;
 	}
 
 	public Divida(Long id, BigDecimal valorDivida, String descricao, LocalDateTime dataDivida, Fatura fatura,
@@ -94,7 +95,7 @@ public class Divida extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Divida [" + super.toString() + ", valor=" + valorDivida + ", descricao=" + descricao + ", dataDivida="
-				+ dataDivida + ", faturaId=" + (fatura != null ? fatura.getId() : "null") + ", compradorId=" + comprador.getId() + ", paga=" + paga
-				+ ", pagamentosEmpty=" + pagamentos.isEmpty() + "]";
+				+ dataDivida + ", faturaId=" + (fatura != null ? fatura.getId() : "null") + ", compradorId="
+				+ comprador.getId() + ", paga=" + paga + ", pagamentosEmpty=" + pagamentos.isEmpty() + "]";
 	}
 }

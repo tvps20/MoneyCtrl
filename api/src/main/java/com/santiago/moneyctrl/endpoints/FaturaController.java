@@ -65,7 +65,7 @@ public class FaturaController extends BaseController<Fatura, FaturaDTO> {
 	@GetMapping(TipoEndPoint.ID + TipoEndPoint.COTA)
 	public ResponseEntity<List<CotaFaturaDTO>> gerarCotas(@PathVariable Long id){
 		baseLog.info("[GET COTAS] - Buscando todas as cotas.");
-		List<CotaFaturaDTO> list = ((FaturaService) this.service).GerarCotasByIdFatura(id);
+		List<CotaFaturaDTO> list = ((FaturaService) this.service).gerarCotasByIdFatura(id);
 
 		baseLog.info("[GET COTAS] - Get cotas realizado com sucesso.");
 		return ResponseEntity.ok().body(list);

@@ -60,7 +60,7 @@ public class CotaServiceTest extends BaseServiceTest<Cota, CotaDTO> {
 
 		when(this.cotaRepository.findByLancamentoId(1L, pageRequest)).thenReturn(cotaListPage);
 
-		List<Cota> result = this.cotaService.findPageByLancamentoId(1L, 0, 24, "ASC", "nome").getContent();
+		List<Cota> result = this.cotaService.findPageCotaByLancamentoId(1L, 0, 24, "ASC", "nome").getContent();
 
 		assertFalse(result.isEmpty());
 		assertEquals(result.size(), 10);

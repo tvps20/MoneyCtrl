@@ -75,8 +75,7 @@ public class DBService {
 
 		Fatura fatura1 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), TipoMes.JANEIRO, cartao1);
 		Fatura fatura2 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), TipoMes.JANEIRO, cartao2);
-		Fatura fatura3 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), "Fatura de janeiro", TipoMes.JANEIRO,
-				cartao3);
+		Fatura fatura3 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), TipoMes.JANEIRO, cartao3);
 
 		Usuario user1 = new Usuario(null, "admin", "admin20", "123", TipoRoles.USUARIO, TipoRoles.ADMIN);
 		Comprador comprador1 = new Comprador(null, "thiago", "tvps20", "123", "thiago.vps20@gmail.com");
@@ -133,7 +132,7 @@ public class DBService {
 		Divida divida1 = new Divida(null, BigDecimal.valueOf(333.38), "Divida fatura teste", LocalDateTime.now(),
 				comprador3);
 		Divida divida2 = new Divida(null, BigDecimal.valueOf(25.00), "Emprestado teste", LocalDateTime.now(),
-				comprador3, true);
+				comprador3);
 
 		Credito credito = new Credito(null, BigDecimal.valueOf(01.00), LocalDateTime.now(), "fatura de maio teste",
 				comprador2);

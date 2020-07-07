@@ -82,7 +82,7 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 				CotaCartaoDTO cotaCartao = new CotaCartaoDTO(f.getCartao(), f);
 				mapCotas.put(f.getCartao(), cotaCartao);
 			}
-			List<CotaFaturaDTO> cotasFatura = this.faturaService.GerarCotasByIdFatura(f.getId());
+			List<CotaFaturaDTO> cotasFatura = this.faturaService.gerarCotasByIdFatura(f.getId());
 			mapCotas.get(f.getCartao()).setCotas(cotasFatura);
 		});
 		
