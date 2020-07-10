@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,6 @@ import com.santiago.moneyctrl.domain.Pagamento;
 import com.santiago.moneyctrl.dtos.DividaDTO;
 import com.santiago.moneyctrl.dtos.PagamentoDTO;
 import com.santiago.moneyctrl.repositories.PagamentoRepository;
-import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
-import com.santiago.moneyctrl.util.MensagemUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,32 +55,24 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 	@Override
 	@Transactional
 	public Pagamento insert(Pagamento entity) {
-		entity.setId(null);
-		log.info("[Insert] - Salvando um novo Pagamento. Entity: " + entity.toString());
-		try {
-			log.info("[Insert] - Buscando divida.");
-			Divida divida = this.dividaService.findById(entity.getDivida().getId());
+		log.info("[InsertPagamento] - Salvando um novo Pagamento.");
 
-			Pagamento pagamentoSalvo = this.repository.save(entity);
+		Divida divida = this.dividaService.findById(entity.getDivida().getId());
 
-			divida.getPagamentos().add(pagamentoSalvo);
-			Credito novoCredito = this.verificaDividaStatus(divida);
-			if (novoCredito.getValor() != null) {
-				log.info("[Insert] - Salvando mudanças na divida.");
-				this.dividaService.update(divida);
-				if (novoCredito.getValor().doubleValue() != 0) {
-					log.info("[Insert] - Salvando novo crédito");
-					this.creditoService.insert(novoCredito);
-				}
+		Pagamento pagamentoSalvo = super.insert(entity);
+
+		Credito novoCredito = this.verificaDividaStatus(divida);
+		if (novoCredito.getValor() != null) {
+			log.info("[InsertPagamento] - Salvando mudanças na divida.");
+			this.dividaService.update(divida);
+			if (novoCredito.getValor().doubleValue() != 0) {
+				log.info("[InsertPagamento] - Salvando novo crédito");
+				this.creditoService.insert(novoCredito);
 			}
-
-			log.info("[Insert] - Pagamento salvo no bando de dados.");
-			return pagamentoSalvo;
-
-		} catch (DataIntegrityViolationException ex) {
-			log.error("[Insert] - Erro ao tentar salvar pagamento.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
 		}
+
+		log.info("[InsertPagamento] - Pagamento salvo com sucesso.");
+		return pagamentoSalvo;
 	}
 
 	private Credito verificaDividaStatus(Divida divida) {

@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
 
     public changeListDividasAtivas(event: PageEvent) {
         this.pageSizeDividasAtivas = event.pageSize;
-        this.pageIndexDividasAtivas = event.pageIndex;
+        this.pageIndexDividasAtivas = event.pageIndex + 1;
         this.dividasAtivas$ = this.listAllDividasAtivas();
     }
 }

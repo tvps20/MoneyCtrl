@@ -95,7 +95,8 @@
                                             </tbody>
                                         </table>
                                         <mat-paginator [length]="lengthDevedores" [pageSize]="pageSizeDevedores"
-                                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDevedores($event)">
+                                            [pageIndex]="pageIndexDevedores - 1" [pageSizeOptions]="[5, 10, 25, 100]"
+                                            (page)="changeListDevedores($event)">
                                         </mat-paginator>
                                     </div>
                                     <div *ngIf="devedores.length < 1">
@@ -137,9 +138,11 @@
                                                     <td>{{ divida.valorDivida | currency:'BRL' }}</td>
                                                     <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
                                                     <td>
-                                                        <i *ngIf="divida.faturaId"
+                                                        <i *ngIf="divida.faturaId" matTooltip="Fatura"
+                                                            matTooltipPosition="above"
                                                             class="material-icons">receipt_long</i>
-                                                        <i *ngIf="!divida.faturaId"
+                                                        <i *ngIf="!divida.faturaId" matTooltip="Dinhero"
+                                                            matTooltipPosition="above"
                                                             class="material-icons">monetization_on</i>
                                                     </td>
                                                     <td>{{ divida.compradorNome }}</td>

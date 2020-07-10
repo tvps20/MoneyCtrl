@@ -49,8 +49,19 @@
                                                     <td>{{ cartao.nome }}</td>
                                                     <td>{{ cartao.bandeira.nome }}</td>
                                                     <td>{{ cartao.faturas.length }}</td>
-                                                    <td>{{ cartao.ativo ? 'Ativo' : 'Desabilitado' }}</td>
+                                                    <td>
+                                                        <button *ngIf="cartao.ativo" type="button"
+                                                            matTooltip="Desabilitar" matTooltipPosition="above"
+                                                            class="btn btn-warning btn-sm">&nbsp;Ativo&nbsp;</button>
+                                                        <button *ngIf="!cartao.ativo" type="button"
+                                                            class="btn btn-warning btn-sm">Vencido</button>
+                                                    </td>
                                                     <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
                                                         <button mat-raised-button type="button" matTooltip="Editar"
                                                             matTooltipPosition="above"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">

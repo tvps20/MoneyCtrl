@@ -56,12 +56,12 @@
                                                             matTooltip="Fechar Fatura" matTooltipPosition="above"
                                                             (click)="onSelectedEntity(fatura)" data-toggle="modal"
                                                             data-target="#modalFecharFatura"
-                                                            class="btn btn-warning btn-sm">{{ fatura.status + '...' }}</button>
+                                                            class="btn btn-warning btn-sm">{{ fatura.status }}</button>
                                                         <button *ngIf="fatura.status === 'FECHADA'" type="button"
                                                             matTooltip="Pagar Fatura" matTooltipPosition="above"
                                                             data-toggle="modal" data-target="#modalPagarFatura"
                                                             (click)="onSelectedEntity(fatura)"
-                                                            class="btn btn-danger btn-sm">{{ fatura.status }}</button>
+                                                            class="btn btn-danger btn-sm">Fechada</button>
                                                     </td>
                                                     <td class="text-primary">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
@@ -132,11 +132,12 @@
                                                     <td>{{ fatura.cartaoNome }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-success btn-sm"
-                                                            disabled>{{ fatura.status + '...' }}</button>
+                                                            disabled>{{ fatura.status }}</button>
                                                     </td>
                                                     <td class="text-primary">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above"
+                                                            [routerLink]="['/faturas', fatura.id]"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
                                                         </button>

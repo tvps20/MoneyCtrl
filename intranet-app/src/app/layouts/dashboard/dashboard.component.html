@@ -105,7 +105,8 @@
                                 </tbody>
                             </table>
                             <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
-                                [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividasAtivas($event)">
+                                [pageIndex]="pageIndexDividasAtivas - 1" [pageSizeOptions]="[5, 10, 25, 100]"
+                                (page)="changeListDividasAtivas($event)">
                             </mat-paginator>
                         </div>
                         <div *ngIf="dividas.length < 1">

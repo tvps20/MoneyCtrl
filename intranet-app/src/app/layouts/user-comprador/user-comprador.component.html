@@ -74,10 +74,10 @@
                                                     <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
                                                     <td>
                                                         <button *ngIf="!comprador.devedor" type="button"
-                                                            class="btn btn-success btn-sm">Em dia...</button>
+                                                            class="btn btn-success btn-sm">&nbsp;Em dia &nbsp;&nbsp;</button>
                                                         <button *ngIf="comprador.devedor" type="button"
                                                             matTooltip="Pagar" matTooltipPosition="above"
-                                                            class="btn btn-danger btn-sm">Devendo</button>
+                                                            class="btn btn-danger btn-sm">Devedor</button>
                                                     </td>
                                                     <td class="td-actions text-left">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"

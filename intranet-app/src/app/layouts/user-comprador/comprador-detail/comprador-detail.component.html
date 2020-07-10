@@ -112,11 +112,11 @@
                                                         class="material-icons">monetization_on</i>
                                                 </td>
                                                 <td>
-                                                    <button *ngIf="!divida.paga"  type="button" matTooltip="Pagar" matTooltipPosition="above"
-                                                        (click)="onSelectedEntity(divida)"
+                                                    <button *ngIf="!divida.paga" type="button" matTooltip="Pagar"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
                                                         class="btn btn-warning btn-sm">Ativa</button>
-                                                    <button *ngIf="divida.paga" type="button" class="btn btn-success btn-sm"
-                                                        disabled>Paga</button>
+                                                    <button *ngIf="divida.paga" type="button"
+                                                        class="btn btn-success btn-sm" disabled>Paga</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -177,7 +177,7 @@
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <app-input-field formControlName="descricao" label="Descrição"
-                                                    [control]="formulario.get('descricao')">
+                                                    maxLengthInput="20" [control]="formulario.get('descricao')">
                                                 </app-input-field>
                                             </div>
                                             <div class="col-md-4">

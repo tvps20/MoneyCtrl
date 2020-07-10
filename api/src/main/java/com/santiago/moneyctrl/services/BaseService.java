@@ -58,13 +58,14 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 
 		if (!obj.isPresent()) {
 			baseLog.error("[FindById] - Entidade não encontada.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()), this.getClass());
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
+					this.getClass());
 		}
 
 		baseLog.info("[FindById] - Entidade encontrada com sucesso.");
 		return obj.get();
 	}
-	
+
 	/**
 	 * Recupera todas as entidades da base de dados de forma paginada.
 	 * 
@@ -98,6 +99,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 		entity.setId(null);
 		baseLog.info("[Insert] - Salvando uma nova entidade. Entity: " + entity.toString());
 		try {
+			baseLog.info("[Insert] - Salvando entidade...");
 			T entitySalva = this.repository.save(entity);
 
 			baseLog.info("[Insert] - Entidade salva no bando de dados.");
@@ -154,7 +156,8 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			throw new DataIntegrityException(MensagemUtil.erroObjDelete(this.getClass().getName()));
 		} catch (ObjectNotFoundException ex) {
 			baseLog.error("[Delete] - Erro ao tentar buscar entidade.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()), this.getClass());
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
+					this.getClass());
 		}
 	}
 

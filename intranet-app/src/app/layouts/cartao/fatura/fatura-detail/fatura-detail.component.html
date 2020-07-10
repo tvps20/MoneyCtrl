@@ -52,7 +52,9 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-primary card-header-icon">
+                    <div [class]="((fatura.status === 'ABERTA') ? 'card-header card-header-icon card-header-warning'
+                        : ((fatura.status === 'FECHADA') ? 'card-header card-header-icon card-header-danger'
+                        : 'card-header card-header-icon card-header-success'))">
                         <div class="card-icon">
                             <i class="material-icons">help</i>
                         </div>
@@ -61,7 +63,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons text-danger">info</i>Aceita novos lançamentos
+                            <i class="material-icons">info</i>{{ fatura.status === 'ABERTA' ? 'Aceita ' : 'Não aceita '}} novos lançamentos
                         </div>
                     </div>
                 </div>
@@ -77,7 +79,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons text-primary">more</i>
+                            <i class="material-icons">more</i>
                             <a href="javascript:void(0)">Mais informações</a>
                         </div>
                     </div>
@@ -119,7 +121,7 @@
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" *ngIf="fatura.status === 'ABERTA'">
                                         <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
                                             <i class="material-icons">library_add</i> Adicionar
                                             <div class="ripple-container"></div>
@@ -152,8 +154,7 @@
                                                         <tr *ngFor="let cota of cotaFatura.cotas">
                                                             <td>{{ cota.lancamento.descricao }}</td>
                                                             <td>{{ cota.valor | currency:'BRL' }}</td>
-                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
-                                                            </td>
+                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : (cota.lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
                                                         </tr>
                                                     </tbody>
                                                 </table>
