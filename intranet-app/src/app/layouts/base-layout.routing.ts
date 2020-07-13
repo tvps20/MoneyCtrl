@@ -26,13 +26,7 @@ export const BaseLayoutRoutes: Routes = [
         path: 'cartoes',
         children: [
             { path: '', component: CartaoComponent },
-            {
-                path: ':id',
-                children: [
-                    { path: '', component: CartaoDetailComponent },
-                    { path: 'faturas/:id', component: FaturaDetailComponent }
-                ]
-            }
+            { path: ':id', component: CartaoDetailComponent }
         ]
     },
     {
