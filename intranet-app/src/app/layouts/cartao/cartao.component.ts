@@ -88,9 +88,10 @@ export class CartaoComponent extends BaseFormComponent implements OnInit {
         });
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('novaBandeira').setValue(false);
+        this.formulario.get('bandeira').disable();
+        this.formulario.get('bandeiraId').enable();
     }
 
     public onDisableFields() {

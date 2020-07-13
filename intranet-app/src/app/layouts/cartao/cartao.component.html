@@ -158,13 +158,15 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
+                                            <!-- Nome -->
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="nome" label="Nome" uniqueFiled="true"
                                                     maxLengthInput="12" [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Bandeira Select -->
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
@@ -188,6 +190,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <!-- Bandeira nome -->
                                             <div class="col-md-6">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Bandeira</mat-label>
@@ -211,6 +214,7 @@
                                                     <mat-hint align="end">{{message.value.length}} / 12</mat-hint>
                                                 </mat-form-field>
                                             </div>
+                                            <!-- Bandeira Check box -->
                                             <div class="col-md-6">
                                                 <mat-checkbox formControlName="novaBandeira"
                                                     (click)="onDisableFields()">Nova Bandeira</mat-checkbox>
@@ -233,6 +237,6 @@
         </div>
     </div>
 </div>
-
+<app-form-debug [formulario]="formulario"></app-form-debug>
 <!-- Modal de aviso excluir -->
 <app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

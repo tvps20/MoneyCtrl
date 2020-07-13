@@ -89,8 +89,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
         });
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('vencimento').setValue(new Date());
     }
 

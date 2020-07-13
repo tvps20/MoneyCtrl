@@ -93,8 +93,7 @@ export class UserCompradorComponent extends BaseFormComponent implements OnInit 
         });
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('admin').setValue(false);
         this.formulario.get('tipo').setValue(EntityType.COMPRADOR);
     }

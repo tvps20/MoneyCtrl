@@ -97,8 +97,7 @@ export class DividaComponent extends BaseFormComponent implements OnInit {
         });
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('dataDivida').setValue(new Date());
     }
 

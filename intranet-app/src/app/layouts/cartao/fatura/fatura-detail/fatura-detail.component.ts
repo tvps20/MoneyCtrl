@@ -61,7 +61,6 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         this.compradorSelect$ = this.listAllCompradores();
         this.lengthLancamentos = this.fatura.lancamentos.length;
         this.lancamentos = this.paginate(this.fatura.lancamentos, this.pageSizeLancamentos, this.pageIndexLancamentos);
-        console.log(this.fatura)
     }
 
     public submit() {
@@ -162,8 +161,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
         return aux.split('/');
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('tipoLancamento').setValue(LancamentoType.AVISTA);
         this.formulario.get('dataCompra').setValue(new Date());
     }

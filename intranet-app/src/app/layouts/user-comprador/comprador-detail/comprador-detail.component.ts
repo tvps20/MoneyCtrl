@@ -92,8 +92,7 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
         });
     }
 
-    public reseteForm() {
-        this.formulario.reset();
+    public defaultValuesForms() {
         this.formulario.get('compradorId').setValue(this.comprador.id);
     }
 
