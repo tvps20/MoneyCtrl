@@ -10,19 +10,19 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 @NgModule({
-  declarations: [
-    DividaComponent,
-    ModalDividaComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedImportModule,
-    ComponentsModule
-  ],
-  exports: [
-    DividaComponent,
-    ModalDividaComponent
-  ]
+    declarations: [
+        DividaComponent,
+        ModalDividaComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedImportModule,
+        ComponentsModule
+    ],
+    exports: [
+        DividaComponent,
+        ModalDividaComponent
+    ]
 })
 export class DividaModule { }

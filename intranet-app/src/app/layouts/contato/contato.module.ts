@@ -2,24 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './dashboard.component';
+import { ContatoComponent } from './contato.component';
 
 import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
-import { ComponentsModule } from './../../shared/components/components.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 @NgModule({
     declarations: [
-        DashboardComponent
+        ContatoComponent
     ],
     imports: [
         CommonModule,
         RouterModule,
         SharedImportModule,
-        ComponentsModule,
+        ComponentsModule
     ],
     exports: [
-        DashboardComponent
+        ContatoComponent
     ]
 })
-export class DashboardModule { }
+export class ContatoModule { }

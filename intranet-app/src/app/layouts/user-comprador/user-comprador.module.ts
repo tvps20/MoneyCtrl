@@ -11,19 +11,19 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 @NgModule({
-  declarations: [
-    UserCompradorComponent,
-    CompradorDetailComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedImportModule,
-    ComponentsModule
-  ],
-  exports: [
-    UserCompradorComponent,
-    CompradorDetailComponent
-  ]
+    declarations: [
+        UserCompradorComponent,
+        CompradorDetailComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedImportModule,
+        ComponentsModule
+    ],
+    exports: [
+        UserCompradorComponent,
+        CompradorDetailComponent
+    ]
 })
 export class UserCompradorModule { }
