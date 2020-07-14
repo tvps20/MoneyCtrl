@@ -28,7 +28,6 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
     public step = 0;
     public fatura: Fatura;
-    public submitte = false;
     public errorCotas$ = new Subject<boolean>();
     public lancamentos: Lancamento[] = [];
     public faturaCotas$: Observable<CotaFatura[]>;

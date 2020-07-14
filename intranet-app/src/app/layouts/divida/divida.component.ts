@@ -22,7 +22,6 @@ import { ValidFormsService } from './../../shared/services/valid-forms.service';
 export class DividaComponent extends BaseFormComponent implements OnInit {
 
     public devedores: Comprador[];
-    public submitte = false;
     public devedores$: Observable<Comprador[]>;
     public totalDividas = 0;
     public dividasOlds$: Observable<Divida[]>;

@@ -203,33 +203,39 @@
                                 <div class="card-body">
                                     <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
+                                            <!-- Nome Input -->
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="nome" label="Nome" maxLengthInput="12"
                                                     [control]="formulario.get('nome')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Sobrenome Input -->
                                             <div class="col-md-4">
                                                 <app-input-field formControlName="sobrenome" label="Sobrenome"
                                                     maxLengthInput="12" [control]="formulario.get('sobrenome')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Tipo User Radion Button -->
                                             <div class="col-md-2">
                                                 <mat-radio-group formControlName="tipo">
                                                     <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
                                                     <mat-radio-button value="COMPRADOR">Comprador</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
+                                            <!-- Admin Checkbox -->
                                             <div class="col-md-2">
                                                 <mat-checkbox formControlName="admin">Admin</mat-checkbox>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <!-- Username Input -->
                                             <div class="col-md-5">
                                                 <app-input-field formControlName="username" uniqueFiled="true"
                                                     maxLengthInput="10" label="Username"
                                                     [control]="formulario.get('username')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Email Input -->
                                             <div class="col-md-7">
                                                 <app-input-field formControlName="email" uniqueFiled="true"
                                                     label="Email" [control]="formulario.get('email')">
@@ -237,12 +243,14 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <!-- Password Input -->
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="password" label="Password"
                                                     [showMaxLength]="false" tipo="password"
                                                     [control]="formulario.get('password')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Confirmar Password Input -->
                                             <div class="col-md-6">
                                                 <app-input-field formControlName="confirmarPassword"
                                                     label="Confirmar Password" tipo="password" [showMaxLength]="false"

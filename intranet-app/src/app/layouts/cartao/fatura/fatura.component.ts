@@ -22,7 +22,6 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public months$: Observable<any[]>;
-    public submitte = false;
     public faturasOlds$: Observable<Fatura[]>;
     public faturasAtivas$: Observable<Fatura[]>;
     public cartoesSelect$: Observable<Cartao[]>;

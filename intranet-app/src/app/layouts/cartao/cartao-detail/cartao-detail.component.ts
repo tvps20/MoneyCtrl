@@ -23,7 +23,6 @@ import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form
 export class CartaoDetailComponent extends BaseFormComponent implements OnInit {
 
     public cartao: Cartao;
-    public submitte = false;
     public months$: Observable<any[]>;
     public faturas: Fatura[] = [];
     public entitySelecionada: Fatura;

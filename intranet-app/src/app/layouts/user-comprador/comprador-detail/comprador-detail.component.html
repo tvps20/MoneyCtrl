@@ -175,11 +175,13 @@
                                 <div class="card-body">
                                     <form  *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
+                                            <!-- Descricao Input -->
                                             <div class="col-md-8">
                                                 <app-input-field formControlName="descricao" label="Descrição"
                                                     maxLengthInput="20" [control]="formulario.get('descricao')">
                                                 </app-input-field>
                                             </div>
+                                            <!-- Valor Input -->
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Valor</mat-label>

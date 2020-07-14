@@ -25,7 +25,6 @@ import { EntityType } from 'src/app/shared/util/enuns-type.enum';
 export class CompradorDetailComponent extends BaseFormComponent implements OnInit {
 
     public dividas: Divida[];
-    public submitte = false;
     public creditos: Credito[];
     public comprador: Comprador;
     public errorCotas$ = new Subject<boolean>();

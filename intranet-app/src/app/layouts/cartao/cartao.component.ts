@@ -22,7 +22,6 @@ import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
 })
 export class CartaoComponent extends BaseFormComponent implements OnInit {
 
-    public submitte = false;
     public cartoes$: Observable<Cartao[]>;
     public bandeiras$: Observable<Bandeira[]>;
     public errorCartoes$ = new Subject<boolean>();

@@ -279,6 +279,7 @@
                                 <div class="card-body">
                                     <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
                                         <div class="row">
+                                            <!-- Valor Input -->
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Valor</mat-label>
@@ -295,6 +296,7 @@
                                                     </mat-hint>
                                                 </mat-form-field>
                                             </div>
+                                            <!-- Data da Divida Data Picker -->
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Data da Divida</mat-label>
@@ -304,6 +306,7 @@
                                                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                                 </mat-form-field>
                                             </div>
+                                            <!-- Comprador Select -->
                                             <div class="col-md-4">
                                                 <mat-form-field appearance="outline">
                                                     <mat-label>Comprador</mat-label>
@@ -326,6 +329,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <!-- Descricao Input -->
                                             <div class="col-md-12">
                                                 <app-input-field formControlName="descricao" label="Descrição"
                                                     maxLengthInput="20" [control]="formulario.get('descricao')">

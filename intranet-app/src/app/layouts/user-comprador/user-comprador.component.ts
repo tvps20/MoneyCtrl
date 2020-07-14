@@ -21,7 +21,6 @@ import { UserCompradorService } from './services/user-comprador.service';
 })
 export class UserCompradorComponent extends BaseFormComponent implements OnInit {
 
-    public submitte = false;
     public usuarios$: Observable<User[]>;
     public compradores$: Observable<Comprador[]>;
     public errorUsuarios$ = new Subject<boolean>();
