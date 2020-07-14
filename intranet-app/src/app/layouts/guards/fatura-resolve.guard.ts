@@ -1,8 +1,8 @@
-import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 import { Observable, of, empty } from 'rxjs';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 
 import { Fatura } from './../../shared/models/fatura';
 import { FaturaService } from './../cartao/services/fatura.service';

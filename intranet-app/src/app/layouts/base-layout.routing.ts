@@ -11,6 +11,7 @@ import { CompradorDetailComponent } from './user-comprador/comprador-detail/comp
 
 import { CompradorResolverGuard } from './guards/comprador-resolver.guard';
 import { FaturaResolveGuard } from './guards/fatura-resolve.guard';
+import { CartaoResolveGuard } from './guards/cartao-resolve.guard';
 
 
 export const BaseLayoutRoutes: Routes = [
@@ -26,7 +27,7 @@ export const BaseLayoutRoutes: Routes = [
         path: 'cartoes',
         children: [
             { path: '', component: CartaoComponent },
-            { path: ':id', component: CartaoDetailComponent }
+            { path: ':id', component: CartaoDetailComponent, resolve: { cartao: CartaoResolveGuard } }
         ]
     },
     {

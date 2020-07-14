@@ -46,8 +46,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let fatura of faturas">
-                                                    <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}
-                                                    </td>
+                                                    <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</td>
                                                     <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
                                                     <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
                                                     <td>{{ fatura.cartaoNome }}</td>

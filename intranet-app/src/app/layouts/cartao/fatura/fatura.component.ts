@@ -43,7 +43,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     constructor(protected validFormsService: ValidFormsService,
         private alertServiceService: AlertService,
         private cartaoService: CartaoService,
-        private faturaSevice: FaturaService,
+        private faturaService: FaturaService,
         private formBuilder: FormBuilder) {
         super(validFormsService);
     }
@@ -58,12 +58,12 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public submit() {
         this.submitte = true;
-        let newEntity = this.faturaSevice.parseToEntity(this.formulario);
+        let newEntity = this.faturaService.parseToEntity(this.formulario);
         this.createEntity(newEntity, 'Fatura salva com sucesso.', 'Error ao tentar salvar fatura')
     }
 
     public createEntity(entity: Fatura, msgSuccess: string, msgError: string) {
-        return this.faturaSevice.create(entity).subscribe(
+        return this.faturaService.create(entity).subscribe(
             success => {
                 this.reseteForm();
                 this.submitte = false
@@ -99,7 +99,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public onDelete(event: any) {
         if (event === 'sim') {
-            this.faturaSevice.delete(this.entitySelecionada.id).subscribe(
+            this.faturaService.delete(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura apagada com sucesso.");
                 },
@@ -117,7 +117,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
 
     public onFecharFatura(event: any) {
         if (event === 'sim') {
-            this.faturaSevice.fecharFatura(this.entitySelecionada.id).subscribe(
+            this.faturaService.fecharFatura(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura fechada com sucesso.");
                 },
@@ -131,12 +131,11 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
                 }
             )
         }
-
     }
 
     public onPagarFatura(event: any) {
         if (event === 'sim') {
-            this.faturaSevice.pagarFatura(this.entitySelecionada.id).subscribe(
+            this.faturaService.pagarFatura(this.entitySelecionada.id).subscribe(
                 success => {
                     this.alertServiceService.ShowAlertSuccess("Fatura paga com sucesso.");
                 },
@@ -153,7 +152,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     }
 
     private listAllFaturasAtivas(direction = "DESC", orderBy = "createdAt") {
-        return this.faturaSevice.listAllPageNoStatus(StatusType.PAGA, this.pageIndexFaturasAtivas, this.pageSizeFaturasAtivas, direction, orderBy).pipe(
+        return this.faturaService.listAllPageNoStatus(StatusType.PAGA, this.pageIndexFaturasAtivas, this.pageSizeFaturasAtivas, direction, orderBy).pipe(
             tap((page: any) => this.lengthFaturasAtivas = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
@@ -164,7 +163,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     }
 
     private listAllFaturasOlds(direction = "DESC", orderBy = "createdAt") {
-        return this.faturaSevice.listAllPageStatus(StatusType.PAGA, this.pageIndexFaturasOlds, this.pageSizeFaturasOlds, direction, orderBy).pipe(
+        return this.faturaService.listAllPageStatus(StatusType.PAGA, this.pageIndexFaturasOlds, this.pageSizeFaturasOlds, direction, orderBy).pipe(
             tap((page: any) => this.lengthFaturasOlds = page.totalElements),
             map((page: any) => page.content),
             catchError(error => {
@@ -184,7 +183,7 @@ export class FaturaComponent extends BaseFormComponent implements OnInit {
     }
 
     private listAllMonths(): Observable<any[]> {
-        return this.faturaSevice.listAllMonths().pipe(
+        return this.faturaService.listAllMonths().pipe(
             catchError(error => {
                 this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações dos meses no servidor.')
                 return empty();
