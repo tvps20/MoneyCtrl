@@ -73,59 +73,64 @@
                         <h4 class="card-title">Dividas Ativias - {{ totalDividas | currency:'BRL' }}</h4>
                         <p class="card-category">Novas dividas até {{ dataAtual | date: 'fullDate' }}</p>
                     </div>
-                    <div class="card-body table-responsive"
-                        *ngIf="dividasAtivas$ | async as dividas; else loadingDividasAtivas">
-                        <div *ngIf="dividas.length > 0">
-                            <table class="table table-hover">
-                                <thead class="text-warning">
-                                    <th>Descrição</th>
-                                    <th>Valor Total</th>
-                                    <th>Valor Pago</th>
-                                    <th>Tipo</th>
-                                    <th>Comprador</th>
-                                    <th>Ação</th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let divida of dividas">
-                                        <td>{{ divida.descricao }}</td>
-                                        <td>{{ divida.valorDivida | currency:'BRL' }}</td>
-                                        <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
-                                        <td>
-                                            <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
-                                            <i *ngIf="!divida.faturaId" class="material-icons">monetization_on</i>
-                                        </td>
-                                        <td>{{ divida.compradorNome }}</td>
-                                        <td>
-                                            <button type="button" style="color: white;"
-                                                (click)="onSelectedEntity(divida)" data-toggle="modal"
-                                                data-target="#modalPagamentoDivida"
-                                                class="btn btn-success btn-sm">Pagar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
-                                [pageIndex]="pageIndexDividasAtivas - 1" [pageSizeOptions]="[5, 10, 25, 100]"
-                                (page)="changeListDividasAtivas($event)">
-                            </mat-paginator>
-                        </div>
-                        <div *ngIf="dividas.length < 1">
-                            <app-notification-state tipo='warning' msg='Nenhuma divida disponivel.'>
-                            </app-notification-state>
-                        </div>
-                    </div>
-                    <ng-template #loadingDividasAtivas>
-                        <div *ngIf="errorDividasAtivas$ | async; else loadingNoError">
-                            <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das dividas no
-                            servidor.'></app-notification-state>
-                        </div>
-                        <ng-template #loadingNoError>
-                            <div class="text-center">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Carregando...
+                    <div class="card-body">
+                        <div class="table-responsive"
+                            *ngIf="dividasAtivas$ | async as dividas; else loadingDividasAtivas">
+                            <div *ngIf="dividas.length > 0">
+                                <table class="table table-hover">
+                                    <thead class="text-warning">
+                                        <th>Descrição</th>
+                                        <th>Valor Total</th>
+                                        <th>Valor Pago</th>
+                                        <th>Tipo</th>
+                                        <th>Comprador</th>
+                                        <th>Ação</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let divida of dividas">
+                                            <td>{{ divida.descricao }}</td>
+                                            <td>{{ divida.valorDivida | currency:'BRL' }}</td>
+                                            <td>{{ divida.totalPagamentos | currency:'BRL' }}</td>
+                                            <td>
+                                                <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                                <i *ngIf="!divida.faturaId" class="material-icons">monetization_on</i>
+                                            </td>
+                                            <td>{{ divida.compradorNome }}</td>
+                                            <td>
+                                                <button type="button" style="color: white;"
+                                                    (click)="onSelectedEntity(divida)" data-toggle="modal"
+                                                    data-target="#modalPagamentoDivida"
+                                                    class="btn btn-success btn-sm">Pagar</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
+                                    [pageIndex]="pageIndexDividasAtivas - 1" [pageSizeOptions]="[5, 10, 25, 100]"
+                                    (page)="changeListDividasAtivas($event)">
+                                </mat-paginator>
                             </div>
+                            <div *ngIf="dividas.length < 1">
+                                <app-notification-state tipo='warning' msg='Nenhuma divida disponivel.'>
+                                </app-notification-state>
+                            </div>
+                        </div>
+                        <ng-template #loadingDividasAtivas>
+                            <div class="card-body" class="text-center">
+                                <div *ngIf="errorDividasAtivas$ | async; else loadingNoError">
+                                    <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das dividas no
+                                servidor.'></app-notification-state>
+                                </div>
+                            </div>
+                            <ng-template #loadingNoError>
+                                <div class="text-center">
+                                    <span class="spinner-border spinner-border-sm" role="status"
+                                        aria-hidden="true"></span>
+                                    Carregando...
+                                </div>
+                            </ng-template>
                         </ng-template>
-                    </ng-template>
+                    </div>
                 </div>
             </div>
         </div>
