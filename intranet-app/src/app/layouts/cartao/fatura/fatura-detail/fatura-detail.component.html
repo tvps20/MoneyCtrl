@@ -1,0 +1,480 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">monetization_on</i>
+                        </div>
+                        <p class="card-category">Total</p>
+                        <h4 class="card-title">{{ fatura.valorTotal | currency:'BRL' }}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">monetization_on</i> Valores para o mês de
+                            {{ fatura.mesReferente }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">event</i>
+                        </div>
+                        <p class="card-category">Vencimento</p>
+                        <h4 class="card-title">{{ fatura.vencimento | date: 'dd/MM/yyyy' }}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Valores para o mes de {{ fatura.mesReferente }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">event_available</i>
+                        </div>
+                        <p class="card-category">Referência</p>
+                        <h4 class="card-title">{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">calendar_today</i> Valores para o mês de {{ fatura.mesReferente }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div [class]="((fatura.status === 'ABERTA') ? 'card-header card-header-icon card-header-warning'
+                        : ((fatura.status === 'FECHADA') ? 'card-header card-header-icon card-header-danger'
+                        : 'card-header card-header-icon card-header-success'))">
+                        <div class="card-icon">
+                            <i class="material-icons">help</i>
+                        </div>
+                        <p class="card-category">Situação</p>
+                        <h4 class="card-title">{{ fatura.status }}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">info</i>{{ fatura.status === 'ABERTA' ? 'Aceita ' : 'Não aceita '}} novos lançamentos
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">info</i>
+                        </div>
+                        <p class="card-category">Observação</p>
+                        <h4 class="card-title">Nenhuma</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">more</i>
+                            <a href="javascript:void(0)">Mais informações</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-secondary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">receipt</i>
+                        </div>
+                        <p class="card-category">Lançamentos</p>
+                        <h4 class="card-title">{{ fatura.lancamentos.length }}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Atualizado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#cotas" data-toggle="tab">
+                                            <i class="material-icons">pie_chart</i> Cotas
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#lancamentos" data-toggle="tab">
+                                            <i class="material-icons">shop_two</i> Lançamentos
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" *ngIf="fatura.status === 'ABERTA'">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="cotas">
+                                <div *ngIf="faturaCotas$ | async as cotas; else loadingFaturaCotas">
+                                    <div *ngIf="cotas.length > 0" class="card-columns">
+                                        <div class="card" *ngFor="let cotaFatura of cotas">
+                                            <div class="card-header card-header-primary">
+                                                <div class="row">
+                                                    <h5 class="card-title ml-3">{{ cotaFatura.compradorNome }} -
+                                                        {{ cotaFatura.valorTotal | currency:'BRL' }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="text-primary">
+                                                        <th>Descrição</th>
+                                                        <th>valor</th>
+                                                        <th>Parcela</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let cota of cotaFatura.cotas">
+                                                            <td>{{ cota.lancamento.descricao }}</td>
+                                                            <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : (cota.lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="cotas.length < 1">
+                                        <app-notification-state tipo='warning'
+                                            msg='Nenhuma cota disponivel para essa fatura.'></app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingFaturaCotas>
+                                    <div *ngIf="errorCotas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das cotas no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="lancamentos">
+                                <div class="table-responsive"
+                                    *ngIf="lancamentos.length > 0; else loadingListEmptyLancamentos">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Data da Compra</th>
+                                            <th>Valor</th>
+                                            <th>Parcela</th>
+                                            <th>Cotas</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let lancamento of lancamentos">
+                                                <td>{{ lancamento.descricao }}</td>
+                                                <td>{{ lancamento.dataCompra | date: 'dd/MM/yyyy' }}</td>
+                                                <td>{{ lancamento.valorTotal | currency:'BRL' }}</td>
+                                                <td>{{ lancamento.tipoLancamento === 'PARCELADO' ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : (lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
+                                                </td>
+                                                <td>{{ lancamento.cotas.length }}</td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                        matTooltipPosition="above" data-toggle="modal"
+                                                        data-target="#detalhesModalLancamento"
+                                                        (click)="onSelectedEntity(lancamento)"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">description</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Editar"
+                                                        matTooltipPosition="above"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        data-toggle="modal" data-target="#modalExcluirEntity"
+                                                        matTooltipPosition="above"
+                                                        (click)="onSelectedEntity(lancamento)"
+                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <mat-paginator [length]="lengthLancamentos" [pageSize]="pageSizeLancamentos"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListLancamentos($event)">
+                                    </mat-paginator>
+                                </div>
+                                <ng-template #loadingListEmptyLancamentos>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhum lançamento disponivel para essa fatura.'></app-notification-state>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form *ngIf="showForm" [formGroup]="formulario" autocomplete="off">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <mat-accordion class="example-headers-align">
+                                                    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)"
+                                                        hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>Dados do lançamento</mat-panel-title>
+                                                            <mat-panel-description>Data da compra, valor, compradores...
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+
+                                                        <div class="row">
+                                                            <!-- Descricao Input -->
+                                                            <div class="col-md-6">
+                                                                <app-input-field formControlName="descricao"
+                                                                    label="Descrição" maxLengthInput="20"
+                                                                    [control]="formulario.get('descricao')">
+                                                                </app-input-field>
+                                                            </div>
+                                                            <!-- Tipo Lançamento Radio Button -->
+                                                            <div class="col-md-3">
+                                                                <mat-radio-group formControlName="tipoLancamento">
+                                                                    <mat-radio-button class="m-1" value="AVISTA"
+                                                                        (click)="onDisableFieldParcela()">
+                                                                        A Vista</mat-radio-button>
+                                                                    <mat-radio-button class="m-1" value="PARCELADO"
+                                                                        (click)="onEnableFieldParcela()">
+                                                                        Parcelado</mat-radio-button>
+                                                                    <mat-radio-button class="m-1" value="ASSINATURA"
+                                                                        (click)="onDisableFieldParcela()">
+                                                                        Assinatura</mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                            <!-- Parcelas Input -->
+                                                            <div class="col-md-3">
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>Parcelas</mat-label>
+                                                                    <input matInput mask="00/00"
+                                                                        formControlName="parcelas">
+                                                                    <mat-icon matSuffix class="text-danger"
+                                                                        *ngIf="verificarValidControl('parcelas') && formulario.get('parcelas').enabled">
+                                                                        error</mat-icon>
+                                                                    <mat-icon matSuffix class="text-success"
+                                                                        *ngIf="verificarValidControlSuccess('parcelas') && formulario.get('parcelas').enabled">
+                                                                        done</mat-icon>
+                                                                    <mat-hint>
+                                                                        <div class="text-danger"
+                                                                            *ngIf="verificarValidControl('parcelas')">
+                                                                            {{ errorMessage('parcelas', 'Parcelas') }}
+                                                                        </div>
+                                                                    </mat-hint>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <!-- Data da Compra Data Picker -->
+                                                            <div class="col-md-4">
+                                                                <mat-form-field appearance="outline">
+                                                                    <mat-label>Data da Compra</mat-label>
+                                                                    <input matInput [matDatepicker]="dp3"
+                                                                        formControlName="dataCompra">
+                                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #dp3 disabled="false">
+                                                                    </mat-datepicker>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <!-- Comprador Select -->
+                                                            <div class="col-md-8">
+                                                                <div class="row" formGroupName="comprador">
+                                                                    <div class="col-md-5">
+                                                                        <mat-form-field appearance="outline">
+                                                                            <mat-label>Comprador</mat-label>
+                                                                            <mat-select formControlName="compradorId">
+                                                                                <mat-option
+                                                                                    *ngFor="let comprador of compradorSelect$ | async"
+                                                                                    [value]="comprador.id+'/'+comprador.nome">
+                                                                                    {{ comprador.nome }}</mat-option>
+                                                                            </mat-select>
+                                                                            <mat-icon matSuffix class="text-danger"
+                                                                                *ngIf="verificarValidControl('comprador.compradorId')">
+                                                                                error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success"
+                                                                                *ngIf="verificarValidControlSuccess('comprador.compradorId')">
+                                                                                done</mat-icon>
+                                                                            <mat-hint>
+                                                                                <div class="text-danger"
+                                                                                    *ngIf="verificarValidControl('comprador.compradorId')">
+                                                                                    {{ errorMessage('comprador.compradorId', 'Compradores') }}
+                                                                                </div>
+                                                                            </mat-hint>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <!-- Valor Comprador Input -->
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field appearance="outline">
+                                                                            <mat-label>Valor</mat-label>
+                                                                            <input matInput mask="separator.2"
+                                                                                thousandSeparator="." prefix="R$ "
+                                                                                formControlName="valor">
+                                                                            <mat-icon matSuffix class="text-danger"
+                                                                                *ngIf="verificarValidControl('comprador.valor')">
+                                                                                error</mat-icon>
+                                                                            <mat-icon matSuffix class="text-success"
+                                                                                *ngIf="verificarValidControlSuccess('comprador.valor')">
+                                                                                done</mat-icon>
+                                                                            <mat-hint>
+                                                                                <div class="text-danger"
+                                                                                    *ngIf="verificarValidControl('comprador.valor')">
+                                                                                    {{ errorMessage('comprador.valor', 'Compradores') }}
+                                                                                </div>
+                                                                            </mat-hint>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <!-- Add Comprador Button -->
+                                                                    <div class="col-md-4">
+                                                                        <button type="button" mat-button
+                                                                            class="nav-link"
+                                                                            (click)="onAddCotaInLancamento()">
+                                                                            <i class="material-icons">library_add</i>
+                                                                            Adicionar
+                                                                            <div class="ripple-container"></div>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <mat-action-row>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">Next</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+
+                                                    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
+                                                        hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>Compradores: {{ lancamentoCotas.length }}
+                                                            </mat-panel-title>
+                                                            <mat-panel-description>Valor do lançamento:
+                                                                {{ valorTotalCompradores | currency:'BRL' }}
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+
+                                                        <div class="row">
+                                                            <div class="card-body">
+                                                                <div class="table-responsive"
+                                                                    *ngIf="lancamentoCotas.length > 0; else loadingListEmptyCompradores">
+                                                                    <table class="table table-sm table-hover">
+                                                                        <thead class=" text-primary">
+                                                                            <th>Comprador</th>
+                                                                            <th>Valor</th>
+                                                                            <th>Ação</th>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr *ngFor="let cota of lancamentoCotas">
+                                                                                <td>{{ cota.compradorNome }}</td>
+                                                                                <td>{{ cota.valor | currency:'BRL' }}
+                                                                                </td>
+                                                                                <td class="text-primary">
+                                                                                    <button mat-raised-button
+                                                                                        type="button"
+                                                                                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                                                        <i class="material-icons"
+                                                                                            (click)="onRevomeCotaInLancamento(cota)">close</i>
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <ng-template #loadingListEmptyCompradores>
+                                                                    <p class="text-muted text-center">Nenhum comprador
+                                                                        adicionado para esse lançamento.</p>
+                                                                </ng-template>
+                                                            </div>
+                                                        </div>
+
+                                                        <mat-action-row>
+                                                            <button mat-button color="warn"
+                                                                (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">Next</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+
+                                                    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)"
+                                                        hideToggle>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title> Observação</mat-panel-title>
+                                                            <mat-panel-description> Alguma informação relevante...
+                                                            </mat-panel-description>
+                                                        </mat-expansion-panel-header>
+
+                                                        <div class="row">
+                                                            <!-- Observação Input -->
+                                                            <div class="col-md-12">
+                                                                <mat-form-field appearance="outline"
+                                                                    class="example-full-width">
+                                                                    <mat-label>Lembrou de algo? Deixa aqui para não
+                                                                        esquecer...
+                                                                    </mat-label>
+                                                                    <textarea matInput
+                                                                        formControlName="observacao"></textarea>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+
+                                                        <mat-action-row>
+                                                            <button mat-button color="warn"
+                                                                (click)="prevStep()">Previous</button>
+                                                            <button mat-button color="primary"
+                                                                (click)="nextStep()">End</button>
+                                                        </mat-action-row>
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right" (click)="onSubmit()">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>
+
+<!-- Modal de detalhes do lançamento -->
+<app-modal-lancamento [lancamento]="entitySelecionada"></app-modal-lancamento>

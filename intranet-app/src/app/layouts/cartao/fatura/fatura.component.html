@@ -1,0 +1,279 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#newFaturas" data-toggle="tab">
+                                            <i class="material-icons">picture_as_pdf</i> Faturas Ativas
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#oldFaturas" data-toggle="tab">
+                                            <i class="material-icons">history</i> Histórico
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="newFaturas">
+                                <div class="table-responsive"
+                                    *ngIf="faturasAtivas$ | async as faturas; else loadingFaturasAtivas">
+                                    <div *ngIf="faturas.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>Referêcia</th>
+                                                <th>Vencimento</th>
+                                                <th>Valor</th>
+                                                <th>Cartão</th>
+                                                <th>Status</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let fatura of faturas">
+                                                    <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}
+                                                    </td>
+                                                    <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
+                                                    <td>{{ fatura.cartaoNome }}</td>
+                                                    <td>
+                                                        <button *ngIf="fatura.status === 'ABERTA'" type="button"
+                                                            matTooltip="Fechar Fatura" matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(fatura)" data-toggle="modal"
+                                                            data-target="#modalFecharFatura"
+                                                            class="btn btn-warning btn-sm">{{ fatura.status }}</button>
+                                                        <button *ngIf="fatura.status === 'FECHADA'" type="button"
+                                                            matTooltip="Pagar Fatura" matTooltipPosition="above"
+                                                            data-toggle="modal" data-target="#modalPagarFatura"
+                                                            (click)="onSelectedEntity(fatura)"
+                                                            class="btn btn-danger btn-sm">Fechada</button>
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            [routerLink]="['/faturas', fatura.id]"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Editar"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirFatura"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(fatura)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthFaturasAtivas" [pageSize]="pageSizeFaturasAtivas"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexFaturasAtivas"
+                                            (page)="changeListFaturasAtivas($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="faturas.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma fatura disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingFaturasAtivas>
+                                    <div *ngIf="errorFaturasAtivas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das faturas no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="oldFaturas">
+                                <div class="table-responsive"
+                                    *ngIf="faturasOlds$ | async as faturasOlds; else loadingFaturasOlds">
+                                    <div *ngIf="faturasOlds.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>Referêcia</th>
+                                                <th>Vencimento</th>
+                                                <th>Valor</th>
+                                                <th>Cartão</th>
+                                                <th>Status</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let fatura of faturasOlds">
+                                                    <td>{{ fatura.mesReferente + '/'}}{{ fatura.vencimento | date: 'yyyy' }}
+                                                    </td>
+                                                    <td>{{ fatura.vencimento | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ fatura.valorTotal | currency:'BRL' }}</td>
+                                                    <td>{{ fatura.cartaoNome }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success btn-sm"
+                                                            disabled>{{ fatura.status }}</button>
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            [routerLink]="['/faturas', fatura.id]"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirFatura"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(fatura)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthFaturasOlds" [pageSize]="pageSizeFaturasOlds"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexFaturasOlds"
+                                            (page)="changeListFaturasOlds($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="faturasOlds.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhum histórico disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingFaturasOlds>
+                                    <div *ngIf="errorFaturasOlds$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações do histórico no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()"
+                                        autocomplete="off">
+                                        <div class="row">
+                                            <!-- Vencimento Data Picker -->
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Vencimento</mat-label>
+                                                    <input matInput [matDatepicker]="dp3" formControlName="vencimento">
+                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                                    <mat-hint>
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('vencimento')">
+                                                            {{ errorMessage('vencimento', 'Vencimento') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- Mes Referente Select -->
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Mês Referente</mat-label>
+                                                    <mat-select formControlName="mesReferente">
+                                                        <mat-option *ngFor="let mes of months$ | async"
+                                                            [value]="mes.value">{{ mes.name }}</mat-option>
+                                                    </mat-select>
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('mesReferente')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('mesReferente')">done
+                                                    </mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('mesReferente')">
+                                                            {{ errorMessage('mesReferente', 'Mês Referente') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- Cartao Select -->
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Cartao</mat-label>
+                                                    <mat-select formControlName="cartaoId">
+                                                        <mat-option *ngFor="let cartao of cartoesSelect$ | async"
+                                                            [value]="cartao.id">{{ cartao.nome }}</mat-option>
+                                                    </mat-select>
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('cartaoId')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('cartaoId')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('cartaoId')">
+                                                            {{ errorMessage('cartaoId', 'Cartão') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Observação Input -->
+                                            <div class="col-md-12">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Observação</mat-label>
+                                                    <textarea matInput formControlName="observacao"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirFatura" (confimaModal)="onDelete($event)"></app-modal-aviso>
+
+<!-- Modal de aviso fechar fatura -->
+<app-modal-aviso identificador="modalFecharFatura" (confimaModal)="onFecharFatura($event)"
+    msg="Deseja realmente fechar essa fatura?" obs="Uma fatura fechada não pode receber novos lançamentos
+    e as dividas serão geradas para cada comprador."></app-modal-aviso>
+
+<!-- Modal de aviso Pagar fatura -->
+<app-modal-aviso identificador="modalPagarFatura" (confimaModal)="onPagarFatura($event)"
+    msg="Deseja realmente pagar essa fatura?"></app-modal-aviso>

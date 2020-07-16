@@ -1,0 +1,36 @@
+<div class="card card-profile">
+    <div class="modal fade" id="detalhesModalDivida" tabindex="-1" role="dialog"
+        aria-labelledby="lancamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- <div class="modal-header"> -->
+                    <div class="card-avatar">
+                        <img class="img" src="../../../assets/img/divida-modal.png" />
+                    </div>
+                <!-- </div> -->
+                <div class="modal-body">
+                    <h6 class="card-category" style="font-size: 11px">{{ divida?.dataDivida | date: 'medium' }}</h6>
+                    <h2 class="card-title">{{ divida?.compradorNome }} - {{ divida?.valorDivida | currency:'BRL' }}</h2>
+                    <h5 [ngClass]="{'text-success': divida?.paga, 'text-warning': !divida?.paga }" style="font-size: 14px; margin-top: -25px;">{{ divida?.paga ? 'Paga' : 'Ativa'}}</h5>
+                    <table class="table table-sm table-hover table-bordered" *ngIf="divida?.pagamentos.length > 0">
+                        <thead class="text-primary">
+                            <th>Pagamentos - {{ divida?.totalPagamentos | currency:'BRL' }}</th>
+                            <th>Data</th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pagamento of divida?.pagamentos">
+                            <td>{{ pagamento.valor | currency:'BRL' }}</td>
+                            <td>{{ pagamento.data | date:'dd/MM/yyyy' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    <hr>
+                    <p class="card-description">{{ divida?.descricao }}</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

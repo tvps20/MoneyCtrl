@@ -1,0 +1,23 @@
+td button {
+    color: #212529;
+}
+
+td button:focus {
+    color: #212529;
+}
+
+td button:hover {
+    color: #212529;
+}
+
+@media(max-width: 1400px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+
+@media(max-width: 700px) {
+    .card-columns {
+        column-count: 1;
+    }
+}

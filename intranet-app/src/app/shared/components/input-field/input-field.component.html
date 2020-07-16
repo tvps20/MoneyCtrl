@@ -1,0 +1,18 @@
+<mat-form-field appearance="outline" (change)="markAsTouched()" (click)="markAsTouched()" (focusout)="markAsTouched()"
+    [class]="aplicaClassErro()">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [type]="tipo" [readonly]="!!isReadOnly" #message [maxlength]="maxLengthInput" [(ngModel)]="value">
+    <mat-icon matSuffix class="text-danger" *ngIf="verificarValidControl(control)">error</mat-icon>
+    <mat-icon matSuffix class="text-success" *ngIf="control.valid && control.value !== '' && control.value !== null">
+        done
+    </mat-icon>
+    <mat-hint>
+        <div class="text-warning" *ngIf="control.status === 'PENDING' && uniqueFiled">
+            Validando {{ label }}...
+        </div>
+        <div class="text-danger" *ngIf="verificarValidControl(control)">
+            {{ errorMessage() }}
+        </div>
+    </mat-hint>
+    <mat-hint align="end" *ngIf="showMaxLength" >{{message.value.length}} / {{ maxLengthInput }}</mat-hint>
+</mat-form-field>

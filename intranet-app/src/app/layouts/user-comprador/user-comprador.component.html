@@ -1,0 +1,280 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#compradores" data-toggle="tab">
+                                            <i class="material-icons">people_alt</i> Compradores
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#users" data-toggle="tab">
+                                            <i class="material-icons">security</i> Users
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="compradores">
+                                <div class="table-responsive"
+                                    *ngIf="compradores$ | async as compradores; else loadingCompradores">
+                                    <div *ngIf="compradores.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class="text-primary">
+                                                <th (click)="sortingTableComprador('nome')">Nome Completo
+                                                    <i *ngIf="orderByCompradores === 'nome'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('username')">Username
+                                                    <i *ngIf="orderByCompradores === 'username'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('email')">Email
+                                                    <i *ngIf="orderByCompradores === 'email'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('dividaTotal')">Dividas
+                                                    <i *ngIf="orderByCompradores === 'dividaTotal'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('creditoTotal')">Creditos
+                                                    <i *ngIf="orderByCompradores === 'creditoTotal'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableComprador('id')">Status
+                                                    <i *ngIf="orderByCompradores === 'id'"
+                                                        [className]="directionCompradores ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let comprador of compradores">
+                                                    <td>
+                                                        {{ comprador.nome + " " + (comprador.sobrenome ?  comprador.sobrenome : '')}}
+                                                    </td>
+                                                    <td>{{ comprador.username }}</td>
+                                                    <td>{{ comprador.email ? comprador.email : '-' }}</td>
+                                                    <td>{{ comprador.dividas.length }}</td>
+                                                    <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
+                                                    <td>
+                                                        <button *ngIf="!comprador.devedor" type="button"
+                                                            class="btn btn-success btn-sm">&nbsp;Em dia &nbsp;&nbsp;</button>
+                                                        <button *ngIf="comprador.devedor" type="button"
+                                                            matTooltip="Pagar" matTooltipPosition="above"
+                                                            class="btn btn-danger btn-sm">Devedor</button>
+                                                    </td>
+                                                    <td class="td-actions text-left">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            [routerLink]="['/user-comprador', comprador.id]"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(comprador)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthCompradores" [pageSize]="pageSizeCompradores"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexCompradores"
+                                            (page)="changeListComprador($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="compradores.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhum comprador disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingCompradores>
+                                    <div *ngIf="errorCompradores$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos compradores no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="users">
+                                <div class="table-responsive" *ngIf="usuarios$ | async as users; else loadingUsers">
+                                    <div *ngIf="users.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class="text-primary">
+                                                <th (click)="sortingTableUsuario('username')">Login
+                                                    <i *ngIf="orderByUsuarios === 'username'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>Acesso</th>
+                                                <th (click)="sortingTableUsuario('createdAt')">Criado
+                                                    <i *ngIf="orderByUsuarios === 'createdAt'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th (click)="sortingTableUsuario('verificaoEmail')">Verificado
+                                                    <i *ngIf="orderByUsuarios === 'verificaoEmail'"
+                                                        [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
+                                                </th>
+                                                <th>roles</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let usuario of users">
+                                                    <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
+                                                    </td>
+                                                    <td>
+                                                        <i *ngIf="usuario.username" class="material-icons"
+                                                            matTooltip="Username"
+                                                            matTooltipPosition="above">account_circle</i>
+                                                        <i *ngIf="usuario.email" class="material-icons"
+                                                            matTooltip="Email" matTooltipPosition="above">email</i>
+                                                    </td>
+                                                    <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
+                                                    <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
+                                                    </td>
+                                                    <td>{{ usuario.roles.length > 1 ? (usuario.roles[0] + '/' + usuario.roles[1]) : usuario.roles[0] }}
+                                                    </td>
+                                                    <td class="td-actions text-left">
+                                                        <button mat-raised-button type="button" matTooltip="Editar"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(usuario)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthUsuarios" [pageSize]="pageSizeUsuarios"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexUsuarios"
+                                            (page)="changeListUsuario($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="users.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma usuário disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingUsers>
+                                    <div *ngIf="errorUsuarios$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos usuários no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                        <div class="row">
+                                            <!-- Nome Input -->
+                                            <div class="col-md-4">
+                                                <app-input-field formControlName="nome" label="Nome" maxLengthInput="12"
+                                                    [control]="formulario.get('nome')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Sobrenome Input -->
+                                            <div class="col-md-4">
+                                                <app-input-field formControlName="sobrenome" label="Sobrenome"
+                                                    maxLengthInput="12" [control]="formulario.get('sobrenome')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Tipo User Radion Button -->
+                                            <div class="col-md-2">
+                                                <mat-radio-group formControlName="tipo">
+                                                    <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
+                                                    <mat-radio-button value="COMPRADOR">Comprador</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <!-- Admin Checkbox -->
+                                            <div class="col-md-2">
+                                                <mat-checkbox formControlName="admin">Admin</mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Username Input -->
+                                            <div class="col-md-5">
+                                                <app-input-field formControlName="username" uniqueFiled="true"
+                                                    maxLengthInput="10" label="Username"
+                                                    [control]="formulario.get('username')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Email Input -->
+                                            <div class="col-md-7">
+                                                <app-input-field formControlName="email" uniqueFiled="true"
+                                                    label="Email" [control]="formulario.get('email')">
+                                                </app-input-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Password Input -->
+                                            <div class="col-md-6">
+                                                <app-input-field formControlName="password" label="Password"
+                                                    [showMaxLength]="false" tipo="password"
+                                                    [control]="formulario.get('password')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Confirmar Password Input -->
+                                            <div class="col-md-6">
+                                                <app-input-field formControlName="confirmarPassword"
+                                                    label="Confirmar Password" tipo="password" [showMaxLength]="false"
+                                                    [control]="formulario.get('confirmarPassword')">
+                                                </app-input-field>
+                                            </div>
+                                        </div>
+                                        <button *ngIf="!submitte" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

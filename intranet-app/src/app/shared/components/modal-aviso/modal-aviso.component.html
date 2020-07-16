@@ -1,0 +1,22 @@
+<div class="card card-profile">
+    <div class="modal fade" [id]="identificador" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- <div class="modal-header"> -->
+                    <div class="card-avatar">
+                        <img class="img" src="../../../assets//img/aviso-modal.png" />
+                    </div>
+                <!-- </div> -->
+                <div class="modal-body">
+                    <h2 class="card-title">{{ msg }}</h2>
+                    <hr>
+                    <p class="card-description">{{ obs }}</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">{{ cancelTxt }}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onConfirm()">{{ okTxt }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

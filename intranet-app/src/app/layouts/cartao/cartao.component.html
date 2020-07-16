@@ -1,0 +1,243 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#cartoes" data-toggle="tab">
+                                            <i class="material-icons">filter_none</i> Cartões
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#bandeiras" data-toggle="tab">
+                                            <i class="material-icons">flag</i> Bandeiras
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="cartoes">
+                                <div class="table-responsive" *ngIf="cartoes$ | async as cartoes; else loadingCartoes">
+                                    <div *ngIf="cartoes.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>ID</th>
+                                                <th>Nome</th>
+                                                <th>Bandeira</th>
+                                                <th>Faturas</th>
+                                                <th>Status</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let cartao of cartoes">
+                                                    <td>{{ cartao.id }}</td>
+                                                    <td>{{ cartao.nome }}</td>
+                                                    <td>{{ cartao.bandeira.nome }}</td>
+                                                    <td>{{ cartao.faturas.length }}</td>
+                                                    <td>
+                                                        <button *ngIf="cartao.ativo" type="button"
+                                                            matTooltip="Desabilitar" matTooltipPosition="above"
+                                                            class="btn btn-warning btn-sm">&nbsp;Ativo&nbsp;</button>
+                                                        <button *ngIf="!cartao.ativo" type="button"
+                                                            class="btn btn-warning btn-sm">Vencido</button>
+                                                    </td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Detalhes"
+                                                            matTooltipPosition="above"
+                                                            [routerLink]="['/cartoes', cartao.id]"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">description</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Editar"
+                                                            matTooltipPosition="above"
+                                                            class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(cartao)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthCartoes" [pageSize]="pageSizeCartoes"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexCartoes"
+                                            (page)="changeListCartoes($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="cartoes.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma Cartão disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingCartoes>
+                                    <div *ngIf="errorCartoes$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações dos cartões no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="bandeiras">
+                                <div class="table-responsive"
+                                    *ngIf="bandeiras$ | async as bandeiras; else loadingBandeiras">
+                                    <div *ngIf="bandeiras.length > 0">
+                                        <table class="table table-hover">
+                                            <thead class=" text-primary">
+                                                <th>ID</th>
+                                                <th>Nome</th>
+                                                <th>Criado</th>
+                                                <th>Cartões</th>
+                                                <th>Ação</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let bandeira of bandeiras">
+                                                    <td>{{ bandeira.id }}</td>
+                                                    <td>{{ bandeira.nome }}</td>
+                                                    <td>{{ bandeira.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                                    <td>{{ bandeira.cartoes.length }}</td>
+                                                    <td class="text-primary">
+                                                        <button mat-raised-button type="button" matTooltip="Excluir"
+                                                            data-toggle="modal" data-target="#modalExcluirEntity"
+                                                            matTooltipPosition="above"
+                                                            (click)="onSelectedEntity(bandeira)"
+                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <mat-paginator [length]="lengthBandeiras" [pageSize]="pageSizeBandeiras"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexBandeiras"
+                                            (page)="changeListBandeiras($event)">
+                                        </mat-paginator>
+                                    </div>
+                                    <div *ngIf="bandeiras.length < 1">
+                                        <app-notification-state tipo='warning' msg='Nenhuma bandeira disponivel.'>
+                                        </app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingBandeiras>
+                                    <div *ngIf="errorBandeiras$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das bandeiras no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                        <div class="row">
+                                            <!-- Nome Input -->
+                                            <div class="col-md-6">
+                                                <app-input-field formControlName="nome" label="Nome" uniqueFiled="true"
+                                                    maxLengthInput="12" [control]="formulario.get('nome')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Bandeira Select -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Bandeira</mat-label>
+                                                    <mat-select formControlName="bandeiraId">
+                                                        <mat-option *ngFor="let bandeira of bandeirasSelect$ | async"
+                                                            [value]="bandeira.id">{{ bandeira.nome }}</mat-option>
+                                                    </mat-select>
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('bandeiraId') && formulario.get('bandeiraId').enabled">
+                                                        error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('bandeiraId') && formulario.get('bandeiraId').enabled">
+                                                        done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('bandeiraId')">
+                                                            {{ errorMessage('bandeiraId', 'Bandeira') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Bandeira nome -->
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Bandeira</mat-label>
+                                                    <input matInput formControlName="bandeira" #message maxlength="12">
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('bandeira') && formulario.get('bandeira').enabled">
+                                                        error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('bandeira') && formulario.get('bandeira').enabled">
+                                                        done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-warning"
+                                                            *ngIf="formulario.get('bandeira').status === 'PENDING'">
+                                                            Validando Bandeira...
+                                                        </div>
+                                                        <div class="text-danger"
+                                                            *ngIf="verificarValidControl('bandeira')">
+                                                            {{ errorMessage('bandeira', 'Bandeira') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                    <mat-hint align="end">{{message.value.length}} / 12</mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- Bandeira Check Box -->
+                                            <div class="col-md-6">
+                                                <mat-checkbox formControlName="novaBandeira"
+                                                    (click)="onDisableFields()">Nova Bandeira</mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <button *ngIf="!submitte" mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirEntity" (confimaModal)="onDelete($event)"></app-modal-aviso>

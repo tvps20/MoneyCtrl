@@ -1,0 +1,40 @@
+<div class="card card-profile">
+    <div class="modal fade" id="detalhesModalLancamento" tabindex="-1" role="dialog"
+        aria-labelledby="lancamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- <div class="modal-header"> -->
+                    <div class="card-avatar">
+                        <img class="img" src="../../../assets//img/fatura-modal.png" />
+                    </div>
+                <!-- </div> -->
+                <div class="modal-body">
+                    <h6 class="card-category" style="font-size: 11px;">{{ lancamento?.dataCompra | date: 'medium' }}</h6>
+                    <h2 class="card-title">{{ lancamento?.descricao }} - {{ lancamento?.valorTotal | currency:'BRL' }}</h2>
+                    <h5 class="text-warning" style="font-size: 14px; margin-top: -25px;">{{ lancamento?.tipoLancamento === 'PARCELADO' ? ('Parcela ' + lancamento?.parcelaAtual + '/' + lancamento?.qtdParcelas) : '-' }}</h5>
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th>
+                                Compradores
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let cota of lancamento?.cotas">
+                            <td>{{ cota.compradorNome }}</td>
+                            <td>{{ cota.valor | currency:'BRL' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    <hr>
+                    <p class="card-description">{{ lancamento?.observacao ? lancamento?.observacao : 'Nenhuma nota definida.' }}</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

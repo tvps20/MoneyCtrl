@@ -1,0 +1,301 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-info">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <ul class="nav nav-tabs" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link active" href="#compras" data-toggle="tab">
+                                            <i class="material-icons">shop_two</i> Compras
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#dividas" data-toggle="tab">
+                                            <i class="material-icons">swap_vert</i> Dividas
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#creditos" data-toggle="tab">
+                                            <i class="material-icons">attach_money</i> Creditos
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#adicionar" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Adicionar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a mat-button class="nav-link" href="#atualizar" data-toggle="tab">
+                                            <i class="material-icons">person</i> Atualizar
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="compras">
+                                <div *ngIf="compradorCotas$ | async as cotas; else loadingCompradorCotas">
+                                    <div *ngIf="cotas.length > 0" class="card-columns">
+                                        <div class="card" *ngFor="let cotaComprador of cotas">
+                                            <div class="card-header card-header-primary">
+                                                <div class="row">
+                                                    <h5 class="card-title ml-3">Cartão {{ cotaComprador.cartaoNome }} -
+                                                        {{ cotaComprador.valorTotal | currency:'BRL' }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="text-primary">
+                                                        <th>Descrição</th>
+                                                        <th>valor</th>
+                                                        <th>Parcela</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let cota of cotaComprador.cotas">
+                                                            <td>{{ cota.lancamento.descricao }}</td>
+                                                            <td>{{ cota.valor | currency:'BRL' }}</td>
+                                                            <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : '-'}}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="cotas.length < 1">
+                                        <app-notification-state tipo='warning'
+                                            msg='Nenhuma cota disponivel para esse comprador.'></app-notification-state>
+                                    </div>
+                                </div>
+                                <ng-template #loadingCompradorCotas>
+                                    <div *ngIf="errorCotas$ | async; else loadingNoError">
+                                        <app-notification-state tipo='danger' msg='Ocorreu um erro ao buscar informações das cotas no
+                                        servidor.'></app-notification-state>
+                                    </div>
+                                    <ng-template #loadingNoError>
+                                        <div class="text-center">
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Carregando...
+                                        </div>
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="dividas">
+                                <div class="table-responsive" *ngIf="dividas.length > 0; else loadingListEmptyDividas">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor Total</th>
+                                            <th>Valor Pago</th>
+                                            <th>Tipo</th>
+                                            <th>Status</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let divida of dividas">
+                                                <td>{{ divida.descricao }}</td>
+                                                <td>{{ divida.valorDivida }}</td>
+                                                <td>{{ divida.totalPagamentos }}</td>
+                                                <td>
+                                                    <i *ngIf="divida.faturaId" class="material-icons">receipt_long</i>
+                                                    <i *ngIf="!divida.faturaId"
+                                                        class="material-icons">monetization_on</i>
+                                                </td>
+                                                <td>
+                                                    <button *ngIf="!divida.paga" type="button" matTooltip="Pagar"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(divida)"
+                                                        class="btn btn-warning btn-sm">Ativa</button>
+                                                    <button *ngIf="divida.paga" type="button"
+                                                        class="btn btn-success btn-sm" disabled>Paga</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <mat-paginator [length]="lengthDividas" [pageSize]="pageSizeDividas"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividas($event)">
+                                    </mat-paginator>
+                                </div>
+                                <ng-template #loadingListEmptyDividas>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhuma divida disponivel para esse comprador.'></app-notification-state>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="creditos">
+                                <div class="table-responsive"
+                                    *ngIf="creditos.length > 0; else loadingListEmptyCreditos">
+                                    <table class="table table-hover">
+                                        <thead class=" text-primary">
+                                            <th>Descrição</th>
+                                            <th>Valor</th>
+                                            <th>Data</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let credito of creditos">
+                                                <td>{{ credito.descricao }}</td>
+                                                <td>{{ credito.valor | currency:'BRL' }}</td>
+                                                <td>{{ credito.data | date: 'dd/MM/yyyy' }}</td>
+                                                <td>
+                                                    <button type="button" disabled
+                                                        [class]="credito.disponivel ? 'btn btn-success btn-sm' : 'btn btn-warning btn-sm'">{{ credito.disponivel ? 'Ativo' : 'Usado' }}
+                                                    </button>
+                                                </td>
+                                                <td class="text-primary">
+                                                    <button mat-raised-button type="button" matTooltip="Excluir"
+                                                        matTooltipPosition="above" (click)="onSelectedEntity(credito)"
+                                                        data-toggle="modal" data-target="#modalExcluirCredito"
+                                                        class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <mat-paginator [length]="lengthCreditos" [pageSize]="pageSizeCreditos"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListCreditos($event)">
+                                    </mat-paginator>
+                                </div>
+                                <ng-template #loadingListEmptyCreditos>
+                                    <app-notification-state tipo='warning'
+                                        msg='Nenhum credito disponivel para esse comprador.'></app-notification-state>
+                                </ng-template>
+                            </div>
+                            <div class="tab-pane" id="adicionar">
+                                <div class="card-body">
+                                    <form  *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                        <div class="row">
+                                            <!-- Descricao Input -->
+                                            <div class="col-md-8">
+                                                <app-input-field formControlName="descricao" label="Descrição"
+                                                    maxLengthInput="20" [control]="formulario.get('descricao')">
+                                                </app-input-field>
+                                            </div>
+                                            <!-- Valor Input -->
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Valor</mat-label>
+                                                    <input matInput mask="separator.2" thousandSeparator="."
+                                                        prefix="R$ " formControlName="valor">
+                                                    <mat-icon matSuffix class="text-danger"
+                                                        *ngIf="verificarValidControl('valor')">error</mat-icon>
+                                                    <mat-icon matSuffix class="text-success"
+                                                        *ngIf="verificarValidControlSuccess('valor')">done</mat-icon>
+                                                    <mat-hint>
+                                                        <div class="text-danger" *ngIf="verificarValidControl('valor')">
+                                                            {{ errorMessage('valor', 'Valor') }}
+                                                        </div>
+                                                    </mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button *ngIf="!submitte" type="submit"
+                                            class="btn btn-info pull-right">Salvar</button>
+                                        <button *ngIf="submitte" type="button" class="btn btn-info pull-right" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true"></span>
+                                            Salvando
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="atualizar">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Nome</mat-label>
+                                                    <input matInput placeholder="Nome" type="text">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Sobrenome</mat-label>
+                                                    <input matInput placeholder="Sobrenome" type="text">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mat-radio-group aria-label="Select an option">
+                                                    <mat-radio-button value="1">Usuario</mat-radio-button>
+                                                    <mat-radio-button checked value="2">Comprador</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mat-checkbox>Admin</mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Username</mat-label>
+                                                    <input matInput placeholder="Username">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-7" style="padding-top: -10px;">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput placeholder="Email" type="email">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Senha</mat-label>
+                                                    <input matInput placeholder="Senha" type="password">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="outline" class="example-full-width">
+                                                    <mat-label>Confirmar Senha</mat-label>
+                                                    <input matInput placeholder="Confirmar Senha" type="password">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <button mat-raised-button appearance="outline" type="submit"
+                                            class="btn btn-info pull-right">Atualizar</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="../../../../assets/img/faces/marc.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">{{ comprador.tipo }}</h6>
+                        <h4 class="card-title">
+                            {{ comprador.nome + ' ' + (comprador.sobrenome ? comprador.sobrenome : '') }}</h4>
+                        <p class="card-description">
+                            Total de compras: {{ comprador.lancamentos.length }}<br />
+                            Dividas Ativas: {{ comprador.totalDividas | currency:'BRL' }}<br />
+                            Credito Disponível: {{ comprador.totalCreditos | currency:'BRL' }}
+                        </p>
+                        <a href="javascript:void(0)" class="btn btn-info btn-round">Imprimir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de aviso excluir -->
+<app-modal-aviso identificador="modalExcluirCredito" (confimaModal)="onDelete($event)"></app-modal-aviso>
