@@ -1,8 +1,9 @@
 const PROXY_CONFIG = [
     {
         context: ['/api'],
-        target: 'http://localhost:8080',
-        secure: false, // true para https
+        target: 'https://moneyctrl-api.herokuapp.com',
+        secure: true, // true para https
+        changeOrigin: true,
         logLevel: 'debug'
     }
 ];
