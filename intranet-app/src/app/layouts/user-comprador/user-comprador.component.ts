@@ -11,15 +11,15 @@ import { FormValidations } from 'src/app/shared/util/form-validations';
 
 import { AlertService } from './../../shared/services/alert-service.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { UserCompradorService } from './services/user-comprador.service';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-user-comprador',
     templateUrl: './user-comprador.component.html',
     styleUrls: ['./user-comprador.component.css']
 })
-export class UserCompradorComponent extends BaseFormComponent implements OnInit {
+export class UserCompradorComponent extends BaseFormListComponent implements OnInit {
 
     public usuarios$: Observable<User[]>;
     public compradores$: Observable<Comprador[]>;
