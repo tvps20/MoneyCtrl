@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { take, catchError, tap } from 'rxjs/operators';
-import { empty, throwError } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
 import { AlertService } from './alert-service.service';
 
 export abstract class CrudService<T> {
 
-    constructor(protected http: HttpClient, protected API_URL, protected alertService: AlertService) { }
+    constructor(protected http: HttpClient, protected API_URL, protected alertService: AlertService) {
+        this.API_URL = `https://moneyctrl-api.herokuapp.com${this.API_URL}`;
+    }
 
     public listAll() {
         // O '| Async' já se desinscrever do obsevable
