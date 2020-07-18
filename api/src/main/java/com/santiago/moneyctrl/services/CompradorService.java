@@ -25,6 +25,7 @@ public class CompradorService extends BaseService<Comprador, CompradorDTO> {
 
 	public CompradorService(CompradorRepository repository) {
 		super(repository);
+		this.entityName = "Comprador";
 		BaseService.baseLog = CompradorService.log;
 	}
 	

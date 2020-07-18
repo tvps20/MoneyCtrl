@@ -25,7 +25,7 @@ public class BandeiraDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@CustomUnique(classType = BandeiraService.class)
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
 	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
 	private String nome;
 

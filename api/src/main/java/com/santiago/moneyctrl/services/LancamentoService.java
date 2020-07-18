@@ -35,6 +35,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 	public LancamentoService(LancamentoRepository repository) {
 		super(repository);
+		this.entityName = "Lançamento";
 		BaseService.baseLog = LancamentoService.log;
 	}
 
@@ -68,7 +69,7 @@ public class LancamentoService extends BaseService<Lancamento, LancamentoDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[SaveAll] - Erro ao tentar salvar lancamentos.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInsert("Lançamentos"));
 		}
 	}
 

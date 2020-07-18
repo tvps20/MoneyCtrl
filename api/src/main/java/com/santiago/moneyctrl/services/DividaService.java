@@ -34,6 +34,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 
 	public DividaService(DividaRepository repository) {
 		super(repository);
+		this.entityName = "Divida";
 		BaseService.baseLog = DividaService.log;
 	}
 
@@ -83,7 +84,7 @@ public class DividaService extends BaseService<Divida, DividaDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[SaveAll] - Erro ao tentar salvar dividas.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInsert("Dividas"));
 		}
 	}
 

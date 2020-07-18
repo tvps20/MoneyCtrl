@@ -42,6 +42,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	public FaturaService(FaturaRepository repository) {
 		super(repository);
+		this.entityName = "Fatura";
 		BaseService.baseLog = FaturaService.log;
 	}
 

@@ -15,6 +15,7 @@ public class BandeiraService extends BaseService<Bandeira, BandeiraDTO> implemen
 
 	public BandeiraService(BandeiraRepository repository) {
 		super(repository);
+		this.entityName = "Bandeira";
 		BaseService.baseLog = BandeiraService.log;
 	}
 
