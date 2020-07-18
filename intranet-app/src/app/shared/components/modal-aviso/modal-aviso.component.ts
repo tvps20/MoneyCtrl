@@ -8,7 +8,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 export class ModalAvisoComponent implements OnInit {
 
     @Input() msg = "Deseja realmente excluir esse item?";
-    @Input() obs = "Lembre-se que isso não é reversivel.";
+    @Input() obs = "Lembre-se que isso não é reversível e apagará todos os dados relacionados desse item.";
     @Input() cancelTxt = "Não";
     @Input() okTxt = "Sim";
     @Input() identificador = "detalhesModalAviso";

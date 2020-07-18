@@ -74,7 +74,8 @@
                                                     <td>{{ comprador.totalCreditos | currency:'BRL' }}</td>
                                                     <td>
                                                         <button *ngIf="!comprador.devedor" type="button"
-                                                            class="btn btn-success btn-sm">&nbsp;Em dia &nbsp;&nbsp;</button>
+                                                            class="btn btn-success btn-sm">&nbsp;Em dia
+                                                            &nbsp;&nbsp;</button>
                                                         <button *ngIf="comprador.devedor" type="button"
                                                             matTooltip="Pagar" matTooltipPosition="above"
                                                             class="btn btn-danger btn-sm">Devedor</button>
@@ -126,8 +127,8 @@
                                     <div *ngIf="users.length > 0">
                                         <table class="table table-hover">
                                             <thead class="text-primary">
-                                                <th (click)="sortingTableUsuario('username')">Login
-                                                    <i *ngIf="orderByUsuarios === 'username'"
+                                                <th (click)="sortingTableUsuario('nome')">Login
+                                                    <i *ngIf="orderByUsuarios === 'nome'"
                                                         [className]="directionUsuarios ? 'fa fa-long-arrow-up text-muted' : 'fa fa-long-arrow-down text-muted'"></i>
                                                 </th>
                                                 <th>Acesso</th>
@@ -144,14 +145,15 @@
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let usuario of users">
-                                                    <td>{{ usuario.username + (usuario.email ? '/' + usuario.email : '')}}
+                                                    <td>{{ usuario.nome }}
                                                     </td>
                                                     <td>
                                                         <i *ngIf="usuario.username" class="material-icons"
-                                                            matTooltip="Username"
+                                                            [matTooltip]="usuario.username"
                                                             matTooltipPosition="above">account_circle</i>
                                                         <i *ngIf="usuario.email" class="material-icons"
-                                                            matTooltip="Email" matTooltipPosition="above">email</i>
+                                                            [matTooltip]="usuario.email"
+                                                            matTooltipPosition="above">email</i>
                                                     </td>
                                                     <td>{{ usuario.createdAt | date: 'dd/MM/yyyy'}}</td>
                                                     <td>{{ usuario.verificaoEmail ?  usuario.verificaoEmail : 'não verificado' }}
@@ -201,7 +203,8 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()"
+                                        autocomplete="off">
                                         <div class="row">
                                             <!-- Nome Input -->
                                             <div class="col-md-4">
@@ -218,13 +221,20 @@
                                             <!-- Tipo User Radion Button -->
                                             <div class="col-md-2">
                                                 <mat-radio-group formControlName="tipo">
-                                                    <mat-radio-button value="USUARIO">Usuario</mat-radio-button>
-                                                    <mat-radio-button value="COMPRADOR">Comprador</mat-radio-button>
+                                                    <mat-radio-button value="USUARIO"
+                                                        matTooltip="Um usuário apenas poderá visualizar a aplicação."
+                                                        matTooltipPosition="above">Usuario</mat-radio-button>
+                                                    <!-- <p class="text-muted" style="font-size: 12px;"></p> -->
+                                                    <mat-radio-button value="COMPRADOR"
+                                                        matTooltip="Um comprador terá acesso apenas a suas informações."
+                                                        matTooltipPosition="above">Comprador</mat-radio-button>
                                                 </mat-radio-group>
                                             </div>
                                             <!-- Admin Checkbox -->
                                             <div class="col-md-2">
-                                                <mat-checkbox formControlName="admin">Admin</mat-checkbox>
+                                                <mat-checkbox formControlName="admin"
+                                                    matTooltip="Um admin terá todo o acesso ao dashboard."
+                                                    matTooltipPosition="above">Admin</mat-checkbox>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -238,7 +248,8 @@
                                             <!-- Email Input -->
                                             <div class="col-md-7">
                                                 <app-input-field formControlName="email" uniqueFiled="true"
-                                                    label="Email" [control]="formulario.get('email')">
+                                                    [showMaxLength]="false" label="Email"
+                                                    [control]="formulario.get('email')">
                                                 </app-input-field>
                                             </div>
                                         </div>
