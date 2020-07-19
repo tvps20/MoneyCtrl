@@ -178,7 +178,7 @@
                                             </tbody>
                                         </table>
                                         <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
-                                            [pageSizeOptions]="[5, 10, 25, 100]"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexDividasAtivas"
                                             (page)="changeListDividasAtivas($event)">
                                         </mat-paginator>
                                     </div>
@@ -246,7 +246,8 @@
                                             </tbody>
                                         </table>
                                         <mat-paginator [length]="lengthDividasOlds" [pageSize]="pageSizeDividasOlds"
-                                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividasOlds($event)">
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexDividasOlds"
+                                            (page)="changeListDividasOlds($event)">
                                         </mat-paginator>
                                     </div>
                                     <div *ngIf="dividasOlds.length < 1">

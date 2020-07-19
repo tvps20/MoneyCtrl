@@ -118,19 +118,26 @@ export class UserCompradorComponent extends BaseFormListComponent implements OnI
                     }
                 )
             } else {
-                this.userCompradorService.deleteUser(this.entitySelecionada.id).subscribe(
-                    success => {
-                        this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
-                    },
-                    error => {
-                        this.alertServiceService.ShowAlertDanger(error.error.message);
-                    },
-                    () => {
-                        this.usuarios$ = this.listAllUsers();
-                        this.compradores$ = this.listAllCompradores();
-                        this.entitySelecionada = null;
-                    }
-                )
+                console.log(this.entitySelecionada.username)
+                console.log(this.entitySelecionada.username !== 'admin')
+                if(this.entitySelecionada.username !== 'admin20'){
+                    this.userCompradorService.deleteUser(this.entitySelecionada.id).subscribe(
+                        success => {
+                            this.alertServiceService.ShowAlertSuccess("Usuário apagado com sucesso.");
+                        },
+                        error => {
+                            this.alertServiceService.ShowAlertDanger(error.error.message);
+                        },
+                        () => {
+                            this.usuarios$ = this.listAllUsers();
+                            this.compradores$ = this.listAllCompradores();
+                            this.entitySelecionada = null;
+                        }
+                    )
+                } else{
+                    this.alertServiceService.ShowAlertWarning("O admin padrão do sistema não pode ser apagado.");
+                    this.entitySelecionada = null;
+                }
             }
         }
     }
