@@ -34,22 +34,24 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">attach_money</i>
+                <a routerLink="/dividas">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">attach_money</i>
+                            </div>
+                            <p class="card-category">Dividas Ativas</p>
+                            <h3 class="card-title">{{ comprador.totalDividas | currency:'BRL' }}</h3>
+                            <br />
                         </div>
-                        <p class="card-category">Dividas Ativas</p>
-                        <h3 class="card-title">{{ comprador.totalDividas | currency:'BRL' }}</h3>
-                        <br />
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">local_offer</i> Credito disponível:
-                            {{ comprador.totalCreditos | currency:'BRL' }}.
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">local_offer</i> Credito disponível:
+                                {{ comprador.totalCreditos | currency:'BRL' }}.
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
         <div class="row">
