@@ -1,4 +1,4 @@
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 import { Observable, Subject, empty } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -136,6 +136,7 @@ export class CompradorDetailComponent extends BaseFormListComponent implements O
 
     private listAllCompradorCotas(){
         return this.compradroService.listAllCotas(this.comprador.id).pipe(
+            map((dados: CotaComprador[]) => dados.sort((a, b) => a.cotas.length < b.cotas.length ? 1 : -1)),
             catchError(error => {
                 this.errorCotas$.next(true);
                 return empty();

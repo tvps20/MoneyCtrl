@@ -156,7 +156,7 @@
                                                     <td class="text-primary">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above" data-toggle="modal"
-                                                            data-target="#detalhesModalDivida"
+                                                            data-target="#modalDivida"
                                                             (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
@@ -236,7 +236,7 @@
                                                     <td>
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above" data-toggle="modal"
-                                                            data-target="#detalhesModalDivida"
+                                                            data-target="#modalDivida"
                                                             (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
@@ -352,7 +352,7 @@
 <app-modal-aviso identificador="modalExcluirDivida" (confimaModal)="onDelete($event)"></app-modal-aviso>
 
 <!-- Modal de detalhes do Divida -->
-<app-modal-divida [divida]="entitySelecionada"></app-modal-divida>
+<app-modal-divida identificador="modalDivida" [divida]="entitySelecionada"></app-modal-divida>
 
 <!-- Modal de pagamentos -->
 <app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"

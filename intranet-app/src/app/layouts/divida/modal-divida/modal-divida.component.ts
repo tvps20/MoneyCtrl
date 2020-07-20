@@ -10,6 +10,7 @@ import { Divida } from './../../../shared/models/divida';
 export class ModalDividaComponent implements OnInit {
 
     @Input() divida: Divida;
+    @Input() identificador = "modalDivida";
 
     constructor() { }
 

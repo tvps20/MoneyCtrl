@@ -55,6 +55,7 @@ export class FaturaDetailComponent extends BaseFormListComponent implements OnIn
 
     ngOnInit(): void {
         this.fatura = this.route.snapshot.data['fatura'];
+        console.log(this.fatura)
         this.formulario = this.createForm();
         this.faturaCotas$ = this.listAllFaturaCotas();
         this.compradorSelect$ = this.listAllCompradores();

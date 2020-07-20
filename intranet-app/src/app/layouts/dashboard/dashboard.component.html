@@ -155,7 +155,8 @@
                                     <th>Compras</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let cota of cotaCartao.cotas">
+                                    <tr *ngFor="let cota of cotaCartao.cotas" data-toggle="modal"
+                                        data-target="#modalCotas" (click)="onSelectedEntity(cota)">
                                         <td>{{ cota.compradorNome }}</td>
                                         <td>{{ cota.valorTotal  | currency:'BRL' }}</td>
                                         <td>{{ cota.cotas.length }}</td>
@@ -173,3 +174,6 @@
 <!-- Modal de pagamentos -->
 <app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"
     [divida]="entitySelecionada"></app-modal-pagamento>
+
+<!-- Modal de cotas -->
+<app-modal-cotas identificador="modalCotas" [cotaFatura]="entitySelecionada"></app-modal-cotas>

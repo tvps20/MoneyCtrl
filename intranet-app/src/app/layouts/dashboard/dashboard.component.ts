@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
 
-import { CotaCartao } from './../../shared/models/cota';
+import { CotaCartao, CotaFatura } from './../../shared/models/cota';
 
 import { AlertService } from './../../shared/services/alert-service.service';
 import { CartaoService } from './../cartao/services/cartao.service';
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     public cartaoCotas$: Observable<CotaCartao[]>;
     public dividasAtivas$: Observable<Divida[]>;
     public totalPagamentos = 0;
-    public entitySelecionada: Divida;
+    public entitySelecionada: Divida | CotaFatura;
     public faturaAtivasLength = 0;
     public DividasAtivasLength = 0;
     public errorDividasAtivas$ = new Subject<boolean>();
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.dividasAtivas$ = this.listAllDividasAtivas();
     }
 
-    public onSelectedEntity(entity: Divida) {
+    public onSelectedEntity(entity: Divida | CotaFatura) {
         this.entitySelecionada = entity;
     }
 
