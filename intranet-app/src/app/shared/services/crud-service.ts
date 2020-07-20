@@ -7,7 +7,7 @@ import { AlertService } from './alert-service.service';
 export abstract class CrudService<T> {
 
     constructor(protected http: HttpClient, protected API_URL, protected alertService: AlertService) {
-       // this.API_URL = `https://moneyctrl-api.herokuapp.com${this.API_URL}`;
+       this.API_URL = `https://moneyctrl-api.herokuapp.com${this.API_URL}`;
     }
 
     public listAll() {
