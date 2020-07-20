@@ -6,11 +6,13 @@ import { DashboardComponent } from './dashboard.component';
 
 import { SharedImportModule } from 'src/app/shared/imports/shared-import.module';
 import { ComponentsModule } from './../../shared/components/components.module';
+import { ModalCotasComponent } from './../dashboard/modal-cotas/modal-cotas.component';
 
 
 @NgModule({
     declarations: [
-        DashboardComponent
+        DashboardComponent,
+        ModalCotasComponent
     ],
     imports: [
         CommonModule,

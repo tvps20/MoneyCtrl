@@ -93,10 +93,11 @@ public class CompradorController extends BaseController<Comprador, CompradorDTO>
 	public ResponseEntity<CreditoDTO> inserirCredito(@PathVariable Long compradorId,
 			@Valid @RequestBody CreditoDTO objDTO) {
 		log.info("[POST] - Salvando um novo credito. Dto: " + objDTO.toString());
-		this.service.findById(compradorId);
+//		this.service.findById(compradorId);
 		objDTO.setCompradorId(compradorId);
 		Credito obj = this.creditoService.fromDTO(objDTO);
 		obj = this.creditoService.insert(obj);
+		
 		log.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("comprador/credito/{id}")
 				.buildAndExpand(obj.getId()).toUri();

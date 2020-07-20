@@ -156,7 +156,7 @@
                                                     <td class="text-primary">
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above" data-toggle="modal"
-                                                            data-target="#detalhesModalDivida"
+                                                            data-target="#modalDivida"
                                                             (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
@@ -178,7 +178,7 @@
                                             </tbody>
                                         </table>
                                         <mat-paginator [length]="lengthDividasAtivas" [pageSize]="pageSizeDividasAtivas"
-                                            [pageSizeOptions]="[5, 10, 25, 100]"
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexDividasAtivas"
                                             (page)="changeListDividasAtivas($event)">
                                         </mat-paginator>
                                     </div>
@@ -236,24 +236,18 @@
                                                     <td>
                                                         <button mat-raised-button type="button" matTooltip="Detalhes"
                                                             matTooltipPosition="above" data-toggle="modal"
-                                                            data-target="#detalhesModalDivida"
+                                                            data-target="#modalDivida"
                                                             (click)="onSelectedEntity(divida)"
                                                             class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                             <i class="material-icons">description</i>
-                                                        </button>
-                                                        <button mat-raised-button type="button" matTooltip="Excluir"
-                                                            matTooltipPosition="above"
-                                                            (click)="onSelectedEntity(divida)" data-toggle="modal"
-                                                            data-target="#modalExcluirDivida"
-                                                            class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                            <i class="material-icons">close</i>
                                                         </button>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <mat-paginator [length]="lengthDividasOlds" [pageSize]="pageSizeDividasOlds"
-                                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="changeListDividasOlds($event)">
+                                            [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndexDividasOlds"
+                                            (page)="changeListDividasOlds($event)">
                                         </mat-paginator>
                                     </div>
                                     <div *ngIf="dividasOlds.length < 1">
@@ -358,7 +352,7 @@
 <app-modal-aviso identificador="modalExcluirDivida" (confimaModal)="onDelete($event)"></app-modal-aviso>
 
 <!-- Modal de detalhes do Divida -->
-<app-modal-divida [divida]="entitySelecionada"></app-modal-divida>
+<app-modal-divida identificador="modalDivida" [divida]="entitySelecionada"></app-modal-divida>
 
 <!-- Modal de pagamentos -->
 <app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"

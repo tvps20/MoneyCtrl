@@ -1,4 +1,5 @@
-import { StatusType, EntityType } from './../util/enuns-type.enum';
+import { EntityType } from './../util/enuns-type.enum';
+import { Lancamento } from './lancamento';
 import { BaseEntity } from './baseEntity';
 
 export class Cota extends BaseEntity {
@@ -7,7 +8,7 @@ export class Cota extends BaseEntity {
     public compradorId: number;
     public compradorNome: string;
     public lancamentoId: number;
-    public lancamento: StatusType;
+    public lancamento: Lancamento;
 
     constructor(id: number, valor: number, compradorId: number){
         super(id);

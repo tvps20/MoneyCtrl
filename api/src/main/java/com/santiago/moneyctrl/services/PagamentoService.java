@@ -30,6 +30,7 @@ public class PagamentoService extends BaseService<Pagamento, PagamentoDTO> {
 
 	public PagamentoService(PagamentoRepository repository) {
 		super(repository);
+		this.entityName = "Pagamento";
 		BaseService.baseLog = PagamentoService.log;
 	}
 

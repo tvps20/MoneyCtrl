@@ -24,6 +24,7 @@ import com.santiago.moneyctrl.domain.Lancamento;
 import com.santiago.moneyctrl.dtos.CotaDTO;
 import com.santiago.moneyctrl.dtos.LancamentoDTO;
 import com.santiago.moneyctrl.endpoints.enuns.TipoEndPoint;
+import com.santiago.moneyctrl.services.CompradorService;
 import com.santiago.moneyctrl.services.CotaService;
 import com.santiago.moneyctrl.services.LancamentoService;
 
@@ -36,6 +37,8 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 
 	@Autowired
 	private CotaService cotaService;
+	@Autowired
+	private CompradorService compradorService;
 
 	@Autowired
 	public LancamentoController(LancamentoService service) {
@@ -83,7 +86,9 @@ public class LancamentoController extends BaseController<Lancamento, LancamentoD
 	public ResponseEntity<CotaDTO> inserirCota(@PathVariable Long lancamentoId, @Valid @RequestBody CotaDTO objDTO) {
 		log.info("[POST] - Salvando uma nova Cota. Dto: " + objDTO.toString());
 		this.service.findById(lancamentoId);
-		objDTO.setLancamento(new LancamentoDTO(lancamentoId));
+		this.compradorService.findById(objDTO.getCompradorId());
+		objDTO.setLancamentoId(lancamentoId);
+//		objDTO.setLancamento(new LancamentoDTO(lancamentoId));
 		Cota obj = this.cotaService.fromDTO(objDTO);
 		obj = this.cotaService.insert(obj);
 

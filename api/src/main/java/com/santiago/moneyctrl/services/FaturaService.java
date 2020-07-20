@@ -18,6 +18,7 @@ import com.santiago.moneyctrl.domain.Comprador;
 import com.santiago.moneyctrl.domain.Divida;
 import com.santiago.moneyctrl.domain.Fatura;
 import com.santiago.moneyctrl.domain.Lancamento;
+import com.santiago.moneyctrl.domain.enuns.TipoMes;
 import com.santiago.moneyctrl.domain.enuns.TipoStatus;
 import com.santiago.moneyctrl.dtos.CotaDTO;
 import com.santiago.moneyctrl.dtos.CotaFaturaDTO;
@@ -42,6 +43,7 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 
 	public FaturaService(FaturaRepository repository) {
 		super(repository);
+		this.entityName = "Fatura";
 		BaseService.baseLog = FaturaService.log;
 	}
 
@@ -145,7 +147,8 @@ public class FaturaService extends BaseService<Fatura, FaturaDTO> {
 	private Fatura gerarProximaFatura(Fatura faturaAtual) {
 		log.info("[GerarNovaFatura] - Gerando nova fatura.");
 		LocalDateTime vencimento = faturaAtual.getVencimento().plusMonths(1);
-		Fatura novaFatura = new Fatura(null, vencimento, faturaAtual.getCartao());
+		TipoMes mesReferente = faturaAtual.getMesReferente() == TipoMes.DEZEMBRO ? TipoMes.JANEIRO : TipoMes.toEnum(faturaAtual.getMesReferente().getCod() + 1) ;
+		Fatura novaFatura = new Fatura(null, vencimento, mesReferente, faturaAtual.getCartao());
 		novaFatura.setLancamentos(this.lancamentoService.gerarLancamentosFuturos(faturaAtual.getLancamentos(), novaFatura));
 
 		log.info("[GeraNovaFatura] - Nova fatura gerada com sucesso.");

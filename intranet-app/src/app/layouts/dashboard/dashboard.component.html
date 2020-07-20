@@ -34,36 +34,40 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">attach_money</i>
+                <a routerLink="/dividas">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">attach_money</i>
+                            </div>
+                            <p class="card-category">Dividas Ativas</p>
+                            <h4 class="card-title">{{ DividasAtivasLength }}</h4>
                         </div>
-                        <p class="card-category">Dividas Ativas</p>
-                        <h4 class="card-title">{{ DividasAtivasLength }}</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">update</i> Atualizado
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">update</i> Atualizado
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-info card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">picture_as_pdf</i>
+                <a  routerLink="/faturas">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-info card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">picture_as_pdf</i>
+                            </div>
+                            <p class="card-category">Faturas Ativas</p>
+                            <h4 class="card-title">{{ faturaAtivasLength }}</h4>
                         </div>
-                        <p class="card-category">Faturas Ativas</p>
-                        <h4 class="card-title">{{ faturaAtivasLength }}</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i> {{ mesReferente }}
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">date_range</i> {{ mesReferente }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -155,7 +159,8 @@
                                     <th>Compras</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let cota of cotaCartao.cotas">
+                                    <tr *ngFor="let cota of cotaCartao.cotas" data-toggle="modal"
+                                        data-target="#modalCotas" (click)="onSelectedEntity(cota)">
                                         <td>{{ cota.compradorNome }}</td>
                                         <td>{{ cota.valorTotal  | currency:'BRL' }}</td>
                                         <td>{{ cota.cotas.length }}</td>
@@ -173,3 +178,6 @@
 <!-- Modal de pagamentos -->
 <app-modal-pagamento identificador="modalPagamentoDivida" (realizaPagamento)="onRefreshList($event)"
     [divida]="entitySelecionada"></app-modal-pagamento>
+
+<!-- Modal de cotas -->
+<app-modal-cotas identificador="modalCotas" [cotaFatura]="entitySelecionada"></app-modal-cotas>

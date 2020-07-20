@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, empty, Subject } from 'rxjs';
 
-import { CotaCartao } from './../../shared/models/cota';
+import { CotaCartao, CotaFatura } from './../../shared/models/cota';
 
 import { AlertService } from './../../shared/services/alert-service.service';
 import { CartaoService } from './../cartao/services/cartao.service';
@@ -21,11 +21,11 @@ export class DashboardComponent implements OnInit {
     public dataAtual = new Date();
     public totalFaturas = 0;
     public totalDividas = 0;
-    public mesReferente: string;
+    public mesReferente = 'Sem faturas ativas.';
     public cartaoCotas$: Observable<CotaCartao[]>;
     public dividasAtivas$: Observable<Divida[]>;
     public totalPagamentos = 0;
-    public entitySelecionada: Divida;
+    public entitySelecionada: Divida | CotaFatura;
     public faturaAtivasLength = 0;
     public DividasAtivasLength = 0;
     public errorDividasAtivas$ = new Subject<boolean>();
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         this.dividasAtivas$ = this.listAllDividasAtivas();
     }
 
-    public onSelectedEntity(entity: Divida) {
+    public onSelectedEntity(entity: Divida | CotaFatura) {
         this.entitySelecionada = entity;
     }
 
@@ -61,10 +61,10 @@ export class DashboardComponent implements OnInit {
             map((dados: CotaCartao[]) => dados.sort((a, b) => a.cotas.length < b.cotas.length ? 1 : -1)),
             tap((dados: CotaCartao[]) => this.faturaAtivasLength = dados.length),
             tap((dados: CotaCartao[]) => dados.map(cotaCartao => auxValorTotalCotas += cotaCartao.valorTotal )),
-            tap((dados: CotaCartao[]) => dados.length > 0 ? this.mesReferente = dados[0].faturaMes : this.mesReferente = 'Sem fatura ativas.'),
+            tap((dados: CotaCartao[]) => dados.length > 0 ? this.mesReferente = dados[0].faturaMes : ''),
             tap(() => this.totalFaturas = auxValorTotalCotas),
             catchError(error => {
-                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações dos cartões no servidor.')
+                this.alertServiceService.ShowAlertDanger('Ocorreu um erro ao buscar informações dos cartões no servidor.');
                 return empty();
             })
         )

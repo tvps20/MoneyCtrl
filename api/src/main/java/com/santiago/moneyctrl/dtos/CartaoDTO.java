@@ -26,13 +26,13 @@ public class CartaoDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@CustomUnique(classType = CartaoService.class)
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
 	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
 	private String nome;
 	
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	protected BandeiraDTO bandeira;
 
 	@Getter

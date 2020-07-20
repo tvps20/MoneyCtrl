@@ -17,14 +17,14 @@ import { FormValidations } from 'src/app/shared/util/form-validations';
 import { CompradorService } from './../../../user-comprador/services/comprador.service';
 import { LancamentoService } from './../../services/lancamento.service';
 import { ValidFormsService } from './../../../../shared/services/valid-forms.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-fatura-detail',
     templateUrl: './fatura-detail.component.html',
     styleUrls: ['./fatura-detail.component.css'],
 })
-export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
+export class FaturaDetailComponent extends BaseFormListComponent implements OnInit {
 
     public step = 0;
     public fatura: Fatura;
@@ -55,6 +55,7 @@ export class FaturaDetailComponent extends BaseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.fatura = this.route.snapshot.data['fatura'];
+        console.log(this.fatura)
         this.formulario = this.createForm();
         this.faturaCotas$ = this.listAllFaturaCotas();
         this.compradorSelect$ = this.listAllCompradores();

@@ -12,15 +12,15 @@ import { FormValidations } from 'src/app/shared/util/form-validations';
 import { AlertService } from './../../shared/services/alert-service.service';
 import { CartaoService } from './services/cartao.service';
 import { BandeiraService } from './services/bandeira.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-cartao',
     templateUrl: './cartao.component.html',
     styleUrls: ['./cartao.component.css']
 })
-export class CartaoComponent extends BaseFormComponent implements OnInit {
+export class CartaoComponent extends BaseFormListComponent implements OnInit {
 
     public cartoes$: Observable<Cartao[]>;
     public bandeiras$: Observable<Bandeira[]>;

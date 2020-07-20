@@ -42,12 +42,4 @@ export class ContatoComponent extends BaseFormComponent implements OnInit {
     public defaultValuesForms() {
         throw new Error("Method not implemented.");
     }
-
-    public onSelectedEntity(entity: any) {
-        throw new Error("Method not implemented.");
-    }
-
-    public onDelete(event: any) {
-        throw new Error("Method not implemented.");
-    }
 }
