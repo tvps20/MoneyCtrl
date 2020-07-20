@@ -32,6 +32,7 @@ public class CartaoService extends BaseService<Cartao, CartaoDTO> implements ISe
 
 	public CartaoService(CartaoRepository repository) {
 		super(repository);
+		this.entityName = "Cartao";
 		BaseService.baseLog = CartaoService.log;
 	}
 

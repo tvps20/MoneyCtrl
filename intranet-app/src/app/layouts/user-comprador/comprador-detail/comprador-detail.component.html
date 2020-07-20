@@ -1,7 +1,61 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)" matTooltip="Mais informações"
+                            matTooltipPosition="above">
+                            <img class="img" src="../../../../assets/img/faces/marc.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title text-gray">
+                            {{ comprador.nome + ' ' + (comprador.sobrenome ? comprador.sobrenome : '') }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">shop</i>
+                        </div>
+                        <p class="card-category">Compras</p>
+                        <h3 class="card-title">{{ comprador.totalDividas | currency:'BRL' }}</h3>
+                        <br />
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i>Compras realizadas:
+                            {{ comprador.lancamentos.length }}.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <a routerLink="/dividas">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">attach_money</i>
+                            </div>
+                            <p class="card-category">Dividas Ativas</p>
+                            <h3 class="card-title">{{ comprador.totalDividas | currency:'BRL' }}</h3>
+                            <br />
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">local_offer</i> Credito disponível:
+                                {{ comprador.totalCreditos | currency:'BRL' }}.
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-tabs card-header-info">
                         <div class="nav-tabs-navigation">
@@ -173,7 +227,8 @@
                             </div>
                             <div class="tab-pane" id="adicionar">
                                 <div class="card-body">
-                                    <form  *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
+                                    <form *ngIf="showForm" [formGroup]="formulario" (ngSubmit)="onSubmit()"
+                                        autocomplete="off">
                                         <div class="row">
                                             <!-- Descricao Input -->
                                             <div class="col-md-8">
@@ -270,26 +325,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-profile">
-                    <div class="card-avatar">
-                        <a href="javascript:void(0)">
-                            <img class="img" src="../../../../assets/img/faces/marc.jpg" />
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-category text-gray">{{ comprador.tipo }}</h6>
-                        <h4 class="card-title">
-                            {{ comprador.nome + ' ' + (comprador.sobrenome ? comprador.sobrenome : '') }}</h4>
-                        <p class="card-description">
-                            Total de compras: {{ comprador.lancamentos.length }}<br />
-                            Dividas Ativas: {{ comprador.totalDividas | currency:'BRL' }}<br />
-                            Credito Disponível: {{ comprador.totalCreditos | currency:'BRL' }}
-                        </p>
-                        <a href="javascript:void(0)" class="btn btn-info btn-round">Imprimir</a>
                     </div>
                 </div>
             </div>

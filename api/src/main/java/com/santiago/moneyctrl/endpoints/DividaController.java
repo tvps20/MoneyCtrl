@@ -109,9 +109,11 @@ public class DividaController extends BaseController<Divida, DividaDTO> {
 	public ResponseEntity<PagamentoDTO> insertPagamento(@PathVariable Long dividaId,
 			@Valid @RequestBody PagamentoDTO objDTO) {
 		log.info("[POST] - Salvando um novo Pagamento. Dto: " + objDTO.toString());
+		this.service.findById(dividaId);
 		objDTO.setDividaId(dividaId);
 		Pagamento obj = this.pagamentoService.fromDTO(objDTO);
 		obj = this.pagamentoService.insert(obj);
+		
 		log.info("[POST] - Criando uri.");
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().replacePath("dividas/pagamentos/{id}")
 				.buildAndExpand(obj.getId()).toUri();

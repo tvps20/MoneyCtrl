@@ -11,15 +11,15 @@ import { AlertService } from './../../shared/services/alert-service.service';
 import { DividaService } from './services/divida.service';
 import { FormValidations } from './../../shared/util/form-validations';
 import { CompradorService } from './../user-comprador/services/comprador.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
 import { ValidFormsService } from './../../shared/services/valid-forms.service';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-divida',
     templateUrl: './divida.component.html',
     styleUrls: ['./divida.component.css']
 })
-export class DividaComponent extends BaseFormComponent implements OnInit {
+export class DividaComponent extends BaseFormListComponent implements OnInit {
 
     public devedores: Comprador[];
     public devedores$: Observable<Comprador[]>;

@@ -24,6 +24,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 	 * Repositorio interno
 	 */
 	protected JpaRepository<T, Long> repository;
+	protected String entityName = "Entity"; 
 
 	protected static Logger baseLog = LoggerFactory.getLogger(BaseService.class);
 
@@ -58,8 +59,7 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 
 		if (!obj.isPresent()) {
 			baseLog.error("[FindById] - Entidade não encontada.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
-					this.getClass());
+			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFountId(this.entityName, id));
 		}
 
 		baseLog.info("[FindById] - Entidade encontrada com sucesso.");
@@ -106,8 +106,8 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			return entitySalva;
 
 		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Insert] - Erro ao tentar salvar entidade.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+			baseLog.error("[Insert] - Erro ao tentar salvar " + this.entityName + ".");
+			throw new DataIntegrityException(MensagemUtil.erroObjInsert(this.entityName));
 		}
 	}
 
@@ -129,12 +129,8 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			return entityAtualizada;
 
 		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Update] - Erro ao tentar apagar entidade.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
-		} catch (ObjectNotFoundException ex) {
-			baseLog.error("[Update] - Erro ao tentar buscar entidade.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(entity.getId(), this.getClass().getName()),
-					this.getClass());
+			baseLog.error("[Update] - Erro ao tentar atualizar " + this.entityName + ".");
+			throw new DataIntegrityException(MensagemUtil.erroObjUpdate(this.entityName, entity.getId()));
 		}
 	}
 
@@ -152,13 +148,9 @@ public abstract class BaseService<T extends BaseEntity, K extends BaseDTO> imple
 			baseLog.info("[Delete] - Entidade apagada com sucesso.");
 
 		} catch (DataIntegrityViolationException ex) {
-			baseLog.error("[Delete] - Erro ao tentar apagar entidade.");
-			throw new DataIntegrityException(MensagemUtil.erroObjDelete(this.getClass().getName()));
-		} catch (ObjectNotFoundException ex) {
-			baseLog.error("[Delete] - Erro ao tentar buscar entidade.");
-			throw new ObjectNotFoundException(MensagemUtil.erroObjNotFount(id, this.getClass().getName()),
-					this.getClass());
-		}
+			baseLog.error("[Delete] - Erro ao tentar apagar " + this.entityName + ".");
+			throw new DataIntegrityException(MensagemUtil.erroObjDelete(this.entityName, id));
+		} 
 	}
 
 	/**

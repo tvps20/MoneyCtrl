@@ -33,14 +33,14 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 5, max = 20, message = "{validation.erro.model.length.nome}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
+	@Length(min = 5, max = 20, message = "{validation.erro.model.length.descricao}")
 	private String descricao;
 
 	@Getter
 	@Setter
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	private LocalDateTime dataDivida = LocalDateTime.now();
 
 	@Getter
@@ -49,7 +49,7 @@ public class DividaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	private Long compradorId;
 
 	@Getter

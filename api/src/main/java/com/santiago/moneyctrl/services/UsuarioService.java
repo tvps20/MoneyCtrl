@@ -15,6 +15,7 @@ public class UsuarioService extends BaseService<Usuario, UsuarioDTO> implements 
 
 	public UsuarioService(UsuarioRepository repository) {
 		super(repository);
+		this.entityName = "Usuário";
 		BaseService.baseLog = UsuarioService.log;
 	}
 

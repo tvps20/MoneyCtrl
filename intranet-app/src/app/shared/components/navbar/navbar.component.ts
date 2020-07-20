@@ -50,26 +50,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['auth']);
     }
 
-    sidebarOpen() {
-        const toggleButton = this.toggleButton;
-        const body = document.getElementsByTagName('body')[0];
-        setTimeout(function () {
-            toggleButton.classList.add('toggled');
-        }, 500);
-
-        body.classList.add('nav-open');
-
-        this.sidebarVisible = true;
-    };
-
-    sidebarClose() {
-        const body = document.getElementsByTagName('body')[0];
-        this.toggleButton.classList.remove('toggled');
-        this.sidebarVisible = false;
-        body.classList.remove('nav-open');
-    };
-
-    sidebarToggle() {
+    public sidebarToggle() {
         // const toggleButton = this.toggleButton;
         // const body = document.getElementsByTagName('body')[0];
         var $toggle = document.getElementsByClassName('navbar-toggler')[0];
@@ -127,6 +108,25 @@ export class NavbarComponent implements OnInit {
         }
     };
 
+    private sidebarOpen() {
+        const toggleButton = this.toggleButton;
+        const body = document.getElementsByTagName('body')[0];
+        setTimeout(function () {
+            toggleButton.classList.add('toggled');
+        }, 500);
+
+        body.classList.add('nav-open');
+
+        this.sidebarVisible = true;
+    };
+
+    private sidebarClose() {
+        const body = document.getElementsByTagName('body')[0];
+        this.toggleButton.classList.remove('toggled');
+        this.sidebarVisible = false;
+        body.classList.remove('nav-open');
+    };
+
     public getTitle() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
         var makerTitle = "";
@@ -143,7 +143,7 @@ export class NavbarComponent implements OnInit {
 
             for (var item = 0; item < this.listTitlesChildren.length; item++) {
                 if (this.listTitlesChildren[item].path.split("/")[1] === titlee.split("/")[1]) {
-                    makerTitle +=  " > Detalhes";
+                    makerTitle += " > Detalhes";
                 }
             }
         } else {

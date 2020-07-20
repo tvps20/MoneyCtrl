@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="card card-stats">
+                <div class="card card-stats" routerLink="/dividas">
                     <div class="card-header card-header-danger card-header-icon">
                         <div class="card-icon">
                             <i class="material-icons">event_available</i>
@@ -63,7 +63,9 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">info</i>{{ fatura.status === 'ABERTA' ? 'Aceita ' : 'Não aceita '}} novos lançamentos
+                            <i
+                                class="material-icons">info</i>{{ fatura.status === 'ABERTA' ? 'Aceita ' : 'Não aceita '}}
+                            novos lançamentos
                         </div>
                     </div>
                 </div>
@@ -75,12 +77,11 @@
                             <i class="material-icons">info</i>
                         </div>
                         <p class="card-category">Observação</p>
-                        <h4 class="card-title">Nenhuma</h4>
+                        <h4 class="card-title">{{ fatura.observacao ? fatura.observacao : 'Nenhuma' }}</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">more</i>
-                            <a href="javascript:void(0)">Mais informações</a>
+                            <i class="material-icons">credit_card</i> Cartão {{ fatura.cartaoNome }}
                         </div>
                     </div>
                 </div>
@@ -151,7 +152,9 @@
                                                         <th>Parcela</th>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let cota of cotaFatura.cotas">
+                                                        <tr *ngFor="let cota of cotaFatura.cotas"
+                                                            [ngClass]="{'text-warning': (cota.lancamento.tipoLancamento === 'ASSINATURA'),
+                                                        'text-info': ((cota.lancamento.parcelaAtual === cota.lancamento.qtdParcelas) && (cota.lancamento.tipoLancamento !== 'ASSINATURA'))}">
                                                             <td>{{ cota.lancamento.descricao }}</td>
                                                             <td>{{ cota.valor | currency:'BRL' }}</td>
                                                             <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : (cota.lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
@@ -197,7 +200,10 @@
                                                 <td>{{ lancamento.descricao }}</td>
                                                 <td>{{ lancamento.dataCompra | date: 'dd/MM/yyyy' }}</td>
                                                 <td>{{ lancamento.valorTotal | currency:'BRL' }}</td>
-                                                <td>{{ lancamento.tipoLancamento === 'PARCELADO' ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : (lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
+                                                <td [ngClass]="{'font-weight-bold': true,
+                                                    'text-warning': (lancamento.tipoLancamento === 'ASSINATURA'),
+                                                    'text-info': ((lancamento.parcelaAtual === lancamento.qtdParcelas) && (lancamento.tipoLancamento !== 'ASSINATURA'))}">
+                                                    {{ lancamento.tipoLancamento === 'PARCELADO' ? (lancamento.parcelaAtual + '/' + lancamento.qtdParcelas) : (lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
                                                 </td>
                                                 <td>{{ lancamento.cotas.length }}</td>
                                                 <td class="text-primary">

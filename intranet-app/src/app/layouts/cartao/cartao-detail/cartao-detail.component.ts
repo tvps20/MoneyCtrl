@@ -13,14 +13,14 @@ import { AlertService } from './../../../shared/services/alert-service.service';
 import { FaturaService } from './../services/fatura.service';
 import { CartaoService } from './../services/cartao.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-cartao-detail',
     templateUrl: './cartao-detail.component.html',
     styleUrls: ['./cartao-detail.component.css']
 })
-export class CartaoDetailComponent extends BaseFormComponent implements OnInit {
+export class CartaoDetailComponent extends BaseFormListComponent implements OnInit {
 
     public cartao: Cartao;
     public months$: Observable<any[]>;

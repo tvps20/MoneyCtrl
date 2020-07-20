@@ -21,26 +21,30 @@ public final class MensagemUtil {
 	}
 
 	// Metodos
-	public static String erroObjNotFount(Long id, String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound"), id, claseNome);
+	public static String erroObjNotFountId(String entity, Long id) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound.id"), entity, id);
 	}
 
-	public static String erroObjNotFount(Long id, String campo, String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound.campo"), id, campo, claseNome);
+	public static String erroObjNotFountCampo(String campo, Long id) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.notFound.campo"), campo, id);
 	}
 
-	public static String erroObjDelete(String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.excluir"), claseNome);
+	public static String erroObjDelete(String entity, Long id) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.excluir"), entity, id);
 	}
 
-	public static String erroObjInserir(String claseNome) {
-		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.inserir"), claseNome);
+	public static String erroObjInsert(String entity) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.inserir"), entity);
+	}
+
+	public static String erroObjUpdate(String entity, Long id) {
+		return MessageFormat.format(resourceBundle.getString("mensagem.erro.obj.update"), entity, id);
 	}
 
 	public static String erroEnumMes(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.mes"), tipo);
 	}
-	
+
 	public static String erroEnumLancamento(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.lancamento"), tipo);
 	}
@@ -52,11 +56,11 @@ public final class MensagemUtil {
 	public static String erroEnumPerfil(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.perfil"), tipo);
 	}
-	
+
 	public static String erroEnumAcesso(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.acesso"), tipo);
 	}
-	
+
 	public static String erroEnumEntity(String tipo) {
 		return MessageFormat.format(resourceBundle.getString("mensagem.erro.enum.entity"), tipo);
 	}

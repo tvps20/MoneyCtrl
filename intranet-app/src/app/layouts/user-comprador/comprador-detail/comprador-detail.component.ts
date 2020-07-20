@@ -1,4 +1,4 @@
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 import { Observable, Subject, empty } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,21 +8,21 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Divida } from './../../../shared/models/divida';
 import { Credito } from './../../../shared/models/credito';
 import { Comprador } from './../../../shared/models/comprador';
+import { EntityType } from 'src/app/shared/util/enuns-type.enum';
 import { CotaComprador } from './../../../shared/models/cota';
 import { FormValidations } from './../../../shared/util/form-validations';
 
 import { AlertService } from './../../../shared/services/alert-service.service';
 import { CompradorService } from './../services/comprador.service';
 import { ValidFormsService } from './../../../shared/services/valid-forms.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
-import { EntityType } from 'src/app/shared/util/enuns-type.enum';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
 
 @Component({
     selector: 'app-comprador-detail',
     templateUrl: './comprador-detail.component.html',
     styleUrls: ['./comprador-detail.component.css']
 })
-export class CompradorDetailComponent extends BaseFormComponent implements OnInit {
+export class CompradorDetailComponent extends BaseFormListComponent implements OnInit {
 
     public dividas: Divida[];
     public creditos: Credito[];
@@ -136,6 +136,7 @@ export class CompradorDetailComponent extends BaseFormComponent implements OnIni
 
     private listAllCompradorCotas(){
         return this.compradroService.listAllCotas(this.comprador.id).pipe(
+            map((dados: CotaComprador[]) => dados.sort((a, b) => a.cotas.length < b.cotas.length ? 1 : -1)),
             catchError(error => {
                 this.errorCotas$.next(true);
                 return empty();

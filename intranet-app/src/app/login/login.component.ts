@@ -1,31 +1,44 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { FormValidations } from './../shared/util/form-validations';
+import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { ValidFormsService } from './../shared/services/valid-forms.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseFormComponent implements OnInit {
 
-  public formulario: FormGroup;
+    constructor(protected validFormsService: ValidFormsService,
+        private formBuilder: FormBuilder,
+        private router: Router) {
+        super(validFormsService);
+    }
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+    ngOnInit(): void {
+        this.formulario = this.createForm();
+    }
 
-  ngOnInit(): void {
-    this.formulario = this.formBuilder.group({
-      username: [null, [Validators.required, Validators.minLength(6)]],
-      senha: [null, [Validators.required, Validators.minLength(6)]]
-    });
-  }
-
-  public onSubmit(){
-      if(this.formulario.valid){
-        // Transformando o obj em Json
-        JSON.stringify(this.formulario.value);
+    public submit() {
         this.router.navigate(['dashboard']);
-        // this.formulario.reset();
-      }
-  }
+    }
+
+    public createEntity(entity: any, msgSuccess: string, msgError: string) {
+        throw new Error("Method not implemented.");
+    }
+
+    public createForm() {
+        return this.formBuilder.group({
+            login: [null, [FormValidations.notStartNumber, Validators.required]],
+            password: [null, [Validators.required]]
+        });
+    }
+
+    public defaultValuesForms() {
+        throw new Error("Method not implemented.");
+    }
 }

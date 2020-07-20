@@ -25,15 +25,15 @@ public class UsuarioDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
 	@Length(min = 3, max = 12, message = "{validation.erro.model.length.nome}")
 	private String nome;
 	
 	@Getter
 	@Setter
 	@CustomUnique(classType = UsuarioService.class)
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 5, max = 10, message = "{validation.erro.model.length.nome}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
+	@Length(min = 5, max = 10, message = "{validation.erro.model.length.variavel}" + " 5 e 10 caracteres.")
 	private String username;
 	
 	@Getter
@@ -48,8 +48,8 @@ public class UsuarioDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 6, max = 60, message = "{validation.erro.model.length.nome}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
+	@Length(min = 6, max = 60, message = "{validation.erro.model.length.variavel}" + " 6 e 60 caracteres.")
 	private String password;
 	
 	@Getter

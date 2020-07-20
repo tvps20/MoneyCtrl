@@ -25,10 +25,6 @@ export abstract class BaseFormComponent implements OnInit {
 
     public abstract defaultValuesForms();
 
-    public abstract onSelectedEntity(entity: any);
-
-    public abstract onDelete(event: any);
-
     public reseteForm() {
         this.showForm = false;
         setTimeout(() => this.showForm = true);
@@ -58,10 +54,5 @@ export abstract class BaseFormComponent implements OnInit {
 
     public errorMessage(control: string, label: string) {
         return this.validFormsService.errorMessage(this.formulario.get(control), label);
-    }
-
-    public paginate(array: any[], page_size, page_index) {
-        // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
-        return array.slice((page_index - 1) * page_size, page_index * page_size);
     }
 }

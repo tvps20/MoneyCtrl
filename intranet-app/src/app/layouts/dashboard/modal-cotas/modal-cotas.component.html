@@ -1,0 +1,39 @@
+<div class="card card-profile">
+    <div class="modal fade" [id]="identificador" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- <div class="modal-header"> -->
+                <div class="card-avatar">
+                    <img class="img" src="../../../assets/img/divida-modal.png" />
+                </div>
+                <!-- </div> -->
+                <div class="modal-body">
+                    <h2 class="card-title">{{ cotaFatura?.compradorNome }} -
+                        {{ cotaFatura?.valorTotal | currency:'BRL' }}</h2>
+                    <p class="card-description">Assinaturas: {{ totalAssinatura | currency:'BRL' }}<br/>
+                        Acaba agora: {{ totalAcabaAgora | currency:'BRL' }}
+                    </p>
+                    <hr>
+                    <table class="table table-sm table-hover table-bordered">
+                        <thead class="text-primary">
+                            <th>Descrição</th>
+                            <th>valor</th>
+                            <th>Parcela</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cota of cotaFatura?.cotas" [ngClass]="{'text-warning': (cota.lancamento.tipoLancamento === 'ASSINATURA'),
+                            'text-info': ((cota.lancamento.parcelaAtual === cota.lancamento.qtdParcelas) && (cota.lancamento.tipoLancamento !== 'ASSINATURA'))}">
+                                <td>{{ cota.lancamento.descricao }}</td>
+                                <td>{{ cota.valor | currency:'BRL' }}</td>
+                                <td>{{ cota.lancamento.tipoLancamento === 'PARCELADO' ? (cota.lancamento.parcelaAtual + '/' + cota.lancamento.qtdParcelas) : (cota.lancamento.tipoLancamento === 'ASSINATURA' ? 'Assinatura' : '-') }}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

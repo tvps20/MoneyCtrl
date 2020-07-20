@@ -3,7 +3,6 @@ package com.santiago.moneyctrl.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CotaService extends BaseService<Cota, CotaDTO> {
 
-	@Autowired
-	private CompradorService compradorService;
-
 	public CotaService(CotaRepository repository) {
 		super(repository);
+		this.entityName = "Cota";
 		BaseService.baseLog = CotaService.log;
 	}
 
@@ -60,19 +57,8 @@ public class CotaService extends BaseService<Cota, CotaDTO> {
 
 		} catch (DataIntegrityViolationException ex) {
 			baseLog.error("[SaveAll] - Erro ao tentar salvar cotas.");
-			throw new DataIntegrityException(MensagemUtil.erroObjInserir(this.getClass().getName()));
+			throw new DataIntegrityException(MensagemUtil.erroObjInsert("Cotas"));
 		}
-	}
-
-	@Override
-	public Cota insert(Cota entity) {
-		log.info("[InsertCota] - Salvando uma nova cota.");
-
-		this.compradorService.findById(entity.getComprador().getId());
-		Cota cota = super.insert(entity);
-
-		log.info("[InsertCota] - Cota salva no bando de dados.");
-		return cota;
 	}
 
 	public List<Cota> gerarCotasFuturas(List<Cota> cotas, Lancamento novoLancamento) {

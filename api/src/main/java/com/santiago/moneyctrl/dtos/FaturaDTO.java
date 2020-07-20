@@ -26,7 +26,7 @@ public class FaturaDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	private LocalDateTime vencimento;
 
 	@Getter

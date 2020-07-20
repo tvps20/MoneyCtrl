@@ -22,7 +22,7 @@ public class CotaDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	private Long compradorId;
 	
 	@Getter

@@ -12,14 +12,15 @@ import { AlertService } from './../../../shared/services/alert-service.service';
 import { CartaoService } from './../services/cartao.service';
 import { FaturaService } from './../services/fatura.service';
 import { ValidFormsService } from 'src/app/shared/services/valid-forms.service';
-import { BaseFormComponent } from 'src/app/shared/components/base-form/base-form.component';
+import { BaseFormListComponent } from 'src/app/shared/components/base-form-list/base-form-list.component';
+
 
 @Component({
     selector: 'app-fatura',
     templateUrl: './fatura.component.html',
     styleUrls: ['./fatura.component.css']
 })
-export class FaturaComponent extends BaseFormComponent implements OnInit {
+export class FaturaComponent extends BaseFormListComponent implements OnInit {
 
     public months$: Observable<any[]>;
     public faturasOlds$: Observable<Fatura[]>;

@@ -28,7 +28,7 @@ public class CreditoDTO extends BaseDTO {
 	@Getter
 	@Setter
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@NotNull(message = "{validation.erro.model.notEmpty}")
+	@NotNull(message = "{validation.erro.model.notEmpty.campo}")
 	private LocalDateTime data = LocalDateTime.now();
 	
 	@Getter
@@ -37,8 +37,8 @@ public class CreditoDTO extends BaseDTO {
 
 	@Getter
 	@Setter
-	@NotEmpty(message = "{validation.erro.model.notEmpty}")
-	@Length(min = 5, max = 20, message = "{validation.erro.model.length.nome}")
+	@NotEmpty(message = "{validation.erro.model.notEmpty.campo}")
+	@Length(min = 5, max = 20, message = "{validation.erro.model.length.descricao}")
 	private String descricao;
 
 	@Getter

@@ -19,6 +19,7 @@ public class CreditoService extends BaseService<Credito, CreditoDTO> {
 
 	public CreditoService(CreditoRepository repository) {
 		super(repository);
+		this.entityName = "Credito";
 		BaseService.baseLog = CreditoService.log;
 	}
 
