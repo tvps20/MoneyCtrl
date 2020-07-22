@@ -34,7 +34,7 @@ public class ProdConfig {
 		log.info("[ProdConfig] - Verificando se ja existe um admin no banco de dados.");
 		boolean adminSalvo = this.usuarioRepository.verificarCampoUnico(userAdmin.getEmail());
 
-		if (!adminSalvo) {
+		if (adminSalvo) {
 			log.info("[ProdConfig] - Inserindo um admin no banco de dados. Admin: " + userAdmin.toString());
 			this.usuarioRepository.save(userAdmin);
 			log.info("[ProdConfig] - Admin inserido com sucesso.");
