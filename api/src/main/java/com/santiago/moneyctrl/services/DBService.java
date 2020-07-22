@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.santiago.moneyctrl.domain.Bandeira;
@@ -35,6 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class DBService {
+	
+	@Autowired
+	BCryptPasswordEncoder crypt;
 
 	@Autowired
 	private BandeiraRepository bandeiraRepository;
@@ -77,17 +81,17 @@ public class DBService {
 		Fatura fatura2 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), TipoMes.JANEIRO, cartao2);
 		Fatura fatura3 = new Fatura(null, LocalDateTime.of(2020, 2, 1, 0, 0), TipoMes.JANEIRO, cartao3);
 
-		Usuario user1 = new Usuario(null, "admin", "admin20", "123", TipoRoles.USUARIO, TipoRoles.ADMIN);
-		Comprador comprador1 = new Comprador(null, "Thiago", "tvps20", "123", "thiago.vps20@gmail.com");
-		Comprador comprador2 = new Comprador(null, "Filipe", "filipe20", "123", "filipe@email.com", "Santiago");
-		Comprador comprador3 = new Comprador(null, "Gilson", "gilson20", "123", "gilson@email.com", "Santiago");
-		Comprador comprador4 = new Comprador(null, "Joseilton", "joseilton20", "123");
-		Comprador comprador5 = new Comprador(null, "Amanda", "amanda20", "123");
-		Comprador comprador6 = new Comprador(null, "Sidney", "sidney20", "123");
-		Comprador comprador7 = new Comprador(null, "Harryson", "harryson20", "123");
-		Comprador comprador8 = new Comprador(null, "Evin", "evin20", "123");
-		Comprador comprador9 = new Comprador(null, "Jocelio", "jocelio20", "123");
-		Comprador comprador10 = new Comprador(null, "Gazo", "gazo20", "123");
+		Usuario user1 = new Usuario(null, "admin", "admin20", crypt.encode("123"), TipoRoles.USUARIO, TipoRoles.ADMIN);
+		Comprador comprador1 = new Comprador(null, "Thiago", "tvps20", crypt.encode("123"), "thiago.vps20@gmail.com");
+		Comprador comprador2 = new Comprador(null, "Filipe", "filipe20", crypt.encode("123"), "filipe@email.com", "Santiago");
+		Comprador comprador3 = new Comprador(null, "Gilson", "gilson20", crypt.encode("123"), "gilson@email.com", "Santiago");
+		Comprador comprador4 = new Comprador(null, "Joseilton", "joseilton20", crypt.encode("123"));
+		Comprador comprador5 = new Comprador(null, "Amanda", "amanda20", crypt.encode("123"));
+		Comprador comprador6 = new Comprador(null, "Sidney", "sidney20", crypt.encode("123"));
+		Comprador comprador7 = new Comprador(null, "Harryson", "harryson20", crypt.encode("123"));
+		Comprador comprador8 = new Comprador(null, "Evin", "evin20", crypt.encode("123"));
+		Comprador comprador9 = new Comprador(null, "Jocelio", "jocelio20", crypt.encode("123"));
+		Comprador comprador10 = new Comprador(null, "Gazo", "gazo20", crypt.encode("123"));
 
 		Lancamento lancamento1 = new Lancamento(null, "pc-pai", LocalDateTime.now(), fatura1, TipoLancamento.PARCELADO,
 				10, 5);
