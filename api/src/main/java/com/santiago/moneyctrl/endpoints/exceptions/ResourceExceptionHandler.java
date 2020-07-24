@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.santiago.moneyctrl.domain.exceptions.IllegalEnumException;
+import com.santiago.moneyctrl.services.exceptions.AuthorizationException;
 import com.santiago.moneyctrl.services.exceptions.DataIntegrityException;
 import com.santiago.moneyctrl.services.exceptions.ObjectNotFoundException;
 
@@ -60,5 +61,12 @@ public class ResourceExceptionHandler {
 		}
 
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException ex, HttpServletRequest request){
+		
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Forbidden", ex.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 	}
 }

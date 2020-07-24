@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,6 +70,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 	}
 
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> inserir(@Valid @RequestBody K objDTO) {
 		baseLog.info("[POST] - Salvando uma nova entidade. Dto: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
@@ -82,6 +84,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 	}
 
 	@PutMapping(TipoEndPoint.ID)
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> atualizar(@Valid @RequestBody K objDTO, @PathVariable Long id) {
 		baseLog.info("[PUT] - Atualizando entidade. Dto: " + objDTO.toString());
 		T obj = service.fromDTO(objDTO);
@@ -93,6 +96,7 @@ public abstract class BaseController<T extends BaseEntity, K extends BaseDTO> {
 	}
 
 	@DeleteMapping(TipoEndPoint.ID)
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		baseLog.info("[DELETE] - Apagando entidade de Id: " + id);
 		this.service.delete(id);
