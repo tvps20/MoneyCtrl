@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Usuario user;
 
 		log.info("[LoadByLogin] - Buscando login no banco de dados. Login: " + login);
-		if (login.split("@").length > 1) {
+		if (login.contains("@")) {
 			log.info("[LoadByLogin] - Buscando por email.");
 			user = this.usuarioRepository.findByEmail(login);
 		} else {
